@@ -27,27 +27,35 @@ export const Colors = {
   },
 };
 
+/** Instrument Sans font family - used across all screens */
+export const InstrumentSans = {
+  regular: 'InstrumentSans_400Regular',
+  medium: 'InstrumentSans_500Medium',
+  semiBold: 'InstrumentSans_600SemiBold',
+  bold: 'InstrumentSans_700Bold',
+  regularItalic: 'InstrumentSans_400Regular_Italic',
+  mediumItalic: 'InstrumentSans_500Medium_Italic',
+  semiBoldItalic: 'InstrumentSans_600SemiBold_Italic',
+  boldItalic: 'InstrumentSans_700Bold_Italic',
+} as const;
+
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
+    sans: InstrumentSans.regular,
+    serif: InstrumentSans.regular,
+    rounded: InstrumentSans.regular,
     mono: 'ui-monospace',
   },
   default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
+    sans: InstrumentSans.regular,
+    serif: InstrumentSans.regular,
+    rounded: InstrumentSans.regular,
     mono: 'monospace',
   },
   web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+    sans: "InstrumentSans_400Regular, 'Instrument Sans', system-ui, sans-serif",
+    serif: "InstrumentSans_400Regular, 'Instrument Sans', Georgia, serif",
+    rounded: "InstrumentSans_400Regular, 'Instrument Sans', sans-serif",
+    mono: "SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },
 });

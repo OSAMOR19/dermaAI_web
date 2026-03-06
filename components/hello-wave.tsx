@@ -1,9 +1,12 @@
 import Animated from 'react-native-reanimated';
 
+import { InstrumentSans } from '@/constants/theme';
+
 export function HelloWave() {
   return (
     <Animated.Text
       style={{
+        fontFamily: InstrumentSans.regular,
         fontSize: 28,
         lineHeight: 32,
         marginTop: -6,
