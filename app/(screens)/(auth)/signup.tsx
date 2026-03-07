@@ -23,9 +23,9 @@ import Google from "../../../assets/icons/google.svg";
 import Apple from "../../../assets/icons/apple.svg";
 
 const SKIN_TYPE_OPTIONS = [
-  "For myself",
-  "For my family",
-  "For my business",
+  "A Dermatologist",
+  "Skincare Professional",
+  "Personal Use",
 ];
 
 export const Signup = () => {
