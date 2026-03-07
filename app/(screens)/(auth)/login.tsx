@@ -12,12 +12,12 @@ import {
 
 import { Text } from "@/components/text";
 import { InstrumentSans } from "@/constants/theme";
-import { SafeAreaView } from "react-native-safe-area-context";
-// Icon components using Unicode/text as placeholders
-// Replace with: import { Mail, Lock, Eye, EyeOff } from 'lucide-react-native';
-const MailIcon = () => <Text style={styles.iconText}>✉</Text>;
-const LockIcon = () => <Text style={styles.iconText}>🔒</Text>;
-const EyeIcon = () => <Text style={styles.iconText}>👁</Text>;
+import MailIcon from "../../../assets/icons/email.svg";
+import LockIcon from "../../../assets/icons/lock.svg";
+import EyeIcon from "../../../assets/icons/eye.svg";
+import Google from "../../../assets/icons/google.svg";
+import Apple from "../../../assets/icons/apple.svg";
+import { router } from "expo-router";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -37,12 +37,16 @@ export const Login = () => {
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.helloText}>Hello!</Text>
-            <Text style={styles.welcomeText}>
-              <Text style={styles.welcomeGray}>Welcome to </Text>
-              <Text style={styles.welcomeBrand}>BEAUTY HUB!</Text>
-            </Text>
+
+          <View style={styles.logoWrapper}>
+            <View style={styles.header}>
+              <Text style={styles.helloText}>Hello!</Text>
+              <Text style={styles.welcomeText}>
+                <Text style={styles.welcomeGray}>Welcome to </Text>
+                <Text style={styles.welcomeBrand}>BEAUTY HUB!</Text>
+              </Text>
+            </View>
+            {/* <View style={styles.glowAccent}></View> */}
           </View>
 
           {/* Card */}
@@ -91,6 +95,14 @@ export const Login = () => {
                 </View>
               </View>
 
+              <TouchableOpacity
+                style={styles.forgetPasswordLink}
+                onPress={() => router.push("/(screens)/(auth)/forgot-password")}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.forgetPasswordText}>Forget password</Text>
+              </TouchableOpacity>
+
               {/* Login Button */}
               <TouchableOpacity style={styles.loginButton} activeOpacity={0.85}>
                 <Text style={styles.loginButtonText}>Login</Text>
@@ -110,21 +122,21 @@ export const Login = () => {
                   activeOpacity={0.8}
                 >
                   {/* Replace with actual Google icon */}
-                  <Text style={styles.socialIcon}>G</Text>
+                  <Google />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.socialButton}
                   activeOpacity={0.8}
                 >
                   {/* Replace with actual Apple icon */}
-                  <Text style={styles.socialIcon}></Text>
+                  <Apple />
                 </TouchableOpacity>
               </View>
 
               {/* Sign Up Link */}
               <Text style={styles.signupText}>
                 <Text style={styles.signupGray}>Don't have an account? </Text>
-                <Text style={styles.signupLink}>Sign up</Text>
+                <Text style={styles.signupLink} onPress={() => router.push("/(screens)/(auth)/signup")}>Sign up</Text>
               </Text>
             </View>
           </View>
@@ -148,6 +160,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#fff",
     // Gradient simulation: top area is blue-tinted via header bg
+  },
+  logoWrapper: {
+    position: "relative",
+  },
+  glowAccent: {
+    position: "absolute",
+    top: -10,
+    left: 86,
+    width: 182,
+    height: "100%",
+    backgroundColor: "#00b3fa",
+    borderRadius: 91,
+    opacity: 0.1,
   },
   statusRow: {
     flexDirection: "row",
@@ -184,17 +209,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
   },
-  glowAccent: {
-    position: "absolute",
-    top: 43,
-    left: 86,
-    width: 182,
-    height: 79,
-    backgroundColor: "#00b3fa",
-    borderRadius: 91,
-    opacity: 0.35,
-    // Note: blur not natively supported; use react-native-blur for full effect
-  },
+//   glowAccent: {
+//     position: "absolute",
+//     top: 43,
+//     left: 86,
+//     width: 182,
+//     height: 79,
+//     backgroundColor: "#00b3fa",
+//     borderRadius: 91,
+//     opacity: 0.35,
+//     // Note: blur not natively supported; use react-native-blur for full effect
+//   },
   cardWrapper: {
     flex: 1,
     paddingTop: 50,
@@ -243,7 +268,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 15,
     color: "#525151",
     height: "100%",
     fontFamily: InstrumentSans.regular,
@@ -257,9 +282,18 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
   },
+  forgetPasswordLink: {
+    alignSelf: "flex-end",
+    marginBottom: 8,
+  },
+  forgetPasswordText: {
+    fontSize: 14,
+    color: "#00b3fa",
+    fontWeight: "500",
+  },
   loginButton: {
     width: "100%",
-    backgroundColor: "#fc65d1",
+    backgroundColor: "#FC65D1",
     borderRadius: 8,
     paddingVertical: 10,
     alignItems: "center",
@@ -267,7 +301,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: "#fff",
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "500",
   },
   dividerRow: {
     flexDirection: "row",
