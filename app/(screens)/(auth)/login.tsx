@@ -24,6 +24,11 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleLogin = () => {
+    console.log("Login");
+    router.push("/(screens)/(main screens)/call");
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -104,7 +109,7 @@ export const Login = () => {
               </TouchableOpacity>
 
               {/* Login Button */}
-              <TouchableOpacity style={styles.loginButton} activeOpacity={0.85}>
+              <TouchableOpacity style={styles.loginButton} activeOpacity={0.85} onPress={handleLogin}>
                 <Text style={styles.loginButtonText}>Login</Text>
               </TouchableOpacity>
 

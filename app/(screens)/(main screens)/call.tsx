@@ -5,15 +5,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BackIcon from '../../../assets/icons/Backarrow.svg';
-import ScanIcon from '../../../assets/icons/Scan.svg';
-import ScanIcon2 from '../../../assets/icons/Scan2.svg';
-
+import CameraIcon from '../../../assets/icons/Camera.svg';
+import Cam from '../../../assets/icons/Cam.svg';
+import Phone from '../../../assets/icons/Phone.svg';
+import Mic from '../../../assets/icons/Mute.svg';
 import { Text } from '@/components/text';
-import FacialSvg from '../../../assets/images/facial.svg';
+import Speaker from '../../../assets/icons/Speaker.svg';
+import CallSvg from '../../../assets/images/Call.svg';
 
 const { width, height } = Dimensions.get('window');
 
-export default function FacialAnalysis() {
+export default function Call() {
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -24,7 +26,7 @@ export default function FacialAnalysis() {
       />
 
       {/* Header */}
-      <SafeAreaView style={styles.header} edges={['top']}>
+      <View style={styles.header}>
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => router.back()}
@@ -32,46 +34,41 @@ export default function FacialAnalysis() {
         >
           <BackIcon />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Facial Analysis</Text>
         <TouchableOpacity style={styles.headerButton} activeOpacity={0.7}>
-          <ScanIcon />
+          <CameraIcon />
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
 
       {/* Main content - Facial SVG */}
-      <View style={styles.content}>
-        <View style={styles.facialWrapper}>
-          <FacialSvg
-            width={width}
-            height={height * 0.9}
-            preserveAspectRatio="xMidYMid slice"
-          />
-        </View>
-
-        {/* Detection labels - positioned over the face */}
-        <View style={[styles.label, styles.acneLabel]}>
-          <Text style={styles.labelText}>Acne Detected</Text>
-        </View>
-        <View style={[styles.label, styles.rashLabel]}>
-          <Text style={styles.labelText}>Skin Rashes Detected</Text>
-        </View>
+      <View style={styles.svgWrapper}>
+        <CallSvg width={width} height={height} preserveAspectRatio="xMidYMid slice" />
       </View>
 
       {/* Bottom buttons */}
       <View style={styles.buttonRow}>
         <TouchableOpacity
-          style={styles.scanAgainButton}
+          style={styles.cameraButton}
           activeOpacity={0.85}
         >
-          <ScanIcon2 />
-          <Text style={styles.scanAgainText}>Scan Again</Text>
+          <Cam />
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.viewResultsButton}
+          style={styles.phoneButton}
           activeOpacity={0.85}
         >
-          <Ionicons name="document-text-outline" size={20} color="#fff" />
-          <Text style={styles.viewResultsText}>View Results</Text>
+          <Phone />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cameraButton}
+          activeOpacity={0.85}
+        >
+          <Speaker />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.cameraButton}
+          activeOpacity={0.85}
+        >
+          <Mic />
         </TouchableOpacity>
       </View>
     </View>
@@ -90,12 +87,17 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     marginTop: 10,
     marginBottom: 120,
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
   headerButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: '#FFFFFFBF',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
-  facialWrapper: {
+  svgWrapper: {
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -138,41 +140,42 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: 'row',
-    paddingHorizontal: 24,
+    paddingHorizontal: 30,
     paddingBottom: 40,
     gap: 16,
     justifyContent: 'center',
+    position: 'absolute',
+    bottom: 30,
+    left: '15%',
+    right: '15%',
+    zIndex: 100,
+    width: '70%',
+    alignItems: 'center',
   },
-  scanAgainButton: {
+  cameraButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#FC65D1',
+    backgroundColor: '#A4A1A1CF',
     paddingVertical: 10,
-    borderRadius: 12,
+    borderRadius: 50,
+    width: 40,
+    padding: 10,
+    height: 40,
   },
-  scanAgainText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  viewResultsButton: {
+  phoneButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#FC65D1',
-    paddingVertical: 10,
-    borderRadius: 12,
-  },
-  viewResultsText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
+    backgroundColor: '#B70000',
+    borderRadius: 50,
+    width: 40,
+    padding: 10,
+    height: 40,
+    
   },
 });
