@@ -25,8 +25,7 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    console.log("Login");
-    router.push("/(screens)/(main screens)/call");
+    router.replace('/(tabs)/Home');
   };
 
   return (
