@@ -484,14 +484,14 @@ p {
   backdrop-filter: blur(20px) saturate(1.6);
   background: rgba(255, 255, 255, .72);
   border: 1px solid rgba(255, 255, 255, .45);
-  border-radius: 28px;
+  border-radius: 50px;
   justify-content: center;
-  align-items: flex-end;
-  gap: 6px;
+  align-items: center;
+  gap: 4px;
   width: calc(100% - 32px);
   min-width: 0;
-  max-width: 420px;
-  padding: 10px 24px;
+  max-width: 320px;
+  padding: 8px 20px;
   display: flex;
   position: fixed;
   bottom: 16px;
@@ -502,11 +502,10 @@ p {
 
 .bnav-item {
   color: var(--text-muted);
-  flex-direction: column;
   flex: 1;
+  justify-content: center;
   align-items: center;
-  gap: 3px;
-  padding: 4px 0;
+  padding: 6px 0;
   text-decoration: none;
   transition: all .25s;
   display: flex;
@@ -517,45 +516,19 @@ p {
 }
 
 .bnav-icon {
-  border-radius: var(--radius-md);
+  border-radius: 50%;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   transition: all .25s;
   display: flex;
 }
 
 .bnav-item.active .bnav-icon {
-  background: var(--primary-light);
-}
-
-.bnav-label {
-  letter-spacing: .02em;
-  font-size: .65rem;
-  font-weight: 600;
-}
-
-.scan-icon {
+  background: var(--primary);
+  color: #fff;
   box-shadow: 0 4px 16px var(--primary-glow);
-  margin-bottom: 2px;
-  background: var(--primary) !important;
-  color: #fff !important;
-  border-radius: 50% !important;
-  width: 52px !important;
-  height: 52px !important;
-}
-
-.bnav-item.scan-btn {
-  margin-top: -18px;
-}
-
-.bnav-item.scan-btn .bnav-label {
-  color: var(--primary);
-}
-
-.bnav-item.scan-btn.active .scan-icon {
-  box-shadow: 0 4px 20px var(--primary-glow), 0 0 30px rgba(252, 101, 209, .2);
 }
 
 .landing-nav {
@@ -3480,22 +3453,24 @@ p {
   }
 
   .score-card {
-    flex-direction: column;
+    flex-direction: row;
+  }
+
+  .score-left h3 {
+    font-size: 1.2rem;
+  }
+
+  .score-left {
+    padding: 20px;
   }
 
   .score-right {
-    width: 100%;
-    height: 160px;
-    min-height: auto;
+    width: 140px;
+    min-height: 140px;
   }
 
   .score-face-img {
-    width: auto;
-    height: 140px;
-    margin: 0 auto;
-    position: relative;
-    bottom: auto;
-    right: auto;
+    height: 120%;
   }
 
   .booking {
@@ -3510,11 +3485,7 @@ p {
     gap: 2px;
     min-width: auto;
     max-width: calc(100% - 24px);
-    padding: 8px 16px;
-  }
-
-  .bnav-label {
-    font-size: .6rem;
+    padding: 6px 14px;
   }
 
   .analysis-content {

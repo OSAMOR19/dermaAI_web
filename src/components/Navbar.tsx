@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { Home, Calendar, ScanLine, User } from 'lucide-react';
 
 const links = [
-  { href: '/dashboard', label: 'Home', icon: Home },
-  { href: '/booking', label: 'Booking', icon: Calendar },
-  { href: '/scan', label: 'Scan', icon: ScanLine, isScan: true },
-  { href: '/profile', label: 'Profile', icon: User },
+  { href: '/dashboard', icon: Home },
+  { href: '/booking', icon: Calendar },
+  { href: '/scan', icon: ScanLine },
+  { href: '/profile', icon: User },
 ];
 
 export default function Navbar() {
@@ -23,12 +23,11 @@ export default function Navbar() {
           <Link
             key={link.href}
             href={link.href}
-            className={`bnav-item ${isActive ? 'active' : ''} ${link.isScan ? 'scan-btn' : ''}`}
+            className={`bnav-item ${isActive ? 'active' : ''}`}
           >
-            <div className={`bnav-icon ${link.isScan ? 'scan-icon' : ''}`}>
-              <Icon size={link.isScan ? 24 : 22} />
+            <div className="bnav-icon">
+              <Icon size={22} />
             </div>
-            <span className="bnav-label">{link.label}</span>
           </Link>
         );
       })}

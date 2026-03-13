@@ -146,35 +146,27 @@ p { color: var(--text-secondary); }
 /* ===================== BOTTOM NAV ===================== */
 .bottom-nav {
   position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 100; display: flex; align-items: flex-end; justify-content: center; gap: 6px;
-  padding: 10px 24px 10px;
+  z-index: 100; display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 8px 20px;
   background: rgba(255,255,255,0.72); backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.45);
-  border-radius: 28px; box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
-  min-width: 0; max-width: 420px; width: calc(100% - 32px);
+  border-radius: 50px; box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  min-width: 0; max-width: 320px; width: calc(100% - 32px);
 }
 .bnav-item {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  display: flex; align-items: center; justify-content: center;
   flex: 1; text-decoration: none; color: var(--text-muted); transition: all 0.25s;
-  padding: 4px 0;
+  padding: 6px 0;
 }
 .bnav-item.active { color: var(--primary); }
 .bnav-icon {
-  width: 40px; height: 40px; border-radius: var(--radius-md);
+  width: 44px; height: 44px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; transition: all 0.25s;
 }
-.bnav-item.active .bnav-icon { background: var(--primary-light); }
-.bnav-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.02em; }
-/* Scan CTA button */
-.scan-icon {
-  width: 52px !important; height: 52px !important; border-radius: 50% !important;
-  background: var(--primary) !important; color: #fff !important;
+.bnav-item.active .bnav-icon {
+  background: var(--primary); color: #fff;
   box-shadow: 0 4px 16px var(--primary-glow);
-  margin-bottom: 2px;
 }
-.bnav-item.scan-btn { margin-top: -18px; }
-.bnav-item.scan-btn .bnav-label { color: var(--primary); }
-.bnav-item.scan-btn.active .scan-icon { box-shadow: 0 4px 20px var(--primary-glow), 0 0 30px rgba(252,101,209,0.2); }
 
 /* ===================== LANDING PAGE ===================== */
 .landing-nav {
@@ -1001,13 +993,14 @@ p { color: var(--text-secondary); }
   .landing-nav-links a { font-size: 0.85rem; }
   .dashboard { padding: 16px; }
   .cards-grid { grid-template-columns: 1fr; }
-  .score-card { flex-direction: column; }
-  .score-right { width: 100%; height: 160px; min-height: auto; }
-  .score-face-img { position: relative; right: auto; bottom: auto; height: 140px; width: auto; margin: 0 auto; }
+  .score-card { flex-direction: row; }
+  .score-left h3 { font-size: 1.2rem; }
+  .score-left { padding: 20px; }
+  .score-right { width: 140px; min-height: 140px; }
+  .score-face-img { height: 120%; }
   .booking { padding: 16px; }
   .doctors-grid { grid-template-columns: 1fr; }
-  .bottom-nav { min-width: auto; max-width: calc(100% - 24px); padding: 8px 16px; gap: 2px; }
-  .bnav-label { font-size: 0.6rem; }
+  .bottom-nav { min-width: auto; max-width: calc(100% - 24px); padding: 6px 14px; gap: 2px; }
   .analysis-content { flex-direction: column; }
   .score-section { flex-direction: column; text-align: center; gap: 20px; padding: 24px 20px; }
   .score-ring-wrapper { margin: 0 auto; }
