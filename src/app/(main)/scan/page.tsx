@@ -44,7 +44,7 @@ export default function ScanPage() {
   const streamRef = useRef<MediaStream | null>(null);
   const [phase, setPhase] = useState<Phase>('init');
   const [progress, setProgress] = useState(0);
-  const [statusText, setStatusText] = useState('Initializing camera...');
+  const [statusText, setStatusText] = useState('Preparing camera…');
   const [metricText, setMetricText] = useState('');
   const [cameraError, setCameraError] = useState(false);
   const router = useRouter();
@@ -73,6 +73,19 @@ export default function ScanPage() {
   const playPositionTone = useCallback(() => {
     playBeep(520, 0.08); setTimeout(() => playBeep(620, 0.08), 120);
   }, [playBeep]);
+
+  /* ---- Capture frame from video ---- */
+  const captureFrame = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return null;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/jpeg', 0.85);
+  }, []);
 
   /* ---- Camera ---- */
   useEffect(() => {
@@ -104,7 +117,6 @@ export default function ScanPage() {
     let timer: NodeJS.Timeout;
 
     if (phase === 'position') {
-      // Simulate face entering frame after 4s
       timer = setTimeout(() => {
         setPhase('align');
         setStatusText('Face detected — hold still…');
@@ -139,6 +151,14 @@ export default function ScanPage() {
 
     if (phase === 'analyze') {
       timer = setTimeout(() => {
+        /* Capture the frame before transitioning */
+        const imageData = captureFrame();
+        const scanTimestamp = new Date().toISOString();
+        try {
+          if (imageData) sessionStorage.setItem('dermaai_scan_image', imageData);
+          sessionStorage.setItem('dermaai_scan_time', scanTimestamp);
+        } catch { /* storage full — continue without image */ }
+
         setPhase('done');
         setStatusText('✓ Scan complete!');
         playChime();
@@ -147,7 +167,7 @@ export default function ScanPage() {
     }
 
     return () => clearTimeout(timer);
-  }, [phase, playBeep, playChime, router]);
+  }, [phase, playBeep, playChime, captureFrame, router]);
 
   const isActive = phase === 'scan' || phase === 'analyze' || phase === 'done';
 
@@ -202,12 +222,20 @@ export default function ScanPage() {
             </>
           )}
 
-          {/* Error */}
+          {/* Camera init loading */}
+          {phase === 'init' && !cameraError && (
+            <div className="scn-loading">
+              <div className="scn-loading-spinner" />
+              <p>Preparing camera…</p>
+            </div>
+          )}
+
+          {/* Camera denied error */}
           {cameraError && (
             <div className="scn-error">
-              <p style={{ fontSize: '1.2rem', marginBottom: 8 }}>📷</p>
-              <p>Camera access required</p>
-              <p style={{ fontSize: '0.8rem', opacity: 0.6 }}>Allow camera permissions and reload</p>
+              <p style={{ fontSize: '1.5rem', marginBottom: 8 }}>🔒</p>
+              <p style={{ fontWeight: 600 }}>Camera access denied</p>
+              <p style={{ fontSize: '0.8rem', opacity: 0.6, marginTop: 6 }}>Enable camera in browser settings and reload</p>
             </div>
           )}
         </div>

@@ -1,0 +1,504 @@
+'use client';
+
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+  ArrowLeft, Camera, Save, CreditCard, Plus, Trash2,
+  Bell, BellOff, Mail, Smartphone, Calendar as CalendarIcon,
+  Moon, Sun, Globe, Database, RefreshCw,
+  ShieldCheck, Fingerprint, Eye, EyeOff, AlertTriangle,
+  ChevronDown, ChevronUp, MessageCircle, Bug, ExternalLink,
+  ScanLine, TrendingUp, TrendingDown,
+} from 'lucide-react';
+
+/* ============================== SHARED ============================== */
+function SubpageHeader({ title }: { title: string }) {
+  return (
+    <header className="subpage-header">
+      <Link href="/profile" className="icon-btn" style={{ background: 'rgba(0,0,0,0.04)' }}>
+        <ArrowLeft size={20} />
+      </Link>
+      <h1 className="subpage-title">{title}</h1>
+      <div style={{ width: 44 }} />
+    </header>
+  );
+}
+
+function ToggleSwitch({ on, onToggle, id }: { on: boolean; onToggle: () => void; id: string }) {
+  return (
+    <button
+      id={id}
+      className={`toggle-switch ${on ? 'on' : ''}`}
+      onClick={onToggle}
+      role="switch"
+      aria-checked={on}
+    >
+      <span className="toggle-knob" />
+    </button>
+  );
+}
+
+/* ============================== EDIT PROFILE ============================== */
+function EditProfile() {
+  return (
+    <>
+      <SubpageHeader title="Edit Profile" />
+      <div className="subpage-body">
+        {/* Avatar */}
+        <div className="edit-avatar-section">
+          <div className="edit-avatar">
+            <div className="edit-avatar-circle">
+              <span>U</span>
+            </div>
+            <button className="edit-avatar-btn"><Camera size={16} /></button>
+          </div>
+          <p className="edit-avatar-hint">Tap to change photo</p>
+        </div>
+
+        {/* Form */}
+        <div className="sub-form">
+          <div className="form-group">
+            <label className="form-label">First Name</label>
+            <input type="text" className="form-input" placeholder="Enter your first name" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Last Name</label>
+            <input type="text" className="form-input" placeholder="Enter your last name" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input type="email" className="form-input" placeholder="your@email.com" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Phone Number</label>
+            <input type="tel" className="form-input" placeholder="+1 (555) 000-0000" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Date of Birth</label>
+            <input type="date" className="form-input" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Skin Type</label>
+            <select className="form-input">
+              <option value="">Select your skin type</option>
+              <option>Normal</option>
+              <option>Dry</option>
+              <option>Oily</option>
+              <option>Combination</option>
+              <option>Sensitive</option>
+            </select>
+          </div>
+          <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: 8 }}>
+            <Save size={18} /> Save Changes
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================== PAYMENT METHODS ============================== */
+function PaymentMethods() {
+  const cards = [
+    { id: 1, brand: 'Visa', last4: '4242', exp: '12/27', isDefault: true },
+    { id: 2, brand: 'Mastercard', last4: '8910', exp: '06/26', isDefault: false },
+  ];
+
+  return (
+    <>
+      <SubpageHeader title="Payment Methods" />
+      <div className="subpage-body">
+        <div className="payment-cards">
+          {cards.map((card) => (
+            <div key={card.id} className={`payment-card ${card.isDefault ? 'default' : ''}`}>
+              <div className="payment-card-top">
+                <div className="payment-brand">
+                  <CreditCard size={20} />
+                  <span>{card.brand}</span>
+                </div>
+                {card.isDefault && <span className="default-badge">Default</span>}
+              </div>
+              <div className="payment-number">•••• •••• •••• {card.last4}</div>
+              <div className="payment-exp">Expires {card.exp}</div>
+              <div className="payment-actions">
+                <button className="payment-action-btn">Set as Default</button>
+                <button className="payment-action-btn danger"><Trash2 size={14} /> Remove</button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button className="btn btn-outline btn-block btn-lg" style={{ marginTop: 8 }}>
+          <Plus size={18} /> Add New Card
+        </button>
+
+        <div className="sub-section">
+          <h2 className="sub-section-title">Billing Address</h2>
+          <div className="sub-form">
+            <div className="form-group">
+              <label className="form-label">Street Address</label>
+              <input type="text" className="form-input" placeholder="123 Main Street" />
+            </div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">City</label>
+                <input type="text" className="form-input" placeholder="City" />
+              </div>
+              <div className="form-group" style={{ flex: 1 }}>
+                <label className="form-label">Postcode</label>
+                <input type="text" className="form-input" placeholder="Postcode" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================== NOTIFICATIONS ============================== */
+function Notifications() {
+  const [settings, setSettings] = useState({
+    push: true, email: true, scanReminders: true,
+    appointmentReminders: true, promotions: false, weeklyReport: true,
+  });
+  const toggle = (key: keyof typeof settings) =>
+    setSettings((p) => ({ ...p, [key]: !p[key] }));
+
+  const items = [
+    { key: 'push' as const, icon: Smartphone, label: 'Push Notifications', desc: 'Get instant alerts on your device' },
+    { key: 'email' as const, icon: Mail, label: 'Email Notifications', desc: 'Receive updates in your inbox' },
+    { key: 'scanReminders' as const, icon: ScanLine, label: 'Scan Reminders', desc: 'Weekly reminder to check your skin' },
+    { key: 'appointmentReminders' as const, icon: CalendarIcon, label: 'Appointment Reminders', desc: '24h before your consultation' },
+    { key: 'weeklyReport' as const, icon: TrendingUp, label: 'Weekly Progress Report', desc: 'Summary of your skin health trends' },
+    { key: 'promotions' as const, icon: BellOff, label: 'Promotions & Offers', desc: 'Special deals and new features' },
+  ];
+
+  return (
+    <>
+      <SubpageHeader title="Notifications" />
+      <div className="subpage-body">
+        <div className="toggle-list">
+          {items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.key} className="toggle-row">
+                <div className="toggle-row-left">
+                  <div className="toggle-icon-wrap"><Icon size={18} /></div>
+                  <div>
+                    <div className="toggle-label">{item.label}</div>
+                    <div className="toggle-desc">{item.desc}</div>
+                  </div>
+                </div>
+                <ToggleSwitch on={settings[item.key]} onToggle={() => toggle(item.key)} id={`toggle-${item.key}`} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================== APP SETTINGS ============================== */
+function AppSettings() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  return (
+    <>
+      <SubpageHeader title="App Settings" />
+      <div className="subpage-body">
+        <div className="sub-section">
+          <h2 className="sub-section-title">Appearance</h2>
+          <div className="toggle-list">
+            <div className="toggle-row">
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap">{darkMode ? <Moon size={18} /> : <Sun size={18} />}</div>
+                <div>
+                  <div className="toggle-label">Dark Mode</div>
+                  <div className="toggle-desc">Switch to dark theme</div>
+                </div>
+              </div>
+              <ToggleSwitch on={darkMode} onToggle={() => setDarkMode(!darkMode)} id="toggle-dark" />
+            </div>
+            <div className="toggle-row">
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><RefreshCw size={18} /></div>
+                <div>
+                  <div className="toggle-label">Reduced Motion</div>
+                  <div className="toggle-desc">Minimize animations</div>
+                </div>
+              </div>
+              <ToggleSwitch on={reducedMotion} onToggle={() => setReducedMotion(!reducedMotion)} id="toggle-motion" />
+            </div>
+          </div>
+        </div>
+
+        <div className="sub-section">
+          <h2 className="sub-section-title">General</h2>
+          <div className="toggle-list">
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Globe size={18} /></div>
+                <div>
+                  <div className="toggle-label">Language</div>
+                  <div className="toggle-desc">English (US)</div>
+                </div>
+              </div>
+              <ChevronDown size={18} style={{ color: 'var(--text-muted)' }} />
+            </div>
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Database size={18} /></div>
+                <div>
+                  <div className="toggle-label">Clear Cache</div>
+                  <div className="toggle-desc">Free up storage space</div>
+                </div>
+              </div>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>24 MB</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="sub-version">DermaAI v1.0.0 · Build 2026.03</p>
+      </div>
+    </>
+  );
+}
+
+/* ============================== PRIVACY & SECURITY ============================== */
+function PrivacySecurity() {
+  const [twoFactor, setTwoFactor] = useState(false);
+  const [biometric, setBiometric] = useState(true);
+  const [dataSharing, setDataSharing] = useState(true);
+
+  return (
+    <>
+      <SubpageHeader title="Privacy & Security" />
+      <div className="subpage-body">
+        <div className="sub-section">
+          <h2 className="sub-section-title">Security</h2>
+          <div className="toggle-list">
+            <div className="toggle-row">
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><ShieldCheck size={18} /></div>
+                <div>
+                  <div className="toggle-label">Two-Factor Authentication</div>
+                  <div className="toggle-desc">Extra layer of security on login</div>
+                </div>
+              </div>
+              <ToggleSwitch on={twoFactor} onToggle={() => setTwoFactor(!twoFactor)} id="toggle-2fa" />
+            </div>
+            <div className="toggle-row">
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Fingerprint size={18} /></div>
+                <div>
+                  <div className="toggle-label">Biometric Login</div>
+                  <div className="toggle-desc">Use Face ID or fingerprint</div>
+                </div>
+              </div>
+              <ToggleSwitch on={biometric} onToggle={() => setBiometric(!biometric)} id="toggle-bio" />
+            </div>
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap">{true ? <Eye size={18} /> : <EyeOff size={18} />}</div>
+                <div>
+                  <div className="toggle-label">Change Password</div>
+                  <div className="toggle-desc">Update your account password</div>
+                </div>
+              </div>
+              <ChevronDown size={18} style={{ color: 'var(--text-muted)' }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="sub-section">
+          <h2 className="sub-section-title">Data</h2>
+          <div className="toggle-list">
+            <div className="toggle-row">
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Database size={18} /></div>
+                <div>
+                  <div className="toggle-label">Anonymous Data Sharing</div>
+                  <div className="toggle-desc">Help improve AI accuracy</div>
+                </div>
+              </div>
+              <ToggleSwitch on={dataSharing} onToggle={() => setDataSharing(!dataSharing)} id="toggle-data" />
+            </div>
+          </div>
+        </div>
+
+        <button className="btn btn-block" style={{ background: '#FFF0F0', color: 'var(--phone-red)', fontWeight: 600, padding: '14px 24px', borderRadius: 'var(--radius-md)', marginTop: 16 }}>
+          <AlertTriangle size={16} /> Delete Account
+        </button>
+        <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>
+          This action is irreversible. All your data will be permanently removed.
+        </p>
+      </div>
+    </>
+  );
+}
+
+/* ============================== SCAN HISTORY ============================== */
+function ScanHistory() {
+  const scans = [
+    { id: 1, date: 'Mar 13, 2026', time: '12:30 PM', score: 78, change: +3, conditions: ['Acne Vulgaris', 'Hyperpigmentation', 'Dehydration'] },
+    { id: 2, date: 'Mar 6, 2026', time: '9:15 AM', score: 75, change: +2, conditions: ['Acne Vulgaris', 'Dark Spots'] },
+    { id: 3, date: 'Feb 28, 2026', time: '2:45 PM', score: 73, change: -1, conditions: ['Acne Vulgaris', 'Dryness', 'Dark Spots'] },
+    { id: 4, date: 'Feb 20, 2026', time: '11:00 AM', score: 74, change: +4, conditions: ['Mild Acne', 'Dehydration'] },
+    { id: 5, date: 'Feb 12, 2026', time: '8:30 AM', score: 70, change: 0, conditions: ['Acne', 'Sensitivity'] },
+  ];
+
+  return (
+    <>
+      <SubpageHeader title="Scan History" />
+      <div className="subpage-body">
+        <div className="history-timeline">
+          {scans.map((scan, i) => (
+            <Link href="/analysis" key={scan.id} className="history-entry">
+              <div className="history-entry-dot">
+                <div className={`he-dot ${i === 0 ? 'current' : ''}`} />
+                {i < scans.length - 1 && <div className="he-line" />}
+              </div>
+              <div className="history-entry-content">
+                <div className="he-header">
+                  <div>
+                    <div className="he-date">{scan.date}</div>
+                    <div className="he-time">{scan.time}</div>
+                  </div>
+                  <div className="he-score-col">
+                    <div className="he-score">{scan.score}<span>/100</span></div>
+                    <div className={`he-change ${scan.change > 0 ? 'up' : scan.change < 0 ? 'down' : ''}`}>
+                      {scan.change > 0 ? <TrendingUp size={12} /> : scan.change < 0 ? <TrendingDown size={12} /> : null}
+                      {scan.change > 0 ? '+' : ''}{scan.change}
+                    </div>
+                  </div>
+                </div>
+                <div className="he-tags">
+                  {scan.conditions.map((c) => (
+                    <span key={c} className="he-tag">{c}</span>
+                  ))}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================== HELP CENTER ============================== */
+function HelpCenter() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const faqs = [
+    { q: 'How accurate is the AI skin analysis?', a: 'Our AI model is trained on thousands of dermatological images and achieves over 90% accuracy for common skin conditions. However, it is not a substitute for professional medical advice.' },
+    { q: 'How often should I scan my skin?', a: 'We recommend scanning once a week to track changes over time. Consistent scanning helps the AI provide more accurate trend analysis and personalized recommendations.' },
+    { q: 'Is my scan data private?', a: 'Absolutely. All scan images are encrypted and stored securely. We never share your personal health data with third parties without your explicit consent.' },
+    { q: 'Can I delete my scan history?', a: 'Yes. Go to Privacy & Security in your profile settings to manage your data. You can delete individual scans or your entire history at any time.' },
+    { q: 'How do video consultations work?', a: 'After booking an appointment, you\'ll receive a link to join a secure video call with your dermatologist at the scheduled time. Calls typically last 15-30 minutes.' },
+  ];
+
+  return (
+    <>
+      <SubpageHeader title="Help Center" />
+      <div className="subpage-body">
+        <div className="sub-section">
+          <h2 className="sub-section-title">Frequently Asked Questions</h2>
+          <div className="faq-list">
+            {faqs.map((faq, i) => (
+              <div key={i} className={`faq-item ${openFaq === i ? 'open' : ''}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <div className="faq-question">
+                  <span>{faq.q}</span>
+                  {openFaq === i ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </div>
+                {openFaq === i && (
+                  <div className="faq-answer">{faq.a}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="sub-section">
+          <h2 className="sub-section-title">Contact Us</h2>
+          <div className="toggle-list">
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><MessageCircle size={18} /></div>
+                <div>
+                  <div className="toggle-label">Live Chat Support</div>
+                  <div className="toggle-desc">Available 9 AM – 6 PM</div>
+                </div>
+              </div>
+              <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
+            </div>
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Mail size={18} /></div>
+                <div>
+                  <div className="toggle-label">Email Support</div>
+                  <div className="toggle-desc">support@dermaai.com</div>
+                </div>
+              </div>
+              <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
+            </div>
+            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+              <div className="toggle-row-left">
+                <div className="toggle-icon-wrap"><Bug size={18} /></div>
+                <div>
+                  <div className="toggle-label">Report a Bug</div>
+                  <div className="toggle-desc">Help us improve DermaAI</div>
+                </div>
+              </div>
+              <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================== MAIN ROUTER ============================== */
+const PAGES: Record<string, { component: React.FC; title: string }> = {
+  'edit-profile': { component: EditProfile, title: 'Edit Profile' },
+  'payment-methods': { component: PaymentMethods, title: 'Payment Methods' },
+  'notifications': { component: Notifications, title: 'Notifications' },
+  'app-settings': { component: AppSettings, title: 'App Settings' },
+  'privacy-security': { component: PrivacySecurity, title: 'Privacy & Security' },
+  'scan-history': { component: ScanHistory, title: 'Scan History' },
+  'help-center': { component: HelpCenter, title: 'Help Center' },
+};
+
+export default function ProfileSubpage() {
+  const params = useParams();
+  const router = useRouter();
+  const slug = params.slug as string;
+
+  const page = PAGES[slug];
+
+  if (!page) {
+    return (
+      <div className="subpage-page">
+        <SubpageHeader title="Not Found" />
+        <div className="subpage-body" style={{ textAlign: 'center', paddingTop: 60 }}>
+          <p style={{ fontSize: '1.1rem', marginBottom: 16 }}>This page doesn&apos;t exist.</p>
+          <button className="btn btn-primary" onClick={() => router.push('/profile')}>
+            Back to Profile
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const PageComponent = page.component;
+  return (
+    <div className="subpage-page">
+      <PageComponent />
+    </div>
+  );
+}

@@ -1,7 +1,12 @@
 {
-  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(auth)/signup/page": "app/(auth)/signup/page.js",
   "/(main)/analysis/page": "app/(main)/analysis/page.js",
+  "/(main)/booking/[id]/page": "app/(main)/booking/[id]/page.js",
+  "/(main)/booking/page": "app/(main)/booking/page.js",
+  "/(main)/call/page": "app/(main)/call/page.js",
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
+  "/(main)/profile/[slug]/page": "app/(main)/profile/[slug]/page.js",
+  "/(main)/profile/page": "app/(main)/profile/page.js",
   "/(main)/scan/page": "app/(main)/scan/page.js",
   "/page": "app/page.js"
 }

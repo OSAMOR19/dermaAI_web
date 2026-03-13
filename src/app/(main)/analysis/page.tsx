@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft, ScanLine, Download, Share2, Calendar,
@@ -97,6 +97,21 @@ const SCAN_HISTORY = [
 
 export default function AnalysisPage() {
   const [expandedCondition, setExpandedCondition] = useState<string | null>('acne');
+  const [scanImage, setScanImage] = useState<string | null>(null);
+  const [scanTime, setScanTime] = useState<string>('');
+
+  /* Read captured scan data from sessionStorage */
+  useEffect(() => {
+    try {
+      const img = sessionStorage.getItem('dermaai_scan_image');
+      const time = sessionStorage.getItem('dermaai_scan_time');
+      if (img) setScanImage(img);
+      const d = time ? new Date(time) : new Date();
+      setScanTime(d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + ' · ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
+    } catch {
+      setScanTime(new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + ' · ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
+    }
+  }, []);
 
   const circumference = 2 * Math.PI * 54; // r=54 for our ring
   const offset = circumference - (SCORE / 100) * circumference;
@@ -119,12 +134,22 @@ export default function AnalysisPage() {
         </Link>
         <div>
           <h1 className="results-title">Analysis Results</h1>
-          <p className="results-date">March 13, 2026 · 12:30 PM</p>
+          <p className="results-date">{scanTime}</p>
         </div>
         <button className="icon-btn" style={{ background: 'rgba(0,0,0,0.04)' }}>
           <Share2 size={18} />
         </button>
       </header>
+
+      {/* ---- Captured Scan Image ---- */}
+      {scanImage && (
+        <div className="scan-capture-card">
+          <img src={scanImage} alt="Your scan" className="scan-capture-img" />
+          <div className="scan-capture-label">
+            <ScanLine size={14} /> Your Scan
+          </div>
+        </div>
+      )}
 
       {/* ---- Score Ring ---- */}
       <section className="score-section">
