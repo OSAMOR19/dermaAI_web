@@ -1,7 +1,12 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, Eye } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="auth-page">
       <div className="auth-container">
@@ -22,8 +27,19 @@ export default function LoginPage() {
             <label className="form-label">Password</label>
             <div className="input-wrapper">
               <Lock size={18} className="input-icon" />
-              <input type="password" className="form-input has-icon" placeholder="Enter your password" />
-              <Eye size={18} className="input-icon-right" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-input has-icon has-right-icon"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                className="input-icon-right-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
           <div className="form-row">

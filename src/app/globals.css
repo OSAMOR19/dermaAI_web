@@ -132,6 +132,21 @@ p { color: var(--text-secondary); }
 }
 .input-icon { position: absolute; left: 14px; color: var(--text-muted); pointer-events: none; }
 .input-icon-right { position: absolute; right: 14px; color: var(--text-muted); cursor: pointer; }
+.input-icon-right-btn {
+  position: absolute; right: 10px; background: none; border: none; cursor: pointer;
+  color: var(--text-muted); padding: 4px; display: flex; align-items: center;
+  transition: color 0.2s;
+}
+.input-icon-right-btn:hover { color: var(--primary); }
+.has-right-icon { padding-right: 42px !important; }
+
+/* Auth dark mode */
+[data-theme="dark"] .auth-form { background: var(--bg-card); border: 1px solid var(--border); }
+[data-theme="dark"] .social-btn { background: var(--bg-card); border-color: var(--border); color: var(--text); }
+[data-theme="dark"] .form-check { color: var(--text-secondary); }
+[data-theme="dark"] .form-divider { color: var(--text-muted); }
+[data-theme="dark"] .form-divider::before,
+[data-theme="dark"] .form-divider::after { background: var(--border); }
 .form-input.has-icon { padding-left: 44px; }
 .form-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; color: var(--text-muted); font-size: 0.85rem; }
 .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -278,7 +293,7 @@ p { color: var(--text-secondary); }
 .auth-logo span { color: var(--primary); }
 .auth-header h1 { font-size: 1.8rem; margin-bottom: 8px; }
 .auth-header p { font-size: 0.95rem; }
-.auth-form { background: #fff; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.auth-form { background: var(--bg-card); padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 .auth-footer { text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--text-secondary); }
 .auth-footer a { color: var(--primary); font-weight: 600; }
 .auth-footer a:hover { text-decoration: underline; }
@@ -355,13 +370,23 @@ p { color: var(--text-secondary); }
 .see-all { color: var(--primary); font-size: 0.9rem; font-weight: 600; }
 
 .doctors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.doctor-card { background: #fff; border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--border); transition: all 0.2s; }
-.doctor-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary); }
-.doctor-card-top { display: flex; gap: 16px; margin-bottom: 16px; }
-.doctor-card-avatar { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; background: #E8E8E8; flex-shrink: 0; }
-.doctor-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.doctor-card-info { flex: 1; }
-.doctor-card-price { font-size: 1.1rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+.doc-list { display: flex; flex-direction: column; gap: 12px; }
+.doc-card {
+  display: flex; gap: 14px; padding: 16px; border-radius: var(--radius-lg);
+  background: var(--bg-card); border: 1px solid var(--border); text-decoration: none;
+  color: var(--text); transition: all 0.2s; align-items: center;
+}
+.doc-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary); }
+.doc-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #e8e8e8; }
+.doc-card-body { flex: 1; min-width: 0; }
+.doc-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.doc-name { font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doc-price { font-size: 0.95rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
+.doc-specialty { font-size: 0.78rem; color: var(--text-muted); margin: 2px 0 6px; }
+.doc-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.doc-rating { display: flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 600; }
+.doc-reviews { font-weight: 400; color: var(--text-muted); }
+.doc-next { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--text-muted); }
 .experience { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 .next-available { font-size: 0.8rem; color: var(--text-secondary); margin-top: 6px; }
 

@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link';
-import { Search, Filter, Star } from 'lucide-react';
+import { Search, Filter, Star, Clock, MapPin } from 'lucide-react';
 
 const DOCTORS = [
-  { id: 'carter', name: 'Dr. Emily Carter', title: 'Board-Certified Dermatologist', experience: '8+ Years Experience', rating: 4.8, reviews: 124, price: 40, nextAvailable: 'Today, 3:30pm', avatar: '/images/Carter.svg' },
-  { id: 'reynolds', name: 'Dr. Michael Reynolds', title: 'Board-Certified Dermatologist', experience: '12+ Years Experience', rating: 4.9, reviews: 210, price: 55, nextAvailable: 'Tomorrow, 10:00 AM', avatar: '/images/Michael.svg' },
-  { id: 'thompson', name: 'Dr. Aisha Thompson', title: 'Board-Certified Dermatologist', experience: '8+ Years Experience', rating: 4.9, reviews: 156, price: 45, nextAvailable: 'Today, 6:15 PM', avatar: '/images/Aisha.svg' },
-  { id: 'kim', name: 'Dr. Daniel Kim', title: 'Dermatology & Research Specialist', experience: '15 Years Experience', rating: 4.8, reviews: 302, price: 60, nextAvailable: 'Tomorrow, 2:00 PM', avatar: '/images/Michael.svg' },
+  { id: 'carter', name: 'Dr. Emily Carter', title: 'Dermatologist', experience: '8+ yrs', rating: 4.8, reviews: 124, price: 40, nextAvailable: 'Today, 3:30 PM', avatar: '/images/Carter.svg' },
+  { id: 'reynolds', name: 'Dr. Michael Reynolds', title: 'Dermatologist', experience: '12+ yrs', rating: 4.9, reviews: 210, price: 55, nextAvailable: 'Tomorrow, 10 AM', avatar: '/images/Michael.svg' },
+  { id: 'thompson', name: 'Dr. Aisha Thompson', title: 'Dermatologist', experience: '8+ yrs', rating: 4.9, reviews: 156, price: 45, nextAvailable: 'Today, 6:15 PM', avatar: '/images/Aisha.svg' },
+  { id: 'kim', name: 'Dr. Daniel Kim', title: 'Research Specialist', experience: '15 yrs', rating: 4.8, reviews: 302, price: 60, nextAvailable: 'Tomorrow, 2 PM', avatar: '/images/Michael.svg' },
 ];
 
 export default function BookingPage() {
@@ -30,29 +32,29 @@ export default function BookingPage() {
       </div>
 
       {/* Doctor Cards */}
-      <div className="doctors-grid">
-        {DOCTORS.map((doctor) => (
-          <div key={doctor.id} className="doctor-card">
-            <div className="doctor-card-top">
-              <div className="doctor-card-avatar">
-                <img src={doctor.avatar} alt={doctor.name} />
-              </div>
-              <div className="doctor-card-info">
-                <div className="doctor-name">{doctor.name}</div>
-                <div className="doctor-title">{doctor.title}</div>
-                <div className="experience">{doctor.experience}</div>
-                <div className="rating-row">
-                  <Star size={14} fill="#FFD700" color="#FFD700" />
-                  <span className="rating-text">{doctor.rating} ({doctor.reviews} Reviews)</span>
-                </div>
-                <div className="next-available">Next Available: {doctor.nextAvailable}</div>
-              </div>
-              <div className="doctor-card-price">${doctor.price}/Sess</div>
+      <div className="doc-list">
+        {DOCTORS.map((doc) => (
+          <Link href={`/booking/${doc.id}`} key={doc.id} className="doc-card">
+            <div className="doc-card-left">
+              <img src={doc.avatar} alt={doc.name} className="doc-avatar" />
             </div>
-            <Link href={`/booking/${doctor.id}`} className="btn btn-primary btn-block">
-              Book Appointment
-            </Link>
-          </div>
+            <div className="doc-card-body">
+              <div className="doc-card-head">
+                <h3 className="doc-name">{doc.name}</h3>
+                <span className="doc-price">${doc.price}</span>
+              </div>
+              <p className="doc-specialty">{doc.title} · {doc.experience}</p>
+              <div className="doc-meta">
+                <span className="doc-rating">
+                  <Star size={12} fill="#FFD700" color="#FFD700" />
+                  {doc.rating} <span className="doc-reviews">({doc.reviews})</span>
+                </span>
+                <span className="doc-next">
+                  <Clock size={12} /> {doc.nextAvailable}
+                </span>
+              </div>
+            </div>
+          </Link>
         ))}
       </div>
     </div>

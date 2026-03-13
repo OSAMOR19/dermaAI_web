@@ -1,7 +1,13 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, Eye, User } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 
 export default function SignupPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   return (
     <div className="auth-page">
       <div className="auth-container">
@@ -11,17 +17,18 @@ export default function SignupPage() {
           <p>Start your AI-powered skin analysis journey</p>
         </div>
         <div className="auth-form">
-          <div style={{ display: 'flex', gap: 12 }}>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label">First Name</label>
-              <div className="input-wrapper">
-                <User size={18} className="input-icon" />
-                <input type="text" className="form-input has-icon" placeholder="First name" />
-              </div>
+          <div className="form-group">
+            <label className="form-label">First Name</label>
+            <div className="input-wrapper">
+              <User size={18} className="input-icon" />
+              <input type="text" className="form-input has-icon" placeholder="Enter your first name" />
             </div>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label">Last Name</label>
-              <input type="text" className="form-input" placeholder="Last name" />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Last Name</label>
+            <div className="input-wrapper">
+              <User size={18} className="input-icon" />
+              <input type="text" className="form-input has-icon" placeholder="Enter your last name" />
             </div>
           </div>
           <div className="form-group">
@@ -35,15 +42,38 @@ export default function SignupPage() {
             <label className="form-label">Password</label>
             <div className="input-wrapper">
               <Lock size={18} className="input-icon" />
-              <input type="password" className="form-input has-icon" placeholder="Create a password" />
-              <Eye size={18} className="input-icon-right" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-input has-icon has-right-icon"
+                placeholder="Create a password"
+              />
+              <button
+                type="button"
+                className="input-icon-right-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
           <div className="form-group">
             <label className="form-label">Confirm Password</label>
             <div className="input-wrapper">
               <Lock size={18} className="input-icon" />
-              <input type="password" className="form-input has-icon" placeholder="Confirm your password" />
+              <input
+                type={showConfirm ? 'text' : 'password'}
+                className="form-input has-icon has-right-icon"
+                placeholder="Confirm your password"
+              />
+              <button
+                type="button"
+                className="input-icon-right-btn"
+                onClick={() => setShowConfirm(!showConfirm)}
+                aria-label={showConfirm ? 'Hide password' : 'Show password'}
+              >
+                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
           <label className="form-check" style={{ marginBottom: 20 }}>

@@ -334,6 +334,50 @@ p {
   right: 14px;
 }
 
+.input-icon-right-btn {
+  cursor: pointer;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  align-items: center;
+  padding: 4px;
+  transition: color .2s;
+  display: flex;
+  position: absolute;
+  right: 10px;
+}
+
+.input-icon-right-btn:hover {
+  color: var(--primary);
+}
+
+.has-right-icon {
+  padding-right: 42px !important;
+}
+
+[data-theme="dark"] .auth-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .social-btn {
+  background: var(--bg-card);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .form-check {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .form-divider {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-divider:before, [data-theme="dark"] .form-divider:after {
+  background: var(--border);
+}
+
 .form-input.has-icon {
   padding-left: 44px;
 }
@@ -815,9 +859,9 @@ p {
 }
 
 .auth-form {
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  background: #fff;
   padding: 32px;
 }
 
@@ -1161,49 +1205,98 @@ p {
   display: grid;
 }
 
-.doctor-card {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  background: #fff;
-  padding: 24px;
-  transition: all .2s;
+.doc-list {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
 }
 
-.doctor-card:hover {
+.doc-card {
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  text-decoration: none;
+  transition: all .2s;
+  display: flex;
+}
+
+.doc-card:hover {
   box-shadow: var(--shadow-md);
   border-color: var(--primary);
 }
 
-.doctor-card-top {
-  gap: 16px;
-  margin-bottom: 16px;
-  display: flex;
-}
-
-.doctor-card-avatar {
+.doc-avatar {
+  object-fit: cover;
   background: #e8e8e8;
   border-radius: 50%;
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
+}
+
+.doc-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-card-head {
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  display: flex;
+}
+
+.doc-name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: .95rem;
+  font-weight: 700;
   overflow: hidden;
 }
 
-.doctor-card-avatar img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
-.doctor-card-info {
-  flex: 1;
-}
-
-.doctor-card-price {
-  color: var(--text);
+.doc-price {
+  color: var(--primary);
   white-space: nowrap;
-  font-size: 1.1rem;
+  font-size: .95rem;
   font-weight: 700;
+}
+
+.doc-specialty {
+  color: var(--text-muted);
+  margin: 2px 0 6px;
+  font-size: .78rem;
+}
+
+.doc-meta {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.doc-rating {
+  align-items: center;
+  gap: 4px;
+  font-size: .78rem;
+  font-weight: 600;
+  display: flex;
+}
+
+.doc-reviews {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.doc-next {
+  color: var(--text-muted);
+  align-items: center;
+  gap: 4px;
+  font-size: .75rem;
+  display: flex;
 }
 
 .experience {
