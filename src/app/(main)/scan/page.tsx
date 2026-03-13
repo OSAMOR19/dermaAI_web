@@ -3,8 +3,9 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Shield, Activity } from 'lucide-react';
+import { ArrowLeft, Shield, Activity, Camera, Upload, Image as ImageIcon } from 'lucide-react';
 
+type ScanMode = 'choose' | 'camera' | 'upload';
 type Phase = 'init' | 'position' | 'align' | 'scan' | 'analyze' | 'done';
 
 const WIREFRAME_POINTS = [
@@ -42,11 +43,15 @@ const SCAN_METRICS = [
 export default function ScanPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [scanMode, setScanMode] = useState<ScanMode>('choose');
   const [phase, setPhase] = useState<Phase>('init');
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState('Preparing camera…');
   const [metricText, setMetricText] = useState('');
   const [cameraError, setCameraError] = useState(false);
+  const [uploadPreview, setUploadPreview] = useState<string | null>(null);
+  const [uploadAnalyzing, setUploadAnalyzing] = useState(false);
   const router = useRouter();
 
   /* ---- Sound helpers ---- */
@@ -55,12 +60,8 @@ export default function ScanPage() {
       const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       const o = ctx.createOscillator();
       const g = ctx.createGain();
-      o.type = 'sine';
-      o.frequency.value = freq;
-      g.gain.value = vol;
-      o.connect(g);
-      g.connect(ctx.destination);
-      o.start();
+      o.type = 'sine'; o.frequency.value = freq; g.gain.value = vol;
+      o.connect(g); g.connect(ctx.destination); o.start();
       g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
       o.stop(ctx.currentTime + dur);
     } catch { /* silent fallback */ }
@@ -87,8 +88,9 @@ export default function ScanPage() {
     return canvas.toDataURL('image/jpeg', 0.85);
   }, []);
 
-  /* ---- Camera ---- */
+  /* ---- Camera start ---- */
   useEffect(() => {
+    if (scanMode !== 'camera') return;
     const start = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -110,10 +112,11 @@ export default function ScanPage() {
     };
     start();
     return () => { streamRef.current?.getTracks().forEach(t => t.stop()); };
-  }, [playPositionTone]);
+  }, [scanMode, playPositionTone]);
 
   /* ---- Phase machine ---- */
   useEffect(() => {
+    if (scanMode !== 'camera') return;
     let timer: NodeJS.Timeout;
 
     if (phase === 'position') {
@@ -151,14 +154,12 @@ export default function ScanPage() {
 
     if (phase === 'analyze') {
       timer = setTimeout(() => {
-        /* Capture the frame before transitioning */
         const imageData = captureFrame();
         const scanTimestamp = new Date().toISOString();
         try {
           if (imageData) sessionStorage.setItem('dermaai_scan_image', imageData);
           sessionStorage.setItem('dermaai_scan_time', scanTimestamp);
-        } catch { /* storage full — continue without image */ }
-
+        } catch { /* storage full */ }
         setPhase('done');
         setStatusText('✓ Scan complete!');
         playChime();
@@ -167,39 +168,135 @@ export default function ScanPage() {
     }
 
     return () => clearTimeout(timer);
-  }, [phase, playBeep, playChime, captureFrame, router]);
+  }, [scanMode, phase, playBeep, playChime, captureFrame, router]);
+
+  /* ---- Upload handler ---- */
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      setUploadPreview(dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const analyzeUpload = () => {
+    if (!uploadPreview) return;
+    setUploadAnalyzing(true);
+    try {
+      sessionStorage.setItem('dermaai_scan_image', uploadPreview);
+      sessionStorage.setItem('dermaai_scan_time', new Date().toISOString());
+    } catch { /* storage full */ }
+    // Simulate analysis time
+    setTimeout(() => {
+      playChime();
+      router.push('/analysis');
+    }, 3000);
+  };
 
   const isActive = phase === 'scan' || phase === 'analyze' || phase === 'done';
 
+  /* ============ CHOOSE MODE SCREEN ============ */
+  if (scanMode === 'choose') {
+    return (
+      <div className="scn-page">
+        <header className="scn-header">
+          <Link href="/dashboard" className="scn-back"><ArrowLeft size={20} /></Link>
+          <div className="scn-brand"><Shield size={14} /> DERMAAI SCAN</div>
+          <div className="scn-badge">READY</div>
+        </header>
+        <div className="scan-choose">
+          <h2 className="scan-choose-title">How would you like to scan?</h2>
+          <p className="scan-choose-desc">Use your camera for a live scan or upload an existing photo of the skin condition.</p>
+          <div className="scan-choose-options">
+            <button className="scan-choose-card" onClick={() => setScanMode('camera')}>
+              <div className="scan-choose-icon camera-icon"><Camera size={32} /></div>
+              <h3>Live Scan</h3>
+              <p>Use camera for real-time scanning</p>
+            </button>
+            <button className="scan-choose-card" onClick={() => setScanMode('upload')}>
+              <div className="scan-choose-icon upload-icon"><Upload size={32} /></div>
+              <h3>Upload Photo</h3>
+              <p>Analyze an existing image</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ============ UPLOAD MODE ============ */
+  if (scanMode === 'upload') {
+    return (
+      <div className="scn-page">
+        <header className="scn-header">
+          <button className="scn-back" onClick={() => { setScanMode('choose'); setUploadPreview(null); setUploadAnalyzing(false); }}><ArrowLeft size={20} /></button>
+          <div className="scn-brand"><Shield size={14} /> UPLOAD SCAN</div>
+          <div className="scn-badge">{uploadAnalyzing ? '● ANALYZING' : 'UPLOAD'}</div>
+        </header>
+        <div className="scan-upload-body">
+          {!uploadPreview ? (
+            <div className="scan-upload-drop" onClick={() => fileInputRef.current?.click()}>
+              <ImageIcon size={48} strokeWidth={1.5} />
+              <h3>Select a Photo</h3>
+              <p>Tap to browse your gallery for a skin photo to analyze</p>
+              <span className="scan-upload-hint">JPG, PNG · Max 10 MB</span>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleUpload}
+                style={{ display: 'none' }}
+              />
+            </div>
+          ) : (
+            <div className="scan-upload-preview">
+              <img src={uploadPreview} alt="Upload preview" className="scan-upload-img" />
+              {uploadAnalyzing && (
+                <div className="scan-upload-overlay">
+                  <div className="scn-loading-spinner" />
+                  <p>Analyzing image…</p>
+                </div>
+              )}
+            </div>
+          )}
+          {uploadPreview && !uploadAnalyzing && (
+            <div className="scan-upload-actions">
+              <button className="btn btn-outline" onClick={() => { setUploadPreview(null); }}>
+                Choose Different
+              </button>
+              <button className="btn btn-primary" onClick={analyzeUpload}>
+                Analyze Photo
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ============ CAMERA MODE ============ */
   return (
     <div className="scn-page">
-      {/* ---- Header ---- */}
       <header className="scn-header">
-        <Link href="/dashboard" className="scn-back"><ArrowLeft size={20} /></Link>
+        <button className="scn-back" onClick={() => { setScanMode('choose'); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
         <div className="scn-brand"><Shield size={14} /> DERMAAI SCAN</div>
         <div className={`scn-badge ${phase === 'scan' ? 'live' : phase === 'done' ? 'done' : ''}`}>
           {phase === 'scan' ? '● LIVE' : phase === 'done' ? '✓ DONE' : 'READY'}
         </div>
       </header>
 
-      {/* ---- Camera body ---- */}
       <div className="scn-body">
         <div className="scn-viewport">
           <video ref={videoRef} className="scn-video" playsInline muted />
-
-          {/* Grid */}
           <div className={`scn-grid ${isActive ? 'on' : ''}`} />
-
-          {/* Face oval + brackets */}
           <div className={`scn-oval ${phase === 'align' || phase === 'scan' ? 'detected' : ''} ${phase === 'done' ? 'complete' : ''}`}>
             <i className="bk tl" /><i className="bk tr" /><i className="bk bl" /><i className="bk br" />
             {phase === 'position' && <span className="oval-label">Place face here</span>}
           </div>
-
-          {/* Sweep line */}
           {phase === 'scan' && <div className="scn-sweep" />}
-
-          {/* Wireframe mesh */}
           {isActive && (
             <div className="wire-layer">
               {WIREFRAME_POINTS.map((p, i) => (
@@ -212,8 +309,6 @@ export default function ScanPage() {
               </svg>
             </div>
           )}
-
-          {/* Detection tags */}
           {(phase === 'analyze' || phase === 'done') && (
             <>
               <span className="dtag" style={{ top: '28%', left: '6%' }}>Acne Zone</span>
@@ -221,16 +316,12 @@ export default function ScanPage() {
               <span className="dtag" style={{ top: '42%', left: '2%', animationDelay: '1s' }}>Dryness</span>
             </>
           )}
-
-          {/* Camera init loading */}
           {phase === 'init' && !cameraError && (
             <div className="scn-loading">
               <div className="scn-loading-spinner" />
               <p>Preparing camera…</p>
             </div>
           )}
-
-          {/* Camera denied error */}
           {cameraError && (
             <div className="scn-error">
               <p style={{ fontSize: '1.5rem', marginBottom: 8 }}>🔒</p>
@@ -240,7 +331,6 @@ export default function ScanPage() {
           )}
         </div>
 
-        {/* Data panel */}
         <aside className={`scn-data ${isActive ? 'on' : ''}`}>
           <h4>SCAN DATA</h4>
           {[
@@ -259,7 +349,6 @@ export default function ScanPage() {
         </aside>
       </div>
 
-      {/* ---- HUD bottom ---- */}
       <footer className="scn-hud">
         {metricText && <div className="scn-metric"><Activity size={13} /> {metricText}</div>}
         <div className={`scn-status phase-${phase}`}>{statusText}</div>

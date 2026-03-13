@@ -67,7 +67,7 @@ export default function DashboardPage() {
           <Link href="/scan" className="btn btn-white btn-sm">Scan Again</Link>
         </div>
         <div className="score-right">
-          <img src="/images/HomeImage.svg" alt="Facial scan results" />
+          <img src="/images/HomeImage.svg" alt="Facial scan" className="score-face-img" />
         </div>
       </div>
 

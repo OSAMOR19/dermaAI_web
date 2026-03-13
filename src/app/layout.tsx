@@ -1,6 +1,7 @@
 import { Instrument_Sans } from 'next/font/google';
 import './globals.css';
 import type { Metadata } from 'next';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -16,9 +17,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <body className={instrumentSans.className}>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

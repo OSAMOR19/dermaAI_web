@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTheme } from '@/components/ThemeProvider';
 import {
   ArrowLeft, Camera, Save, CreditCard, Plus, Trash2,
   Bell, BellOff, Mail, Smartphone, Calendar as CalendarIcon,
@@ -203,7 +204,8 @@ function Notifications() {
 
 /* ============================== APP SETTINGS ============================== */
 function AppSettings() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
   const [reducedMotion, setReducedMotion] = useState(false);
 
   return (
@@ -215,13 +217,13 @@ function AppSettings() {
           <div className="toggle-list">
             <div className="toggle-row">
               <div className="toggle-row-left">
-                <div className="toggle-icon-wrap">{darkMode ? <Moon size={18} /> : <Sun size={18} />}</div>
+                <div className="toggle-icon-wrap">{isDark ? <Moon size={18} /> : <Sun size={18} />}</div>
                 <div>
                   <div className="toggle-label">Dark Mode</div>
-                  <div className="toggle-desc">Switch to dark theme</div>
+                  <div className="toggle-desc">{isDark ? 'Switch to light theme' : 'Switch to dark theme'}</div>
                 </div>
               </div>
-              <ToggleSwitch on={darkMode} onToggle={() => setDarkMode(!darkMode)} id="toggle-dark" />
+              <ToggleSwitch on={isDark} onToggle={toggleTheme} id="toggle-dark" />
             </div>
             <div className="toggle-row">
               <div className="toggle-row-left">
