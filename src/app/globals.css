@@ -302,7 +302,7 @@ p { color: var(--text-secondary); }
 .form-link { font-size: 0.85rem; color: var(--primary); font-weight: 500; }
 
 /* ===================== DASHBOARD ===================== */
-.dashboard { padding: 24px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; }
+.dashboard { padding: 24px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; overflow-x: hidden; }
 .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
 .dash-header-left { display: flex; align-items: center; gap: 16px; }
 .dash-avatar {
@@ -340,8 +340,8 @@ p { color: var(--text-secondary); }
 
 .recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .recent-time { font-size: 0.8rem; color: var(--text-muted); }
-.recent-image { width: 100%; height: 200px; border-radius: var(--radius-md); background: var(--gradient-pink); margin-bottom: 16px; overflow: hidden; }
-.recent-image img { width: 100%; height: 100%; object-fit: cover; }
+.recent-image { width: 100%; border-radius: var(--radius-md); margin-bottom: 16px; overflow: hidden; }
+.recent-image img { width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
 
 .doctor-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
 .doctor-avatar {
@@ -956,41 +956,64 @@ p { color: var(--text-secondary); }
   font-weight: 600; background: rgba(0,0,0,0.04); color: var(--text-secondary);
 }
 
-/* ===================== DASHBOARD: RECENT ANALYSIS VISUAL ===================== */
-.recent-scan-visual {
-  background: linear-gradient(135deg, #1a1028 0%, #0f1a2e 50%, #0d1520 100%) !important;
-  position: relative; overflow: hidden; display: flex; align-items: center;
-  justify-content: center; gap: 16px; padding: 20px !important;
+/* ===================== CAROUSEL ===================== */
+.carousel-wrap { position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-md); }
+.carousel-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s ease; }
+.carousel-img.active { opacity: 1; }
+.carousel-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 2; }
+.carousel-dot {
+  width: 8px; height: 8px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,255,255,0.5); transition: all 0.3s;
 }
-.recent-scan-graphic { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
-.rsg-ring {
-  position: absolute; inset: 0; border-radius: 50%;
-  border: 3px solid rgba(252,101,209,0.3);
-  border-top-color: var(--primary); border-right-color: var(--blue);
-  animation: spin 4s linear infinite;
+.carousel-dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
+
+/* ===================== MODAL ===================== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: fadeIn 0.2s ease;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.rsg-score {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; font-weight: 800; color: #fff;
+.modal-content {
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  width: 100%; max-width: 520px; max-height: 80vh;
+  display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
 }
-.rsg-dots { position: absolute; inset: -6px; }
-.rsg-dot {
-  position: absolute; width: 6px; height: 6px; border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
 }
-.rsg-dot.d1 { top: 0; left: 50%; background: var(--primary); transform: translateX(-50%); }
-.rsg-dot.d2 { right: 0; top: 50%; background: var(--blue); transform: translateY(-50%); }
-.rsg-dot.d3 { bottom: 0; left: 50%; background: #FF9800; transform: translateX(-50%); animation-delay: 0.5s; }
-.rsg-dot.d4 { left: 0; top: 50%; background: #4CAF50; transform: translateY(-50%); animation-delay: 1s; }
-.recent-scan-labels { display: flex; flex-direction: column; gap: 6px; }
-.rsl-tag {
-  padding: 5px 14px; border-radius: var(--radius-full); font-size: 0.72rem;
-  font-weight: 700; letter-spacing: 0.02em;
+.modal-header h2 { font-size: 1.2rem; font-weight: 700; }
+.modal-close {
+  background: none; border: none; cursor: pointer; color: var(--text-muted);
+  padding: 4px; border-radius: 50%; transition: all 0.2s;
 }
-.rsl-tag.pink { background: rgba(252,101,209,0.2); color: #FC65D1; }
-.rsl-tag.blue { background: rgba(0,180,250,0.2); color: #00B4FA; }
-.rsl-tag.orange { background: rgba(255,152,0,0.2); color: #FF9800; }
+.modal-close:hover { background: rgba(0,0,0,0.06); color: var(--text); }
+.modal-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+}
+.modal-tab {
+  flex: 1; padding: 12px; background: none; border: none; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+  border-bottom: 2px solid transparent; transition: all 0.2s;
+}
+.modal-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.modal-body {
+  padding: 24px; overflow-y: auto; flex: 1;
+  font-size: 0.88rem; line-height: 1.65; color: var(--text-secondary);
+}
+.modal-body h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 18px 0 6px; }
+.modal-body h3:first-child { margin-top: 0; }
+.modal-body p { margin-bottom: 10px; }
+.modal-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; font-style: italic; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); }
+.terms-link {
+  background: none; border: none; cursor: pointer; color: var(--primary);
+  font-weight: 600; font-size: inherit; text-decoration: underline; padding: 0;
+}
+.terms-link:hover { opacity: 0.8; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* ===================== ANIMATIONS ===================== */
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }

@@ -1,4 +1,6 @@
 {
+  "/(auth)/forgot-password/page": "app/(auth)/forgot-password/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(auth)/signup/page": "app/(auth)/signup/page.js",
   "/(main)/analysis/page": "app/(main)/analysis/page.js",
   "/(main)/booking/[id]/page": "app/(main)/booking/[id]/page.js",

@@ -26,6 +26,33 @@ function formatRelativeTime(isoStr: string | null): string {
   return `${diffDays} days ago`;
 }
 
+const CAROUSEL_IMAGES = [
+  '/images/HomeImage2.svg',
+  '/images/carousel1.png',
+  '/images/carousel2.png',
+  '/images/carousel3.png',
+];
+
+function RecentCarousel() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % CAROUSEL_IMAGES.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="carousel-wrap">
+      {CAROUSEL_IMAGES.map((src, i) => (
+        <img key={i} src={src} alt={`Skin analysis ${i + 1}`} className={`carousel-img ${i === idx ? 'active' : ''}`} />
+      ))}
+      <div className="carousel-dots">
+        {CAROUSEL_IMAGES.map((_, i) => (
+          <button key={i} className={`carousel-dot ${i === idx ? 'active' : ''}`} onClick={() => setIdx(i)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const greeting = getGreeting();
   const [scanTime, setScanTime] = useState<string>('');
@@ -96,29 +123,13 @@ export default function DashboardPage() {
         <div className="card">
           <div className="recent-header">
             <div className="card-title" style={{ marginBottom: 0 }}>Recent Analysis</div>
-            <span className="recent-time"><Clock size={12} style={{ marginRight: 4, verticalAlign: -1 }} />{scanTime || '—'}</span>
+            <span className="recent-time"><Clock size={12} style={{ marginRight: 4, verticalAlign: -2 }} />{scanTime || '—'}</span>
           </div>
-          <div className="recent-image recent-scan-visual">
+          <div className="recent-image">
             {scanImage ? (
-              <img src={scanImage} alt="Your last scan" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', borderRadius: 'var(--radius-md)' }} />
+              <img src={scanImage} alt="Your last scan" />
             ) : (
-              <>
-                <div className="recent-scan-graphic">
-                  <div className="rsg-ring" />
-                  <div className="rsg-score">78</div>
-                  <div className="rsg-dots">
-                    <span className="rsg-dot d1" />
-                    <span className="rsg-dot d2" />
-                    <span className="rsg-dot d3" />
-                    <span className="rsg-dot d4" />
-                  </div>
-                </div>
-                <div className="recent-scan-labels">
-                  <span className="rsl-tag pink">Acne</span>
-                  <span className="rsl-tag blue">Dark Spots</span>
-                  <span className="rsl-tag orange">Dryness</span>
-                </div>
-              </>
+              <RecentCarousel />
             )}
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
