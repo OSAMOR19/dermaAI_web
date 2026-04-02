@@ -6,7 +6,7 @@ export default function ForgotPasswordPage() {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-header">
-          <div className="auth-logo">DERMA<span>AI</span></div>
+          <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
           <h1>Forgot Password</h1>
           <p>Enter your email and we&apos;ll send you a reset link</p>
         </div>

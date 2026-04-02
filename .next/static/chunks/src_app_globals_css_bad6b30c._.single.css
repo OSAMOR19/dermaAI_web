@@ -849,6 +849,15 @@ p {
   color: var(--primary);
 }
 
+.auth-logo-img {
+  width: auto;
+  height: 60px;
+  margin-bottom: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .auth-header h1 {
   margin-bottom: 8px;
   font-size: 1.8rem;

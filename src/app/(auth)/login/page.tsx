@@ -11,7 +11,7 @@ export default function LoginPage() {
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-header">
-          <div className="auth-logo">DERMA<span>AI</span></div>
+          <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
           <h1>Welcome Back</h1>
           <p>Sign in to continue your skin health journey</p>
         </div>

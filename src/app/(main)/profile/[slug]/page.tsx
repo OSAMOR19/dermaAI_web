@@ -264,7 +264,7 @@ function AppSettings() {
           </div>
         </div>
 
-        <p className="sub-version">DermaAI v1.0.0 · Build 2026.03</p>
+        <p className="sub-version">WBH v1.0.0 · Build 2026.03</p>
       </div>
     </>
   );
@@ -443,7 +443,7 @@ function HelpCenter() {
                 <div className="toggle-icon-wrap"><Mail size={18} /></div>
                 <div>
                   <div className="toggle-label">Email Support</div>
-                  <div className="toggle-desc">support@dermaai.com</div>
+                  <div className="toggle-desc">support@wbh.com</div>
                 </div>
               </div>
               <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
@@ -453,7 +453,7 @@ function HelpCenter() {
                 <div className="toggle-icon-wrap"><Bug size={18} /></div>
                 <div>
                   <div className="toggle-label">Report a Bug</div>
-                  <div className="toggle-desc">Help us improve DermaAI</div>
+                  <div className="toggle-desc">Help us improve WBH</div>
                 </div>
               </div>
               <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />

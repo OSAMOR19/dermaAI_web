@@ -1,0 +1,16 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/analyze/route": "/api/analyze",
+  "/page": "/",
+  "/(auth)/signup/page": "/signup",
+  "/(main)/booking/[id]/page": "/booking/[id]",
+  "/(main)/dashboard/page": "/dashboard",
+  "/(main)/analysis/page": "/analysis",
+  "/(main)/profile/[slug]/page": "/profile/[slug]",
+  "/(main)/call/page": "/call",
+  "/(main)/profile/page": "/profile",
+  "/(main)/scan/page": "/scan",
+  "/(auth)/login/page": "/login",
+  "/(main)/booking/page": "/booking",
+  "/(auth)/forgot-password/page": "/forgot-password"
+}

@@ -60,8 +60,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     try {
-      const time = sessionStorage.getItem('dermaai_scan_time');
-      const img = sessionStorage.getItem('dermaai_scan_image');
+      const time = sessionStorage.getItem('wbh_scan_time');
+      const img = sessionStorage.getItem('wbh_scan_image');
       setScanTime(formatRelativeTime(time));
       if (img) setScanImage(img);
     } catch { setScanTime('2 days ago'); }

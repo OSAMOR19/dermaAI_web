@@ -30,7 +30,7 @@ function ThemeProvider(param) {
     const [mounted, setMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ThemeProvider.useEffect": ()=>{
-            const saved = localStorage.getItem('dermaai_theme');
+            const saved = localStorage.getItem('wbh_theme');
             if (saved === 'dark' || saved === 'light') {
                 setTheme(saved);
             }
@@ -41,7 +41,7 @@ function ThemeProvider(param) {
         "ThemeProvider.useEffect": ()=>{
             if (!mounted) return;
             document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('dermaai_theme', theme);
+            localStorage.setItem('wbh_theme', theme);
         }
     }["ThemeProvider.useEffect"], [
         theme,

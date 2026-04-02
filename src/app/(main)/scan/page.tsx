@@ -40,6 +40,17 @@ const SCAN_METRICS = [
   'Measuring skin elasticity...',
 ];
 
+const API_URL = '/api/analyze';
+
+function dataURLtoBlob(dataURL: string): Blob {
+  const [header, data] = dataURL.split(',');
+  const mime = header.match(/:(.*?);/)?.[1] || 'image/jpeg';
+  const binary = atob(data);
+  const array = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
+  return new Blob([array], { type: mime });
+}
+
 export default function ScanPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -52,6 +63,8 @@ export default function ScanPage() {
   const [cameraError, setCameraError] = useState(false);
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [uploadAnalyzing, setUploadAnalyzing] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [apiLoading, setApiLoading] = useState(false);
   const router = useRouter();
 
   /* ---- Sound helpers ---- */
@@ -153,18 +166,63 @@ export default function ScanPage() {
     }
 
     if (phase === 'analyze') {
-      timer = setTimeout(() => {
+      const runAnalysis = async () => {
         const imageData = captureFrame();
         const scanTimestamp = new Date().toISOString();
         try {
-          if (imageData) sessionStorage.setItem('dermaai_scan_image', imageData);
-          sessionStorage.setItem('dermaai_scan_time', scanTimestamp);
+          if (imageData) sessionStorage.setItem('wbh_scan_image', imageData);
+          sessionStorage.setItem('wbh_scan_time', scanTimestamp);
         } catch { /* storage full */ }
-        setPhase('done');
-        setStatusText('✓ Scan complete!');
-        playChime();
-        setTimeout(() => router.push('/analysis'), 1800);
-      }, 2800);
+
+        if (!imageData) {
+          setApiError('Failed to capture image. Please try again.');
+          return;
+        }
+
+        setApiLoading(true);
+        setApiError(null);
+        setStatusText('Connecting to AI…');
+
+        try {
+          const blob = dataURLtoBlob(imageData);
+          const formData = new FormData();
+          formData.append('file', blob, 'scan.jpg');
+
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+          const res = await fetch(API_URL, {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal,
+          });
+          clearTimeout(timeoutId);
+
+          if (!res.ok) {
+            const errBody = await res.json().catch(() => null);
+            throw new Error(errBody?.error || `Server error (${res.status})`);
+          }
+          const data = await res.json();
+
+          try {
+            sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
+          } catch { /* storage full */ }
+
+          setPhase('done');
+          setStatusText('✓ Scan complete!');
+          playChime();
+          setTimeout(() => router.push('/analysis'), 1800);
+        } catch (err: unknown) {
+          const msg = err instanceof DOMException && err.name === 'AbortError'
+            ? 'Request timed out. The AI server may be starting up — please retry.'
+            : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
+          setApiError(msg);
+          setStatusText('Analysis failed');
+        } finally {
+          setApiLoading(false);
+        }
+      };
+      runAnalysis();
     }
 
     return () => clearTimeout(timer);
@@ -182,18 +240,49 @@ export default function ScanPage() {
     reader.readAsDataURL(file);
   };
 
-  const analyzeUpload = () => {
+  const analyzeUpload = async () => {
     if (!uploadPreview) return;
     setUploadAnalyzing(true);
+    setApiError(null);
     try {
-      sessionStorage.setItem('dermaai_scan_image', uploadPreview);
-      sessionStorage.setItem('dermaai_scan_time', new Date().toISOString());
+      sessionStorage.setItem('wbh_scan_image', uploadPreview);
+      sessionStorage.setItem('wbh_scan_time', new Date().toISOString());
     } catch { /* storage full */ }
-    // Simulate analysis time
-    setTimeout(() => {
+
+    try {
+      const blob = dataURLtoBlob(uploadPreview);
+      const formData = new FormData();
+      formData.append('file', blob, 'upload.jpg');
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        body: formData,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => null);
+        throw new Error(errBody?.error || `Server error (${res.status})`);
+      }
+      const data = await res.json();
+
+      try {
+        sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
+      } catch { /* storage full */ }
+
       playChime();
       router.push('/analysis');
-    }, 3000);
+    } catch (err: unknown) {
+      const msg = err instanceof DOMException && err.name === 'AbortError'
+        ? 'Request timed out. The AI server may be starting up — please retry.'
+        : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
+      setApiError(msg);
+      setUploadAnalyzing(false);
+    }
   };
 
   const isActive = phase === 'scan' || phase === 'analyze' || phase === 'done';
@@ -204,7 +293,7 @@ export default function ScanPage() {
       <div className="scn-page">
         <header className="scn-header">
           <Link href="/dashboard" className="scn-back"><ArrowLeft size={20} /></Link>
-          <div className="scn-brand"><Shield size={14} /> DERMAAI SCAN</div>
+          <div className="scn-brand"><Shield size={14} /> WBH SCAN</div>
           <div className="scn-badge">READY</div>
         </header>
         <div className="scan-choose">
@@ -257,14 +346,21 @@ export default function ScanPage() {
               {uploadAnalyzing && (
                 <div className="scan-upload-overlay">
                   <div className="scn-loading-spinner" />
-                  <p>Analyzing image…</p>
+                  <p>Connecting to AI…</p>
+                  <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 4 }}>First request may take 30-60s</p>
                 </div>
               )}
             </div>
           )}
-          {uploadPreview && !uploadAnalyzing && (
+          {apiError && !uploadAnalyzing && (
+            <div style={{ padding: '12px 16px', margin: '0 16px 12px', background: 'rgba(229,57,53,0.12)', borderRadius: 12, textAlign: 'center' }}>
+              <p style={{ color: '#E53935', fontSize: '0.85rem', fontWeight: 600, marginBottom: 4 }}>⚠ {apiError}</p>
+              <button className="btn btn-primary" style={{ marginTop: 8, fontSize: '0.85rem' }} onClick={analyzeUpload}>Retry</button>
+            </div>
+          )}
+          {uploadPreview && !uploadAnalyzing && !apiError && (
             <div className="scan-upload-actions">
-              <button className="btn btn-outline" onClick={() => { setUploadPreview(null); }}>
+              <button className="btn btn-outline" onClick={() => { setUploadPreview(null); setApiError(null); }}>
                 Choose Different
               </button>
               <button className="btn btn-primary" onClick={analyzeUpload}>
@@ -282,7 +378,7 @@ export default function ScanPage() {
     <div className="scn-page">
       <header className="scn-header">
         <button className="scn-back" onClick={() => { setScanMode('choose'); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
-        <div className="scn-brand"><Shield size={14} /> DERMAAI SCAN</div>
+        <div className="scn-brand"><Shield size={14} /> WBH SCAN</div>
         <div className={`scn-badge ${phase === 'scan' ? 'live' : phase === 'done' ? 'done' : ''}`}>
           {phase === 'scan' ? '● LIVE' : phase === 'done' ? '✓ DONE' : 'READY'}
         </div>
@@ -352,8 +448,14 @@ export default function ScanPage() {
       <footer className="scn-hud">
         {metricText && <div className="scn-metric"><Activity size={13} /> {metricText}</div>}
         <div className={`scn-status phase-${phase}`}>{statusText}</div>
-        {(phase === 'scan' || phase === 'analyze') && (
+        {(phase === 'scan' || phase === 'analyze') && !apiError && (
           <div className="scn-prog"><div className="scn-prog-fill" style={{ width: `${phase === 'analyze' ? 100 : progress}%` }} /></div>
+        )}
+        {apiError && phase === 'analyze' && (
+          <div style={{ padding: '10px 16px', margin: '8px 0', background: 'rgba(229,57,53,0.12)', borderRadius: 10, textAlign: 'center' }}>
+            <p style={{ color: '#E53935', fontSize: '0.82rem', fontWeight: 600 }}>⚠ {apiError}</p>
+            <button onClick={() => { setApiError(null); setPhase('analyze'); }} style={{ marginTop: 8, padding: '6px 20px', borderRadius: 8, background: 'linear-gradient(135deg,#FC65D1,#00B4FA)', color: '#fff', border: 'none', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>Retry</button>
+          </div>
         )}
         {phase === 'position' && (
           <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', marginTop: 8 }}>

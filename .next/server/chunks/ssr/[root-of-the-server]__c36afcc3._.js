@@ -90,7 +90,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ThemePr
 ;
 ;
 const metadata = {
-    title: 'DermaAI — AI-Powered Skin Analysis',
+    title: 'WBH — AI-Powered Skin Analysis',
     description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.'
 };
 function RootLayout({ children }) {
