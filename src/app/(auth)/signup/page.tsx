@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff, User, X } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, X, Loader2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 function TermsModal({ onClose, tab }: { onClose: () => void; tab: 'terms' | 'privacy' }) {
   const [activeTab, setActiveTab] = useState(tab);
@@ -92,7 +94,95 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [termsWarning, setTermsWarning] = useState(false);
   const [showTerms, setShowTerms] = useState<'terms' | 'privacy' | null>(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setTermsWarning(false);
+
+    if (!agreed) {
+      setTermsWarning(true);
+      setError('Please accept the Terms of Service and Privacy Policy to continue');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true);
+
+    const { error: signUpError } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        data: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+        },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if (signUpError) {
+      setError(signUpError.message);
+      setLoading(false);
+      return;
+    }
+
+    setSuccess(true);
+    setLoading(false);
+  };
+
+  const handleOAuth = async (provider: 'google' | 'apple') => {
+    await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
+  if (success) {
+    return (
+      <div className="auth-page">
+        <div className="auth-container">
+          <div className="auth-header">
+            <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
+            <h1>Check Your Email</h1>
+            <p>We&apos;ve sent a confirmation link to <strong>{email}</strong>. Click the link to activate your account.</p>
+          </div>
+          <div className="auth-form" style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: 20 }}>
+              Didn&apos;t receive the email? Check your spam folder or try again.
+            </p>
+            <button className="btn btn-outline btn-block" onClick={() => setSuccess(false)}>
+              Try Again
+            </button>
+          </div>
+          <div className="auth-footer">
+            Already have an account? <Link href="/login">Sign In</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="auth-page">
@@ -102,26 +192,27 @@ export default function SignupPage() {
           <h1>Create Account</h1>
           <p>Start your AI-powered skin analysis journey</p>
         </div>
-        <div className="auth-form">
+        <form className="auth-form" onSubmit={handleSignup}>
+          {error && <div className="auth-error">{error}</div>}
           <div className="form-group">
             <label className="form-label">First Name</label>
             <div className="input-wrapper">
               <User size={18} className="input-icon" />
-              <input type="text" className="form-input has-icon" placeholder="Enter your first name" />
+              <input type="text" className="form-input has-icon" placeholder="Enter your first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
             </div>
           </div>
           <div className="form-group">
             <label className="form-label">Last Name</label>
             <div className="input-wrapper">
               <User size={18} className="input-icon" />
-              <input type="text" className="form-input has-icon" placeholder="Enter your last name" />
+              <input type="text" className="form-input has-icon" placeholder="Enter your last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
             </div>
           </div>
           <div className="form-group">
             <label className="form-label">Email</label>
             <div className="input-wrapper">
               <Mail size={18} className="input-icon" />
-              <input type="email" className="form-input has-icon" placeholder="Enter your email" />
+              <input type="email" className="form-input has-icon" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
           </div>
           <div className="form-group">
@@ -132,13 +223,12 @@ export default function SignupPage() {
                 type={showPassword ? 'text' : 'password'}
                 className="form-input has-icon has-right-icon"
                 placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
               />
-              <button
-                type="button"
-                className="input-icon-right-btn"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
+              <button type="button" className="input-icon-right-btn" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
@@ -151,37 +241,38 @@ export default function SignupPage() {
                 type={showConfirm ? 'text' : 'password'}
                 className="form-input has-icon has-right-icon"
                 placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
-              <button
-                type="button"
-                className="input-icon-right-btn"
-                onClick={() => setShowConfirm(!showConfirm)}
-                aria-label={showConfirm ? 'Hide password' : 'Show password'}
-              >
+              <button type="button" className="input-icon-right-btn" onClick={() => setShowConfirm(!showConfirm)} aria-label={showConfirm ? 'Hide password' : 'Show password'}>
                 {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
-          <label className="form-check" style={{ marginBottom: 20 }}>
-            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
+          <label className={`form-check ${termsWarning && !agreed ? 'terms-warning' : ''}`} style={{ marginBottom: 20 }}>
+            <input type="checkbox" checked={agreed} onChange={(e) => { setAgreed(e.target.checked); setTermsWarning(false); setError(''); }} />
             {' '}I agree to the{' '}
             <button type="button" className="terms-link" onClick={() => setShowTerms('terms')}>Terms of Service</button>
             {' '}and{' '}
             <button type="button" className="terms-link" onClick={() => setShowTerms('privacy')}>Privacy Policy</button>
           </label>
-          <Link href="/dashboard">
-            <button className="btn btn-primary btn-block btn-lg" disabled={!agreed}>Create Account</button>
-          </Link>
+          {termsWarning && !agreed && (
+            <p style={{ color: '#C62828', fontSize: '0.82rem', fontWeight: 600, marginBottom: 12, marginTop: -8 }}>⚠ You must accept the terms to create an account</p>
+          )}
+          <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}>
+            {loading ? <><Loader2 size={18} className="spin" /> Creating Account…</> : 'Create Account'}
+          </button>
           <div className="form-divider">or sign up with</div>
           <div className="social-buttons">
-            <button className="social-btn">
+            <button type="button" className="social-btn" onClick={() => handleOAuth('google')}>
               <img src="/icons/google.svg" alt="Google" width={20} height={20} /> Google
             </button>
-            <button className="social-btn">
+            <button type="button" className="social-btn" onClick={() => handleOAuth('apple')}>
               <img src="/icons/apple.svg" alt="Apple" width={20} height={20} /> Apple
             </button>
           </div>
-        </div>
+        </form>
         <div className="auth-footer">
           Already have an account? <Link href="/login">Sign In</Link>
         </div>

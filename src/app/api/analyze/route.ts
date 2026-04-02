@@ -5,17 +5,19 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemi
 
 const DERMA_PROMPT = `You are an AI dermatology analysis assistant.
 
-Your job is to analyze a user uploaded skin image and return a structured analysis of possible visible skin conditions.
+The user has uploaded one or more skin images (possibly from different angles or areas).
+Analyze ALL provided images together to give a comprehensive assessment.
 
 IMPORTANT RULES:
-- Only analyze what is visually observable in the image.
-- Do NOT guess if the image is unclear.
+- Only analyze what is visually observable in the images.
+- Do NOT guess if the images are unclear.
 - If the image quality is poor, return "image_quality: poor".
 - Do NOT provide a medical diagnosis.
 - Only provide possible conditions based on visual patterns.
+- When multiple images are provided, cross-reference observations across all images for more accurate analysis.
 - Always return STRICT JSON with no additional text.
 
-Analyze the image for signs of the following skin conditions:
+Analyze the images for signs of the following skin conditions:
 
 - acne
 - eczema
@@ -31,6 +33,7 @@ Return the response in the following JSON structure:
 
 {
   "image_quality": "good | moderate | poor",
+  "images_analyzed": number,
   "detected_conditions": [
     {
       "condition": "name of condition",
@@ -72,38 +75,56 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
 
-    if (!file) {
+    // Collect all image files (file0, file1, file2, file3 or single 'file')
+    const imageParts: { inline_data: { mime_type: string; data: string } }[] = [];
+
+    // Support single file upload (backward compat)
+    const singleFile = formData.get('file') as File | null;
+    if (singleFile) {
+      const arrayBuffer = await singleFile.arrayBuffer();
+      const base64Data = Buffer.from(arrayBuffer).toString('base64');
+      imageParts.push({
+        inline_data: {
+          mime_type: singleFile.type || 'image/jpeg',
+          data: base64Data,
+        },
+      });
+    }
+
+    // Support multiple files (file0, file1, file2, file3)
+    for (let i = 0; i < 4; i++) {
+      const file = formData.get(`file${i}`) as File | null;
+      if (file) {
+        const arrayBuffer = await file.arrayBuffer();
+        const base64Data = Buffer.from(arrayBuffer).toString('base64');
+        imageParts.push({
+          inline_data: {
+            mime_type: file.type || 'image/jpeg',
+            data: base64Data,
+          },
+        });
+      }
+    }
+
+    if (imageParts.length === 0) {
       return NextResponse.json(
-        { error: 'No image file provided' },
+        { error: 'No image files provided' },
         { status: 400 }
       );
     }
 
-    // Convert file to base64
-    const arrayBuffer = await file.arrayBuffer();
-    const base64Data = Buffer.from(arrayBuffer).toString('base64');
-    const mimeType = file.type || 'image/jpeg';
+    // Build Gemini request with prompt + all images
+    const parts: ({ text: string } | { inline_data: { mime_type: string; data: string } })[] = [
+      { text: DERMA_PROMPT },
+      ...imageParts,
+    ];
 
-    // Call Gemini Vision API
     const geminiResponse = await fetch(GEMINI_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              { text: DERMA_PROMPT },
-              {
-                inline_data: {
-                  mime_type: mimeType,
-                  data: base64Data,
-                },
-              },
-            ],
-          },
-        ],
+        contents: [{ parts }],
         generationConfig: {
           temperature: 0.2,
           maxOutputTokens: 2048,
@@ -117,7 +138,6 @@ export async function POST(request: NextRequest) {
       console.error('Gemini API error:', geminiResponse.status, errText);
 
       if (geminiResponse.status === 429) {
-        // Extract retry delay if available
         let retryMsg = 'AI rate limit reached. Please wait 30 seconds and try again.';
         try {
           const errJson = JSON.parse(errText);
@@ -138,10 +158,7 @@ export async function POST(request: NextRequest) {
     }
 
     const geminiData = await geminiResponse.json();
-
-    // Extract the text content from Gemini's response
-    const textContent =
-      geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const textContent = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!textContent) {
       console.error('No text in Gemini response:', JSON.stringify(geminiData));
@@ -151,12 +168,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Parse the JSON from Gemini's text response
     let analysis;
     try {
       analysis = JSON.parse(textContent);
     } catch {
-      // Try to extract JSON from markdown code block if present
       const jsonMatch = textContent.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
         analysis = JSON.parse(jsonMatch[1].trim());

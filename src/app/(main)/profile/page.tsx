@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { User, Settings, Bell, Shield, HelpCircle, LogOut, ChevronRight, CreditCard, FileText } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 
 const menuSections = [
   {
@@ -22,22 +25,28 @@ const menuSections = [
     title: 'Support',
     items: [
       { icon: HelpCircle, label: 'Help Center', href: '/profile/help-center' },
-      { icon: LogOut, label: 'Sign Out', href: '/login', danger: true },
     ],
   },
 ];
 
 export default function ProfilePage() {
+  const { user, signOut } = useAuth();
+  const firstName = user?.user_metadata?.first_name || '';
+  const lastName = user?.user_metadata?.last_name || '';
+  const displayName = firstName ? `${firstName} ${lastName}`.trim() : 'Your Profile';
+  const initials = firstName ? `${firstName[0]}${lastName?.[0] || ''}`.toUpperCase() : 'U';
+  const displayEmail = user?.email || 'Manage your account settings';
+
   return (
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
         <div className="profile-avatar-lg">
-          <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--primary)' }}>U</span>
+          <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
         </div>
         <div>
-          <div className="profile-name">Your Profile</div>
-          <div className="profile-email">Manage your account settings</div>
+          <div className="profile-name">{displayName}</div>
+          <div className="profile-email">{displayEmail}</div>
         </div>
       </div>
 
@@ -48,14 +57,30 @@ export default function ProfilePage() {
           {section.items.map((item) => (
             <Link key={item.label} href={item.href} className="profile-item">
               <div className="profile-item-left">
-                <item.icon size={20} className="profile-item-icon" style={('danger' in item && item.danger) ? { color: 'var(--phone-red)' } : {}} />
-                <span className="profile-item-label" style={('danger' in item && item.danger) ? { color: 'var(--phone-red)' } : {}}>{item.label}</span>
+                <item.icon size={20} className="profile-item-icon" />
+                <span className="profile-item-label">{item.label}</span>
               </div>
               <ChevronRight size={18} className="profile-item-chevron" />
             </Link>
           ))}
         </div>
       ))}
+
+      {/* Sign Out */}
+      <div className="profile-section">
+        <button
+          onClick={signOut}
+          className="profile-item"
+          style={{ width: '100%', textAlign: 'left', cursor: 'pointer' }}
+        >
+          <div className="profile-item-left">
+            <LogOut size={20} className="profile-item-icon" style={{ color: 'var(--phone-red)' }} />
+            <span className="profile-item-label" style={{ color: 'var(--phone-red)' }}>Sign Out</span>
+          </div>
+          <ChevronRight size={18} className="profile-item-chevron" />
+        </button>
+      </div>
     </div>
   );
 }
+

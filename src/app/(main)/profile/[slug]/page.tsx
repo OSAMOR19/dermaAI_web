@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/components/ThemeProvider';
+import { useAuth } from '@/components/AuthProvider';
+import { createClient } from '@/lib/supabase/client';
 import {
   ArrowLeft, Camera, Save, CreditCard, Plus, Trash2,
   Bell, BellOff, Mail, Smartphone, Calendar as CalendarIcon,
   Moon, Sun, Globe, Database, RefreshCw,
   ShieldCheck, Fingerprint, Eye, EyeOff, AlertTriangle,
   ChevronDown, ChevronUp, MessageCircle, Bug, ExternalLink,
-  ScanLine, TrendingUp, TrendingDown,
+  ScanLine, TrendingUp, TrendingDown, Loader2, CheckCircle2,
 } from 'lucide-react';
 
 /* ============================== SHARED ============================== */
@@ -42,6 +44,88 @@ function ToggleSwitch({ on, onToggle, id }: { on: boolean; onToggle: () => void;
 
 /* ============================== EDIT PROFILE ============================== */
 function EditProfile() {
+  const { user } = useAuth();
+  const supabase = createClient();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dob, setDob] = useState('');
+  const [skinType, setSkinType] = useState('');
+
+  // Load profile from Supabase
+  useEffect(() => {
+    if (!user) return;
+    const load = async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (data) {
+        setFirstName(data.first_name || '');
+        setLastName(data.last_name || '');
+        setEmail(data.email || user.email || '');
+        setPhone(data.phone || '');
+        setDob(data.date_of_birth || '');
+        setSkinType(data.skin_type || '');
+      } else {
+        setEmail(user.email || '');
+        setFirstName(user.user_metadata?.first_name || '');
+        setLastName(user.user_metadata?.last_name || '');
+      }
+      setLoading(false);
+    };
+    load();
+  }, [user, supabase]);
+
+  const handleSave = async () => {
+    if (!user) return;
+    setSaving(true);
+    setError('');
+    setSuccess(false);
+
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        date_of_birth: dob || null,
+        skin_type: skinType || null,
+        updated_at: new Date().toISOString(),
+      });
+
+    if (updateError) {
+      setError(updateError.message);
+    } else {
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    }
+    setSaving(false);
+  };
+
+  const initials = firstName ? `${firstName[0]}${lastName?.[0] || ''}`.toUpperCase() : 'U';
+
+  if (loading) {
+    return (
+      <>
+        <SubpageHeader title="Edit Profile" />
+        <div className="subpage-body" style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
+          <Loader2 size={24} className="spin" style={{ color: 'var(--primary)' }} />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <SubpageHeader title="Edit Profile" />
@@ -50,38 +134,45 @@ function EditProfile() {
         <div className="edit-avatar-section">
           <div className="edit-avatar">
             <div className="edit-avatar-circle">
-              <span>U</span>
+              <span>{initials}</span>
             </div>
             <button className="edit-avatar-btn"><Camera size={16} /></button>
           </div>
           <p className="edit-avatar-hint">Tap to change photo</p>
         </div>
 
+        {error && <div className="auth-error" style={{ margin: '0 0 16px' }}>{error}</div>}
+        {success && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', background: 'rgba(76,175,80,0.08)', borderRadius: 10, marginBottom: 16, color: '#2E7D32', fontSize: '0.88rem', fontWeight: 600 }}>
+            <CheckCircle2 size={16} /> Profile saved successfully
+          </div>
+        )}
+
         {/* Form */}
         <div className="sub-form">
           <div className="form-group">
             <label className="form-label">First Name</label>
-            <input type="text" className="form-input" placeholder="Enter your first name" />
+            <input type="text" className="form-input" placeholder="Enter your first name" value={firstName} onChange={e => setFirstName(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Last Name</label>
-            <input type="text" className="form-input" placeholder="Enter your last name" />
+            <input type="text" className="form-input" placeholder="Enter your last name" value={lastName} onChange={e => setLastName(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Email</label>
-            <input type="email" className="form-input" placeholder="your@email.com" />
+            <input type="email" className="form-input" placeholder="your@email.com" value={email} onChange={e => setEmail(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Phone Number</label>
-            <input type="tel" className="form-input" placeholder="+1 (555) 000-0000" />
+            <input type="tel" className="form-input" placeholder="+1 (555) 000-0000" value={phone} onChange={e => setPhone(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Date of Birth</label>
-            <input type="date" className="form-input" />
+            <input type="date" className="form-input" value={dob} onChange={e => setDob(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Skin Type</label>
-            <select className="form-input">
+            <select className="form-input" value={skinType} onChange={e => setSkinType(e.target.value)}>
               <option value="">Select your skin type</option>
               <option>Normal</option>
               <option>Dry</option>
@@ -90,14 +181,15 @@ function EditProfile() {
               <option>Sensitive</option>
             </select>
           </div>
-          <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: 8 }}>
-            <Save size={18} /> Save Changes
+          <button className="btn btn-primary btn-block btn-lg" style={{ marginTop: 8 }} onClick={handleSave} disabled={saving}>
+            {saving ? <><Loader2 size={18} className="spin" /> Saving…</> : <><Save size={18} /> Save Changes</>}
           </button>
         </div>
       </div>
     </>
   );
 }
+
 
 /* ============================== PAYMENT METHODS ============================== */
 function PaymentMethods() {

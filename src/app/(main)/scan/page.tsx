@@ -3,10 +3,26 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Shield, Activity, Camera, Upload, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Shield, Activity, Camera, Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
+import { uploadScanImage } from '@/lib/supabase/storage';
 
 type ScanMode = 'choose' | 'camera' | 'upload';
-type Phase = 'init' | 'position' | 'align' | 'scan' | 'analyze' | 'done';
+type Phase = 'init' | 'position' | 'capture' | 'review' | 'analyze' | 'done';
+
+const MAX_IMAGES = 4;
+const API_URL = '/api/analyze';
+
+const SCAN_METRICS = [
+  'Mapping skin topology…',
+  'Detecting acne zones…',
+  'Analyzing skin texture…',
+  'Checking hydration levels…',
+  'Scanning for dark spots…',
+  'Evaluating skin barrier…',
+  'Assessing pore structure…',
+  'Measuring skin elasticity…',
+];
 
 const WIREFRAME_POINTS = [
   { x: 50, y: 12, d: 0 }, { x: 38, y: 18, d: 0.15 }, { x: 62, y: 18, d: 0.3 },
@@ -29,19 +45,6 @@ const WIRE_LINES: [number, number, number, number][] = [
   [35,36,26,48],[65,36,74,48],[44,37,38,60],[56,37,62,60],
 ];
 
-const SCAN_METRICS = [
-  'Mapping facial topology...',
-  'Detecting acne zones...',
-  'Analyzing skin texture...',
-  'Checking hydration levels...',
-  'Scanning for dark spots...',
-  'Evaluating skin barrier...',
-  'Assessing pore structure...',
-  'Measuring skin elasticity...',
-];
-
-const API_URL = '/api/analyze';
-
 function dataURLtoBlob(dataURL: string): Blob {
   const [header, data] = dataURL.split(',');
   const mime = header.match(/:(.*?);/)?.[1] || 'image/jpeg';
@@ -57,15 +60,18 @@ export default function ScanPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [scanMode, setScanMode] = useState<ScanMode>('choose');
   const [phase, setPhase] = useState<Phase>('init');
-  const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState('Preparing camera…');
-  const [metricText, setMetricText] = useState('');
+  const [metricIdx, setMetricIdx] = useState(0);
   const [cameraError, setCameraError] = useState(false);
-  const [uploadPreview, setUploadPreview] = useState<string | null>(null);
-  const [uploadAnalyzing, setUploadAnalyzing] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [apiLoading, setApiLoading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+
+  // Multi-image state
+  const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const [uploadImages, setUploadImages] = useState<string[]>([]);
+
   const router = useRouter();
+  const { user } = useAuth();
 
   /* ---- Sound helpers ---- */
   const playBeep = useCallback((freq = 800, dur = 0.12, vol = 0.06) => {
@@ -84,8 +90,8 @@ export default function ScanPage() {
     [600, 800, 1050].forEach((f, i) => setTimeout(() => playBeep(f, 0.25, 0.08), i * 160));
   }, [playBeep]);
 
-  const playPositionTone = useCallback(() => {
-    playBeep(520, 0.08); setTimeout(() => playBeep(620, 0.08), 120);
+  const playShutter = useCallback(() => {
+    playBeep(1200, 0.06, 0.1); setTimeout(() => playBeep(800, 0.06, 0.05), 80);
   }, [playBeep]);
 
   /* ---- Capture frame from video ---- */
@@ -114,9 +120,8 @@ export default function ScanPage() {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
-          setPhase('position');
-          setStatusText('Position your face within the frame');
-          playPositionTone();
+          setPhase('capture');
+          setStatusText(`Take up to ${MAX_IMAGES} photos of the affected area`);
         }
       } catch {
         setCameraError(true);
@@ -125,134 +130,79 @@ export default function ScanPage() {
     };
     start();
     return () => { streamRef.current?.getTracks().forEach(t => t.stop()); };
-  }, [scanMode, playPositionTone]);
+  }, [scanMode]);
 
-  /* ---- Phase machine ---- */
-  useEffect(() => {
-    if (scanMode !== 'camera') return;
-    let timer: NodeJS.Timeout;
-
-    if (phase === 'position') {
-      timer = setTimeout(() => {
-        setPhase('align');
-        setStatusText('Face detected — hold still…');
-        playBeep(700, 0.2, 0.08);
-      }, 4000);
+  /* ---- Take snapshot ---- */
+  const takeSnapshot = () => {
+    if (capturedImages.length >= MAX_IMAGES) return;
+    const img = captureFrame();
+    if (img) {
+      setCapturedImages(prev => [...prev, img]);
+      playShutter();
+      if (capturedImages.length + 1 >= MAX_IMAGES) {
+        setStatusText(`${MAX_IMAGES}/${MAX_IMAGES} captured — Ready to analyze`);
+      } else {
+        setStatusText(`${capturedImages.length + 1}/${MAX_IMAGES} captured — Tap to take more`);
+      }
     }
+  };
 
-    if (phase === 'align') {
-      timer = setTimeout(() => {
-        setPhase('scan');
-        setStatusText('Scanning in progress…');
-        playBeep(900, 0.12);
-      }, 2500);
-    }
-
-    if (phase === 'scan') {
-      let p = 0;
-      const iv = setInterval(() => {
-        p += 1.5;
-        setProgress(Math.min(p, 100));
-        if (Math.round(p) % 12 === 0) playBeep(550 + p * 3, 0.06);
-        if (Math.round(p) % 14 === 0) setMetricText(SCAN_METRICS[Math.floor(p / 14) % SCAN_METRICS.length]);
-        if (p >= 100) {
-          clearInterval(iv);
-          setPhase('analyze');
-          setStatusText('Analyzing results…');
-          setMetricText('');
-        }
-      }, 70);
-      return () => clearInterval(iv);
-    }
-
-    if (phase === 'analyze') {
-      const runAnalysis = async () => {
-        const imageData = captureFrame();
-        const scanTimestamp = new Date().toISOString();
-        try {
-          if (imageData) sessionStorage.setItem('wbh_scan_image', imageData);
-          sessionStorage.setItem('wbh_scan_time', scanTimestamp);
-        } catch { /* storage full */ }
-
-        if (!imageData) {
-          setApiError('Failed to capture image. Please try again.');
-          return;
-        }
-
-        setApiLoading(true);
-        setApiError(null);
-        setStatusText('Connecting to AI…');
-
-        try {
-          const blob = dataURLtoBlob(imageData);
-          const formData = new FormData();
-          formData.append('file', blob, 'scan.jpg');
-
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 120000);
-
-          const res = await fetch(API_URL, {
-            method: 'POST',
-            body: formData,
-            signal: controller.signal,
-          });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) {
-            const errBody = await res.json().catch(() => null);
-            throw new Error(errBody?.error || `Server error (${res.status})`);
-          }
-          const data = await res.json();
-
-          try {
-            sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
-          } catch { /* storage full */ }
-
-          setPhase('done');
-          setStatusText('✓ Scan complete!');
-          playChime();
-          setTimeout(() => router.push('/analysis'), 1800);
-        } catch (err: unknown) {
-          const msg = err instanceof DOMException && err.name === 'AbortError'
-            ? 'Request timed out. The AI server may be starting up — please retry.'
-            : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
-          setApiError(msg);
-          setStatusText('Analysis failed');
-        } finally {
-          setApiLoading(false);
-        }
-      };
-      runAnalysis();
-    }
-
-    return () => clearTimeout(timer);
-  }, [scanMode, phase, playBeep, playChime, captureFrame, router]);
+  const removeCapture = (idx: number) => {
+    setCapturedImages(prev => prev.filter((_, i) => i !== idx));
+  };
 
   /* ---- Upload handler ---- */
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result as string;
-      setUploadPreview(dataUrl);
-    };
-    reader.readAsDataURL(file);
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    const remaining = MAX_IMAGES - uploadImages.length;
+    const toAdd = files.slice(0, remaining);
+
+    toAdd.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadImages(prev => {
+          if (prev.length >= MAX_IMAGES) return prev;
+          return [...prev, reader.result as string];
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Reset input so same file can be re-selected
+    e.target.value = '';
   };
 
-  const analyzeUpload = async () => {
-    if (!uploadPreview) return;
-    setUploadAnalyzing(true);
+  const removeUpload = (idx: number) => {
+    setUploadImages(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  /* ---- Analyze (shared logic for camera + upload) ---- */
+  const runAnalysis = async (images: string[]) => {
+    if (images.length === 0) return;
+
+    setAnalyzing(true);
     setApiError(null);
+    setStatusText('Connecting to AI…');
+
+    // Save to sessionStorage for immediate display on analysis page
     try {
-      sessionStorage.setItem('wbh_scan_image', uploadPreview);
+      sessionStorage.setItem('wbh_scan_image', images[0]);
       sessionStorage.setItem('wbh_scan_time', new Date().toISOString());
     } catch { /* storage full */ }
 
     try {
-      const blob = dataURLtoBlob(uploadPreview);
       const formData = new FormData();
-      formData.append('file', blob, 'upload.jpg');
+      images.forEach((img, i) => {
+        const blob = dataURLtoBlob(img);
+        formData.append(`file${i}`, blob, `scan_${i}.jpg`);
+      });
+
+      // Rotate metric text during analysis
+      const metricInterval = setInterval(() => {
+        setMetricIdx(prev => (prev + 1) % SCAN_METRICS.length);
+      }, 2500);
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 120000);
@@ -263,29 +213,68 @@ export default function ScanPage() {
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
+      clearInterval(metricInterval);
 
       if (!res.ok) {
         const errBody = await res.json().catch(() => null);
         throw new Error(errBody?.error || `Server error (${res.status})`);
       }
+
       const data = await res.json();
 
       try {
         sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
       } catch { /* storage full */ }
 
+      // Upload images to Supabase Storage & save scan to DB
+      if (user) {
+        try {
+          const scanId = crypto.randomUUID();
+          const storagePaths: string[] = [];
+
+          for (let i = 0; i < images.length; i++) {
+            const blob = dataURLtoBlob(images[i]);
+            const path = await uploadScanImage(user.id, scanId, blob, i);
+            storagePaths.push(path);
+          }
+
+          // Calculate health score from analysis
+          const conditions = data.detected_conditions || [];
+          const avgConfidence = conditions.length > 0
+            ? conditions.reduce((sum: number, c: { confidence: number }) => sum + c.confidence, 0) / conditions.length
+            : 0;
+          const score = Math.max(0, Math.round(100 - avgConfidence));
+
+          await fetch('/api/scans', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              score,
+              analysis: data,
+              image_urls: storagePaths,
+            }),
+          });
+        } catch (err) {
+          console.error('Failed to save scan to DB:', err);
+          // Non-critical — analysis still works
+        }
+      }
+
+      setPhase('done');
+      setStatusText('✓ Scan complete!');
       playChime();
-      router.push('/analysis');
+      setTimeout(() => router.push('/analysis'), 1800);
     } catch (err: unknown) {
       const msg = err instanceof DOMException && err.name === 'AbortError'
         ? 'Request timed out. The AI server may be starting up — please retry.'
         : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
       setApiError(msg);
-      setUploadAnalyzing(false);
+      setStatusText('Analysis failed');
+      setAnalyzing(false);
     }
   };
 
-  const isActive = phase === 'scan' || phase === 'analyze' || phase === 'done';
+  const isAnalyzing = analyzing || phase === 'analyze';
 
   /* ============ CHOOSE MODE SCREEN ============ */
   if (scanMode === 'choose') {
@@ -298,17 +287,17 @@ export default function ScanPage() {
         </header>
         <div className="scan-choose">
           <h2 className="scan-choose-title">How would you like to scan?</h2>
-          <p className="scan-choose-desc">Use your camera for a live scan or upload an existing photo of the skin condition.</p>
+          <p className="scan-choose-desc">Take up to {MAX_IMAGES} photos for a more accurate AI analysis. Multiple angles help detect conditions better.</p>
           <div className="scan-choose-options">
             <button className="scan-choose-card" onClick={() => setScanMode('camera')}>
               <div className="scan-choose-icon camera-icon"><Camera size={32} /></div>
               <h3>Live Scan</h3>
-              <p>Use camera for real-time scanning</p>
+              <p>Take snapshots with your camera</p>
             </button>
             <button className="scan-choose-card" onClick={() => setScanMode('upload')}>
               <div className="scan-choose-icon upload-icon"><Upload size={32} /></div>
-              <h3>Upload Photo</h3>
-              <p>Analyze an existing image</p>
+              <h3>Upload Photos</h3>
+              <p>Select up to {MAX_IMAGES} images</p>
             </button>
           </div>
         </div>
@@ -321,50 +310,75 @@ export default function ScanPage() {
     return (
       <div className="scn-page">
         <header className="scn-header">
-          <button className="scn-back" onClick={() => { setScanMode('choose'); setUploadPreview(null); setUploadAnalyzing(false); }}><ArrowLeft size={20} /></button>
+          <button className="scn-back" onClick={() => { setScanMode('choose'); setUploadImages([]); setAnalyzing(false); setApiError(null); }}><ArrowLeft size={20} /></button>
           <div className="scn-brand"><Shield size={14} /> UPLOAD SCAN</div>
-          <div className="scn-badge">{uploadAnalyzing ? '● ANALYZING' : 'UPLOAD'}</div>
+          <div className="scn-badge">{analyzing ? '● ANALYZING' : `${uploadImages.length}/${MAX_IMAGES}`}</div>
         </header>
         <div className="scan-upload-body">
-          {!uploadPreview ? (
-            <div className="scan-upload-drop" onClick={() => fileInputRef.current?.click()}>
-              <ImageIcon size={48} strokeWidth={1.5} />
-              <h3>Select a Photo</h3>
-              <p>Tap to browse your gallery for a skin photo to analyze</p>
-              <span className="scan-upload-hint">JPG, PNG · Max 10 MB</span>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleUpload}
-                style={{ display: 'none' }}
-              />
-            </div>
-          ) : (
-            <div className="scan-upload-preview">
-              <img src={uploadPreview} alt="Upload preview" className="scan-upload-img" />
-              {uploadAnalyzing && (
-                <div className="scan-upload-overlay">
-                  <div className="scn-loading-spinner" />
-                  <p>Connecting to AI…</p>
-                  <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 4 }}>First request may take 30-60s</p>
+          {/* Thumbnail strip */}
+          {uploadImages.length > 0 && (
+            <div className="scan-thumbs">
+              {uploadImages.map((img, i) => (
+                <div key={i} className="scan-thumb">
+                  <img src={img} alt={`Photo ${i + 1}`} />
+                  {!analyzing && (
+                    <button className="scan-thumb-remove" onClick={() => removeUpload(i)}><X size={12} /></button>
+                  )}
+                  <span className="scan-thumb-num">{i + 1}</span>
                 </div>
+              ))}
+              {uploadImages.length < MAX_IMAGES && !analyzing && (
+                <button className="scan-thumb-add" onClick={() => fileInputRef.current?.click()}>
+                  <Plus size={20} />
+                </button>
               )}
             </div>
           )}
-          {apiError && !uploadAnalyzing && (
-            <div style={{ padding: '12px 16px', margin: '0 16px 12px', background: 'rgba(229,57,53,0.12)', borderRadius: 12, textAlign: 'center' }}>
-              <p style={{ color: '#E53935', fontSize: '0.85rem', fontWeight: 600, marginBottom: 4 }}>⚠ {apiError}</p>
-              <button className="btn btn-primary" style={{ marginTop: 8, fontSize: '0.85rem' }} onClick={analyzeUpload}>Retry</button>
+
+          {/* Drop zone (when no images) */}
+          {uploadImages.length === 0 && (
+            <div className="scan-upload-drop" onClick={() => fileInputRef.current?.click()}>
+              <ImageIcon size={48} strokeWidth={1.5} />
+              <h3>Select Photos</h3>
+              <p>Upload up to {MAX_IMAGES} images of the skin condition for better accuracy</p>
+              <span className="scan-upload-hint">JPG, PNG · Max 10 MB each</span>
             </div>
           )}
-          {uploadPreview && !uploadAnalyzing && !apiError && (
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleUpload}
+            style={{ display: 'none' }}
+          />
+
+          {/* Analyzing overlay */}
+          {analyzing && (
+            <div className="scan-analyzing-card">
+              <div className="scn-loading-spinner" />
+              <p style={{ fontWeight: 600, marginTop: 12 }}>{SCAN_METRICS[metricIdx]}</p>
+              <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 4 }}>Analyzing {uploadImages.length} image{uploadImages.length > 1 ? 's' : ''}…</p>
+            </div>
+          )}
+
+          {/* Error */}
+          {apiError && !analyzing && (
+            <div style={{ padding: '12px 16px', margin: '0 16px 12px', background: 'rgba(229,57,53,0.12)', borderRadius: 12, textAlign: 'center' }}>
+              <p style={{ color: '#E53935', fontSize: '0.85rem', fontWeight: 600, marginBottom: 4 }}>⚠ {apiError}</p>
+              <button className="btn btn-primary" style={{ marginTop: 8, fontSize: '0.85rem' }} onClick={() => runAnalysis(uploadImages)}>Retry</button>
+            </div>
+          )}
+
+          {/* Actions */}
+          {uploadImages.length > 0 && !analyzing && !apiError && (
             <div className="scan-upload-actions">
-              <button className="btn btn-outline" onClick={() => { setUploadPreview(null); setApiError(null); }}>
-                Choose Different
+              <button className="btn btn-outline" onClick={() => setUploadImages([])}>
+                Clear All
               </button>
-              <button className="btn btn-primary" onClick={analyzeUpload}>
-                Analyze Photo
+              <button className="btn btn-primary" onClick={() => runAnalysis(uploadImages)}>
+                Analyze {uploadImages.length} Photo{uploadImages.length > 1 ? 's' : ''}
               </button>
             </div>
           )}
@@ -374,26 +388,24 @@ export default function ScanPage() {
   }
 
   /* ============ CAMERA MODE ============ */
+  const isActive = capturedImages.length > 0 || phase === 'analyze' || phase === 'done';
+
   return (
     <div className="scn-page">
       <header className="scn-header">
-        <button className="scn-back" onClick={() => { setScanMode('choose'); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
+        <button className="scn-back" onClick={() => { setScanMode('choose'); setCapturedImages([]); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
         <div className="scn-brand"><Shield size={14} /> WBH SCAN</div>
-        <div className={`scn-badge ${phase === 'scan' ? 'live' : phase === 'done' ? 'done' : ''}`}>
-          {phase === 'scan' ? '● LIVE' : phase === 'done' ? '✓ DONE' : 'READY'}
+        <div className={`scn-badge ${phase === 'done' ? 'done' : capturedImages.length > 0 ? 'live' : ''}`}>
+          {phase === 'done' ? '✓ DONE' : `${capturedImages.length}/${MAX_IMAGES}`}
         </div>
       </header>
 
       <div className="scn-body">
         <div className="scn-viewport">
           <video ref={videoRef} className="scn-video" playsInline muted />
-          <div className={`scn-grid ${isActive ? 'on' : ''}`} />
-          <div className={`scn-oval ${phase === 'align' || phase === 'scan' ? 'detected' : ''} ${phase === 'done' ? 'complete' : ''}`}>
-            <i className="bk tl" /><i className="bk tr" /><i className="bk bl" /><i className="bk br" />
-            {phase === 'position' && <span className="oval-label">Place face here</span>}
-          </div>
-          {phase === 'scan' && <div className="scn-sweep" />}
-          {isActive && (
+
+          {/* Wireframe effect during analysis */}
+          {(phase === 'analyze' || phase === 'done') && (
             <div className="wire-layer">
               {WIREFRAME_POINTS.map((p, i) => (
                 <span key={i} className="wd" style={{ left: `${p.x}%`, top: `${p.y}%`, animationDelay: `${p.d}s` }} />
@@ -405,19 +417,24 @@ export default function ScanPage() {
               </svg>
             </div>
           )}
-          {(phase === 'analyze' || phase === 'done') && (
-            <>
-              <span className="dtag" style={{ top: '28%', left: '6%' }}>Acne Zone</span>
-              <span className="dtag" style={{ top: '52%', right: '4%', animationDelay: '0.5s' }}>Dark Spots</span>
-              <span className="dtag" style={{ top: '42%', left: '2%', animationDelay: '1s' }}>Dryness</span>
-            </>
+
+          {/* Analyzing overlay on camera */}
+          {phase === 'analyze' && (
+            <div className="scan-upload-overlay">
+              <div className="scn-loading-spinner" />
+              <p>{SCAN_METRICS[metricIdx]}</p>
+            </div>
           )}
+
+          {/* Camera loading */}
           {phase === 'init' && !cameraError && (
             <div className="scn-loading">
               <div className="scn-loading-spinner" />
               <p>Preparing camera…</p>
             </div>
           )}
+
+          {/* Camera error */}
           {cameraError && (
             <div className="scn-error">
               <p style={{ fontSize: '1.5rem', marginBottom: 8 }}>🔒</p>
@@ -426,40 +443,58 @@ export default function ScanPage() {
             </div>
           )}
         </div>
-
-        <aside className={`scn-data ${isActive ? 'on' : ''}`}>
-          <h4>SCAN DATA</h4>
-          {[
-            { label: 'Hydration', v: '72%' },
-            { label: 'Texture', v: '85%' },
-            { label: 'Barrier', v: '68%' },
-            { label: 'Clarity', v: '79%' },
-            { label: 'Elasticity', v: '81%' },
-          ].map(d => (
-            <div key={d.label} className="sd-row">
-              <span className="sd-label">{d.label}</span>
-              <span className="sd-val">{phase === 'done' ? d.v : phase === 'analyze' ? '...' : '—'}</span>
-              <div className="sd-bar"><div style={{ width: phase === 'done' ? d.v : '0%' }} /></div>
-            </div>
-          ))}
-        </aside>
       </div>
 
+      {/* Thumbnail strip */}
+      {capturedImages.length > 0 && !analyzing && (
+        <div className="scan-thumbs" style={{ padding: '0 16px', marginBottom: 8 }}>
+          {capturedImages.map((img, i) => (
+            <div key={i} className="scan-thumb">
+              <img src={img} alt={`Snap ${i + 1}`} />
+              <button className="scan-thumb-remove" onClick={() => removeCapture(i)}><X size={12} /></button>
+              <span className="scan-thumb-num">{i + 1}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       <footer className="scn-hud">
-        {metricText && <div className="scn-metric"><Activity size={13} /> {metricText}</div>}
+        {analyzing && <div className="scn-metric"><Activity size={13} /> {SCAN_METRICS[metricIdx]}</div>}
         <div className={`scn-status phase-${phase}`}>{statusText}</div>
-        {(phase === 'scan' || phase === 'analyze') && !apiError && (
-          <div className="scn-prog"><div className="scn-prog-fill" style={{ width: `${phase === 'analyze' ? 100 : progress}%` }} /></div>
-        )}
-        {apiError && phase === 'analyze' && (
+
+        {apiError && (
           <div style={{ padding: '10px 16px', margin: '8px 0', background: 'rgba(229,57,53,0.12)', borderRadius: 10, textAlign: 'center' }}>
             <p style={{ color: '#E53935', fontSize: '0.82rem', fontWeight: 600 }}>⚠ {apiError}</p>
-            <button onClick={() => { setApiError(null); setPhase('analyze'); }} style={{ marginTop: 8, padding: '6px 20px', borderRadius: 8, background: 'linear-gradient(135deg,#FC65D1,#00B4FA)', color: '#fff', border: 'none', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>Retry</button>
+            <button onClick={() => runAnalysis(capturedImages)} style={{ marginTop: 8, padding: '6px 20px', borderRadius: 8, background: 'linear-gradient(135deg,#FC65D1,#00B4FA)', color: '#fff', border: 'none', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>Retry</button>
           </div>
         )}
-        {phase === 'position' && (
+
+        {/* Camera controls */}
+        {phase === 'capture' && !analyzing && (
+          <div className="scan-camera-controls">
+            {capturedImages.length < MAX_IMAGES && (
+              <button className="scan-shutter-btn" onClick={takeSnapshot} aria-label="Take photo">
+                <span className="scan-shutter-inner" />
+              </button>
+            )}
+            {capturedImages.length > 0 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: 12, width: '100%' }}
+                onClick={() => {
+                  setPhase('analyze');
+                  runAnalysis(capturedImages);
+                }}
+              >
+                Analyze {capturedImages.length} Photo{capturedImages.length > 1 ? 's' : ''}
+              </button>
+            )}
+          </div>
+        )}
+
+        {phase === 'capture' && capturedImages.length === 0 && (
           <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', marginTop: 8 }}>
-            Ensure good lighting · Remove glasses · Look directly at camera
+            Take photos from different angles for better accuracy
           </p>
         )}
       </footer>
