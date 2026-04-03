@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Activity, Camera, Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { uploadScanImage } from '@/lib/supabase/storage';
 
 type ScanMode = 'choose' | 'camera' | 'upload';
 type Phase = 'init' | 'position' | 'capture' | 'review' | 'analyze' | 'done';
@@ -226,38 +225,71 @@ export default function ScanPage() {
         sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
       } catch { /* storage full */ }
 
-      // Upload images to Supabase Storage & save scan to DB
-      if (user) {
-        try {
+      // ── Save scan to Supabase (images + DB) ──────────────────────
+      // We re-fetch the session directly here so this always works
+      // even if the React auth context hasn't loaded yet.
+      try {
+        const { createClient: mkClient } = await import('@/lib/supabase/client');
+        const authClient = mkClient();
+        const { data: { user: loggedInUser } } = await authClient.auth.getUser();
+
+        if (!loggedInUser) {
+          console.warn('[Scan] User not logged in — skipping save');
+        } else {
           const scanId = crypto.randomUUID();
-          const storagePaths: string[] = [];
 
-          for (let i = 0; i < images.length; i++) {
-            const blob = dataURLtoBlob(images[i]);
-            const path = await uploadScanImage(user.id, scanId, blob, i);
-            storagePaths.push(path);
-          }
-
-          // Calculate health score from analysis
+          // Calculate health score
           const conditions = data.detected_conditions || [];
           const avgConfidence = conditions.length > 0
             ? conditions.reduce((sum: number, c: { confidence: number }) => sum + c.confidence, 0) / conditions.length
             : 0;
           const score = Math.max(0, Math.round(100 - avgConfidence));
 
-          await fetch('/api/scans', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              score,
-              analysis: data,
-              image_urls: storagePaths,
-            }),
-          });
-        } catch (err) {
-          console.error('Failed to save scan to DB:', err);
-          // Non-critical — analysis still works
+          // Step 1: Save the DB record FIRST (images are secondary)
+          const storagePaths: string[] = [];
+          let dbRes: Response;
+          try {
+            dbRes = await fetch('/api/scans', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ score, analysis: data, image_urls: storagePaths }),
+            });
+            if (!dbRes.ok) {
+              const err = await dbRes.json().catch(() => null);
+              console.error('[Scan] Failed to save scan record:', err);
+            } else {
+              console.log('[Scan] Scan record saved to DB ✓');
+            }
+          } catch (dbErr) {
+            console.error('[Scan] DB save threw:', dbErr);
+          }
+
+          // Step 2: Upload images (best-effort, won't block analysis)
+          for (let i = 0; i < images.length; i++) {
+            try {
+              const { uploadScanImage: upload } = await import('@/lib/supabase/storage');
+              const blob = dataURLtoBlob(images[i]);
+              const path = await upload(loggedInUser.id, scanId, blob, i);
+              storagePaths.push(path);
+              console.log(`[Scan] Image ${i} uploaded ✓`);
+            } catch (uploadErr) {
+              console.error(`[Scan] Image ${i} upload failed:`, uploadErr);
+            }
+          }
+
+          // Step 3: Update the DB record with image paths if any uploaded
+          if (storagePaths.length > 0) {
+            try {
+              await fetch('/api/scans', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scan_id_hint: scanId, image_urls: storagePaths }),
+              }).catch(() => null);
+            } catch { /* non-critical */ }
+          }
         }
+      } catch (saveErr) {
+        console.error('[Scan] Outer save block failed:', saveErr);
       }
 
       setPhase('done');

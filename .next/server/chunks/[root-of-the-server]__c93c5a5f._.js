@@ -155,7 +155,21 @@ async function GET() {
                 status: 500
             });
         }
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(data);
+        // Generate signed URLs so client can view private images
+        const scansWithUrls = await Promise.all(data.map(async (scan)=>{
+            const signedUrls = [];
+            if (scan.image_urls && scan.image_urls.length > 0) {
+                for (const path of scan.image_urls){
+                    const { data: urlData } = await supabase.storage.from('scans').createSignedUrl(path, 3600);
+                    if (urlData?.signedUrl) signedUrls.push(urlData.signedUrl);
+                }
+            }
+            return {
+                ...scan,
+                image_urls: signedUrls.length > 0 ? signedUrls : scan.image_urls
+            };
+        }));
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(scansWithUrls);
     } catch (err) {
         console.error('Scans GET error:', err);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
