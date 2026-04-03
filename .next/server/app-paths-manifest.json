@@ -1,5 +1,6 @@
 {
   "/(main)/analysis/page": "app/(main)/analysis/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(main)/scan/page": "app/(main)/scan/page.js",
   "/api/analyze/route": "app/api/analyze/route.js",
   "/api/recommend/route": "app/api/recommend/route.js"
