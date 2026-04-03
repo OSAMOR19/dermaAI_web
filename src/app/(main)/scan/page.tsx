@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Shield, Activity, Camera, Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
+import { ArrowLeft, Activity, Camera, Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { uploadScanImage } from '@/lib/supabase/storage';
 
@@ -282,7 +282,7 @@ export default function ScanPage() {
       <div className="scn-page">
         <header className="scn-header">
           <Link href="/dashboard" className="scn-back"><ArrowLeft size={20} /></Link>
-          <div className="scn-brand"><Shield size={14} /> WBH SCAN</div>
+          <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
           <div className="scn-badge">READY</div>
         </header>
         <div className="scan-choose">
@@ -311,7 +311,7 @@ export default function ScanPage() {
       <div className="scn-page">
         <header className="scn-header">
           <button className="scn-back" onClick={() => { setScanMode('choose'); setUploadImages([]); setAnalyzing(false); setApiError(null); }}><ArrowLeft size={20} /></button>
-          <div className="scn-brand"><Shield size={14} /> UPLOAD SCAN</div>
+          <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
           <div className="scn-badge">{analyzing ? '● ANALYZING' : `${uploadImages.length}/${MAX_IMAGES}`}</div>
         </header>
         <div className="scan-upload-body">
@@ -394,7 +394,7 @@ export default function ScanPage() {
     <div className="scn-page">
       <header className="scn-header">
         <button className="scn-back" onClick={() => { setScanMode('choose'); setCapturedImages([]); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
-        <div className="scn-brand"><Shield size={14} /> WBH SCAN</div>
+        <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
         <div className={`scn-badge ${phase === 'done' ? 'done' : capturedImages.length > 0 ? 'live' : ''}`}>
           {phase === 'done' ? '✓ DONE' : `${capturedImages.length}/${MAX_IMAGES}`}
         </div>
@@ -493,7 +493,7 @@ export default function ScanPage() {
         )}
 
         {phase === 'capture' && capturedImages.length === 0 && (
-          <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', marginTop: 8 }}>
+          <p style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', marginTop: 8 }}>
             Take photos from different angles for better accuracy
           </p>
         )}

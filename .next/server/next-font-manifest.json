@@ -1,21 +1,9 @@
 {
   "app": {
-    "[project]/src/app/(auth)/login/page": [
+    "[project]/src/app/(main)/analysis/page": [
       "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
     ],
-    "[project]/src/app/(auth)/signup/page": [
-      "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
-    ],
-    "[project]/src/app/(main)/dashboard/page": [
-      "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
-    ],
-    "[project]/src/app/(main)/profile/[slug]/page": [
-      "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
-    ],
-    "[project]/src/app/(main)/profile/page": [
-      "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
-    ],
-    "[project]/src/app/page": [
+    "[project]/src/app/(main)/scan/page": [
       "static/media/f06bf9da926bae75-s.p.c68a79fb.woff2"
     ]
   },

@@ -6,7 +6,7 @@ import {
   ArrowLeft, ScanLine, Download, Share2, Calendar,
   Sparkles, Sun, FlaskConical, Heart, Droplets,
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle2, Info,
-  ShieldAlert, Eye
+  ShieldAlert, Eye, ShoppingBag, ArrowRight
 } from 'lucide-react';
 
 /* ---- Types ---- */
@@ -24,6 +24,23 @@ interface GeminiAnalysis {
   recommendations: string[];
   warning_signs: string[];
   disclaimer: string;
+}
+
+interface RecommendedProduct {
+  id: string;
+  name: string;
+  category: string;
+  image: string;
+  link: string;
+  reason: string;
+}
+
+interface Recommendation {
+  issue: string;
+  skin_type: string;
+  summary: string;
+  routine: string[];
+  recommended_products: RecommendedProduct[];
 }
 
 /* ---- Helpers ---- */
@@ -114,6 +131,8 @@ export default function AnalysisPage() {
   const [scanTime, setScanTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+  const [recLoading, setRecLoading] = useState(false);
 
   /* Read analysis data from sessionStorage */
   useEffect(() => {
@@ -146,6 +165,30 @@ export default function AnalysisPage() {
       setLoading(false);
     }
   }, []);
+
+  /* Fetch product recommendations when analysis is loaded */
+  useEffect(() => {
+    if (!analysis) return;
+    const fetchRecs = async () => {
+      setRecLoading(true);
+      try {
+        const res = await fetch('/api/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(analysis),
+        });
+        if (res.ok) {
+          const data: Recommendation = await res.json();
+          setRecommendation(data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch recommendations:', err);
+      } finally {
+        setRecLoading(false);
+      }
+    };
+    fetchRecs();
+  }, [analysis]);
 
   const conditions = analysis?.detected_conditions || [];
   const circumference = 2 * Math.PI * 54;
@@ -381,6 +424,70 @@ export default function AnalysisPage() {
             })
           )}
         </div>
+      </section>
+
+      {/* ---- Recommended Products ---- */}
+      <section className="results-section">
+        <h2 className="section-label">
+          <ShoppingBag size={16} />
+          Recommended Products
+        </h2>
+
+        {recLoading ? (
+          <div className="prod-loading">
+            <div className="scn-loading-spinner" style={{ width: 28, height: 28 }} />
+            <p style={{ fontSize: '0.85rem', opacity: 0.5, marginTop: 10 }}>Finding the best products for your skin…</p>
+          </div>
+        ) : recommendation ? (
+          <>
+            {/* Summary */}
+            {recommendation.summary && (
+              <div className="prod-summary">
+                <Sparkles size={16} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                <p>{recommendation.summary}</p>
+              </div>
+            )}
+
+            {/* Routine Steps */}
+            {recommendation.routine.length > 0 && (
+              <div className="routine-steps">
+                {recommendation.routine.map((step, i) => (
+                  <div key={i} className="routine-step">
+                    <span className="routine-num">{i + 1}</span>
+                    <span className="routine-label">{step}</span>
+                    {i < recommendation.routine.length - 1 && <ArrowRight size={14} className="routine-arrow" />}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Product Cards */}
+            {recommendation.recommended_products.length > 0 ? (
+              <div className="prod-grid">
+                {recommendation.recommended_products.map((p) => (
+                  <div key={p.id} className="prod-card">
+                    <div className="prod-card-img">
+                      <ShoppingBag size={28} />
+                    </div>
+                    <div className="prod-card-body">
+                      <span className="prod-category">{p.category}</span>
+                      <h4 className="prod-name">{p.name}</h4>
+                      <p className="prod-reason">{p.reason}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
+                <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>No specific products matched. Check back after your next scan.</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
+            <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>Product recommendations will appear here after your scan.</p>
+          </div>
+        )}
       </section>
 
       {/* ---- Scan History ---- */}

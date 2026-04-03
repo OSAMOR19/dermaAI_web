@@ -1,0 +1,102 @@
+[
+  {
+    "id": "prod_001",
+    "name": "Gentle Foaming Cleanser",
+    "category": "cleanser",
+    "issues": ["acne", "oily skin", "combination skin"],
+    "ingredients": ["salicylic acid", "niacinamide", "ceramides"],
+    "keywords": ["acne cleanser", "gentle cleanser", "foaming cleanser", "oily skin cleanser"],
+    "image": "/images/products/cleanser.png",
+    "link": ""
+  },
+  {
+    "id": "prod_002",
+    "name": "Hydrating Cream Cleanser",
+    "category": "cleanser",
+    "issues": ["dry skin", "eczema", "sensitive skin", "dermatitis"],
+    "ingredients": ["hyaluronic acid", "ceramides", "glycerin"],
+    "keywords": ["hydrating cleanser", "cream cleanser", "dry skin cleanser", "gentle cleanser"],
+    "image": "/images/products/hydrating-cleanser.png",
+    "link": ""
+  },
+  {
+    "id": "prod_003",
+    "name": "Salicylic Acid Serum 2%",
+    "category": "serum",
+    "issues": ["acne", "oily skin", "combination skin"],
+    "ingredients": ["salicylic acid", "tea tree oil", "zinc"],
+    "keywords": ["acne serum", "salicylic acid", "BHA serum", "breakout treatment"],
+    "image": "/images/products/sa-serum.png",
+    "link": ""
+  },
+  {
+    "id": "prod_004",
+    "name": "Hyaluronic Acid Serum",
+    "category": "serum",
+    "issues": ["dry skin", "normal skin", "combination skin"],
+    "ingredients": ["hyaluronic acid", "vitamin B5", "aloe vera"],
+    "keywords": ["hydrating serum", "hyaluronic acid", "moisture serum", "dry skin serum"],
+    "image": "/images/products/ha-serum.png",
+    "link": ""
+  },
+  {
+    "id": "prod_005",
+    "name": "Niacinamide 10% + Zinc",
+    "category": "serum",
+    "issues": ["acne", "hyperpigmentation", "oily skin", "dark spots"],
+    "ingredients": ["niacinamide", "zinc PCA"],
+    "keywords": ["niacinamide serum", "dark spot serum", "pore minimizer", "oil control"],
+    "image": "/images/products/niacinamide.png",
+    "link": ""
+  },
+  {
+    "id": "prod_006",
+    "name": "Vitamin C Brightening Serum",
+    "category": "serum",
+    "issues": ["hyperpigmentation", "dark spots", "normal skin"],
+    "ingredients": ["vitamin C", "ferulic acid", "vitamin E"],
+    "keywords": ["vitamin C serum", "brightening serum", "dark spot treatment", "glow serum"],
+    "image": "/images/products/vitamin-c.png",
+    "link": ""
+  },
+  {
+    "id": "prod_007",
+    "name": "Oil-Free Moisturizer SPF 30",
+    "category": "moisturizer",
+    "issues": ["acne", "oily skin", "combination skin"],
+    "ingredients": ["niacinamide", "zinc oxide", "hyaluronic acid"],
+    "keywords": ["oil-free moisturizer", "lightweight moisturizer", "acne moisturizer", "SPF moisturizer"],
+    "image": "/images/products/oil-free-moisturizer.png",
+    "link": ""
+  },
+  {
+    "id": "prod_008",
+    "name": "Ceramide Repair Cream",
+    "category": "moisturizer",
+    "issues": ["dry skin", "eczema", "dermatitis", "sensitive skin"],
+    "ingredients": ["ceramides", "cholesterol", "fatty acids", "hyaluronic acid"],
+    "keywords": ["ceramide cream", "repair cream", "barrier cream", "dry skin moisturizer"],
+    "image": "/images/products/ceramide-cream.png",
+    "link": ""
+  },
+  {
+    "id": "prod_009",
+    "name": "Broad Spectrum SPF 50+ Sunscreen",
+    "category": "sunscreen",
+    "issues": ["acne", "hyperpigmentation", "dark spots", "normal skin", "dry skin", "oily skin", "rosacea"],
+    "keywords": ["sunscreen", "SPF 50", "sun protection", "broad spectrum"],
+    "ingredients": ["zinc oxide", "titanium dioxide", "niacinamide"],
+    "image": "/images/products/sunscreen.png",
+    "link": ""
+  },
+  {
+    "id": "prod_010",
+    "name": "Soothing Aloe Gel",
+    "category": "treatment",
+    "issues": ["rash", "rosacea", "dermatitis", "sensitive skin", "fungal infection"],
+    "ingredients": ["aloe vera", "centella asiatica", "allantoin"],
+    "keywords": ["soothing gel", "calming treatment", "redness relief", "irritation relief"],
+    "image": "/images/products/aloe-gel.png",
+    "link": ""
+  }
+]
