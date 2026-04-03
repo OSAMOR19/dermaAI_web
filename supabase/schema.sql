@@ -1,6 +1,7 @@
 -- ==========================================
 -- DermaAI Supabase Database Schema
 -- Run this in your Supabase SQL Editor
+-- (Safe to run multiple times)
 -- ==========================================
 
 -- 1. Create Profiles Table
@@ -18,6 +19,11 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies to prevent errors if running multiple times
+DROP POLICY IF EXISTS "Users can view their own profile." ON public.profiles;
+DROP POLICY IF EXISTS "Users can insert their own profile." ON public.profiles;
+DROP POLICY IF EXISTS "Users can update own profile." ON public.profiles;
 
 CREATE POLICY "Users can view their own profile."
   ON public.profiles FOR SELECT USING ( auth.uid() = id );
@@ -65,6 +71,11 @@ CREATE TABLE IF NOT EXISTS public.scans (
 
 ALTER TABLE public.scans ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view their own scans" ON public.scans;
+DROP POLICY IF EXISTS "Users can insert their own scans" ON public.scans;
+DROP POLICY IF EXISTS "Users can update their own scans" ON public.scans;
+DROP POLICY IF EXISTS "Users can delete their own scans" ON public.scans;
+
 CREATE POLICY "Users can view their own scans"
   ON public.scans FOR SELECT USING ( auth.uid() = user_id );
 
@@ -87,6 +98,10 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('avatars', 'avatars', true)
 ON CONFLICT (id) DO NOTHING;
 
+DROP POLICY IF EXISTS "Avatar images are publicly accessible." ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload an avatar." ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own avatar." ON storage.objects;
+
 CREATE POLICY "Avatar images are publicly accessible."
   ON storage.objects FOR SELECT USING ( bucket_id = 'avatars' );
 
@@ -103,6 +118,11 @@ CREATE POLICY "Users can update their own avatar."
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('scans', 'scans', false)
 ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Users can view their own scan images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can upload their own scan images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own scan images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own scan images" ON storage.objects;
 
 CREATE POLICY "Users can view their own scan images"
   ON storage.objects FOR SELECT

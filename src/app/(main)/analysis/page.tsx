@@ -274,7 +274,7 @@ export default function AnalysisPage() {
             <defs>
               <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#FC65D1" />
-                <stop offset="100%" stopColor="#00B4FA" />
+                <stop offset="100%" stopColor="#FC65D1" />
               </linearGradient>
             </defs>
             <circle cx="60" cy="60" r="54" className="score-ring-bg" />
