@@ -61,14 +61,30 @@ export default function DashboardPage() {
   const initials = firstName ? firstName[0].toUpperCase() : 'U';
   const [scanTime, setScanTime] = useState<string>('');
   const [scanImage, setScanImage] = useState<string | null>(null);
+  const [score, setScore] = useState<number | null>(null);
+  const [areas, setAreas] = useState<string[]>([]);
 
   useEffect(() => {
-    try {
-      const time = sessionStorage.getItem('wbh_scan_time');
-      const img = sessionStorage.getItem('wbh_scan_image');
-      setScanTime(formatRelativeTime(time));
-      if (img) setScanImage(img);
-    } catch { setScanTime('2 days ago'); }
+    const loadScan = async () => {
+      try {
+        const res = await fetch('/api/scans');
+        if (!res.ok) return;
+        const scans = await res.json();
+        if (scans && scans.length > 0) {
+          const latest = scans[0];
+          setScanTime(formatRelativeTime(latest.created_at));
+          if (latest.image_urls?.length) setScanImage(latest.image_urls[0]);
+          setScore(latest.score);
+          const conditions = latest.analysis?.detected_conditions?.map((c: any) => c.condition) || [];
+          setAreas(conditions.slice(0, 3));
+        } else {
+          setScanTime('No scans yet');
+        }
+      } catch {
+        // fetch fail fallback
+      }
+    };
+    loadScan();
   }, []);
 
   return (
@@ -93,33 +109,29 @@ export default function DashboardPage() {
       {/* Skin Health Score Card */}
       <div className="score-card">
         <div className="score-left">
-          <h3>Skin Health Score: 78/100</h3>
-          <p>Healthy, but some areas need attention.</p>
+          <h3>Skin Health Score: {score !== null ? `${score}/100` : '---'}</h3>
+          <p>{score === null ? 'Complete your first scan.' : score > 80 ? 'Looking great!' : 'Healthy, but some areas need attention.'}</p>
           <Link href="/scan" className="btn btn-white btn-sm">Scan Again</Link>
         </div>
         <div className="score-right">
-          <img src="/images/HomeImage.svg" alt="Facial scan" className="score-face-img" />
+          <img src={scanImage || "/images/HomeImage.svg"} style={scanImage ? { objectFit: 'cover' } : undefined} alt="Facial scan" className="score-face-img" />
         </div>
       </div>
 
       {/* Cards Grid */}
       <div className="cards-grid">
         {/* Areas Detected */}
-        <div className="card" style={{ background: 'linear-gradient(180deg, #fff 0%, rgba(0,180,250,0.06) 100%)' }}>
+        <div className="card" style={{ background: 'linear-gradient(180deg, #fff 0%, rgba(252,101,209,0.06) 100%)' }}>
           <div className="card-title">Areas Detected</div>
-          <div className="areas-row">
-            <div className="area-item">
-              <div className="area-dot red" />
-              <span className="area-label">Acne Zones</span>
-            </div>
-            <div className="area-item">
-              <div className="area-dot orange" />
-              <span className="area-label">Dark Spots</span>
-            </div>
-            <div className="area-item">
-              <div className="area-dot blue" />
-              <span className="area-label">Dryness Areas</span>
-            </div>
+          <div className="areas-row" style={{ flexWrap: 'wrap' }}>
+            {areas.length > 0 ? areas.map((area, i) => (
+              <div key={i} className="area-item">
+                <div className={`area-dot ${i === 0 ? 'red' : i === 1 ? 'orange' : 'blue'}`} />
+                <span className="area-label">{area}</span>
+              </div>
+            )) : (
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No concerns detected yet.</p>
+            )}
           </div>
         </div>
 
@@ -127,11 +139,11 @@ export default function DashboardPage() {
         <div className="card">
           <div className="recent-header">
             <div className="card-title" style={{ marginBottom: 0 }}>Recent Analysis</div>
-            <span className="recent-time"><Clock size={12} style={{ marginRight: 4, verticalAlign: -2 }} />{scanTime || '—'}</span>
+            <span className="recent-time"><Clock size={12} style={{ marginRight: 4, verticalAlign: -2 }} />{scanTime}</span>
           </div>
           <div className="recent-image">
             {scanImage ? (
-              <img src={scanImage} alt="Your last scan" />
+              <img src={scanImage} alt="Your last scan" style={{ objectFit: 'cover' }} />
             ) : (
               <RecentCarousel />
             )}

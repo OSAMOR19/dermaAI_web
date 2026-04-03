@@ -59,7 +59,19 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(data);
+    // Generate signed URLs so client can view private images
+    const scansWithUrls = await Promise.all(data.map(async (scan) => {
+      const signedUrls = [];
+      if (scan.image_urls && scan.image_urls.length > 0) {
+        for (const path of scan.image_urls) {
+          const { data: urlData } = await supabase.storage.from('scans').createSignedUrl(path, 3600);
+          if (urlData?.signedUrl) signedUrls.push(urlData.signedUrl);
+        }
+      }
+      return { ...scan, image_urls: signedUrls.length > 0 ? signedUrls : scan.image_urls };
+    }));
+
+    return NextResponse.json(scansWithUrls);
   } catch (err) {
     console.error('Scans GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

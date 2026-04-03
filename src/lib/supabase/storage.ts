@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/client';
 
-const BUCKET = 'scan-images';
+const BUCKET = 'scans';
 
 /**
  * Upload a scan image to Supabase Storage

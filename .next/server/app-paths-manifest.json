@@ -9,5 +9,6 @@
   "/(main)/scan/page": "app/(main)/scan/page.js",
   "/api/analyze/route": "app/api/analyze/route.js",
   "/api/recommend/route": "app/api/recommend/route.js",
+  "/api/scans/route": "app/api/scans/route.js",
   "/auth/callback/route": "app/auth/callback/route.js"
 }
