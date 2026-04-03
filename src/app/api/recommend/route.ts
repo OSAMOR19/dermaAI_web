@@ -4,12 +4,18 @@ import skinConcerns from '@/data/products.json';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
+interface ProductOption {
+  name: string;
+  image: string;
+  link: string;
+}
+
 interface SkinConcern {
   id: number;
   skinConcern: string;
   faceZone: string;
   treatmentSteps: string[];
-  products: string[];
+  products: ProductOption[];
   avoid: string[];
   whyItMatters: string;
 }
@@ -104,26 +110,26 @@ export async function POST(request: NextRequest) {
     const allConcerns = [...primary, ...secondary];
 
     // Step 2: Build product recommendations (max 6)
-    const recommendedProducts: string[] = [];
+    const recommendedProducts: ProductOption[] = [];
     const usedProducts = new Set<string>();
 
     // Primary concerns: up to 3 products each
     for (const concern of primary) {
-      const toAdd = concern.products.filter(p => !usedProducts.has(p)).slice(0, 3);
+      const toAdd = concern.products.filter(p => !usedProducts.has(p.name)).slice(0, 3);
       for (const p of toAdd) {
         if (recommendedProducts.length >= 6) break;
         recommendedProducts.push(p);
-        usedProducts.add(p);
+        usedProducts.add(p.name);
       }
     }
 
     // Secondary concerns: 1 product each
     for (const concern of secondary) {
       if (recommendedProducts.length >= 6) break;
-      const toAdd = concern.products.find(p => !usedProducts.has(p));
+      const toAdd = concern.products.find(p => !usedProducts.has(p.name));
       if (toAdd) {
         recommendedProducts.push(toAdd);
-        usedProducts.add(toAdd);
+        usedProducts.add(toAdd.name);
       }
     }
 
@@ -223,11 +229,13 @@ Write a SHORT, friendly, 2-sentence summary. Rules:
         morning: Array.from(morningSteps),
         evening: Array.from(eveningSteps),
       },
-      recommended_products: recommendedProducts.map(name => {
+      recommended_products: recommendedProducts.map(p => {
         // Find which concern this product belongs to
-        const parentConcern = allConcerns.find(c => c.products.includes(name));
+        const parentConcern = allConcerns.find(c => c.products.some(prod => prod.name === p.name));
         return {
-          name,
+          name: p.name,
+          image: p.image,
+          link: p.link,
           category: parentConcern?.treatmentSteps[0] || 'Treatment',
           reason: parentConcern ? `Targets ${parentConcern.skinConcern.toLowerCase()}` : 'Matched to your skin analysis',
         };

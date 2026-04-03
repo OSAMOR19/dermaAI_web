@@ -64,7 +64,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$head
 ;
 async function createClient() {
     const cookieStore = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["cookies"])();
-    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$ssr$2f$dist$2f$module$2f$createServerClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createServerClient"])(("TURBOPACK compile-time value", "https://jcsmhwefufwtaovsetjm.supabase.co"), ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjc21od2VmdWZ3dGFvdnNldGptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjUyODUsImV4cCI6MjA5MDE0MTI4NX0.CWpsy4p7_PdAziVxJA_g6IzrBUMcZk44yPNpc0GAmuI"), {
+    // Use dummy values during build to prevent static generation errors if env vars are missing
+    const supabaseUrl = ("TURBOPACK compile-time value", "https://jcsmhwefufwtaovsetjm.supabase.co") || 'https://placeholder.supabase.co';
+    const supabaseAnonKey = ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjc21od2VmdWZ3dGFvdnNldGptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NjUyODUsImV4cCI6MjA5MDE0MTI4NX0.CWpsy4p7_PdAziVxJA_g6IzrBUMcZk44yPNpc0GAmuI") || 'placeholder';
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$ssr$2f$dist$2f$module$2f$createServerClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createServerClient"])(supabaseUrl, supabaseAnonKey, {
         cookies: {
             getAll () {
                 return cookieStore.getAll();

@@ -29,6 +29,8 @@ interface GeminiAnalysis {
 interface RecommendedProduct {
   name: string;
   category: string;
+  image: string;
+  link: string;
   reason: string;
 }
 
@@ -484,16 +486,20 @@ export default function AnalysisPage() {
             {recommendation.recommended_products.length > 0 ? (
               <div className="prod-grid">
                 {recommendation.recommended_products.map((p, i) => (
-                  <div key={i} className="prod-card">
-                    <div className="prod-card-img">
-                      <ShoppingBag size={28} />
+                  <a key={i} href={p.link || '#'} target="_blank" rel="noopener noreferrer" className="prod-card" style={{ display: 'block', textDecoration: 'none' }}>
+                    <div className="prod-card-img" style={{ background: '#fff', overflow: 'hidden' }}>
+                      {p.image ? (
+                        <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      ) : (
+                        <ShoppingBag size={28} />
+                      )}
                     </div>
                     <div className="prod-card-body">
                       <span className="prod-category">{p.category}</span>
                       <h4 className="prod-name">{p.name}</h4>
                       <p className="prod-reason">{p.reason}</p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             ) : (
