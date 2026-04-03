@@ -52,7 +52,7 @@ module.exports = mod;
 }),
 "[project]/src/data/products.json (json)", ((__turbopack_context__) => {
 
-__turbopack_context__.v(JSON.parse("[{\"id\":\"prod_001\",\"name\":\"Gentle Foaming Cleanser\",\"category\":\"cleanser\",\"issues\":[\"acne\",\"oily skin\",\"combination skin\"],\"ingredients\":[\"salicylic acid\",\"niacinamide\",\"ceramides\"],\"keywords\":[\"acne cleanser\",\"gentle cleanser\",\"foaming cleanser\",\"oily skin cleanser\"],\"image\":\"/images/products/cleanser.png\",\"link\":\"\"},{\"id\":\"prod_002\",\"name\":\"Hydrating Cream Cleanser\",\"category\":\"cleanser\",\"issues\":[\"dry skin\",\"eczema\",\"sensitive skin\",\"dermatitis\"],\"ingredients\":[\"hyaluronic acid\",\"ceramides\",\"glycerin\"],\"keywords\":[\"hydrating cleanser\",\"cream cleanser\",\"dry skin cleanser\",\"gentle cleanser\"],\"image\":\"/images/products/hydrating-cleanser.png\",\"link\":\"\"},{\"id\":\"prod_003\",\"name\":\"Salicylic Acid Serum 2%\",\"category\":\"serum\",\"issues\":[\"acne\",\"oily skin\",\"combination skin\"],\"ingredients\":[\"salicylic acid\",\"tea tree oil\",\"zinc\"],\"keywords\":[\"acne serum\",\"salicylic acid\",\"BHA serum\",\"breakout treatment\"],\"image\":\"/images/products/sa-serum.png\",\"link\":\"\"},{\"id\":\"prod_004\",\"name\":\"Hyaluronic Acid Serum\",\"category\":\"serum\",\"issues\":[\"dry skin\",\"normal skin\",\"combination skin\"],\"ingredients\":[\"hyaluronic acid\",\"vitamin B5\",\"aloe vera\"],\"keywords\":[\"hydrating serum\",\"hyaluronic acid\",\"moisture serum\",\"dry skin serum\"],\"image\":\"/images/products/ha-serum.png\",\"link\":\"\"},{\"id\":\"prod_005\",\"name\":\"Niacinamide 10% + Zinc\",\"category\":\"serum\",\"issues\":[\"acne\",\"hyperpigmentation\",\"oily skin\",\"dark spots\"],\"ingredients\":[\"niacinamide\",\"zinc PCA\"],\"keywords\":[\"niacinamide serum\",\"dark spot serum\",\"pore minimizer\",\"oil control\"],\"image\":\"/images/products/niacinamide.png\",\"link\":\"\"},{\"id\":\"prod_006\",\"name\":\"Vitamin C Brightening Serum\",\"category\":\"serum\",\"issues\":[\"hyperpigmentation\",\"dark spots\",\"normal skin\"],\"ingredients\":[\"vitamin C\",\"ferulic acid\",\"vitamin E\"],\"keywords\":[\"vitamin C serum\",\"brightening serum\",\"dark spot treatment\",\"glow serum\"],\"image\":\"/images/products/vitamin-c.png\",\"link\":\"\"},{\"id\":\"prod_007\",\"name\":\"Oil-Free Moisturizer SPF 30\",\"category\":\"moisturizer\",\"issues\":[\"acne\",\"oily skin\",\"combination skin\"],\"ingredients\":[\"niacinamide\",\"zinc oxide\",\"hyaluronic acid\"],\"keywords\":[\"oil-free moisturizer\",\"lightweight moisturizer\",\"acne moisturizer\",\"SPF moisturizer\"],\"image\":\"/images/products/oil-free-moisturizer.png\",\"link\":\"\"},{\"id\":\"prod_008\",\"name\":\"Ceramide Repair Cream\",\"category\":\"moisturizer\",\"issues\":[\"dry skin\",\"eczema\",\"dermatitis\",\"sensitive skin\"],\"ingredients\":[\"ceramides\",\"cholesterol\",\"fatty acids\",\"hyaluronic acid\"],\"keywords\":[\"ceramide cream\",\"repair cream\",\"barrier cream\",\"dry skin moisturizer\"],\"image\":\"/images/products/ceramide-cream.png\",\"link\":\"\"},{\"id\":\"prod_009\",\"name\":\"Broad Spectrum SPF 50+ Sunscreen\",\"category\":\"sunscreen\",\"issues\":[\"acne\",\"hyperpigmentation\",\"dark spots\",\"normal skin\",\"dry skin\",\"oily skin\",\"rosacea\"],\"keywords\":[\"sunscreen\",\"SPF 50\",\"sun protection\",\"broad spectrum\"],\"ingredients\":[\"zinc oxide\",\"titanium dioxide\",\"niacinamide\"],\"image\":\"/images/products/sunscreen.png\",\"link\":\"\"},{\"id\":\"prod_010\",\"name\":\"Soothing Aloe Gel\",\"category\":\"treatment\",\"issues\":[\"rash\",\"rosacea\",\"dermatitis\",\"sensitive skin\",\"fungal infection\"],\"ingredients\":[\"aloe vera\",\"centella asiatica\",\"allantoin\"],\"keywords\":[\"soothing gel\",\"calming treatment\",\"redness relief\",\"irritation relief\"],\"image\":\"/images/products/aloe-gel.png\",\"link\":\"\"}]"));}),
+__turbopack_context__.v(JSON.parse("[{\"id\":1,\"skinConcern\":\"Post-Inflammatory Hyperpigmentation (PIH)\",\"faceZone\":\"Cheeks & Jaw\",\"treatmentSteps\":[\"Serum\",\"Moisturiser\",\"SPF\"],\"products\":[\"Axis-Y Dark Spot Correcting Serum\",\"Topicals Faded Serum\",\"Good Molecules Discoloration Serum\",\"Nineless MELA-PRO Tranexamic Acid\",\"Naturium Tranexamic Acid 5%\",\"The Ordinary Alpha Arbutin\",\"Bolden Dark Spot Fix\",\"Skin By Zaron Alpha-Arbutin Serum\"],\"avoid\":[\"Physical scrubs on active marks\",\"Hydroquinone long-term\",\"No SPF exposure\"],\"whyItMatters\":\"PIH is the #1 skin concern for melaninated skin. Dark marks can last months–years without targeted treatment. SPF daily is non-negotiable to prevent worsening.\"},{\"id\":2,\"skinConcern\":\"Active Acne\",\"faceZone\":\"Cheeks & Jaw, Forehead\",\"treatmentSteps\":[\"Cleanser\",\"Treatment\",\"Light Moisturiser\"],\"products\":[\"Panoxyl Foaming Wash 10%\",\"Panoxyl Acne Creamy Wash 4%\",\"Cosrx BHA Blackhead Power Liquid\",\"Skin By Zaron Acne Control Glow Wash\",\"Some By Mi Miracle Serum\",\"Differin 0.1% Adapalene Gel\",\"Zapzyt Acne Treatment Gel\",\"Cerave Acne Foaming Cream Cleanser\"],\"avoid\":[\"Picking spots\",\"Heavy comedogenic oils\",\"Fragrance on active acne\"],\"whyItMatters\":\"Acne on dark skin appears red-brown rather than pink. PIH is very likely without proper treatment. Early care prevents scarring.\"},{\"id\":3,\"skinConcern\":\"Uneven Skin Tone\",\"faceZone\":\"Full Face\",\"treatmentSteps\":[\"Gentle Cleanser\",\"Brightening Serum\",\"SPF\"],\"products\":[\"The Ordinary Alpha Arbutin\",\"Good Molecules Discoloration Serum\",\"Naturium Tranexamic Acid 5%\",\"Topicals Faded Serum\"],\"avoid\":[\"Harsh exfoliants\",\"Skipping sunscreen\"],\"whyItMatters\":\"Melanin distribution varies more in darker skin, leading to visible uneven tone.\"},{\"id\":4,\"skinConcern\":\"Dehydration\",\"faceZone\":\"Full Face\",\"treatmentSteps\":[\"Hydrating Cleanser\",\"Hydrating Serum\",\"Moisturiser\"],\"products\":[\"CeraVe Hydrating Cleanser\",\"The Ordinary Hyaluronic Acid 2% + B5\",\"Neutrogena Hydro Boost Gel Cream\",\"La Roche-Posay Toleriane Double Repair\"],\"avoid\":[\"Alcohol-based toners\",\"Over-washing face\",\"Hot water on face\"],\"whyItMatters\":\"Dehydrated dark skin often looks ashy or grey instead of flaky.\"},{\"id\":5,\"skinConcern\":\"Oily Skin\",\"faceZone\":\"T-Zone\",\"treatmentSteps\":[\"Foaming Cleanser\",\"Niacinamide Serum\",\"Gel Moisturiser\"],\"products\":[\"CeraVe Foaming Facial Cleanser\",\"The Ordinary Niacinamide 10% + Zinc 1%\",\"Neutrogena Oil-Free Moisture\",\"La Roche-Posay Effaclar Mat\"],\"avoid\":[\"Heavy creams\",\"Coconut oil on face\",\"Skipping moisturiser\"],\"whyItMatters\":\"Oiliness shows as orange-brown shine on darker skin tones.\"}]"));}),
 "[project]/src/app/api/recommend/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
@@ -66,40 +66,102 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$j
 ;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-const RECOMMEND_PROMPT = `You are a simple skincare assistant. You do NOT diagnose diseases.
-
-Given this skin analysis JSON, return product recommendations.
-
-Rules:
-- Explain in simple English (like talking to a beginner)
-- No medical terms or jargon
-- Keep summary under 2 sentences
-- Use phrases like "it looks like" or "this may be"
-- Do NOT say the user has a disease
-- Keywords should be product-friendly (e.g. "acne cleanser", "hydrating cream")
-- Routine should be simple (max 4 steps, short names)
-- Match products from the provided catalog based on the skin issues and keywords
-
-PRODUCT CATALOG:
-${JSON.stringify(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].map((p)=>({
-        id: p.id,
-        name: p.name,
-        category: p.category,
-        issues: p.issues,
-        keywords: p.keywords
-    })), null, 2)}
-
-Return STRICT JSON only, no extra text:
-
-{
-  "issue": "main skin concern in simple words",
-  "skin_type": "oily | dry | combination | normal | sensitive",
-  "summary": "friendly 1-2 sentence summary",
-  "routine": ["Step 1 name", "Step 2 name", "Step 3 name", "Step 4 name"],
-  "matched_product_ids": ["prod_001", "prod_003"]
+// Map Gemini-detected conditions to our dataset concern IDs
+function matchConcerns(analysis) {
+    const conditions = analysis.detected_conditions || [];
+    const primary = [];
+    const secondary = [];
+    const concernMap = {
+        'acne': [
+            2
+        ],
+        'hyperpigmentation': [
+            1,
+            3
+        ],
+        'dark spot': [
+            1
+        ],
+        'dark spots': [
+            1
+        ],
+        'pih': [
+            1
+        ],
+        'uneven': [
+            3
+        ],
+        'uneven skin tone': [
+            3
+        ],
+        'eczema': [
+            4
+        ],
+        'dermatitis': [
+            4
+        ],
+        'dry': [
+            4
+        ],
+        'dehydration': [
+            4
+        ],
+        'oily': [
+            5
+        ],
+        'rosacea': [
+            3
+        ],
+        'rash': [
+            4
+        ],
+        'fungal': [
+            2
+        ],
+        'psoriasis': [
+            4
+        ],
+        'normal': []
+    };
+    const matchedIds = new Set();
+    for (const c of conditions){
+        const name = c.condition.toLowerCase();
+        const severity = c.severity;
+        // Find matching concern IDs
+        let ids = [];
+        for (const [key, val] of Object.entries(concernMap)){
+            if (name.includes(key) || key.includes(name)) {
+                ids = [
+                    ...ids,
+                    ...val
+                ];
+            }
+        }
+        for (const id of ids){
+            if (matchedIds.has(id)) continue;
+            matchedIds.add(id);
+            const concern = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].find((sc)=>sc.id === id);
+            if (!concern) continue;
+            if (severity === 'high' || severity === 'moderate') {
+                primary.push(concern);
+            } else {
+                secondary.push(concern);
+            }
+        }
+    }
+    // If skin type suggests oiliness/dryness and not yet matched
+    const skinType = (analysis.skin_type_estimate || '').toLowerCase();
+    if (skinType.includes('oily') && !matchedIds.has(5)) {
+        secondary.push(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].find((sc)=>sc.id === 5));
+    }
+    if (skinType.includes('dry') && !matchedIds.has(4)) {
+        secondary.push(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].find((sc)=>sc.id === 4));
+    }
+    return {
+        primary,
+        secondary
+    };
 }
-
-Pick 3-5 products from the catalog that best match the detected conditions and skin type. Only use product IDs from the catalog.`;
 async function POST(request) {
     try {
         if (!GEMINI_API_KEY) {
@@ -117,115 +179,156 @@ async function POST(request) {
                 status: 400
             });
         }
-        const geminiResponse = await fetch(GEMINI_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [
-                    {
-                        parts: [
-                            {
-                                text: RECOMMEND_PROMPT
-                            },
-                            {
-                                text: `\n\nSKIN ANALYSIS:\n${JSON.stringify(analysis)}`
-                            }
-                        ]
-                    }
-                ],
-                generationConfig: {
-                    temperature: 0.3,
-                    maxOutputTokens: 1024,
-                    responseMimeType: 'application/json'
+        // Step 1: Match concerns from our dataset
+        const { primary, secondary } = matchConcerns(analysis);
+        const allConcerns = [
+            ...primary,
+            ...secondary
+        ];
+        // Step 2: Build product recommendations (max 6)
+        const recommendedProducts = [];
+        const usedProducts = new Set();
+        // Primary concerns: up to 3 products each
+        for (const concern of primary){
+            const toAdd = concern.products.filter((p)=>!usedProducts.has(p)).slice(0, 3);
+            for (const p of toAdd){
+                if (recommendedProducts.length >= 6) break;
+                recommendedProducts.push(p);
+                usedProducts.add(p);
+            }
+        }
+        // Secondary concerns: 1 product each
+        for (const concern of secondary){
+            if (recommendedProducts.length >= 6) break;
+            const toAdd = concern.products.find((p)=>!usedProducts.has(p));
+            if (toAdd) {
+                recommendedProducts.push(toAdd);
+                usedProducts.add(toAdd);
+            }
+        }
+        // Step 3: Build routine
+        const morningSteps = new Set();
+        const eveningSteps = new Set();
+        for (const concern of allConcerns){
+            for (const step of concern.treatmentSteps){
+                const s = step.toLowerCase();
+                if (s.includes('spf') || s.includes('sunscreen')) {
+                    morningSteps.add(step);
+                } else if (s.includes('cleanser')) {
+                    morningSteps.add(step);
+                    eveningSteps.add(step);
+                } else if (s.includes('treatment') || s.includes('serum')) {
+                    eveningSteps.add(step);
+                } else if (s.includes('moistur')) {
+                    morningSteps.add(step);
+                    eveningSteps.add(step);
+                } else {
+                    eveningSteps.add(step);
                 }
-            })
-        });
-        if (!geminiResponse.ok) {
-            const errText = await geminiResponse.text();
-            console.error('Gemini recommend error:', geminiResponse.status, errText);
-            if (geminiResponse.status === 429) {
-                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                    error: 'AI rate limit reached. Product recommendations will appear on your next scan.'
-                }, {
-                    status: 429
-                });
             }
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: `AI service error (${geminiResponse.status})`
-            }, {
-                status: 502
-            });
         }
-        const geminiData = await geminiResponse.json();
-        const textContent = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!textContent) {
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: 'AI returned an empty recommendation response'
-            }, {
-                status: 502
-            });
+        // Always add SPF morning if PIH or uneven tone
+        if (primary.some((c)=>c.id === 1 || c.id === 3) || secondary.some((c)=>c.id === 1 || c.id === 3)) {
+            morningSteps.add('SPF');
         }
-        let recommendation;
+        // Step 4: Collect avoid list
+        const avoidSet = new Set();
+        for (const concern of allConcerns){
+            for (const a of concern.avoid){
+                avoidSet.add(a);
+            }
+        }
+        // Step 5: Build a simple summary using Gemini (short, friendly)
+        let summary = '';
         try {
-            recommendation = JSON.parse(textContent);
+            const summaryPrompt = `You are a friendly skincare assistant for people with melanated (dark) skin.
+
+Given these skin concerns: ${primary.map((c)=>c.skinConcern).join(', ')}${secondary.length ? ` (and minor: ${secondary.map((c)=>c.skinConcern).join(', ')})` : ''}
+Skin type: ${analysis.skin_type_estimate || 'unknown'}
+
+Write a SHORT, friendly, 2-sentence summary. Rules:
+- Use simple English, no medical jargon
+- Say "it looks like" or "your skin shows signs of" — NEVER say "you have" a disease
+- Be encouraging and positive
+- Must be exactly 2 sentences, nothing else
+- Do NOT use markdown, bullet points, or formatting
+- Return ONLY the 2 sentences, no JSON, no quotes`;
+            const geminiRes = await fetch(GEMINI_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text: summaryPrompt
+                                }
+                            ]
+                        }
+                    ],
+                    generationConfig: {
+                        temperature: 0.4,
+                        maxOutputTokens: 200
+                    }
+                })
+            });
+            if (geminiRes.ok) {
+                const data = await geminiRes.json();
+                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (text) summary = text.trim().replace(/^["']|["']$/g, '');
+            }
         } catch  {
-            const jsonMatch = textContent.match(/```(?:json)?\s*([\s\S]*?)```/);
-            if (jsonMatch) {
-                recommendation = JSON.parse(jsonMatch[1].trim());
-            } else {
-                console.error('Failed to parse recommend JSON:', textContent);
-                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                    error: 'AI returned invalid recommendation format'
-                }, {
-                    status: 502
-                });
-            }
+            // Fallback summary
+            summary = `It looks like your skin shows signs of ${primary.map((c)=>c.skinConcern).join(' and ').toLowerCase()}. With the right routine and daily SPF, you can see real improvement.`;
         }
-        // Resolve product IDs to full product objects
-        const matchedIds = recommendation.matched_product_ids || [];
-        const recommended_products = matchedIds.map((id)=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].find((p)=>p.id === id)).filter(Boolean).map((p)=>({
-                id: p.id,
-                name: p.name,
-                category: p.category,
-                image: p.image,
-                link: p.link,
-                reason: ''
-            }));
-        // If Gemini didn't match enough, fallback to keyword matching
-        if (recommended_products.length < 3) {
-            const conditions = (analysis.detected_conditions || []).map((c)=>c.condition.toLowerCase());
-            const skinType = (analysis.skin_type_estimate || '').toLowerCase();
-            const fallbacks = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$products$2e$json__$28$json$29$__["default"].filter((p)=>!matchedIds.includes(p.id)).filter((p)=>p.issues.some((issue)=>conditions.some((c)=>issue.includes(c) || c.includes(issue))) || p.issues.some((issue)=>issue.includes(skinType))).slice(0, 5 - recommended_products.length);
-            for (const p of fallbacks){
-                recommended_products.push({
-                    id: p.id,
-                    name: p.name,
-                    category: p.category,
-                    image: p.image,
-                    link: p.link,
-                    reason: ''
-                });
-            }
-        }
-        // Generate short reasons per product category
-        const categoryReasons = {
-            cleanser: 'Helps keep your skin clean and fresh',
-            serum: 'Targets your specific skin concerns',
-            moisturizer: 'Keeps your skin hydrated and protected',
-            sunscreen: 'Protects against sun damage and dark spots',
-            treatment: 'Helps calm and soothe irritation'
-        };
-        for (const p of recommended_products){
-            p.reason = categoryReasons[p.category] || 'Matched to your skin analysis';
+        // If no concerns matched, provide a healthy-skin response
+        if (allConcerns.length === 0) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                issue: 'Healthy skin',
+                skin_type: analysis.skin_type_estimate || 'normal',
+                summary: 'Your skin looks healthy! Keep up your current routine and always wear SPF to maintain your glow.',
+                routine: {
+                    morning: [
+                        'Gentle Cleanser',
+                        'Moisturiser',
+                        'SPF'
+                    ],
+                    evening: [
+                        'Gentle Cleanser',
+                        'Moisturiser'
+                    ]
+                },
+                recommended_products: [],
+                avoid: [
+                    'Harsh scrubs',
+                    'Skipping sunscreen'
+                ],
+                primary_concerns: [],
+                secondary_concerns: []
+            });
         }
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            issue: recommendation.issue || '',
-            skin_type: recommendation.skin_type || '',
-            summary: recommendation.summary || '',
-            routine: recommendation.routine || [],
-            recommended_products
+            issue: primary.map((c)=>c.skinConcern).join(', ') || secondary.map((c)=>c.skinConcern).join(', '),
+            skin_type: analysis.skin_type_estimate || 'unknown',
+            summary,
+            routine: {
+                morning: Array.from(morningSteps),
+                evening: Array.from(eveningSteps)
+            },
+            recommended_products: recommendedProducts.map((name)=>{
+                // Find which concern this product belongs to
+                const parentConcern = allConcerns.find((c)=>c.products.includes(name));
+                return {
+                    name,
+                    category: parentConcern?.treatmentSteps[0] || 'Treatment',
+                    reason: parentConcern ? `Targets ${parentConcern.skinConcern.toLowerCase()}` : 'Matched to your skin analysis'
+                };
+            }),
+            avoid: Array.from(avoidSet),
+            primary_concerns: primary.map((c)=>c.skinConcern),
+            secondary_concerns: secondary.map((c)=>c.skinConcern)
         });
     } catch (error) {
         console.error('Recommend route error:', error);

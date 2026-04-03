@@ -27,11 +27,8 @@ interface GeminiAnalysis {
 }
 
 interface RecommendedProduct {
-  id: string;
   name: string;
   category: string;
-  image: string;
-  link: string;
   reason: string;
 }
 
@@ -39,8 +36,11 @@ interface Recommendation {
   issue: string;
   skin_type: string;
   summary: string;
-  routine: string[];
+  routine: { morning: string[]; evening: string[] };
   recommended_products: RecommendedProduct[];
+  avoid: string[];
+  primary_concerns: string[];
+  secondary_concerns: string[];
 }
 
 /* ---- Helpers ---- */
@@ -448,24 +448,43 @@ export default function AnalysisPage() {
               </div>
             )}
 
-            {/* Routine Steps */}
-            {recommendation.routine.length > 0 && (
-              <div className="routine-steps">
-                {recommendation.routine.map((step, i) => (
-                  <div key={i} className="routine-step">
-                    <span className="routine-num">{i + 1}</span>
-                    <span className="routine-label">{step}</span>
-                    {i < recommendation.routine.length - 1 && <ArrowRight size={14} className="routine-arrow" />}
+            {/* Morning & Evening Routine */}
+            {(recommendation.routine.morning?.length > 0 || recommendation.routine.evening?.length > 0) && (
+              <div className="routine-split">
+                {recommendation.routine.morning?.length > 0 && (
+                  <div className="routine-col">
+                    <h4 className="routine-heading"><Sun size={14} /> Morning</h4>
+                    <div className="routine-steps-col">
+                      {recommendation.routine.morning.map((step, i) => (
+                        <div key={i} className="routine-step">
+                          <span className="routine-num">{i + 1}</span>
+                          <span className="routine-label">{step}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                )}
+                {recommendation.routine.evening?.length > 0 && (
+                  <div className="routine-col">
+                    <h4 className="routine-heading"><Sparkles size={14} /> Evening</h4>
+                    <div className="routine-steps-col">
+                      {recommendation.routine.evening.map((step, i) => (
+                        <div key={i} className="routine-step">
+                          <span className="routine-num">{i + 1}</span>
+                          <span className="routine-label">{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Product Cards */}
             {recommendation.recommended_products.length > 0 ? (
               <div className="prod-grid">
-                {recommendation.recommended_products.map((p) => (
-                  <div key={p.id} className="prod-card">
+                {recommendation.recommended_products.map((p, i) => (
+                  <div key={i} className="prod-card">
                     <div className="prod-card-img">
                       <ShoppingBag size={28} />
                     </div>
@@ -480,6 +499,21 @@ export default function AnalysisPage() {
             ) : (
               <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
                 <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>No specific products matched. Check back after your next scan.</p>
+              </div>
+            )}
+
+            {/* Avoid List */}
+            {recommendation.avoid && recommendation.avoid.length > 0 && (
+              <div className="avoid-section">
+                <h4 className="avoid-heading">
+                  <AlertTriangle size={14} />
+                  Things to Avoid
+                </h4>
+                <ul className="avoid-list">
+                  {recommendation.avoid.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
               </div>
             )}
           </>
