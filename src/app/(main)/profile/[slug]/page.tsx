@@ -437,52 +437,106 @@ function PrivacySecurity() {
 
 /* ============================== SCAN HISTORY ============================== */
 function ScanHistory() {
-  const scans = [
-    { id: 1, date: 'Mar 13, 2026', time: '12:30 PM', score: 78, change: +3, conditions: ['Acne Vulgaris', 'Hyperpigmentation', 'Dehydration'] },
-    { id: 2, date: 'Mar 6, 2026', time: '9:15 AM', score: 75, change: +2, conditions: ['Acne Vulgaris', 'Dark Spots'] },
-    { id: 3, date: 'Feb 28, 2026', time: '2:45 PM', score: 73, change: -1, conditions: ['Acne Vulgaris', 'Dryness', 'Dark Spots'] },
-    { id: 4, date: 'Feb 20, 2026', time: '11:00 AM', score: 74, change: +4, conditions: ['Mild Acne', 'Dehydration'] },
-    { id: 5, date: 'Feb 12, 2026', time: '8:30 AM', score: 70, change: 0, conditions: ['Acne', 'Sensitivity'] },
-  ];
+  const [scans, setScans] = useState<{
+    id: string;
+    created_at: string;
+    score: number;
+    analysis: { detected_conditions?: { condition: string }[] } | null;
+  }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/scans');
+        if (!res.ok) throw new Error('Failed to load scans');
+        const data = await res.json();
+        setScans(data);
+      } catch (err) {
+        console.error(err);
+        setError('Could not load scan history. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
 
   return (
     <>
       <SubpageHeader title="Scan History" />
       <div className="subpage-body">
-        <div className="history-timeline">
-          {scans.map((scan, i) => (
-            <Link href="/analysis" key={scan.id} className="history-entry">
-              <div className="history-entry-dot">
-                <div className={`he-dot ${i === 0 ? 'current' : ''}`} />
-                {i < scans.length - 1 && <div className="he-line" />}
-              </div>
-              <div className="history-entry-content">
-                <div className="he-header">
-                  <div>
-                    <div className="he-date">{scan.date}</div>
-                    <div className="he-time">{scan.time}</div>
-                  </div>
-                  <div className="he-score-col">
-                    <div className="he-score">{scan.score}<span>/100</span></div>
-                    <div className={`he-change ${scan.change > 0 ? 'up' : scan.change < 0 ? 'down' : ''}`}>
-                      {scan.change > 0 ? <TrendingUp size={12} /> : scan.change < 0 ? <TrendingDown size={12} /> : null}
-                      {scan.change > 0 ? '+' : ''}{scan.change}
-                    </div>
-                  </div>
-                </div>
-                <div className="he-tags">
-                  {scan.conditions.map((c) => (
-                    <span key={c} className="he-tag">{c}</span>
-                  ))}
-                </div>
-              </div>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: 60 }}>
+            <Loader2 size={24} className="spin" style={{ color: 'var(--primary)' }} />
+          </div>
+        ) : error ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <AlertTriangle size={32} style={{ color: '#FF9800', marginBottom: 12 }} />
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{error}</p>
+          </div>
+        ) : scans.length === 0 ? (
+          <div className="no-data-state">
+            <ScanLine size={52} style={{ color: 'var(--primary)', opacity: 0.3, marginBottom: 16 }} />
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 8 }}>No Scans Yet</h3>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: 24, lineHeight: 1.6 }}>
+              Take your first AI skin scan to start tracking your skin health over time.
+            </p>
+            <Link href="/scan" className="btn btn-primary" style={{ display: 'inline-flex' }}>
+              Start Your First Scan
             </Link>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="history-timeline">
+            {scans.map((scan, i) => {
+              const prev = scans[i + 1];
+              const change = prev ? scan.score - prev.score : 0;
+              const d = new Date(scan.created_at);
+              const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+              const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+              const conditions = scan.analysis?.detected_conditions?.map(c => c.condition) || [];
+
+              return (
+                <Link href="/analysis" key={scan.id} className="history-entry">
+                  <div className="history-entry-dot">
+                    <div className={`he-dot ${i === 0 ? 'current' : ''}`} />
+                    {i < scans.length - 1 && <div className="he-line" />}
+                  </div>
+                  <div className="history-entry-content">
+                    <div className="he-header">
+                      <div>
+                        <div className="he-date">{dateStr}</div>
+                        <div className="he-time">{timeStr}</div>
+                      </div>
+                      <div className="he-score-col">
+                        <div className="he-score">{scan.score}<span>/100</span></div>
+                        {prev && (
+                          <div className={`he-change ${change > 0 ? 'up' : change < 0 ? 'down' : ''}`}>
+                            {change > 0 ? <TrendingUp size={12} /> : change < 0 ? <TrendingDown size={12} /> : null}
+                            {change > 0 ? '+' : ''}{change}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {conditions.length > 0 && (
+                      <div className="he-tags">
+                        {conditions.slice(0, 3).map((c) => (
+                          <span key={c} className="he-tag">{c}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );
 }
+
 
 /* ============================== HELP CENTER ============================== */
 function HelpCenter() {

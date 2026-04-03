@@ -3044,6 +3044,15 @@ p {
   line-height: 1.5;
 }
 
+.no-data-state {
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+  display: flex;
+}
+
 .results-actions {
   z-index: 50;
   -webkit-backdrop-filter: blur(16px);

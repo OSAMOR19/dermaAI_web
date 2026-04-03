@@ -212,21 +212,24 @@ export default function AnalysisPage() {
   /* ---- No data fallback ---- */
   if (noData) {
     return (
-      <div className="results-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-        <div style={{ textAlign: 'center', padding: '0 24px' }}>
-          <ScanLine size={48} style={{ opacity: 0.3, marginBottom: 16 }} />
-          <h2 style={{ fontSize: '1.2rem', marginBottom: 8 }}>No Analysis Data</h2>
-          <p style={{ opacity: 0.6, marginBottom: 20, fontSize: '0.9rem' }}>
-            It looks like you haven&apos;t scanned yet. Take a scan first to see your results.
+      <div className="results-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '85vh' }}>
+        <div style={{ textAlign: 'center', padding: '0 32px', maxWidth: 360 }}>
+          <div style={{ width: 100, height: 100, borderRadius: '50%', background: 'rgba(252,101,209,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+            <ScanLine size={48} style={{ color: 'var(--primary)' }} />
+          </div>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 12, color: 'var(--text)' }}>No Analysis Data</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 32, fontSize: '0.95rem', lineHeight: 1.65 }}>
+            It looks like you haven&apos;t scanned yet. Take a scan first to see your personalised skin analysis and product recommendations.
           </p>
-          <Link href="/scan" className="action-btn primary" style={{ display: 'inline-flex' }}>
-            <ScanLine size={18} />
-            <span>Start Scan</span>
+          <Link href="/scan" className="btn btn-primary btn-lg btn-block">
+            <ScanLine size={20} />
+            Start Scan
           </Link>
         </div>
       </div>
     );
   }
+
 
   return (
     <div className="results-page">

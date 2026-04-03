@@ -5,14 +5,14 @@
     "faceZone": "Cheeks & Jaw",
     "treatmentSteps": ["Serum", "Moisturiser", "SPF"],
     "products": [
-      {"name": "Axis-Y Dark Spot Correcting Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Axis-y-Dark-Spot-Correcting-Glow-Serum.jpg", "link": "https://www.wbhskin.com/product/axis-y-dark-spot-correcting-glow-serum"},
-      {"name": "Topicals Faded Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Faded-Topicals-Serum-for-Dark-Spots-Discoloration.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Good Molecules Discoloration Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Good-Molecules-Discoloration-Correcting-Serum.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Nineless MELA-PRO Tranexamic Acid", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Naturium Tranexamic Acid 5%", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "The Ordinary Alpha Arbutin", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/The-Ordinary-Alpha-Arbutin-2-HA.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Bolden Dark Spot Fix", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Skin By Zaron Alpha-Arbutin Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"}
+      {"name": "Axis-Y Dark Spot Correcting Serum", "image": "https://images.squarespace-cdn.com/content/v1/5f8c6e3a4af9c02c1c7a1c1c/axis-y-dark-spot.jpg", "link": "https://wholesalebeautyhub.com/search?q=axis+y+dark+spot+correcting+serum"},
+      {"name": "Topicals Faded Serum", "image": "https://images.squarespace-cdn.com/content/v1/5f8c6e3a4af9c02c1c7a1c1c/topicals-faded.jpg", "link": "https://wholesalebeautyhub.com/search?q=topicals+faded+serum"},
+      {"name": "Good Molecules Discoloration Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=good+molecules+discoloration+serum"},
+      {"name": "Nineless MELA-PRO Tranexamic Acid", "image": "", "link": "https://wholesalebeautyhub.com/search?q=nineless+mela+pro+tranexamic+acid"},
+      {"name": "Naturium Tranexamic Acid 5%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=naturium+tranexamic+acid"},
+      {"name": "The Ordinary Alpha Arbutin", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+alpha+arbutin"},
+      {"name": "Bolden Dark Spot Fix", "image": "", "link": "https://wholesalebeautyhub.com/search?q=bolden+dark+spot+fix"},
+      {"name": "Skin By Zaron Alpha-Arbutin Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=skin+by+zaron+alpha+arbutin"}
     ],
     "avoid": [
       "Physical scrubs on active marks",
@@ -27,14 +27,14 @@
     "faceZone": "Cheeks & Jaw, Forehead",
     "treatmentSteps": ["Cleanser", "Treatment", "Light Moisturiser"],
     "products": [
-      {"name": "Panoxyl Foaming Wash 10%", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Panoxyl Acne Creamy Wash 4%", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Cosrx BHA Blackhead Power Liquid", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Cosrx-BHA-Blackhead-Power-Liquid.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Skin By Zaron Acne Control Glow Wash", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Some By Mi Miracle Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Differin 0.1% Adapalene Gel", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Differin-Adapalene-Gel-0.1-Acne-Treatment.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Zapzyt Acne Treatment Gel", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Cerave Acne Foaming Cream Cleanser", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Cerave-Acne-Foaming-Cream-Cleanser.jpg", "link": "https://www.wbhskin.com/"}
+      {"name": "Panoxyl Foaming Wash 10%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=panoxyl+foaming+wash"},
+      {"name": "Panoxyl Acne Creamy Wash 4%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=panoxyl+creamy+wash"},
+      {"name": "Cosrx BHA Blackhead Power Liquid", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cosrx+bha+blackhead"},
+      {"name": "Skin By Zaron Acne Control Glow Wash", "image": "", "link": "https://wholesalebeautyhub.com/search?q=skin+by+zaron+acne+control"},
+      {"name": "Some By Mi Miracle Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=some+by+mi+miracle+serum"},
+      {"name": "Differin 0.1% Adapalene Gel", "image": "", "link": "https://wholesalebeautyhub.com/search?q=differin+adapalene"},
+      {"name": "Zapzyt Acne Treatment Gel", "image": "", "link": "https://wholesalebeautyhub.com/search?q=zapzyt+acne+treatment"},
+      {"name": "Cerave Acne Foaming Cream Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+acne+foaming+cleanser"}
     ],
     "avoid": [
       "Picking spots",
@@ -49,10 +49,10 @@
     "faceZone": "Full Face",
     "treatmentSteps": ["Gentle Cleanser", "Brightening Serum", "SPF"],
     "products": [
-      {"name": "The Ordinary Alpha Arbutin", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/The-Ordinary-Alpha-Arbutin-2-HA.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Good Molecules Discoloration Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Good-Molecules-Discoloration-Correcting-Serum.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Naturium Tranexamic Acid 5%", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Topicals Faded Serum", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Faded-Topicals-Serum-for-Dark-Spots-Discoloration.jpg", "link": "https://www.wbhskin.com/"}
+      {"name": "The Ordinary Alpha Arbutin", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+alpha+arbutin"},
+      {"name": "Good Molecules Discoloration Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=good+molecules+discoloration+serum"},
+      {"name": "Naturium Tranexamic Acid 5%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=naturium+tranexamic+acid"},
+      {"name": "Topicals Faded Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=topicals+faded+serum"}
     ],
     "avoid": [
       "Harsh exfoliants",
@@ -66,10 +66,10 @@
     "faceZone": "Full Face",
     "treatmentSteps": ["Hydrating Cleanser", "Hydrating Serum", "Moisturiser"],
     "products": [
-      {"name": "CeraVe Hydrating Cleanser", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Cerave-Hydrating-Facial-Cleanser.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "The Ordinary Hyaluronic Acid 2% + B5", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/The-Ordinary-Hyaluronic-Acid-2-B5.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Neutrogena Hydro Boost Gel Cream", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "La Roche-Posay Toleriane Double Repair", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/La-Roche-Posay-Toleriane-Double-Repair-Face-Moisturizer.jpg", "link": "https://www.wbhskin.com/"}
+      {"name": "CeraVe Hydrating Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+hydrating+cleanser"},
+      {"name": "The Ordinary Hyaluronic Acid 2% + B5", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+hyaluronic+acid"},
+      {"name": "Neutrogena Hydro Boost Gel Cream", "image": "", "link": "https://wholesalebeautyhub.com/search?q=neutrogena+hydro+boost"},
+      {"name": "La Roche-Posay Toleriane Double Repair", "image": "", "link": "https://wholesalebeautyhub.com/search?q=la+roche+posay+toleriane+double+repair"}
     ],
     "avoid": [
       "Alcohol-based toners",
@@ -84,10 +84,10 @@
     "faceZone": "T-Zone",
     "treatmentSteps": ["Foaming Cleanser", "Niacinamide Serum", "Gel Moisturiser"],
     "products": [
-      {"name": "CeraVe Foaming Facial Cleanser", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Cerave-Foaming-Facial-Cleanser.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "The Ordinary Niacinamide 10% + Zinc 1%", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/The-Ordinary-Niacinamide-10-Zinc-1.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "Neutrogena Oil-Free Moisture", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/Placeholder.jpg", "link": "https://www.wbhskin.com/"},
-      {"name": "La Roche-Posay Effaclar Mat", "image": "https://www.wbhskin.com/wp-content/uploads/2023/10/La-Roche-Posay-Effaclar-Mat.jpg", "link": "https://www.wbhskin.com/"}
+      {"name": "CeraVe Foaming Facial Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+foaming+facial+cleanser"},
+      {"name": "The Ordinary Niacinamide 10% + Zinc 1%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+niacinamide+zinc"},
+      {"name": "Neutrogena Oil-Free Moisture", "image": "", "link": "https://wholesalebeautyhub.com/search?q=neutrogena+oil+free+moisture"},
+      {"name": "La Roche-Posay Effaclar Mat", "image": "", "link": "https://wholesalebeautyhub.com/search?q=la+roche+posay+effaclar+mat"}
     ],
     "avoid": [
       "Heavy creams",
