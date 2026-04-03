@@ -26,9 +26,13 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Refresh session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch (error) {
+    console.error('Supabase middleware auth error:', error);
+  }
 
   // Redirect unauthenticated users away from protected routes
   const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||

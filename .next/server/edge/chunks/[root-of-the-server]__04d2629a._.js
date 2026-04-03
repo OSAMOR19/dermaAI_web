@@ -43,7 +43,13 @@ async function updateSession(request) {
         }
     });
     // Refresh session if expired
-    const { data: { user } } = await supabase.auth.getUser();
+    let user = null;
+    try {
+        const { data } = await supabase.auth.getUser();
+        user = data.user;
+    } catch (error) {
+        console.error('Supabase middleware auth error:', error);
+    }
     // Redirect unauthenticated users away from protected routes
     const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/forgot-password') || request.nextUrl.pathname.startsWith('/reset-password') || request.nextUrl.pathname.startsWith('/auth/');
     const isPublicPage = request.nextUrl.pathname === '/' || isAuthPage;
