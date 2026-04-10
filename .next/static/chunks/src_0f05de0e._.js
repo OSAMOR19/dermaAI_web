@@ -54,7 +54,7 @@ function ForgotPasswordPage() {
         setError('');
         setLoading(true);
         const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-            redirectTo: "".concat(window.location.origin, "/reset-password")
+            redirectTo: "".concat(window.location.origin, "/auth/callback?next=/reset-password")
         });
         if (resetError) {
             setError(resetError.message);

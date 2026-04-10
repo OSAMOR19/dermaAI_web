@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Lock, Eye, EyeOff, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Lock, Eye, EyeOff, Loader2, CheckCircle2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function ResetPasswordPage() {
@@ -11,36 +11,10 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [verifying, setVerifying] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const supabase = createClient();
-
-  useEffect(() => {
-    const tokenHash = searchParams.get('token_hash');
-    const type = searchParams.get('type');
-
-    if (tokenHash && type === 'recovery') {
-      // Exchange the token hash for a valid session
-      supabase.auth.verifyOtp({ token_hash: tokenHash, type: 'recovery' }).then(({ error }) => {
-        if (error) {
-          setError('This reset link is invalid or has expired. Please request a new one.');
-        }
-        setVerifying(false);
-      });
-    } else {
-      // No token provided — user may have arrived here directly
-      // Check if they already have an active recovery session
-      supabase.auth.getSession().then(({ data }) => {
-        if (!data.session) {
-          setError('No reset token found. Please use the link from your email.');
-        }
-        setVerifying(false);
-      });
-    }
-  }, []);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,21 +44,6 @@ export default function ResetPasswordPage() {
     setTimeout(() => router.push('/dashboard'), 2500);
   };
 
-  if (verifying) {
-    return (
-      <div className="auth-page">
-        <div className="auth-container">
-          <div className="auth-header">
-            <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
-            <Loader2 size={40} className="spin" style={{ color: 'var(--primary)', marginBottom: 8 }} />
-            <h1>Verifying Link…</h1>
-            <p>Please wait while we verify your reset link.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (success) {
     return (
       <div className="auth-page">
@@ -94,26 +53,6 @@ export default function ResetPasswordPage() {
             <CheckCircle2 size={48} style={{ color: 'var(--green)', marginBottom: 8 }} />
             <h1>Password Updated</h1>
             <p>Your password has been successfully reset. Redirecting you to the dashboard…</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error && !password) {
-    return (
-      <div className="auth-page">
-        <div className="auth-container">
-          <div className="auth-header">
-            <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
-            <AlertCircle size={48} style={{ color: 'var(--error, #ef4444)', marginBottom: 8 }} />
-            <h1>Link Expired</h1>
-            <p>{error}</p>
-          </div>
-          <div className="auth-form" style={{ textAlign: 'center' }}>
-            <button className="btn btn-primary btn-block" onClick={() => router.push('/forgot-password')}>
-              Request New Reset Link
-            </button>
           </div>
         </div>
       </div>
