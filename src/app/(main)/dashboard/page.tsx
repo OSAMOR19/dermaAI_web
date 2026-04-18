@@ -80,19 +80,18 @@ export default function DashboardPage() {
   return (
     <div className="dashboard">
       {/* Header */}
-      <div className="dash-header">
-        <div className="dash-header-left">
-          <div className="dash-avatar">
-            <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
+      <div className="dash-header" style={{ alignItems: 'center', paddingBottom: 12 }}>
+        <div className="dash-header-left" style={{ alignItems: 'center', gap: 12 }}>
+          <div className="dash-avatar" style={{ width: 44, height: 44 }}>
+            <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
           </div>
-          <div>
-            <div className="dash-greeting">Hi{firstName ? `, ${firstName}` : ''} 👋</div>
-            <div className="dash-subgreeting">Here&apos;s your skin update for today.</div>
+          <div className="dash-greeting" style={{ fontSize: '1.25rem', marginBottom: 0, fontWeight: 800 }}>
+            Hi{firstName ? `, ${firstName}` : ''} <span style={{display:'inline-block'}}>👋</span>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <Link href="/profile/notifications" className="icon-btn"><Bell size={20} /></Link>
-          <Link href="/scan" className="icon-btn"><ScanLine size={20} /></Link>
+          <Link href="/profile/notifications" className="icon-btn" style={{ width: 44, height: 44, background: '#fff', boxShadow: '0 4px 14px rgba(0,0,0,0.03)' }}><Bell size={20} color="#555" /></Link>
+          <Link href="/scan" className="icon-btn" style={{ width: 44, height: 44, background: '#fff', boxShadow: '0 4px 14px rgba(0,0,0,0.03)' }}><ScanLine size={20} color="#555" /></Link>
         </div>
       </div>
 
@@ -140,8 +139,9 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-
-
+      
+      {/* Layout Spacer for Bottom Nav */}
+      <div style={{ height: 120 }}></div>
     </div>
   );
 }

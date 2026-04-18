@@ -1820,6 +1820,21 @@ _c6 = PrivacySecurity;
             load();
         }
     }["ScanHistory.useEffect"], []);
+    const openAnalysis = (scan)=>{
+        try {
+            if (scan.analysis) {
+                var _scan_image_urls;
+                sessionStorage.setItem('wbh_analysis', JSON.stringify(scan.analysis));
+                sessionStorage.setItem('wbh_scan_image', ((_scan_image_urls = scan.image_urls) === null || _scan_image_urls === void 0 ? void 0 : _scan_image_urls[0]) || '');
+                sessionStorage.setItem('wbh_scan_time', scan.created_at);
+                window.location.href = '/analysis';
+            } else {
+                alert('Analysis details not found for this scan.');
+            }
+        } catch (e) {
+            alert('Could not open history.');
+        }
+    };
     const confirmDelete = async ()=>{
         if (!deletingId) return;
         const isAll = deletingId === 'all';
@@ -1852,7 +1867,7 @@ _c6 = PrivacySecurity;
                 title: "Scan History"
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                lineNumber: 502,
+                lineNumber: 517,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1871,12 +1886,12 @@ _c6 = PrivacySecurity;
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                        lineNumber: 506,
+                        lineNumber: 521,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 505,
+                    lineNumber: 520,
                     columnNumber: 11
                 }, this) : error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
@@ -1892,7 +1907,7 @@ _c6 = PrivacySecurity;
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 510,
+                            lineNumber: 525,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1903,13 +1918,13 @@ _c6 = PrivacySecurity;
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 511,
+                            lineNumber: 526,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 509,
+                    lineNumber: 524,
                     columnNumber: 11
                 }, this) : scans.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "no-data-state",
@@ -1923,7 +1938,7 @@ _c6 = PrivacySecurity;
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 515,
+                            lineNumber: 530,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1935,7 +1950,7 @@ _c6 = PrivacySecurity;
                             children: "No Scans Yet"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 516,
+                            lineNumber: 531,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1948,7 +1963,7 @@ _c6 = PrivacySecurity;
                             children: "Take your first AI skin scan to start tracking your skin health over time."
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 517,
+                            lineNumber: 532,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1960,13 +1975,13 @@ _c6 = PrivacySecurity;
                             children: "Start Your First Scan"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 520,
+                            lineNumber: 535,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 514,
+                    lineNumber: 529,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "history-timeline",
@@ -1995,19 +2010,19 @@ _c6 = PrivacySecurity;
                                         size: 14
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 530,
+                                        lineNumber: 545,
                                         columnNumber: 17
                                     }, this),
                                     " Clear All History"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 527,
+                                lineNumber: 542,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 526,
+                            lineNumber: 541,
                             columnNumber: 13
                         }, this),
                         scans.map((scan, i)=>{
@@ -2035,31 +2050,36 @@ _c6 = PrivacySecurity;
                                                 className: "he-dot ".concat(i === 0 ? 'current' : '')
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 544,
+                                                lineNumber: 559,
                                                 columnNumber: 21
                                             }, this),
                                             i < scans.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "he-line"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 545,
+                                                lineNumber: 560,
                                                 columnNumber: 46
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 543,
+                                        lineNumber: 558,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "history-entry-content",
                                         style: {
                                             width: '100%',
-                                            position: 'relative'
+                                            position: 'relative',
+                                            cursor: 'pointer'
                                         },
+                                        onClick: ()=>openAnalysis(scan),
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                onClick: ()=>setDeletingId(scan.id),
+                                                onClick: (e)=>{
+                                                    e.stopPropagation();
+                                                    setDeletingId(scan.id);
+                                                },
                                                 style: {
                                                     position: 'absolute',
                                                     top: 8,
@@ -2078,12 +2098,12 @@ _c6 = PrivacySecurity;
                                                     size: 16
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                    lineNumber: 552,
+                                                    lineNumber: 567,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 548,
+                                                lineNumber: 563,
                                                 columnNumber: 21
                                             }, this),
                                             scan.image_urls && scan.image_urls.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2104,12 +2124,12 @@ _c6 = PrivacySecurity;
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                    lineNumber: 556,
+                                                    lineNumber: 571,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 555,
+                                                lineNumber: 570,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2121,7 +2141,7 @@ _c6 = PrivacySecurity;
                                                             children: dateStr
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                            lineNumber: 561,
+                                                            lineNumber: 576,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2129,18 +2149,18 @@ _c6 = PrivacySecurity;
                                                             children: timeStr
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                            lineNumber: 562,
+                                                            lineNumber: 577,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                    lineNumber: 560,
+                                                    lineNumber: 575,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 559,
+                                                lineNumber: 574,
                                                 columnNumber: 21
                                             }, this),
                                             conditions.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2150,36 +2170,36 @@ _c6 = PrivacySecurity;
                                                         children: c
                                                     }, c, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 568,
+                                                        lineNumber: 583,
                                                         columnNumber: 27
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 566,
+                                                lineNumber: 581,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 547,
+                                        lineNumber: 562,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, scan.id, true, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 542,
+                                lineNumber: 557,
                                 columnNumber: 17
                             }, this);
                         })
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 525,
+                    lineNumber: 540,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                lineNumber: 503,
+                lineNumber: 518,
                 columnNumber: 7
             }, this),
             deletingId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2223,12 +2243,12 @@ _c6 = PrivacySecurity;
                                 size: 24
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 585,
+                                lineNumber: 600,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 584,
+                            lineNumber: 599,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2241,7 +2261,7 @@ _c6 = PrivacySecurity;
                             children: deletingId === 'all' ? 'Clear All History?' : 'Delete Scan?'
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 587,
+                            lineNumber: 602,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2254,7 +2274,7 @@ _c6 = PrivacySecurity;
                             children: deletingId === 'all' ? 'This action will permanently delete all your skin scans and their insights from the cloud. This cannot be undone.' : 'This action will permanently delete this individual scan from your records. This cannot be undone.'
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 590,
+                            lineNumber: 605,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2278,7 +2298,7 @@ _c6 = PrivacySecurity;
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                    lineNumber: 596,
+                                    lineNumber: 611,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2296,24 +2316,24 @@ _c6 = PrivacySecurity;
                                     children: "Delete"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                    lineNumber: 602,
+                                    lineNumber: 617,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 595,
+                            lineNumber: 610,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 583,
+                    lineNumber: 598,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                lineNumber: 582,
+                lineNumber: 597,
                 columnNumber: 9
             }, this)
         ]
@@ -2352,7 +2372,7 @@ _c7 = ScanHistory;
                 title: "Help Center"
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                lineNumber: 631,
+                lineNumber: 646,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2366,7 +2386,7 @@ _c7 = ScanHistory;
                                 children: "Frequently Asked Questions"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 634,
+                                lineNumber: 649,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2382,26 +2402,26 @@ _c7 = ScanHistory;
                                                         children: faq.q
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 639,
+                                                        lineNumber: 654,
                                                         columnNumber: 19
                                                     }, this),
                                                     openFaq === i ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
                                                         size: 18
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 640,
+                                                        lineNumber: 655,
                                                         columnNumber: 36
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                         size: 18
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 640,
+                                                        lineNumber: 655,
                                                         columnNumber: 62
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 638,
+                                                lineNumber: 653,
                                                 columnNumber: 17
                                             }, this),
                                             openFaq === i && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2409,24 +2429,24 @@ _c7 = ScanHistory;
                                                 children: faq.a
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 643,
+                                                lineNumber: 658,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 637,
+                                        lineNumber: 652,
                                         columnNumber: 15
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 635,
+                                lineNumber: 650,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                        lineNumber: 633,
+                        lineNumber: 648,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2437,7 +2457,7 @@ _c7 = ScanHistory;
                                 children: "Contact Us"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 651,
+                                lineNumber: 666,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2458,12 +2478,12 @@ _c7 = ScanHistory;
                                                             size: 18
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                            lineNumber: 655,
+                                                            lineNumber: 670,
                                                             columnNumber: 51
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 655,
+                                                        lineNumber: 670,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2473,7 +2493,7 @@ _c7 = ScanHistory;
                                                                 children: "Live Chat Support"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 657,
+                                                                lineNumber: 672,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2481,19 +2501,19 @@ _c7 = ScanHistory;
                                                                 children: "Available 9 AM – 6 PM"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 658,
+                                                                lineNumber: 673,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 656,
+                                                        lineNumber: 671,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 654,
+                                                lineNumber: 669,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
@@ -2503,13 +2523,13 @@ _c7 = ScanHistory;
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 661,
+                                                lineNumber: 676,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 653,
+                                        lineNumber: 668,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2527,12 +2547,12 @@ _c7 = ScanHistory;
                                                             size: 18
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                            lineNumber: 665,
+                                                            lineNumber: 680,
                                                             columnNumber: 51
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 665,
+                                                        lineNumber: 680,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2542,7 +2562,7 @@ _c7 = ScanHistory;
                                                                 children: "Email Support"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 667,
+                                                                lineNumber: 682,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2550,19 +2570,19 @@ _c7 = ScanHistory;
                                                                 children: "support@wbh.com"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 668,
+                                                                lineNumber: 683,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 666,
+                                                        lineNumber: 681,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 664,
+                                                lineNumber: 679,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
@@ -2572,13 +2592,13 @@ _c7 = ScanHistory;
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 671,
+                                                lineNumber: 686,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 663,
+                                        lineNumber: 678,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2596,12 +2616,12 @@ _c7 = ScanHistory;
                                                             size: 18
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                            lineNumber: 675,
+                                                            lineNumber: 690,
                                                             columnNumber: 51
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 675,
+                                                        lineNumber: 690,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2611,7 +2631,7 @@ _c7 = ScanHistory;
                                                                 children: "Report a Bug"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 677,
+                                                                lineNumber: 692,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2619,19 +2639,19 @@ _c7 = ScanHistory;
                                                                 children: "Help us improve WBH"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                                lineNumber: 678,
+                                                                lineNumber: 693,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                        lineNumber: 676,
+                                                        lineNumber: 691,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 674,
+                                                lineNumber: 689,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
@@ -2641,31 +2661,31 @@ _c7 = ScanHistory;
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                                lineNumber: 681,
+                                                lineNumber: 696,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                        lineNumber: 673,
+                                        lineNumber: 688,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                                lineNumber: 652,
+                                lineNumber: 667,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                        lineNumber: 650,
+                        lineNumber: 665,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                lineNumber: 632,
+                lineNumber: 647,
                 columnNumber: 7
             }, this)
         ]
@@ -2717,7 +2737,7 @@ function ProfileSubpage() {
                     title: "Not Found"
                 }, void 0, false, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 711,
+                    lineNumber: 726,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2735,7 +2755,7 @@ function ProfileSubpage() {
                             children: "This page doesn't exist."
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 713,
+                            lineNumber: 728,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2744,19 +2764,19 @@ function ProfileSubpage() {
                             children: "Back to Profile"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                            lineNumber: 714,
+                            lineNumber: 729,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-                    lineNumber: 712,
+                    lineNumber: 727,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-            lineNumber: 710,
+            lineNumber: 725,
             columnNumber: 7
         }, this);
     }
@@ -2765,12 +2785,12 @@ function ProfileSubpage() {
         className: "subpage-page",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(PageComponent, {}, void 0, false, {
             fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-            lineNumber: 725,
+            lineNumber: 740,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/(main)/profile/[slug]/page.tsx",
-        lineNumber: 724,
+        lineNumber: 739,
         columnNumber: 5
     }, this);
 }

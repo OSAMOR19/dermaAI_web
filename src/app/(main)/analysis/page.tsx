@@ -415,22 +415,44 @@ export default function AnalysisPage() {
 
             {/* Product Cards */}
             {recommendation.recommended_products.length > 0 ? (
-              <div className="prod-grid">
+              <div className="prod-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
                 {recommendation.recommended_products.map((p, i) => (
-                  <a key={i} href={p.link || '#'} target="_blank" rel="noopener noreferrer" className="prod-card" style={{ display: 'block', textDecoration: 'none' }}>
-                    <div className="prod-card-img" style={{ background: '#fff', overflow: 'hidden' }}>
-                      {p.image ? (
-                        <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                      ) : (
-                        <ShoppingBag size={28} />
-                      )}
+                  <div key={i} className="prod-card" style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column' }}>
+                    <div className="prod-card-img" style={{ position: 'relative', height: 130, background: '#fcfcfc', overflow: 'hidden' }}>
+                      <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      <div style={{ position: 'absolute', top: 6, left: 6, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 800, color: 'var(--primary)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                        {p.match_score}%
+                      </div>
+                      <div style={{ position: 'absolute', top: 6, right: 6, background: '#111', color: '#fff', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 600, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+                        {p.brand}
+                      </div>
                     </div>
-                    <div className="prod-card-body">
-                      <span className="prod-category">{p.category}</span>
-                      <h4 className="prod-name">{p.name}</h4>
-                      <p className="prod-reason">{p.reason}</p>
+                    <div className="prod-card-body" style={{ padding: 10, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 6 }}>
+                        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, margin: '0 0 4px', color: '#111', lineHeight: 1.2 }}>{p.name}</h3>
+                        <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#111' }}>{p.price}</span>
+                      </div>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
+                        <Sparkles size={10} color="var(--primary)" style={{ flexShrink: 0 }} />
+                        <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.key_ingredient}</span>
+                      </div>
+                      
+                      <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: 12, lineHeight: 1.3, flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {p.reason}
+                      </p>
+                      
+                      <a 
+                        href={p.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-primary btn-block" 
+                        style={{ display: 'flex', width: '100%', padding: '8px 0', fontSize: '0.75rem', textDecoration: 'none', justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
+                      >
+                        Shop Now <ArrowRight size={12} style={{ marginLeft: 4 }} />
+                      </a>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             ) : (

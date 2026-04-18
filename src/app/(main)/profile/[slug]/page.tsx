@@ -473,6 +473,21 @@ function ScanHistory() {
     load();
   }, []);
 
+  const openAnalysis = (scan: any) => {
+    try {
+      if (scan.analysis) {
+        sessionStorage.setItem('wbh_analysis', JSON.stringify(scan.analysis));
+        sessionStorage.setItem('wbh_scan_image', scan.image_urls?.[0] || '');
+        sessionStorage.setItem('wbh_scan_time', scan.created_at);
+        window.location.href = '/analysis';
+      } else {
+        alert('Analysis details not found for this scan.');
+      }
+    } catch {
+      alert('Could not open history.');
+    }
+  };
+
   const confirmDelete = async () => {
     if (!deletingId) return;
     const isAll = deletingId === 'all';
@@ -544,9 +559,9 @@ function ScanHistory() {
                     <div className={`he-dot ${i === 0 ? 'current' : ''}`} />
                     {i < scans.length - 1 && <div className="he-line" />}
                   </div>
-                  <div className="history-entry-content" style={{ width: '100%', position: 'relative' }}>
+                  <div className="history-entry-content" style={{ width: '100%', position: 'relative', cursor: 'pointer' }} onClick={() => openAnalysis(scan)}>
                     <button 
-                      onClick={() => setDeletingId(scan.id)}
+                      onClick={(e) => { e.stopPropagation(); setDeletingId(scan.id); }}
                       style={{ position: 'absolute', top: 8, right: 8, padding: 6, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '50%', color: '#E53935', zIndex: 10, border: 'none', cursor: 'pointer', display: 'flex' }}
                     >
                       <Trash2 size={16} />
