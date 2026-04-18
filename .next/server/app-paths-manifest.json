@@ -2,11 +2,14 @@
   "/(auth)/forgot-password/page": "app/(auth)/forgot-password/page.js",
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(auth)/signup/page": "app/(auth)/signup/page.js",
+  "/(main)/analysis/page": "app/(main)/analysis/page.js",
   "/(main)/booking/page": "app/(main)/booking/page.js",
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(main)/profile/[slug]/page": "app/(main)/profile/[slug]/page.js",
   "/(main)/profile/page": "app/(main)/profile/page.js",
   "/(main)/scan/page": "app/(main)/scan/page.js",
+  "/api/analyze/route": "app/api/analyze/route.js",
+  "/api/recommend/route": "app/api/recommend/route.js",
   "/api/scans/route": "app/api/scans/route.js",
   "/auth/callback/route": "app/auth/callback/route.js"
 }

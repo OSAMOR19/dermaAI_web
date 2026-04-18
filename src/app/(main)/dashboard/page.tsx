@@ -53,7 +53,6 @@ export default function DashboardPage() {
   const initials = firstName ? firstName[0].toUpperCase() : 'U';
   const [scanTime, setScanTime] = useState<string>('');
   const [scanImage, setScanImage] = useState<string | null>(null);
-  const [score, setScore] = useState<number | null>(null);
   const [areas, setAreas] = useState<string[]>([]);
 
   useEffect(() => {
@@ -66,7 +65,6 @@ export default function DashboardPage() {
           const latest = scans[0];
           setScanTime(formatRelativeTime(latest.created_at));
           if (latest.image_urls?.length) setScanImage(latest.image_urls[0]);
-          setScore(latest.score);
           const conditions = latest.analysis?.detected_conditions?.map((c: any) => c.condition) || [];
           setAreas(conditions.slice(0, 3));
         } else {
@@ -98,15 +96,15 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Skin Health Score Card */}
+      {/* Skin Health Status Card */}
       <div className="score-card">
         <div className="score-left">
-          <h3>Skin Health Score: {score !== null ? `${score}/100` : '---'}</h3>
-          <p>{score === null ? 'Complete your first scan.' : score > 80 ? 'Looking great!' : 'Healthy, but some areas need attention.'}</p>
+          <h3>Your Skin Analysis</h3>
+          <p>{scanImage ? 'Your latest scan insights are ready.' : 'Complete your first scan.'}</p>
           <Link href="/scan" className="btn btn-white btn-sm">Scan Again</Link>
         </div>
         <div className="score-right">
-          <img src={scanImage || "/images/HomeImage.svg"} style={scanImage ? { objectFit: 'cover' } : undefined} alt="Facial scan" className="score-face-img" />
+          <img src="/images/HomeImage.svg" alt="Facial scan" className="score-face-img" />
         </div>
       </div>
 
@@ -134,11 +132,7 @@ export default function DashboardPage() {
             <span className="recent-time"><Clock size={12} style={{ marginRight: 4, verticalAlign: -2 }} />{scanTime}</span>
           </div>
           <div className="recent-image">
-            {scanImage ? (
-              <img src={scanImage} alt="Your last scan" style={{ objectFit: 'cover' }} />
-            ) : (
-              <RecentCarousel />
-            )}
+            <RecentCarousel />
           </div>
           <div style={{ display: 'flex', gap: 10 }}>
             <Link href="/analysis" className="btn btn-primary" style={{ flex: 1 }}>View Full Report</Link>

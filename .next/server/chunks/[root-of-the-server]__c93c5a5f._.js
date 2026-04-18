@@ -87,6 +87,8 @@ async function createClient() {
 "use strict";
 
 __turbopack_context__.s([
+    "DELETE",
+    ()=>DELETE,
     "GET",
     ()=>GET,
     "POST",
@@ -172,6 +174,50 @@ async function GET() {
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(scansWithUrls);
     } catch (err) {
         console.error('Scans GET error:', err);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Internal server error'
+        }, {
+            status: 500
+        });
+    }
+}
+async function DELETE(request) {
+    try {
+        const supabase = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2f$server$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createClient"])();
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Unauthorized'
+            }, {
+                status: 401
+            });
+        }
+        const { scan_id } = await request.json().catch(()=>({
+                scan_id: null
+            }));
+        if (scan_id) {
+            // Delete specific scan
+            const { data: scan } = await supabase.from('scans').select('image_urls').eq('user_id', user.id).eq('id', scan_id).single();
+            if (scan && scan.image_urls && scan.image_urls.length > 0) {
+                await supabase.storage.from('scans').remove(scan.image_urls);
+            }
+            const { error } = await supabase.from('scans').delete().eq('user_id', user.id).eq('id', scan_id);
+            if (error) throw error;
+        } else {
+            // Delete all scans
+            const { data: scans } = await supabase.from('scans').select('image_urls').eq('user_id', user.id);
+            const allUrls = scans?.flatMap((s)=>s.image_urls || []) || [];
+            if (allUrls.length > 0) {
+                await supabase.storage.from('scans').remove(allUrls);
+            }
+            const { error } = await supabase.from('scans').delete().eq('user_id', user.id);
+            if (error) throw error;
+        }
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            success: true
+        });
+    } catch (err) {
+        console.error('Scans DELETE error:', err);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Internal server error'
         }, {

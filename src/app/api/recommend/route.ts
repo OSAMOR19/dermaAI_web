@@ -13,15 +13,20 @@ interface ProductOption {
 interface SkinConcern {
   id: number;
   skinConcern: string;
-  faceZone: string;
+  categories: string[];
   treatmentSteps: string[];
   products: ProductOption[];
   avoid: string[];
-  whyItMatters: string;
 }
 
 interface AnalysisInput {
-  detected_conditions?: { condition: string; confidence: number; severity: string }[];
+  detected_conditions?: { 
+    condition: string; 
+    confidence: number; 
+    severity: string;
+    clinical_explanation?: string;
+    active_ingredients?: string[];
+  }[];
   skin_type_estimate?: string;
   recommendations?: string[];
   warning_signs?: string[];
@@ -32,48 +37,20 @@ function matchConcerns(analysis: AnalysisInput): { primary: SkinConcern[]; secon
   const conditions = (analysis.detected_conditions || []);
   const primary: SkinConcern[] = [];
   const secondary: SkinConcern[] = [];
-
-  const concernMap: Record<string, number[]> = {
-    'acne': [2],
-    'hyperpigmentation': [1, 3],
-    'dark spot': [1],
-    'dark spots': [1],
-    'pih': [1],
-    'uneven': [3],
-    'uneven skin tone': [3],
-    'eczema': [4],
-    'dermatitis': [4],
-    'dry': [4],
-    'dehydration': [4],
-    'oily': [5],
-    'rosacea': [3],
-    'rash': [4],
-    'fungal': [2],
-    'psoriasis': [4],
-    'normal': [],
-  };
-
   const matchedIds = new Set<number>();
 
   for (const c of conditions) {
-    const name = c.condition.toLowerCase();
+    const name = c.condition;
     const severity = c.severity;
 
-    // Find matching concern IDs
-    let ids: number[] = [];
-    for (const [key, val] of Object.entries(concernMap)) {
-      if (name.includes(key) || key.includes(name)) {
-        ids = [...ids, ...val];
-      }
-    }
+    // Find the concern in our dataset
+    const concern = (skinConcerns as SkinConcern[]).find(
+      sc => sc.skinConcern.toLowerCase() === name.toLowerCase()
+    );
 
-    for (const id of ids) {
-      if (matchedIds.has(id)) continue;
-      matchedIds.add(id);
-      const concern = (skinConcerns as SkinConcern[]).find(sc => sc.id === id);
-      if (!concern) continue;
-
-      if (severity === 'high' || severity === 'moderate') {
+    if (concern && !matchedIds.has(concern.id)) {
+      matchedIds.add(concern.id);
+      if (severity === 'Severe' || severity === 'Moderate') {
         primary.push(concern);
       } else {
         secondary.push(concern);
@@ -83,11 +60,13 @@ function matchConcerns(analysis: AnalysisInput): { primary: SkinConcern[]; secon
 
   // If skin type suggests oiliness/dryness and not yet matched
   const skinType = (analysis.skin_type_estimate || '').toLowerCase();
-  if (skinType.includes('oily') && !matchedIds.has(5)) {
-    secondary.push((skinConcerns as SkinConcern[]).find(sc => sc.id === 5)!);
+  if ((skinType.includes('oily') || skinType.includes('combination')) && !matchedIds.has(8)) {
+    secondary.push((skinConcerns as SkinConcern[]).find(sc => sc.id === 8)!);
+    matchedIds.add(8);
   }
-  if (skinType.includes('dry') && !matchedIds.has(4)) {
-    secondary.push((skinConcerns as SkinConcern[]).find(sc => sc.id === 4)!);
+  if (skinType.includes('dry') && !matchedIds.has(7)) {
+    secondary.push((skinConcerns as SkinConcern[]).find(sc => sc.id === 7)!);
+    matchedIds.add(7);
   }
 
   return { primary, secondary };
@@ -156,8 +135,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Always add SPF morning if PIH or uneven tone
-    if (primary.some(c => c.id === 1 || c.id === 3) || secondary.some(c => c.id === 1 || c.id === 3)) {
+    // Always add SPF morning if Hyperpigmentation, Melasma, Dark Spots, Uneven Tone
+    if (primary.some(c => [3,4,5,12].includes(c.id)) || secondary.some(c => [3,4,5,12].includes(c.id))) {
       morningSteps.add('SPF');
     }
 
@@ -236,7 +215,7 @@ Write a SHORT, friendly, 2-sentence summary. Rules:
           name: p.name,
           image: p.image,
           link: p.link,
-          category: parentConcern?.treatmentSteps[0] || 'Treatment',
+          category: parentConcern?.categories?.[0] || 'Treatment',
           reason: parentConcern ? `Targets ${parentConcern.skinConcern.toLowerCase()}` : 'Matched to your skin analysis',
         };
       }),

@@ -77,3 +77,41 @@ export async function GET() {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+// DELETE — delete a specific scan or all scans
+export async function DELETE(request: NextRequest) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { scan_id } = await request.json().catch(() => ({ scan_id: null }));
+
+    if (scan_id) {
+      // Delete specific scan
+      const { data: scan } = await supabase.from('scans').select('image_urls').eq('user_id', user.id).eq('id', scan_id).single();
+      if (scan && scan.image_urls && scan.image_urls.length > 0) {
+        await supabase.storage.from('scans').remove(scan.image_urls);
+      }
+      const { error } = await supabase.from('scans').delete().eq('user_id', user.id).eq('id', scan_id);
+      if (error) throw error;
+    } else {
+      // Delete all scans
+      const { data: scans } = await supabase.from('scans').select('image_urls').eq('user_id', user.id);
+      const allUrls = scans?.flatMap(s => s.image_urls || []) || [];
+      if (allUrls.length > 0) {
+        await supabase.storage.from('scans').remove(allUrls);
+      }
+      const { error } = await supabase.from('scans').delete().eq('user_id', user.id);
+      if (error) throw error;
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('Scans DELETE error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

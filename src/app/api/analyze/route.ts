@@ -17,17 +17,20 @@ IMPORTANT RULES:
 - When multiple images are provided, cross-reference observations across all images for more accurate analysis.
 - Always return STRICT JSON with no additional text.
 
-Analyze the images for signs of the following skin conditions:
+Analyze the images for signs of the following strict list of 12 skin conditions:
 
-- acne
-- eczema
-- psoriasis
-- rosacea
-- fungal infection
-- hyperpigmentation
-- dermatitis
-- rash
-- normal skin
+- Acne (Inflammatory)
+- Acne (Comedonal)
+- Hyperpigmentation
+- Melasma
+- Dark Spots / Sun Damage
+- Rosacea
+- Dehydration
+- Oily Skin / Excess Sebum
+- Fine Lines / Wrinkles
+- Dark Circles
+- Enlarged Pores
+- Uneven Skin Tone
 
 Return the response in the following JSON structure:
 
@@ -36,14 +39,16 @@ Return the response in the following JSON structure:
   "images_analyzed": number,
   "detected_conditions": [
     {
-      "condition": "name of condition",
+      "condition": "Must be EXACTLY one of the 12 allowed condition names above",
       "confidence": number from 0 to 100,
       "observations": [
         "visible redness",
         "raised bumps",
         "dry patches"
       ],
-      "severity": "low | moderate | high"
+      "severity": "Mild | Moderate | Severe",
+      "clinical_explanation": "A very brief 1-sentence clinical explanation of this condition based on the observations.",
+      "active_ingredients": ["Ingredient 1", "Ingredient 2"]
     }
   ],
   "skin_type_estimate": "oily | dry | combination | normal | unknown",

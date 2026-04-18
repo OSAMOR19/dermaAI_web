@@ -449,10 +449,12 @@ function ScanHistory() {
     id: string;
     created_at: string;
     score: number;
+    image_urls?: string[];
     analysis: { detected_conditions?: { condition: string }[] } | null;
   }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deletingId, setDeletingId] = useState<string | 'all' | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -470,6 +472,30 @@ function ScanHistory() {
     };
     load();
   }, []);
+
+  const confirmDelete = async () => {
+    if (!deletingId) return;
+    const isAll = deletingId === 'all';
+    const id = isAll ? undefined : deletingId;
+
+    try {
+      const res = await fetch('/api/scans', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(id ? { scan_id: id } : {}),
+      });
+      if (!res.ok) throw new Error();
+      if (isAll) {
+        setScans([]);
+      } else {
+        setScans(s => s.filter(x => x.id !== id));
+      }
+    } catch (err) {
+      alert('Failed to delete. Please try again.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <>
@@ -497,6 +523,13 @@ function ScanHistory() {
           </div>
         ) : (
           <div className="history-timeline">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
+              <button 
+                onClick={() => setDeletingId('all')} 
+                style={{ background: 'none', border: 'none', color: '#E53935', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Trash2 size={14} /> Clear All History
+              </button>
+            </div>
             {scans.map((scan, i) => {
               const prev = scans[i + 1];
               const change = prev ? scan.score - prev.score : 0;
@@ -506,25 +539,27 @@ function ScanHistory() {
               const conditions = scan.analysis?.detected_conditions?.map(c => c.condition) || [];
 
               return (
-                <Link href="/analysis" key={scan.id} className="history-entry">
+                <div key={scan.id} className="history-entry">
                   <div className="history-entry-dot">
                     <div className={`he-dot ${i === 0 ? 'current' : ''}`} />
                     {i < scans.length - 1 && <div className="he-line" />}
                   </div>
-                  <div className="history-entry-content">
+                  <div className="history-entry-content" style={{ width: '100%', position: 'relative' }}>
+                    <button 
+                      onClick={() => setDeletingId(scan.id)}
+                      style={{ position: 'absolute', top: 8, right: 8, padding: 6, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '50%', color: '#E53935', zIndex: 10, border: 'none', cursor: 'pointer', display: 'flex' }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                    {scan.image_urls && scan.image_urls.length > 0 && (
+                      <div style={{ marginBottom: 12, borderRadius: 12, overflow: 'hidden', height: 160, background: '#f5f5f5' }}>
+                        <img src={scan.image_urls[0]} alt="Scan photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
                     <div className="he-header">
                       <div>
                         <div className="he-date">{dateStr}</div>
                         <div className="he-time">{timeStr}</div>
-                      </div>
-                      <div className="he-score-col">
-                        <div className="he-score">{scan.score}<span>/100</span></div>
-                        {prev && (
-                          <div className={`he-change ${change > 0 ? 'up' : change < 0 ? 'down' : ''}`}>
-                            {change > 0 ? <TrendingUp size={12} /> : change < 0 ? <TrendingDown size={12} /> : null}
-                            {change > 0 ? '+' : ''}{change}
-                          </div>
-                        )}
                       </div>
                     </div>
                     {conditions.length > 0 && (
@@ -535,12 +570,45 @@ function ScanHistory() {
                       </div>
                     )}
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deletingId && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div style={{ background: '#fff', borderRadius: 20, padding: 24, width: '100%', maxWidth: 360, textAlign: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(229,57,53,0.1)', color: '#E53935', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <Trash2 size={24} />
+            </div>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 8, color: '#111' }}>
+              {deletingId === 'all' ? 'Clear All History?' : 'Delete Scan?'}
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: 24, lineHeight: 1.5 }}>
+              {deletingId === 'all' 
+                ? 'This action will permanently delete all your skin scans and their insights from the cloud. This cannot be undone.'
+                : 'This action will permanently delete this individual scan from your records. This cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button 
+                onClick={() => setDeletingId(null)}
+                style={{ flex: 1, padding: '12px', background: '#f5f5f5', color: '#333', border: 'none', borderRadius: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDelete}
+                style={{ flex: 1, padding: '12px', background: '#E53935', color: '#fff', border: 'none', borderRadius: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -14,7 +14,9 @@ interface DetectedCondition {
   condition: string;
   confidence: number;
   observations: string[];
-  severity: 'low' | 'moderate' | 'high';
+  severity: 'Mild' | 'Moderate' | 'Severe' | string;
+  clinical_explanation?: string;
+  active_ingredients?: string[];
 }
 
 interface GeminiAnalysis {
@@ -47,14 +49,13 @@ interface Recommendation {
 
 /* ---- Helpers ---- */
 function severityColor(s: string): string {
-  if (s === 'high') return 'red';
-  if (s === 'moderate') return 'orange';
+  if (s.toLowerCase() === 'severe') return 'red';
+  if (s.toLowerCase() === 'moderate') return 'orange';
   return 'yellow';
 }
 
 function computeScore(conditions: DetectedCondition[]): number {
   if (!conditions.length) return 95;
-  // Weight by severity and confidence
   let penalty = 0;
   for (const c of conditions) {
     const sevWeight = c.severity === 'high' ? 1.5 : c.severity === 'moderate' ? 1.0 : 0.5;
@@ -118,12 +119,7 @@ const FALLBACK_RECOMMENDATIONS = [
   },
 ];
 
-const SCAN_HISTORY = [
-  { date: 'Today', score: 78, change: +3 },
-  { date: 'Mar 6', score: 75, change: +2 },
-  { date: 'Feb 28', score: 73, change: -1 },
-  { date: 'Feb 20', score: 74, change: +4 },
-];
+// SCAN_HISTORY removed
 
 export default function AnalysisPage() {
   const [analysis, setAnalysis] = useState<GeminiAnalysis | null>(null);
@@ -267,40 +263,7 @@ export default function AnalysisPage() {
         </div>
       )}
 
-      {/* ---- Score Ring ---- */}
-      <section className="score-section">
-        <div className="score-ring-wrapper">
-          <svg className="score-ring-svg" viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FC65D1" />
-                <stop offset="100%" stopColor="#FC65D1" />
-              </linearGradient>
-            </defs>
-            <circle cx="60" cy="60" r="54" className="score-ring-bg" />
-            <circle
-              cx="60" cy="60" r="54"
-              className="score-ring-fill"
-              stroke="url(#scoreGrad)"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
-            />
-          </svg>
-          <div className="score-ring-text">
-            <span className="score-ring-number">{score}</span>
-            <span className="score-ring-of">/100</span>
-          </div>
-        </div>
-        <div className="score-info">
-          <span className="score-label" style={{ color: scoreInfo.color }}>{scoreInfo.text}</span>
-          <p className="score-summary">{getScoreSummary(score, conditions)}</p>
-        </div>
-        {analysis?.skin_type_estimate && analysis.skin_type_estimate !== 'unknown' && (
-          <p style={{ textAlign: 'center', fontSize: '0.82rem', opacity: 0.5, marginTop: 8 }}>
-            Estimated skin type: <strong style={{ textTransform: 'capitalize' }}>{analysis.skin_type_estimate}</strong>
-          </p>
-        )}
-      </section>
+      {/* ---- Score Ring Removed ---- */}
 
       {/* ---- Warning Signs ---- */}
       {analysis?.warning_signs && analysis.warning_signs.length > 0 && (
@@ -353,6 +316,30 @@ export default function AnalysisPage() {
                   </div>
                   {isOpen && (
                     <div className="condition-detail">
+                      {/* Clinical Explanation */}
+                      {c.clinical_explanation && (
+                         <div style={{ marginBottom: 12 }}>
+                           <p style={{ fontSize: '0.88rem', lineHeight: 1.5, color: 'var(--text-secondary)', margin: 0 }}>
+                             {c.clinical_explanation}
+                           </p>
+                         </div>
+                      )}
+                      
+                      {/* Active Ingredients */}
+                      {c.active_ingredients && c.active_ingredients.length > 0 && (
+                        <div style={{ marginBottom: 16 }}>
+                          <p style={{ fontWeight: 600, fontSize: '0.82rem', marginBottom: 6, opacity: 0.7 }}>
+                            <FlaskConical size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                            To Treat
+                          </p>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            {c.active_ingredients.map((ing, ii) => (
+                              <span key={ii} style={{ background: 'rgba(252,101,209,0.1)', color: 'var(--primary)', padding: '3px 8px', borderRadius: 12, fontSize: '0.75rem', fontWeight: 600 }}>{ing}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {/* Observations */}
                       {c.observations && c.observations.length > 0 && (
                         <div style={{ marginBottom: 12 }}>
@@ -383,53 +370,7 @@ export default function AnalysisPage() {
         )}
       </section>
 
-      {/* ---- AI Recommendations ---- */}
-      <section className="results-section">
-        <h2 className="section-label">
-          <Sparkles size={16} />
-          AI Recommendations
-        </h2>
-        <div className="rec-list">
-          {analysis?.recommendations && analysis.recommendations.length > 0 ? (
-            /* AI-generated recommendations from Gemini */
-            analysis.recommendations.map((rec, i) => (
-              <div key={i} className="rec-card priority-high">
-                <div className="rec-icon-wrap">
-                  <Sparkles size={22} />
-                </div>
-                <div className="rec-body">
-                  <div className="rec-top">
-                    <h3 style={{ textTransform: 'capitalize' }}>{rec}</h3>
-                    <span className="priority-tag high">AI Suggested</span>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            /* Fallback static recommendations */
-            FALLBACK_RECOMMENDATIONS.map((r, i) => {
-              const Icon = r.icon;
-              return (
-                <div key={i} className={`rec-card priority-${r.priority}`}>
-                  <div className="rec-icon-wrap">
-                    <Icon size={22} />
-                  </div>
-                  <div className="rec-body">
-                    <div className="rec-top">
-                      <h3>{r.title}</h3>
-                      <span className={`priority-tag ${r.priority}`}>
-                        {r.priority === 'high' ? 'Essential' : 'Recommended'}
-                      </span>
-                    </div>
-                    <p>{r.desc}</p>
-                    <div className="rec-timing">🕐 {r.timing}</div>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
-      </section>
+
 
       {/* ---- Recommended Products ---- */}
       <section className="results-section">
@@ -453,37 +394,7 @@ export default function AnalysisPage() {
               </div>
             )}
 
-            {/* Morning & Evening Routine */}
-            {(recommendation.routine.morning?.length > 0 || recommendation.routine.evening?.length > 0) && (
-              <div className="routine-split">
-                {recommendation.routine.morning?.length > 0 && (
-                  <div className="routine-col">
-                    <h4 className="routine-heading"><Sun size={14} /> Morning</h4>
-                    <div className="routine-steps-col">
-                      {recommendation.routine.morning.map((step, i) => (
-                        <div key={i} className="routine-step">
-                          <span className="routine-num">{i + 1}</span>
-                          <span className="routine-label">{step}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {recommendation.routine.evening?.length > 0 && (
-                  <div className="routine-col">
-                    <h4 className="routine-heading"><Sparkles size={14} /> Evening</h4>
-                    <div className="routine-steps-col">
-                      {recommendation.routine.evening.map((step, i) => (
-                        <div key={i} className="routine-step">
-                          <span className="routine-num">{i + 1}</span>
-                          <span className="routine-label">{step}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+            {/* Morning & Evening Routine removed */}
 
             {/* Product Cards */}
             {recommendation.recommended_products.length > 0 ? (
@@ -511,20 +422,7 @@ export default function AnalysisPage() {
               </div>
             )}
 
-            {/* Avoid List */}
-            {recommendation.avoid && recommendation.avoid.length > 0 && (
-              <div className="avoid-section">
-                <h4 className="avoid-heading">
-                  <AlertTriangle size={14} />
-                  Things to Avoid
-                </h4>
-                <ul className="avoid-list">
-                  {recommendation.avoid.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {/* Avoid List removed */}
           </>
         ) : (
           <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
@@ -533,33 +431,7 @@ export default function AnalysisPage() {
         )}
       </section>
 
-      {/* ---- Scan History ---- */}
-      <section className="results-section">
-        <h2 className="section-label">
-          <CheckCircle2 size={16} />
-          Progress Tracker
-        </h2>
-        <div className="history-card">
-          <div className="history-grid">
-            {SCAN_HISTORY.map((h, i) => (
-              <div key={i} className={`history-item ${i === 0 ? 'current' : ''}`}>
-                <div className="history-score">{h.score}</div>
-                <div className="history-bar-col">
-                  <div className="history-bar" style={{ height: `${h.score}%` }} />
-                </div>
-                <div className="history-date">{h.date}</div>
-                <div className={`history-change ${h.change >= 0 ? 'up' : 'down'}`}>
-                  {h.change >= 0 ? '+' : ''}{h.change}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="history-insight">
-            <Info size={14} />
-            <span>Your skin health has improved <strong>+4 points</strong> over the last 3 weeks</span>
-          </div>
-        </div>
-      </section>
+      {/* ---- Scan History removed ---- */}
 
       {/* ---- Disclaimer ---- */}
       {analysis?.disclaimer && (

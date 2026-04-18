@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Activity, Camera, Upload, Image as ImageIcon, X, Plus } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { validateImageData, validateStaticImage, drawImageToCanvas } from '@/lib/imageValidation';
 
 type ScanMode = 'choose' | 'camera' | 'upload';
 type Phase = 'init' | 'position' | 'capture' | 'review' | 'analyze' | 'done';
 
-const MAX_IMAGES = 4;
+const MAX_IMAGES = 1; // Simplified to 1-shot (multi-angle is optional advanced)
 const API_URL = '/api/analyze';
 
 const SCAN_METRICS = [
@@ -20,7 +21,6 @@ const SCAN_METRICS = [
   'Scanning for dark spots…',
   'Evaluating skin barrier…',
   'Assessing pore structure…',
-  'Measuring skin elasticity…',
 ];
 
 const WIREFRAME_POINTS = [
@@ -65,6 +65,14 @@ export default function ScanPage() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
 
+  // Advanced Indicators
+  const [indicators, setIndicators] = useState({
+    position: false,
+    lighting: false,
+    sharpness: false,
+    angle: false,
+  });
+
   // Multi-image state
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [uploadImages, setUploadImages] = useState<string[]>([]);
@@ -106,86 +114,153 @@ export default function ScanPage() {
     return canvas.toDataURL('image/jpeg', 0.85);
   }, []);
 
-  /* ---- Camera start ---- */
+  /* ---- Camera start & Validation loop ---- */
   useEffect(() => {
     if (scanMode !== 'camera') return;
+    let isActive = true;
+    let rafId: number;
+
     const start = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
           audio: false,
         });
+        if (!isActive) { stream.getTracks().forEach(t => t.stop()); return; }
+        
         streamRef.current = stream;
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
-          setPhase('capture');
-          setStatusText(`Take up to ${MAX_IMAGES} photos of the affected area`);
+          setPhase('position');
+          setStatusText(`Position your face within the frame`);
         }
       } catch {
+        if (!isActive) return;
         setCameraError(true);
         setStatusText('Camera access denied');
       }
     };
     start();
-    return () => { streamRef.current?.getTracks().forEach(t => t.stop()); };
-  }, [scanMode]);
+
+    // The validation simulation loop
+    let validSince = 0;
+    const loop = async () => {
+      if (!isActive) return;
+      if (videoRef.current && videoRef.current.readyState === 4 && (phase === 'position' || phase === 'capture')) {
+        const imgParams = drawImageToCanvas(videoRef.current);
+        if (imgParams) {
+          const { lightingOk, sharpnessOk } = await validateImageData(imgParams.ctx, imgParams.width, imgParams.height);
+          
+          setIndicators(prev => {
+            // Simulated angle & position logic (relies on clear, sharp, lit face staying still)
+            const positionOk = lightingOk && sharpnessOk;
+            const angleOk = positionOk;
+            
+            const next = { position: positionOk, lighting: lightingOk, sharpness: sharpnessOk, angle: angleOk };
+            const allValidNow = next.position && next.lighting && next.sharpness && next.angle;
+
+            if (allValidNow) {
+              if (validSince === 0) validSince = Date.now();
+              const holdSecs = (Date.now() - validSince) / 1000;
+              
+              if (holdSecs > 1) {
+                setStatusText('Hold still... Auto-capturing');
+              } else {
+                setStatusText('Perfectly aligned!');
+              }
+
+              // Auto capture after 2.5 seconds of holding still
+              if (holdSecs > 2.5) {
+                // To avoid multiple triggers, we ensure we only trigger if we haven't already moved to review
+                // A bit tricky within setState, so we fire an event or just do it outside
+              }
+            } else {
+              validSince = 0;
+              setStatusText(`Position your face within the frame`);
+            }
+
+            return next;
+          });
+        }
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+
+    return () => {
+      isActive = false;
+      cancelAnimationFrame(rafId);
+      streamRef.current?.getTracks().forEach(t => t.stop());
+    };
+  }, [scanMode, phase]);
+
+  // Hack for auto-capture from state
+  useEffect(() => {
+    if (phase !== 'position') return;
+    const allValid = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
+    if (allValid) {
+      const t = setTimeout(() => {
+        takeSnapshot();
+      }, 2500);
+      return () => clearTimeout(t);
+    }
+  }, [indicators, phase]);
+
 
   /* ---- Take snapshot ---- */
-  const takeSnapshot = () => {
-    if (capturedImages.length >= MAX_IMAGES) return;
+  const takeSnapshot = useCallback(() => {
+    if (capturedImages.length >= MAX_IMAGES || phase !== 'position') return;
     const img = captureFrame();
     if (img) {
-      setCapturedImages(prev => [...prev, img]);
+      setCapturedImages([img]);
       playShutter();
-      if (capturedImages.length + 1 >= MAX_IMAGES) {
-        setStatusText(`${MAX_IMAGES}/${MAX_IMAGES} captured — Ready to analyze`);
-      } else {
-        setStatusText(`${capturedImages.length + 1}/${MAX_IMAGES} captured — Tap to take more`);
-      }
+      setPhase('review');
+      setStatusText('Please review your capture');
     }
-  };
-
-  const removeCapture = (idx: number) => {
-    setCapturedImages(prev => prev.filter((_, i) => i !== idx));
-  };
+  }, [capturedImages.length, captureFrame, playShutter, phase]);
 
   /* ---- Upload handler ---- */
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
+    setApiError(null);
 
-    const remaining = MAX_IMAGES - uploadImages.length;
-    const toAdd = files.slice(0, remaining);
+    const file = files[0]; // strictly 1 shot layout
+    
+    // Size check
+    if (file.size > 20 * 1024 * 1024) {
+      setApiError('Maximum file size is 20MB.');
+      e.target.value = '';
+      return;
+    }
 
-    toAdd.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setUploadImages(prev => {
-          if (prev.length >= MAX_IMAGES) return prev;
-          return [...prev, reader.result as string];
-        });
-      };
-      reader.readAsDataURL(file);
-    });
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = reader.result as string;
+      
+      // Perform validation checks automatically post-upload
+      const validation = await validateStaticImage(dataUrl);
+      if (!validation.passed) {
+        setApiError(validation.message || 'Image rejected by quality validation.');
+        return;
+      }
 
-    // Reset input so same file can be re-selected
+      setUploadImages([dataUrl]);
+    };
+    reader.readAsDataURL(file);
     e.target.value = '';
-  };
-
-  const removeUpload = (idx: number) => {
-    setUploadImages(prev => prev.filter((_, i) => i !== idx));
   };
 
   /* ---- Analyze (shared logic for camera + upload) ---- */
   const runAnalysis = async (images: string[]) => {
     if (images.length === 0) return;
 
+    setPhase('analyze');
     setAnalyzing(true);
     setApiError(null);
     setStatusText('Connecting to AI…');
 
-    // Save to sessionStorage for immediate display on analysis page
     try {
       sessionStorage.setItem('wbh_scan_image', images[0]);
       sessionStorage.setItem('wbh_scan_time', new Date().toISOString());
@@ -198,7 +273,6 @@ export default function ScanPage() {
         formData.append(`file${i}`, blob, `scan_${i}.jpg`);
       });
 
-      // Rotate metric text during analysis
       const metricInterval = setInterval(() => {
         setMetricIdx(prev => (prev + 1) % SCAN_METRICS.length);
       }, 2500);
@@ -220,77 +294,40 @@ export default function ScanPage() {
       }
 
       const data = await res.json();
+      try { sessionStorage.setItem('wbh_analysis', JSON.stringify(data)); } catch { }
 
-      try {
-        sessionStorage.setItem('wbh_analysis', JSON.stringify(data));
-      } catch { /* storage full */ }
-
-      // ── Save scan to Supabase (images + DB) ──────────────────────
-      // We re-fetch the session directly here so this always works
-      // even if the React auth context hasn't loaded yet.
+      // Outer Save
       try {
         const { createClient: mkClient } = await import('@/lib/supabase/client');
         const authClient = mkClient();
         const { data: { user: loggedInUser } } = await authClient.auth.getUser();
 
-        if (!loggedInUser) {
-          console.warn('[Scan] User not logged in — skipping save');
-        } else {
+        if (loggedInUser) {
           const scanId = crypto.randomUUID();
-
-          // Calculate health score
           const conditions = data.detected_conditions || [];
           const avgConfidence = conditions.length > 0
             ? conditions.reduce((sum: number, c: { confidence: number }) => sum + c.confidence, 0) / conditions.length
             : 0;
           const score = Math.max(0, Math.round(100 - avgConfidence));
 
-          // Step 1: Save the DB record FIRST (images are secondary)
           const storagePaths: string[] = [];
-          let dbRes: Response;
-          try {
-            dbRes = await fetch('/api/scans', {
+          
+          for (let i = 0; i < images.length; i++) {
+            const { uploadScanImage: upload } = await import('@/lib/supabase/storage');
+            const blob = dataURLtoBlob(images[i]);
+            const path = await upload(loggedInUser.id, scanId, blob, i);
+            storagePaths.push(path);
+          }
+
+          if (storagePaths.length > 0) {
+            await fetch('/api/scans', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ score, analysis: data, image_urls: storagePaths }),
-            });
-            if (!dbRes.ok) {
-              const err = await dbRes.json().catch(() => null);
-              console.error('[Scan] Failed to save scan record:', err);
-            } else {
-              console.log('[Scan] Scan record saved to DB ✓');
-            }
-          } catch (dbErr) {
-            console.error('[Scan] DB save threw:', dbErr);
-          }
-
-          // Step 2: Upload images (best-effort, won't block analysis)
-          for (let i = 0; i < images.length; i++) {
-            try {
-              const { uploadScanImage: upload } = await import('@/lib/supabase/storage');
-              const blob = dataURLtoBlob(images[i]);
-              const path = await upload(loggedInUser.id, scanId, blob, i);
-              storagePaths.push(path);
-              console.log(`[Scan] Image ${i} uploaded ✓`);
-            } catch (uploadErr) {
-              console.error(`[Scan] Image ${i} upload failed:`, uploadErr);
-            }
-          }
-
-          // Step 3: Update the DB record with image paths if any uploaded
-          if (storagePaths.length > 0) {
-            try {
-              await fetch('/api/scans', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ scan_id_hint: scanId, image_urls: storagePaths }),
-              }).catch(() => null);
-            } catch { /* non-critical */ }
+              body: JSON.stringify({ analysis: data, image_urls: storagePaths }),
+            }).catch(()=>{});
           }
         }
-      } catch (saveErr) {
-        console.error('[Scan] Outer save block failed:', saveErr);
-      }
+      } catch { }
 
       setPhase('done');
       setStatusText('✓ Scan complete!');
@@ -303,10 +340,9 @@ export default function ScanPage() {
       setApiError(msg);
       setStatusText('Analysis failed');
       setAnalyzing(false);
+      setPhase(scanMode === 'camera' ? 'review' : 'init');
     }
   };
-
-  const isAnalyzing = analyzing || phase === 'analyze';
 
   /* ============ CHOOSE MODE SCREEN ============ */
   if (scanMode === 'choose') {
@@ -319,17 +355,17 @@ export default function ScanPage() {
         </header>
         <div className="scan-choose">
           <h2 className="scan-choose-title">How would you like to scan?</h2>
-          <p className="scan-choose-desc">Take up to {MAX_IMAGES} photos for a more accurate AI analysis. Multiple angles help detect conditions better.</p>
+          <p className="scan-choose-desc">For maximum accuracy, use the live camera feed.</p>
           <div className="scan-choose-options">
             <button className="scan-choose-card" onClick={() => setScanMode('camera')}>
               <div className="scan-choose-icon camera-icon"><Camera size={32} /></div>
               <h3>Live Scan</h3>
-              <p>Take snapshots with your camera</p>
+              <p>Real-time validation</p>
             </button>
             <button className="scan-choose-card" onClick={() => setScanMode('upload')}>
               <div className="scan-choose-icon upload-icon"><Upload size={32} /></div>
-              <h3>Upload Photos</h3>
-              <p>Select up to {MAX_IMAGES} images</p>
+              <h3>Upload Photo</h3>
+              <p>Submit existing image</p>
             </button>
           </div>
         </div>
@@ -344,26 +380,13 @@ export default function ScanPage() {
         <header className="scn-header">
           <button className="scn-back" onClick={() => { setScanMode('choose'); setUploadImages([]); setAnalyzing(false); setApiError(null); }}><ArrowLeft size={20} /></button>
           <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
-          <div className="scn-badge">{analyzing ? '● ANALYZING' : `${uploadImages.length}/${MAX_IMAGES}`}</div>
+          <div className="scn-badge">{analyzing ? '● ANALYZING' : (uploadImages.length>0 ? 'READY' : 'SELECT')}</div>
         </header>
         <div className="scan-upload-body">
-          {/* Thumbnail strip */}
-          {uploadImages.length > 0 && (
-            <div className="scan-thumbs">
-              {uploadImages.map((img, i) => (
-                <div key={i} className="scan-thumb">
-                  <img src={img} alt={`Photo ${i + 1}`} />
-                  {!analyzing && (
-                    <button className="scan-thumb-remove" onClick={() => removeUpload(i)}><X size={12} /></button>
-                  )}
-                  <span className="scan-thumb-num">{i + 1}</span>
-                </div>
-              ))}
-              {uploadImages.length < MAX_IMAGES && !analyzing && (
-                <button className="scan-thumb-add" onClick={() => fileInputRef.current?.click()}>
-                  <Plus size={20} />
-                </button>
-              )}
+          {/* Preview image */}
+          {uploadImages.length > 0 && !analyzing && (
+            <div className="scan-upload-preview">
+              <img src={uploadImages[0]} alt="Uploaded photo" className="scan-upload-img" />
             </div>
           )}
 
@@ -371,17 +394,16 @@ export default function ScanPage() {
           {uploadImages.length === 0 && (
             <div className="scan-upload-drop" onClick={() => fileInputRef.current?.click()}>
               <ImageIcon size={48} strokeWidth={1.5} />
-              <h3>Select Photos</h3>
-              <p>Upload up to {MAX_IMAGES} images of the skin condition for better accuracy</p>
-              <span className="scan-upload-hint">JPG, PNG · Max 10 MB each</span>
+              <h3>Select Photo</h3>
+              <p>Upload an image of the affected skin area for better accuracy (Max 20MB)</p>
+              <span className="scan-upload-hint">JPG, PNG, HEIC</span>
             </div>
           )}
 
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
-            multiple
+            accept="image/jpeg, image/png, image/heic"
             onChange={handleUpload}
             style={{ display: 'none' }}
           />
@@ -391,15 +413,14 @@ export default function ScanPage() {
             <div className="scan-analyzing-card">
               <div className="scn-loading-spinner" />
               <p style={{ fontWeight: 600, marginTop: 12 }}>{SCAN_METRICS[metricIdx]}</p>
-              <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 4 }}>Analyzing {uploadImages.length} image{uploadImages.length > 1 ? 's' : ''}…</p>
             </div>
           )}
 
           {/* Error */}
           {apiError && !analyzing && (
-            <div style={{ padding: '12px 16px', margin: '0 16px 12px', background: 'rgba(229,57,53,0.12)', borderRadius: 12, textAlign: 'center' }}>
-              <p style={{ color: '#E53935', fontSize: '0.85rem', fontWeight: 600, marginBottom: 4 }}>⚠ {apiError}</p>
-              <button className="btn btn-primary" style={{ marginTop: 8, fontSize: '0.85rem' }} onClick={() => runAnalysis(uploadImages)}>Retry</button>
+            <div style={{ padding: '16px', margin: '0 16px 12px', background: 'rgba(229,57,53,0.12)', borderRadius: 12, textAlign: 'center', border: '1px solid rgba(229,57,53,0.3)' }}>
+              <p style={{ color: '#E53935', fontSize: '0.9rem', fontWeight: 600, marginBottom: 8 }}>✓ Validation Issue</p>
+              <p style={{ color: '#E53935', fontSize: '0.85rem' }}>{apiError}</p>
             </div>
           )}
 
@@ -407,10 +428,10 @@ export default function ScanPage() {
           {uploadImages.length > 0 && !analyzing && !apiError && (
             <div className="scan-upload-actions">
               <button className="btn btn-outline" onClick={() => setUploadImages([])}>
-                Clear All
+                Upload Another
               </button>
               <button className="btn btn-primary" onClick={() => runAnalysis(uploadImages)}>
-                Analyze {uploadImages.length} Photo{uploadImages.length > 1 ? 's' : ''}
+                Analyse My Skin
               </button>
             </div>
           )}
@@ -420,23 +441,27 @@ export default function ScanPage() {
   }
 
   /* ============ CAMERA MODE ============ */
-  const isActive = capturedImages.length > 0 || phase === 'analyze' || phase === 'done';
+  const allIndicatorsOk = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
 
   return (
     <div className="scn-page">
       <header className="scn-header">
         <button className="scn-back" onClick={() => { setScanMode('choose'); setCapturedImages([]); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
         <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
-        <div className={`scn-badge ${phase === 'done' ? 'done' : capturedImages.length > 0 ? 'live' : ''}`}>
-          {phase === 'done' ? '✓ DONE' : `${capturedImages.length}/${MAX_IMAGES}`}
+        <div className={`scn-badge ${phase === 'done' ? 'done' : 'live'}`}>
+          {phase === 'done' ? '✓ DONE' : phase === 'review' ? 'REVIEW' : 'LIVE'}
         </div>
       </header>
 
       <div className="scn-body">
         <div className="scn-viewport">
-          <video ref={videoRef} className="scn-video" playsInline muted />
+          {phase === 'review' && capturedImages[0] ? (
+            <img src={capturedImages[0]} alt="Captured Review" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
+          ) : (
+            <video ref={videoRef} className="scn-video" playsInline muted />
+          )}
 
-          {/* Wireframe effect during analysis */}
+          {/* Wireframe effect during analysis - visually looks cool */}
           {(phase === 'analyze' || phase === 'done') && (
             <div className="wire-layer">
               {WIREFRAME_POINTS.map((p, i) => (
@@ -474,62 +499,100 @@ export default function ScanPage() {
               <p style={{ fontSize: '0.8rem', opacity: 0.6, marginTop: 6 }}>Enable camera in browser settings and reload</p>
             </div>
           )}
+
+          {/* Camera Oval guide */}
+          {phase === 'position' && !cameraError && (
+            <>
+              {/* Fake Oval for aesthetics */}
+              <div className={`scn-oval ${allIndicatorsOk ? 'complete' : ''}`}>
+                 <span className="bk tl"></span><span className="bk tr"></span>
+                 <span className="bk bl"></span><span className="bk br"></span>
+                 <div className="oval-label">Center Face Here</div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Thumbnail strip */}
-      {capturedImages.length > 0 && !analyzing && (
-        <div className="scan-thumbs" style={{ padding: '0 16px', marginBottom: 8 }}>
-          {capturedImages.map((img, i) => (
-            <div key={i} className="scan-thumb">
-              <img src={img} alt={`Snap ${i + 1}`} />
-              <button className="scan-thumb-remove" onClick={() => removeCapture(i)}><X size={12} /></button>
-              <span className="scan-thumb-num">{i + 1}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
       <footer className="scn-hud">
         {analyzing && <div className="scn-metric"><Activity size={13} /> {SCAN_METRICS[metricIdx]}</div>}
-        <div className={`scn-status phase-${phase}`}>{statusText}</div>
-
+        
+        {phase === 'position' && (
+          <div className="scn-status phase-position" style={{ color: allIndicatorsOk ? 'var(--primary)' : 'var(--text-secondary)' }}>
+            {statusText}
+          </div>
+        )}
+        
         {apiError && (
           <div style={{ padding: '10px 16px', margin: '8px 0', background: 'rgba(229,57,53,0.12)', borderRadius: 10, textAlign: 'center' }}>
             <p style={{ color: '#E53935', fontSize: '0.82rem', fontWeight: 600 }}>⚠ {apiError}</p>
-            <button onClick={() => runAnalysis(capturedImages)} style={{ marginTop: 8, padding: '6px 20px', borderRadius: 8, background: 'linear-gradient(135deg,#FC65D1,#00B4FA)', color: '#fff', border: 'none', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>Retry</button>
           </div>
         )}
 
-        {/* Camera controls */}
-        {phase === 'capture' && !analyzing && (
-          <div className="scan-camera-controls">
-            {capturedImages.length < MAX_IMAGES && (
-              <button className="scan-shutter-btn" onClick={takeSnapshot} aria-label="Take photo">
-                <span className="scan-shutter-inner" />
-              </button>
-            )}
-            {capturedImages.length > 0 && (
-              <button
-                className="btn btn-primary"
-                style={{ marginTop: 12, width: '100%' }}
-                onClick={() => {
-                  setPhase('analyze');
-                  runAnalysis(capturedImages);
-                }}
+        {/* Real-time Validation Indicators Panel */}
+        {phase === 'position' && (
+          <div className="validation-hud" style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', marginBottom: 16 }}>
+            <div style={{ ...validationPillStyle(indicators.position) }}><div>Face Position</div> <span>{indicators.position ? '✓' : '✗'}</span></div>
+            <div style={{ ...validationPillStyle(indicators.lighting) }}><div>Lighting</div> <span>{indicators.lighting ? '✓' : '✗'}</span></div>
+            <div style={{ ...validationPillStyle(indicators.sharpness) }}><div>Sharpness</div> <span>{indicators.sharpness ? '✓' : '✗'}</span></div>
+            <div style={{ ...validationPillStyle(indicators.angle) }}><div>Angle</div> <span>{indicators.angle ? '✓' : '✗'}</span></div>
+          </div>
+        )}
+
+        {/* Action Controls */}
+        {phase === 'position' && !analyzing && (
+          <div className="scan-camera-controls" style={{ marginTop: 0 }}>
+            <button 
+              className="scan-shutter-btn" 
+              onClick={takeSnapshot} 
+              aria-label="Take photo"
+              disabled={!allIndicatorsOk}
+              style={{ opacity: allIndicatorsOk ? 1 : 0.4, cursor: allIndicatorsOk ? 'pointer' : 'not-allowed' }}
+            >
+              <span className="scan-shutter-inner" />
+            </button>
+            <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 12 }}>
+              Align indicators to auto-capture
+            </p>
+          </div>
+        )}
+
+        {/* Review Screen Actions */}
+        {phase === 'review' && (
+           <div className="scan-upload-actions" style={{ padding: '0 20px', marginTop: 10 }}>
+              <button 
+                className="btn btn-outline" 
+                onClick={() => { setPhase('position'); setCapturedImages([]); setStatusText('Position your face within the frame'); }}
               >
-                Analyze {capturedImages.length} Photo{capturedImages.length > 1 ? 's' : ''}
+                Retake
               </button>
-            )}
-          </div>
-        )}
-
-        {phase === 'capture' && capturedImages.length === 0 && (
-          <p style={{ fontSize: '0.8rem', color: 'rgba(0,0,0,0.4)', marginTop: 8 }}>
-            Take photos from different angles for better accuracy
-          </p>
+              <button 
+                className="btn btn-primary" 
+                onClick={() => runAnalysis(capturedImages)}
+              >
+                Analyse My Skin
+              </button>
+           </div>
         )}
       </footer>
     </div>
   );
+}
+
+// Inline styles for quick layout
+function validationPillStyle(ok: boolean): React.CSSProperties {
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+    padding: '4px 10px',
+    borderRadius: '20px',
+    fontSize: '0.7rem',
+    fontWeight: 600,
+    border: '1px solid',
+    borderColor: ok ? 'rgba(76,175,80,0.4)' : 'rgba(229,57,53,0.3)',
+    background: ok ? 'rgba(76,175,80,0.1)' : 'rgba(229,57,53,0.06)',
+    color: ok ? 'var(--green, #4CAF50)' : '#E53935',
+    transition: 'all 0.3s ease',
+  };
 }

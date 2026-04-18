@@ -1,99 +1,139 @@
 [
   {
     "id": 1,
-    "skinConcern": "Post-Inflammatory Hyperpigmentation (PIH)",
-    "faceZone": "Cheeks & Jaw",
-    "treatmentSteps": ["Serum", "Moisturiser", "SPF"],
+    "skinConcern": "Acne (Inflammatory)",
+    "categories": ["Acne Treatment", "Serums & Treatment"],
+    "treatmentSteps": ["Cleanser", "Treatment", "Light Moisturiser"],
     "products": [
-      {"name": "Axis-Y Dark Spot Correcting Serum", "image": "https://images.squarespace-cdn.com/content/v1/5f8c6e3a4af9c02c1c7a1c1c/axis-y-dark-spot.jpg", "link": "https://wholesalebeautyhub.com/search?q=axis+y+dark+spot+correcting+serum"},
-      {"name": "Topicals Faded Serum", "image": "https://images.squarespace-cdn.com/content/v1/5f8c6e3a4af9c02c1c7a1c1c/topicals-faded.jpg", "link": "https://wholesalebeautyhub.com/search?q=topicals+faded+serum"},
-      {"name": "Good Molecules Discoloration Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=good+molecules+discoloration+serum"},
-      {"name": "Nineless MELA-PRO Tranexamic Acid", "image": "", "link": "https://wholesalebeautyhub.com/search?q=nineless+mela+pro+tranexamic+acid"},
-      {"name": "Naturium Tranexamic Acid 5%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=naturium+tranexamic+acid"},
-      {"name": "The Ordinary Alpha Arbutin", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+alpha+arbutin"},
-      {"name": "Bolden Dark Spot Fix", "image": "", "link": "https://wholesalebeautyhub.com/search?q=bolden+dark+spot+fix"},
-      {"name": "Skin By Zaron Alpha-Arbutin Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=skin+by+zaron+alpha+arbutin"}
+      {"name": "25Pskyn Mandelactone", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Mandelactone"},
+      {"name": "25Pskyn Trinity Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trinity+Pads"},
+      {"name": "CosRx Acne Master Patch", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+Acne"}
     ],
-    "avoid": [
-      "Physical scrubs on active marks",
-      "Hydroquinone long-term",
-      "No SPF exposure"
-    ],
-    "whyItMatters": "PIH is the #1 skin concern for melaninated skin. Dark marks can last months–years without targeted treatment. SPF daily is non-negotiable to prevent worsening."
+    "avoid": ["Heavy comedogenic oils", "Picking spots", "Harsh scrubs"]
   },
   {
     "id": 2,
-    "skinConcern": "Active Acne",
-    "faceZone": "Cheeks & Jaw, Forehead",
-    "treatmentSteps": ["Cleanser", "Treatment", "Light Moisturiser"],
+    "skinConcern": "Acne (Comedonal)",
+    "categories": ["Exfoliators Peels & Scrubs", "Face Cleansers & Wash"],
+    "treatmentSteps": ["Cleanser", "Exfoliator", "Light Moisturiser"],
     "products": [
-      {"name": "Panoxyl Foaming Wash 10%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=panoxyl+foaming+wash"},
-      {"name": "Panoxyl Acne Creamy Wash 4%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=panoxyl+creamy+wash"},
-      {"name": "Cosrx BHA Blackhead Power Liquid", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cosrx+bha+blackhead"},
-      {"name": "Skin By Zaron Acne Control Glow Wash", "image": "", "link": "https://wholesalebeautyhub.com/search?q=skin+by+zaron+acne+control"},
-      {"name": "Some By Mi Miracle Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=some+by+mi+miracle+serum"},
-      {"name": "Differin 0.1% Adapalene Gel", "image": "", "link": "https://wholesalebeautyhub.com/search?q=differin+adapalene"},
-      {"name": "Zapzyt Acne Treatment Gel", "image": "", "link": "https://wholesalebeautyhub.com/search?q=zapzyt+acne+treatment"},
-      {"name": "Cerave Acne Foaming Cream Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+acne+foaming+cleanser"}
+      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"},
+      {"name": "CosRx Salicylic Acid Daily Gentle Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+cleansers"}
     ],
-    "avoid": [
-      "Picking spots",
-      "Heavy comedogenic oils",
-      "Fragrance on active acne"
-    ],
-    "whyItMatters": "Acne on dark skin appears red-brown rather than pink. PIH is very likely without proper treatment. Early care prevents scarring."
+    "avoid": ["Comedogenic ingredients", "Heavy creams"]
   },
   {
     "id": 3,
-    "skinConcern": "Uneven Skin Tone",
-    "faceZone": "Full Face",
+    "skinConcern": "Hyperpigmentation",
+    "categories": ["Dark Spots & Discoloration", "Brightening", "Glow Serum"],
     "treatmentSteps": ["Gentle Cleanser", "Brightening Serum", "SPF"],
     "products": [
-      {"name": "The Ordinary Alpha Arbutin", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+alpha+arbutin"},
-      {"name": "Good Molecules Discoloration Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=good+molecules+discoloration+serum"},
-      {"name": "Naturium Tranexamic Acid 5%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=naturium+tranexamic+acid"},
-      {"name": "Topicals Faded Serum", "image": "", "link": "https://wholesalebeautyhub.com/search?q=topicals+faded+serum"}
+      {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn Pigma Blend Cream", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Pigma+Blend+Cream"}
     ],
-    "avoid": [
-      "Harsh exfoliants",
-      "Skipping sunscreen"
-    ],
-    "whyItMatters": "Melanin distribution varies more in darker skin, leading to visible uneven tone."
+    "avoid": ["Physical scrubs on active marks", "No SPF exposure"]
   },
   {
     "id": 4,
-    "skinConcern": "Dehydration",
-    "faceZone": "Full Face",
-    "treatmentSteps": ["Hydrating Cleanser", "Hydrating Serum", "Moisturiser"],
+    "skinConcern": "Melasma",
+    "categories": ["Hyperpigmentation", "Sunscreen"],
+    "treatmentSteps": ["Cleanser", "Treatment Serum", "SPF"],
     "products": [
-      {"name": "CeraVe Hydrating Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+hydrating+cleanser"},
-      {"name": "The Ordinary Hyaluronic Acid 2% + B5", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+hyaluronic+acid"},
-      {"name": "Neutrogena Hydro Boost Gel Cream", "image": "", "link": "https://wholesalebeautyhub.com/search?q=neutrogena+hydro+boost"},
-      {"name": "La Roche-Posay Toleriane Double Repair", "image": "", "link": "https://wholesalebeautyhub.com/search?q=la+roche+posay+toleriane+double+repair"}
+      {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
+      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
     ],
-    "avoid": [
-      "Alcohol-based toners",
-      "Over-washing face",
-      "Hot water on face"
-    ],
-    "whyItMatters": "Dehydrated dark skin often looks ashy or grey instead of flaky."
+    "avoid": ["Excessive heat exposure", "Skipping sunscreen"]
   },
   {
     "id": 5,
-    "skinConcern": "Oily Skin",
-    "faceZone": "T-Zone",
+    "skinConcern": "Dark Spots / Sun Damage",
+    "categories": ["Brightening", "Glow Serum", "Sunscreen"],
+    "treatmentSteps": ["Cleanser", "Vitamin C Serum", "SPF"],
+    "products": [
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
+    ],
+    "avoid": ["Prolonged sun exposure", "Tanning beds"]
+  },
+  {
+    "id": 6,
+    "skinConcern": "Rosacea",
+    "categories": ["Serums & Treatment", "Moisturizers & Cream"],
+    "treatmentSteps": ["Gentle Cleanser", "Soothing Toner", "Moisturiser"],
+    "products": [
+      {"name": "Tiam Vita B5 Toner", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Tiam+Vita+B5+Toner"},
+      {"name": "Olay Complete Day Fluid", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+range"},
+      {"name": "La Roche-Posay Toleriane", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay"}
+    ],
+    "avoid": ["Harsh physical exfoliants", "Fragrance", "Spicy foods trigger"]
+  },
+  {
+    "id": 7,
+    "skinConcern": "Dehydration",
+    "categories": ["Moisturizers & Cream", "Face Toners Mist & Essence"],
+    "treatmentSteps": ["Hydrating Cleanser", "Hydrating Toner", "Moisturiser"],
+    "products": [
+      {"name": "Tiam Vita B5 Toner", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Tiam+Vita+B5+Toner"},
+      {"name": "Olay Regenerist Whip", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+moisturizers"},
+      {"name": "Palmers Cocoa Butter Formula", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Palmers"}
+    ],
+    "avoid": ["Alcohol-based toners", "Over-washing face", "Hot water"]
+  },
+  {
+    "id": 8,
+    "skinConcern": "Oily Skin / Excess Sebum",
+    "categories": ["Face Cleansers & Wash", "Face Toners"],
     "treatmentSteps": ["Foaming Cleanser", "Niacinamide Serum", "Gel Moisturiser"],
     "products": [
-      {"name": "CeraVe Foaming Facial Cleanser", "image": "", "link": "https://wholesalebeautyhub.com/search?q=cerave+foaming+facial+cleanser"},
-      {"name": "The Ordinary Niacinamide 10% + Zinc 1%", "image": "", "link": "https://wholesalebeautyhub.com/search?q=the+ordinary+niacinamide+zinc"},
-      {"name": "Neutrogena Oil-Free Moisture", "image": "", "link": "https://wholesalebeautyhub.com/search?q=neutrogena+oil+free+moisture"},
-      {"name": "La Roche-Posay Effaclar Mat", "image": "", "link": "https://wholesalebeautyhub.com/search?q=la+roche+posay+effaclar+mat"}
+      {"name": "CosRx Low pH Good Morning Gel", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx"},
+      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"}
     ],
-    "avoid": [
-      "Heavy creams",
-      "Coconut oil on face",
-      "Skipping moisturiser"
+    "avoid": ["Heavy pore-clogging creams", "Skipping moisturiser"]
+  },
+  {
+    "id": 9,
+    "skinConcern": "Fine Lines / Wrinkles",
+    "categories": ["Serums & Treatment", "Moisturizers & Cream"],
+    "treatmentSteps": ["Cleanser", "Retinol Serum", "Rich Moisturiser"],
+    "products": [
+      {"name": "Olay Anti-Wrinkle Pro Vital", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Anti-Wrinkle"},
+      {"name": "La Roche-Posay Redermic Retinol", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Retinol"}
     ],
-    "whyItMatters": "Oiliness shows as orange-brown shine on darker skin tones."
+    "avoid": ["Skipping SPF while using retinol"]
+  },
+  {
+    "id": 10,
+    "skinConcern": "Dark Circles",
+    "categories": ["Eye Cream", "Serums & Treatment"],
+    "treatmentSteps": ["Cleanser", "Eye Cream", "Moisturiser"],
+    "products": [
+      {"name": "La Roche-Posay Pigmentclar Eyes", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Eyes"},
+      {"name": "Olay Eyes Ultimate Eye Cream", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Eyes"}
+    ],
+    "avoid": ["Poor sleep", "Rubbing eyes aggressively"]
+  },
+  {
+    "id": 11,
+    "skinConcern": "Enlarged Pores",
+    "categories": ["Serums & Treatment", "Exfoliators"],
+    "treatmentSteps": ["Cleanser", "BHA Exfoliant", "Light Moisturiser"],
+    "products": [
+      {"name": "CosRx BHA Blackhead Power Liquid", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+BHA"},
+      {"name": "25Pskyn Mandelactone", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Mandelactone"}
+    ],
+    "avoid": ["Heavy makeup that clogs pores", "Squeezing pores"]
+  },
+  {
+    "id": 12,
+    "skinConcern": "Uneven Skin Tone",
+    "categories": ["Brightening", "Glow Serum", "Exfoliators"],
+    "treatmentSteps": ["Cleanser", "Brightening Serum", "SPF"],
+    "products": [
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
+      {"name": "Bolden Dark Spot Fix", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Bolden"}
+    ],
+    "avoid": ["Sun exposure without protection"]
   }
 ]
