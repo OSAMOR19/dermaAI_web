@@ -156,7 +156,7 @@ export default function AnalysisPage() {
       setAnalysis(parsed);
       const s = computeScore(parsed.detected_conditions || []);
       setScore(s);
-      if (parsed.detected_conditions?.length > 0) setExpandedCondition(0);
+      // Removed auto-expand: all condition accordions closed by default until clicked
     } catch {
       setNoData(true);
     } finally {

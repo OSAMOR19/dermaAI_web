@@ -32,42 +32,29 @@ Analyze the images for signs of the following strict list of 12 skin conditions:
 - Enlarged Pores
 - Uneven Skin Tone
 
-Return the response in the following JSON structure:
+Return the response in the following strict JSON format ONLY:
 
 {
-  "image_quality": "good | moderate | poor",
-  "images_analyzed": number,
+  "image_quality": "good",
+  "images_analyzed": 1,
   "detected_conditions": [
     {
-      "condition": "Must be EXACTLY one of the 12 allowed condition names above",
-      "confidence": number from 0 to 100,
+      "condition": "Must be an EXACT MATCH to one of the 12 allowed conditions above (e.g. 'Melasma' or 'Acne (Inflammatory)')",
+      "confidence": 85,
       "observations": [
         "visible redness",
-        "raised bumps",
-        "dry patches"
+        "raised bumps"
       ],
-      "severity": "Mild | Moderate | Severe",
+      "severity": "Moderate",
       "clinical_explanation": "A very brief 1-sentence clinical explanation of this condition based on the observations.",
-      "active_ingredients": ["Ingredient 1", "Ingredient 2"]
+      "active_ingredients": ["Salicylic Acid", "Niacinamide"]
     }
   ],
-  "skin_type_estimate": "oily | dry | combination | normal | unknown",
-  "recommendations": [
-    "gentle cleansing",
-    "avoid irritants",
-    "consult dermatologist if symptoms persist"
-  ],
-  "warning_signs": [
-    "rapidly spreading rash",
-    "severe inflammation"
-  ],
-  "disclaimer": "This AI analysis is for informational purposes only and is not a medical diagnosis. Consult a licensed dermatologist for medical advice."
+  "skin_type_estimate": "oily",
+  "disclaimer": "This AI analysis is for informational purposes only."
 }
 
-If no condition is detected, return:
-
-"detected_conditions": []
-
+If no condition is detected, return an empty array for detected_conditions.
 Do not return any explanation outside the JSON object.`;
 
 export async function POST(request: NextRequest) {

@@ -127,7 +127,6 @@ function AnalysisPage() {
     /* Read analysis data from sessionStorage */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AnalysisPage.useEffect": ()=>{
             try {
-                var _parsed_detected_conditions;
                 const img = sessionStorage.getItem('wbh_scan_image');
                 const time = sessionStorage.getItem('wbh_scan_time');
                 if (img) setScanImage(img);
@@ -150,7 +149,7 @@ function AnalysisPage() {
                 setAnalysis(parsed);
                 const s = computeScore(parsed.detected_conditions || []);
                 setScore(s);
-                if (((_parsed_detected_conditions = parsed.detected_conditions) === null || _parsed_detected_conditions === void 0 ? void 0 : _parsed_detected_conditions.length) > 0) setExpandedCondition(0);
+            // Removed auto-expand: all condition accordions closed by default until clicked
             } catch (e) {
                 setNoData(true);
             } finally{
