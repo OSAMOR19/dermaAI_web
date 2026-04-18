@@ -114,15 +114,19 @@ export default function DashboardPage() {
       {/* Cards Grid */}
       <div className="cards-grid">
         {/* Areas Detected */}
-        <div className="card" style={{ background: 'linear-gradient(180deg, #fff 0%, rgba(252,101,209,0.06) 100%)' }}>
-          <div className="card-title">Areas Detected</div>
-          <div className="areas-row" style={{ flexWrap: 'wrap' }}>
-            {areas.length > 0 ? areas.map((area, i) => (
-              <div key={i} className="area-item">
-                <div className={`area-dot ${i === 0 ? 'red' : i === 1 ? 'orange' : 'blue'}`} />
-                <span className="area-label">{area}</span>
+        <div className="card" style={{ background: 'linear-gradient(180deg, #fff 0%, rgba(252,101,209,0.06) 100%)', paddingBottom: 16 }}>
+          <div className="card-title" style={{ marginBottom: 12 }}>Areas Detected</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {areas.length > 0 ? areas.map((area, i) => {
+              const hue = i === 0 ? 'var(--primary)' : i === 1 ? '#FF9800' : '#2196F3';
+              const hueBg = i === 0 ? 'rgba(252,101,209,0.1)' : i === 1 ? 'rgba(255,152,0,0.1)' : 'rgba(33,150,243,0.1)';
+              
+              return (
+              <div key={i} style={{ display: 'inline-flex', alignItems: 'center', background: hueBg, padding: '6px 12px', borderRadius: 20, gap: 6, border: `1px solid rgba(0,0,0,0.02)` }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: hue }} />
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#333' }}>{area}</span>
               </div>
-            )) : (
+            )}) : (
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>No concerns detected yet.</p>
             )}
           </div>
