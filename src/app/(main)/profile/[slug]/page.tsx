@@ -57,6 +57,8 @@ function EditProfile() {
   const [phone, setPhone] = useState('');
   const [dob, setDob] = useState('');
   const [skinType, setSkinType] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   // Load profile from Supabase
   useEffect(() => {
@@ -75,15 +77,68 @@ function EditProfile() {
         setPhone(data.phone || '');
         setDob(data.date_of_birth || '');
         setSkinType(data.skin_type || '');
+        setAvatarUrl(data.avatar_url || user.user_metadata?.avatar_url || '');
       } else {
         setEmail(user.email || '');
         setFirstName(user.user_metadata?.first_name || '');
         setLastName(user.user_metadata?.last_name || '');
+        setAvatarUrl(user.user_metadata?.avatar_url || '');
       }
       setLoading(false);
     };
     load();
   }, [user, supabase]);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    
+    setUploadingAvatar(true);
+    setError('');
+    
+    try {
+      const base64Avatar = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const size = 150;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return reject('Canvas error');
+            // object-fit: cover equivalent calculation
+            const scale = Math.max(size / img.width, size / img.height);
+            const w = img.width * scale;
+            const h = img.height * scale;
+            const x = (size - w) / 2;
+            const y = (size - h) / 2;
+            ctx.drawImage(img, x, y, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.8));
+          };
+          img.onerror = () => reject('Image load error');
+          img.src = event.target?.result as string;
+        };
+        reader.onerror = () => reject('File read error');
+        reader.readAsDataURL(file);
+      });
+
+      setAvatarUrl(base64Avatar);
+
+      // Save to profiles
+      await supabase.from('profiles').update({ avatar_url: base64Avatar }).eq('id', user.id);
+      
+      // Add to auth metadata so layout spots it instantly
+      await supabase.auth.updateUser({ data: { avatar_url: base64Avatar } });
+      
+    } catch (err: any) {
+      console.error(err);
+      setError('Failed to process profile picture: ' + err.message);
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
 
   const handleSave = async () => {
     if (!user) return;
@@ -141,10 +196,17 @@ function EditProfile() {
         {/* Avatar */}
         <div className="edit-avatar-section">
           <div className="edit-avatar">
-            <div className="edit-avatar-circle">
-              <span>{initials}</span>
-            </div>
-            <button className="edit-avatar-btn"><Camera size={16} /></button>
+            <input type="file" id="avatar-upload" hidden accept="image/*" onChange={handleAvatarChange} />
+            <label htmlFor="avatar-upload" className="edit-avatar-circle" style={{ cursor: 'pointer', overflow: 'hidden' }}>
+              {uploadingAvatar ? (
+                <Loader2 size={24} className="spin" style={{ color: 'var(--primary)' }} />
+              ) : avatarUrl ? (
+                <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <span>{initials}</span>
+              )}
+            </label>
+            <label htmlFor="avatar-upload" className="edit-avatar-btn" style={{ cursor: 'pointer' }}><Camera size={16} /></label>
           </div>
           <p className="edit-avatar-hint">Tap to change photo</p>
         </div>

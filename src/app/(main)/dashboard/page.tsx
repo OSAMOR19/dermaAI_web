@@ -82,8 +82,12 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="dash-header" style={{ alignItems: 'center', paddingBottom: 12 }}>
         <div className="dash-header-left" style={{ alignItems: 'center', gap: 12 }}>
-          <div className="dash-avatar" style={{ width: 44, height: 44 }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
+          <div className="dash-avatar" style={{ width: 44, height: 44, overflow: 'hidden' }}>
+            {user?.user_metadata?.avatar_url ? (
+              <img src={user.user_metadata.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
+            )}
           </div>
           <div className="dash-greeting" style={{ fontSize: '1.25rem', marginBottom: 0, fontWeight: 800 }}>
             Hi{firstName ? `, ${firstName}` : ''} <span style={{display:'inline-block'}}>👋</span>

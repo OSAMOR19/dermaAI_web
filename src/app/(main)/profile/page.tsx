@@ -41,8 +41,12 @@ export default function ProfilePage() {
     <div className="profile-page">
       {/* Profile Header */}
       <div className="profile-header">
-        <div className="profile-avatar-lg">
-          <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
+        <div className="profile-avatar-lg" style={{ overflow: 'hidden' }}>
+          {user?.user_metadata?.avatar_url ? (
+            <img src={user.user_metadata.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
+          )}
         </div>
         <div>
           <div className="profile-name">{displayName}</div>
