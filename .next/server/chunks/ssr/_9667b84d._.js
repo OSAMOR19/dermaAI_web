@@ -327,6 +327,22 @@ function AnalysisPage() {
             columnNumber: 7
         }, this);
     }
+    const handleShare = async ()=>{
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'My Skin Analysis',
+                    text: 'I just got my AI skin analysis on Wholesale Beauty Hub! Check it out.',
+                    url: window.location.origin
+                });
+            } else {
+                await navigator.clipboard.writeText(window.location.origin);
+                alert('Link copied to clipboard!');
+            }
+        } catch (e) {
+            console.log('Error sharing', e);
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "results-page",
         children: [
@@ -343,12 +359,12 @@ function AnalysisPage() {
                             size: 20
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 235,
+                            lineNumber: 252,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 234,
+                        lineNumber: 251,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -358,7 +374,7 @@ function AnalysisPage() {
                                 children: "Analysis Results"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 238,
+                                lineNumber: 255,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -366,16 +382,17 @@ function AnalysisPage() {
                                 children: scanTime
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 239,
+                                lineNumber: 256,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 237,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: handleShare,
                         className: "icon-btn",
                         style: {
                             background: 'rgba(0,0,0,0.04)'
@@ -384,18 +401,18 @@ function AnalysisPage() {
                             size: 18
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 242,
+                            lineNumber: 259,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 241,
+                        lineNumber: 258,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 233,
+                lineNumber: 250,
                 columnNumber: 7
             }, this),
             scanImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -407,7 +424,7 @@ function AnalysisPage() {
                         className: "scan-capture-img"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 249,
+                        lineNumber: 266,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -417,20 +434,20 @@ function AnalysisPage() {
                                 size: 14
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 251,
+                                lineNumber: 268,
                                 columnNumber: 13
                             }, this),
                             " Your Scan"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 250,
+                        lineNumber: 267,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 248,
+                lineNumber: 265,
                 columnNumber: 9
             }, this),
             analysis?.image_quality === 'poor' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -452,7 +469,7 @@ function AnalysisPage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 259,
+                        lineNumber: 276,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -464,13 +481,13 @@ function AnalysisPage() {
                         children: "Image quality is poor. Results may be less accurate. Try scanning again with better lighting."
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 260,
+                        lineNumber: 277,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 258,
+                lineNumber: 275,
                 columnNumber: 9
             }, this),
             analysis?.warning_signs && analysis.warning_signs.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -499,7 +516,7 @@ function AnalysisPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                    lineNumber: 273,
+                                    lineNumber: 290,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -511,13 +528,13 @@ function AnalysisPage() {
                                     children: "Warning Signs"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                    lineNumber: 274,
+                                    lineNumber: 291,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 272,
+                            lineNumber: 289,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -534,23 +551,23 @@ function AnalysisPage() {
                                     children: w
                                 }, i, false, {
                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                    lineNumber: 278,
+                                    lineNumber: 295,
                                     columnNumber: 17
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 276,
+                            lineNumber: 293,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                    lineNumber: 271,
+                    lineNumber: 288,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 270,
+                lineNumber: 287,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -563,14 +580,14 @@ function AnalysisPage() {
                                 size: 16
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 288,
+                                lineNumber: 305,
                                 columnNumber: 11
                             }, this),
                             "Detected Conditions"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 287,
+                        lineNumber: 304,
                         columnNumber: 9
                     }, this),
                     conditions.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -588,7 +605,7 @@ function AnalysisPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 293,
+                                lineNumber: 310,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -600,7 +617,7 @@ function AnalysisPage() {
                                 children: "Your skin looks healthy! ✨"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 294,
+                                lineNumber: 311,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -612,13 +629,13 @@ function AnalysisPage() {
                                 children: "Our AI did not detect any significant skin conditions. Keep up your current skincare routine and stay protected from the sun."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 295,
+                                lineNumber: 312,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 292,
+                        lineNumber: 309,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "conditions-list",
@@ -641,7 +658,7 @@ function AnalysisPage() {
                                                         children: c.condition
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 309,
+                                                        lineNumber: 326,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -652,13 +669,13 @@ function AnalysisPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 310,
+                                                        lineNumber: 327,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 308,
+                                                lineNumber: 325,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -672,32 +689,32 @@ function AnalysisPage() {
                                                         children: c.severity
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 313,
+                                                        lineNumber: 330,
                                                         columnNumber: 23
                                                     }, this),
                                                     isOpen ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
                                                         size: 16
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 314,
+                                                        lineNumber: 331,
                                                         columnNumber: 33
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                         size: 16
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 314,
+                                                        lineNumber: 331,
                                                         columnNumber: 59
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 312,
+                                                lineNumber: 329,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                        lineNumber: 307,
+                                        lineNumber: 324,
                                         columnNumber: 19
                                     }, this),
                                     isOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -717,12 +734,12 @@ function AnalysisPage() {
                                                     children: c.clinical_explanation
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                    lineNumber: 322,
+                                                    lineNumber: 339,
                                                     columnNumber: 28
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 321,
+                                                lineNumber: 338,
                                                 columnNumber: 26
                                             }, this),
                                             c.active_ingredients && c.active_ingredients.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -746,14 +763,14 @@ function AnalysisPage() {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                                lineNumber: 332,
+                                                                lineNumber: 349,
                                                                 columnNumber: 29
                                                             }, this),
                                                             "To Treat"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 331,
+                                                        lineNumber: 348,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -774,18 +791,18 @@ function AnalysisPage() {
                                                                 children: ing
                                                             }, ii, false, {
                                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                                lineNumber: 337,
+                                                                lineNumber: 354,
                                                                 columnNumber: 31
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 335,
+                                                        lineNumber: 352,
                                                         columnNumber: 27
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 330,
+                                                lineNumber: 347,
                                                 columnNumber: 25
                                             }, this),
                                             c.observations && c.observations.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -809,14 +826,14 @@ function AnalysisPage() {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                                lineNumber: 347,
+                                                                lineNumber: 364,
                                                                 columnNumber: 29
                                                             }, this),
                                                             "Visual Observations"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 346,
+                                                        lineNumber: 363,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -832,18 +849,18 @@ function AnalysisPage() {
                                                                 children: obs
                                                             }, oi, false, {
                                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                                lineNumber: 352,
+                                                                lineNumber: 369,
                                                                 columnNumber: 31
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 350,
+                                                        lineNumber: 367,
                                                         columnNumber: 27
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 345,
+                                                lineNumber: 362,
                                                 columnNumber: 25
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -853,7 +870,7 @@ function AnalysisPage() {
                                                         children: "AI Confidence"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 358,
+                                                        lineNumber: 375,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -864,12 +881,12 @@ function AnalysisPage() {
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                            lineNumber: 360,
+                                                            lineNumber: 377,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 359,
+                                                        lineNumber: 376,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -880,37 +897,37 @@ function AnalysisPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 362,
+                                                        lineNumber: 379,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 357,
+                                                lineNumber: 374,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                        lineNumber: 318,
+                                        lineNumber: 335,
                                         columnNumber: 21
                                     }, this)
                                 ]
                             }, idx, true, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 302,
+                                lineNumber: 319,
                                 columnNumber: 17
                             }, this);
                         })
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 298,
+                        lineNumber: 315,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 286,
+                lineNumber: 303,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -923,14 +940,14 @@ function AnalysisPage() {
                                 size: 16
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 378,
+                                lineNumber: 395,
                                 columnNumber: 11
                             }, this),
                             "Recommended Products"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 377,
+                        lineNumber: 394,
                         columnNumber: 9
                     }, this),
                     recLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -944,7 +961,7 @@ function AnalysisPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 384,
+                                lineNumber: 401,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -956,13 +973,13 @@ function AnalysisPage() {
                                 children: "Finding the best products for your skin…"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 385,
+                                lineNumber: 402,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 383,
+                        lineNumber: 400,
                         columnNumber: 11
                     }, this) : recommendation ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                         children: [
@@ -977,20 +994,20 @@ function AnalysisPage() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                        lineNumber: 392,
+                                        lineNumber: 409,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         children: recommendation.summary
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                        lineNumber: 393,
+                                        lineNumber: 410,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 391,
+                                lineNumber: 408,
                                 columnNumber: 15
                             }, this),
                             recommendation.recommended_products.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1021,18 +1038,18 @@ function AnalysisPage() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                    lineNumber: 406,
+                                                    lineNumber: 423,
                                                     columnNumber: 25
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shopping$2d$bag$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ShoppingBag$3e$__["ShoppingBag"], {
                                                     size: 28
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                    lineNumber: 408,
+                                                    lineNumber: 425,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 404,
+                                                lineNumber: 421,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1043,7 +1060,7 @@ function AnalysisPage() {
                                                         children: p.category
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 412,
+                                                        lineNumber: 429,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -1051,7 +1068,7 @@ function AnalysisPage() {
                                                         children: p.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 413,
+                                                        lineNumber: 430,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1059,24 +1076,24 @@ function AnalysisPage() {
                                                         children: p.reason
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                        lineNumber: 414,
+                                                        lineNumber: 431,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                                lineNumber: 411,
+                                                lineNumber: 428,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                        lineNumber: 403,
+                                        lineNumber: 420,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 401,
+                                lineNumber: 418,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "metrics-card",
@@ -1092,12 +1109,12 @@ function AnalysisPage() {
                                     children: "No specific products matched. Check back after your next scan."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                    lineNumber: 421,
+                                    lineNumber: 438,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 420,
+                                lineNumber: 437,
                                 columnNumber: 15
                             }, this)
                         ]
@@ -1115,18 +1132,18 @@ function AnalysisPage() {
                             children: "Product recommendations will appear here after your scan."
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 429,
+                            lineNumber: 446,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 428,
+                        lineNumber: 445,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 376,
+                lineNumber: 393,
                 columnNumber: 7
             }, this),
             analysis?.disclaimer && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1153,19 +1170,19 @@ function AnalysisPage() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                            lineNumber: 440,
+                            lineNumber: 457,
                             columnNumber: 13
                         }, this),
                         analysis.disclaimer
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                    lineNumber: 439,
+                    lineNumber: 456,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 438,
+                lineNumber: 455,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1178,20 +1195,20 @@ function AnalysisPage() {
                                 size: 18
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 449,
+                                lineNumber: 466,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Report"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 450,
+                                lineNumber: 467,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 448,
+                        lineNumber: 465,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1202,20 +1219,20 @@ function AnalysisPage() {
                                 size: 18
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 453,
+                                lineNumber: 470,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Scan Again"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 454,
+                                lineNumber: 471,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 452,
+                        lineNumber: 469,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -1226,32 +1243,32 @@ function AnalysisPage() {
                                 size: 18
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 457,
+                                lineNumber: 474,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Book Dr."
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                                lineNumber: 458,
+                                lineNumber: 475,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                        lineNumber: 456,
+                        lineNumber: 473,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/analysis/page.tsx",
-                lineNumber: 447,
+                lineNumber: 464,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(main)/analysis/page.tsx",
-        lineNumber: 231,
+        lineNumber: 248,
         columnNumber: 5
     }, this);
 }

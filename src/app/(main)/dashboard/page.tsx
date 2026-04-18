@@ -141,26 +141,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Dermatologist Consultation */}
-      <div className="card">
-        <div className="card-title">Dermatologist Consultation</div>
-        <div className="doctor-row">
-          <div className="doctor-avatar">SJ</div>
-          <div style={{ flex: 1 }}>
-            <div className="doctor-name">Dr. Sarah Johnson</div>
-            <div className="doctor-title">Dermatology Specialist</div>
-            <div className="rating-row">
-              <Star size={14} fill="#FFD700" color="#FFD700" />
-              <span className="rating-text">4.9 (127 Reviews)</span>
-            </div>
-            <div className="online-badge">
-              <div className="online-dot" />
-              <span className="online-text">online</span>
-            </div>
-          </div>
-        </div>
-        <Link href="/booking/carter" className="btn btn-primary btn-block">View Doctor Profile</Link>
-      </div>
+
     </div>
   );
 }

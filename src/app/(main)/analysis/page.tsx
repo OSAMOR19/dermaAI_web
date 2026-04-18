@@ -227,6 +227,23 @@ export default function AnalysisPage() {
   }
 
 
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'My Skin Analysis',
+          text: 'I just got my AI skin analysis on Wholesale Beauty Hub! Check it out.',
+          url: window.location.origin
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.origin);
+        alert('Link copied to clipboard!');
+      }
+    } catch (e) {
+      console.log('Error sharing', e);
+    }
+  };
+
   return (
     <div className="results-page">
       {/* ---- Header ---- */}
@@ -238,7 +255,7 @@ export default function AnalysisPage() {
           <h1 className="results-title">Analysis Results</h1>
           <p className="results-date">{scanTime}</p>
         </div>
-        <button className="icon-btn" style={{ background: 'rgba(0,0,0,0.04)' }}>
+        <button onClick={handleShare} className="icon-btn" style={{ background: 'rgba(0,0,0,0.04)' }}>
           <Share2 size={18} />
         </button>
       </header>
