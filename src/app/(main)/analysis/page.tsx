@@ -30,6 +30,10 @@ interface GeminiAnalysis {
 
 interface RecommendedProduct {
   name: string;
+  brand?: string;
+  price?: string;
+  match_score?: number;
+  key_ingredient?: string;
   category: string;
   image: string;
   link: string;
