@@ -5,13 +5,6 @@ import Link from 'next/link';
 import { ScanLine, Star, Bell, Clock } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 
-function getGreeting() {
-  const h = new Date().getHours();
-  if (h < 12) return 'Good Morning';
-  if (h < 17) return 'Good Afternoon';
-  return 'Good Evening';
-}
-
 function formatRelativeTime(isoStr: string | null): string {
   if (!isoStr) return 'No scans yet';
   const d = new Date(isoStr);
@@ -55,7 +48,6 @@ function RecentCarousel() {
 }
 
 export default function DashboardPage() {
-  const greeting = getGreeting();
   const { user } = useAuth();
   const firstName = user?.user_metadata?.first_name || '';
   const initials = firstName ? firstName[0].toUpperCase() : 'U';
@@ -96,7 +88,7 @@ export default function DashboardPage() {
             <span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--primary)' }}>{initials}</span>
           </div>
           <div>
-            <div className="dash-greeting">{greeting}{firstName ? `, ${firstName}` : ''} 👋</div>
+            <div className="dash-greeting">Hi{firstName ? `, ${firstName}` : ''} 👋</div>
             <div className="dash-subgreeting">Here&apos;s your skin update for today.</div>
           </div>
         </div>

@@ -1091,53 +1091,32 @@ function SignupPage() {
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "social-buttons",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        type: "button",
-                                        className: "social-btn",
-                                        onClick: ()=>handleOAuth('google'),
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                src: "/icons/google.svg",
-                                                alt: "Google",
-                                                width: 20,
-                                                height: 20
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                                                lineNumber: 269,
-                                                columnNumber: 15
-                                            }, this),
-                                            " Google"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                                        lineNumber: 268,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        type: "button",
-                                        className: "social-btn",
-                                        onClick: ()=>handleOAuth('apple'),
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                src: "/icons/apple.svg",
-                                                alt: "Apple",
-                                                width: 20,
-                                                height: 20
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                                                lineNumber: 272,
-                                                columnNumber: 15
-                                            }, this),
-                                            " Apple"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                                        lineNumber: 271,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    type: "button",
+                                    className: "social-btn",
+                                    style: {
+                                        width: '100%'
+                                    },
+                                    onClick: ()=>handleOAuth('google'),
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                            src: "/icons/google.svg",
+                                            alt: "Google",
+                                            width: 20,
+                                            height: 20
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(auth)/signup/page.tsx",
+                                            lineNumber: 269,
+                                            columnNumber: 15
+                                        }, this),
+                                        " Continue with Google"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(auth)/signup/page.tsx",
+                                    lineNumber: 268,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
                                 fileName: "[project]/src/app/(auth)/signup/page.tsx",
                                 lineNumber: 267,
                                 columnNumber: 11
@@ -1157,13 +1136,13 @@ function SignupPage() {
                                 children: "Sign In"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                                lineNumber: 277,
+                                lineNumber: 274,
                                 columnNumber: 36
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                        lineNumber: 276,
+                        lineNumber: 273,
                         columnNumber: 9
                     }, this)
                 ]
@@ -1177,7 +1156,7 @@ function SignupPage() {
                 onClose: ()=>setShowTerms(null)
             }, void 0, false, {
                 fileName: "[project]/src/app/(auth)/signup/page.tsx",
-                lineNumber: 282,
+                lineNumber: 279,
                 columnNumber: 9
             }, this)
         ]

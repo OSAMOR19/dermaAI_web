@@ -104,6 +104,14 @@ function EditProfile() {
         updated_at: new Date().toISOString(),
       });
 
+    // Also update the auth user metadata so the layout/dashboard see the new name instantly
+    await supabase.auth.updateUser({
+      data: {
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+      }
+    });
+
     if (updateError) {
       setError(updateError.message);
     } else {

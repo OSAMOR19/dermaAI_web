@@ -265,11 +265,8 @@ export default function SignupPage() {
           </button>
           <div className="form-divider">or sign up with</div>
           <div className="social-buttons">
-            <button type="button" className="social-btn" onClick={() => handleOAuth('google')}>
-              <img src="/icons/google.svg" alt="Google" width={20} height={20} /> Google
-            </button>
-            <button type="button" className="social-btn" onClick={() => handleOAuth('apple')}>
-              <img src="/icons/apple.svg" alt="Apple" width={20} height={20} /> Apple
+            <button type="button" className="social-btn" style={{ width: '100%' }} onClick={() => handleOAuth('google')}>
+              <img src="/icons/google.svg" alt="Google" width={20} height={20} /> Continue with Google
             </button>
           </div>
         </form>

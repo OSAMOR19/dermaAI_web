@@ -20,12 +20,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AuthPro
 ;
 ;
 ;
-function getGreeting() {
-    const h = new Date().getHours();
-    if (h < 12) return 'Good Morning';
-    if (h < 17) return 'Good Afternoon';
-    return 'Good Evening';
-}
 function formatRelativeTime(isoStr) {
     if (!isoStr) return 'No scans yet';
     const d = new Date(isoStr);
@@ -61,7 +55,7 @@ function RecentCarousel() {
                     className: `carousel-img ${i === idx ? 'active' : ''}`
                 }, i, false, {
                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                    lineNumber: 46,
+                    lineNumber: 39,
                     columnNumber: 9
                 }, this)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -71,23 +65,22 @@ function RecentCarousel() {
                         onClick: ()=>setIdx(i)
                     }, i, false, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 50,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                lineNumber: 48,
+                lineNumber: 41,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-        lineNumber: 44,
+        lineNumber: 37,
         columnNumber: 5
     }, this);
 }
 function DashboardPage() {
-    const greeting = getGreeting();
     const { user } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AuthProvider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"])();
     const firstName = user?.user_metadata?.first_name || '';
     const initials = firstName ? firstName[0].toUpperCase() : 'U';
@@ -137,12 +130,12 @@ function DashboardPage() {
                                     children: initials
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 96,
+                                    lineNumber: 88,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 95,
+                                lineNumber: 87,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -150,13 +143,13 @@ function DashboardPage() {
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "dash-greeting",
                                         children: [
-                                            greeting,
+                                            "Hi",
                                             firstName ? `, ${firstName}` : '',
                                             " 👋"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 99,
+                                        lineNumber: 91,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -164,19 +157,19 @@ function DashboardPage() {
                                         children: "Here's your skin update for today."
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 100,
+                                        lineNumber: 92,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 98,
+                                lineNumber: 90,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 94,
+                        lineNumber: 86,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -192,12 +185,12 @@ function DashboardPage() {
                                     size: 20
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 104,
+                                    lineNumber: 96,
                                     columnNumber: 68
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 104,
+                                lineNumber: 96,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -207,24 +200,24 @@ function DashboardPage() {
                                     size: 20
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 105,
+                                    lineNumber: 97,
                                     columnNumber: 51
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 105,
+                                lineNumber: 97,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 103,
+                        lineNumber: 95,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                lineNumber: 93,
+                lineNumber: 85,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -240,14 +233,14 @@ function DashboardPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 112,
+                                lineNumber: 104,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: score === null ? 'Complete your first scan.' : score > 80 ? 'Looking great!' : 'Healthy, but some areas need attention.'
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 113,
+                                lineNumber: 105,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -256,13 +249,13 @@ function DashboardPage() {
                                 children: "Scan Again"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 114,
+                                lineNumber: 106,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 111,
+                        lineNumber: 103,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -276,18 +269,18 @@ function DashboardPage() {
                             className: "score-face-img"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                            lineNumber: 117,
+                            lineNumber: 109,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 116,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                lineNumber: 110,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -304,7 +297,7 @@ function DashboardPage() {
                                 children: "Areas Detected"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 125,
+                                lineNumber: 117,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -319,7 +312,7 @@ function DashboardPage() {
                                                 className: `area-dot ${i === 0 ? 'red' : i === 1 ? 'orange' : 'blue'}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 129,
+                                                lineNumber: 121,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -327,13 +320,13 @@ function DashboardPage() {
                                                 children: area
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 130,
+                                                lineNumber: 122,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, i, true, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 120,
                                         columnNumber: 15
                                     }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     style: {
@@ -343,18 +336,18 @@ function DashboardPage() {
                                     children: "No concerns detected yet."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 133,
+                                    lineNumber: 125,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 126,
+                                lineNumber: 118,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 124,
+                        lineNumber: 116,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -371,7 +364,7 @@ function DashboardPage() {
                                         children: "Recent Analysis"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 141,
+                                        lineNumber: 133,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -385,20 +378,20 @@ function DashboardPage() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 142,
+                                                lineNumber: 134,
                                                 columnNumber: 43
                                             }, this),
                                             scanTime
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 142,
+                                        lineNumber: 134,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 140,
+                                lineNumber: 132,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -411,16 +404,16 @@ function DashboardPage() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 138,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(RecentCarousel, {}, void 0, false, {
                                     fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                    lineNumber: 148,
+                                    lineNumber: 140,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 144,
+                                lineNumber: 136,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -438,7 +431,7 @@ function DashboardPage() {
                                         children: "View Full Report"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 152,
+                                        lineNumber: 144,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -450,25 +443,25 @@ function DashboardPage() {
                                         children: "View History"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 153,
+                                        lineNumber: 145,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 151,
+                                lineNumber: 143,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 139,
+                        lineNumber: 131,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                lineNumber: 122,
+                lineNumber: 114,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -479,7 +472,7 @@ function DashboardPage() {
                         children: "Dermatologist Consultation"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 160,
+                        lineNumber: 152,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -490,7 +483,7 @@ function DashboardPage() {
                                 children: "SJ"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 162,
+                                lineNumber: 154,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -503,7 +496,7 @@ function DashboardPage() {
                                         children: "Dr. Sarah Johnson"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 164,
+                                        lineNumber: 156,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -511,7 +504,7 @@ function DashboardPage() {
                                         children: "Dermatology Specialist"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 165,
+                                        lineNumber: 157,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -523,7 +516,7 @@ function DashboardPage() {
                                                 color: "#FFD700"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 167,
+                                                lineNumber: 159,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -531,13 +524,13 @@ function DashboardPage() {
                                                 children: "4.9 (127 Reviews)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 168,
+                                                lineNumber: 160,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 158,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -547,7 +540,7 @@ function DashboardPage() {
                                                 className: "online-dot"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 171,
+                                                lineNumber: 163,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -555,25 +548,25 @@ function DashboardPage() {
                                                 children: "online"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                                lineNumber: 172,
+                                                lineNumber: 164,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                        lineNumber: 170,
+                                        lineNumber: 162,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                                lineNumber: 163,
+                                lineNumber: 155,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 161,
+                        lineNumber: 153,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -582,19 +575,19 @@ function DashboardPage() {
                         children: "View Doctor Profile"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                        lineNumber: 176,
+                        lineNumber: 168,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-                lineNumber: 159,
+                lineNumber: 151,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(main)/dashboard/page.tsx",
-        lineNumber: 91,
+        lineNumber: 83,
         columnNumber: 5
     }, this);
 }

@@ -312,53 +312,32 @@ function LoginForm() {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "social-buttons",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    type: "button",
-                                    className: "social-btn",
-                                    onClick: ()=>handleOAuth('google'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                            src: "/icons/google.svg",
-                                            alt: "Google",
-                                            width: 20,
-                                            height: 20
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(auth)/login/page.tsx",
-                                            lineNumber: 113,
-                                            columnNumber: 15
-                                        }, this),
-                                        " Google"
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/(auth)/login/page.tsx",
-                                    lineNumber: 112,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    type: "button",
-                                    className: "social-btn",
-                                    onClick: ()=>handleOAuth('apple'),
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                            src: "/icons/apple.svg",
-                                            alt: "Apple",
-                                            width: 20,
-                                            height: 20
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(auth)/login/page.tsx",
-                                            lineNumber: 116,
-                                            columnNumber: 15
-                                        }, this),
-                                        " Apple"
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/(auth)/login/page.tsx",
-                                    lineNumber: 115,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                className: "social-btn",
+                                style: {
+                                    width: '100%'
+                                },
+                                onClick: ()=>handleOAuth('google'),
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                        src: "/icons/google.svg",
+                                        alt: "Google",
+                                        width: 20,
+                                        height: 20
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(auth)/login/page.tsx",
+                                        lineNumber: 113,
+                                        columnNumber: 15
+                                    }, this),
+                                    " Continue with Google"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(auth)/login/page.tsx",
+                                lineNumber: 112,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
                             fileName: "[project]/src/app/(auth)/login/page.tsx",
                             lineNumber: 111,
                             columnNumber: 11
@@ -378,13 +357,13 @@ function LoginForm() {
                             children: "Sign Up"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(auth)/login/page.tsx",
-                            lineNumber: 121,
+                            lineNumber: 118,
                             columnNumber: 39
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(auth)/login/page.tsx",
-                    lineNumber: 120,
+                    lineNumber: 117,
                     columnNumber: 9
                 }, this)
             ]
@@ -410,12 +389,12 @@ function LoginPage() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(LoginForm, {}, void 0, false, {
             fileName: "[project]/src/app/(auth)/login/page.tsx",
-            lineNumber: 131,
+            lineNumber: 128,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/(auth)/login/page.tsx",
-        lineNumber: 130,
+        lineNumber: 127,
         columnNumber: 5
     }, this);
 }
