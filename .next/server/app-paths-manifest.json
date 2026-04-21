@@ -1,9 +1,12 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/(auth)/signup/page": "app/(auth)/signup/page.js",
+  "/(main)/analysis/page": "app/(main)/analysis/page.js",
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(main)/profile/[slug]/page": "app/(main)/profile/[slug]/page.js",
   "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/recommend/route": "app/api/recommend/route.js",
   "/api/scans/route": "app/api/scans/route.js",
   "/auth/callback/route": "app/auth/callback/route.js",
   "/page": "app/page.js"
