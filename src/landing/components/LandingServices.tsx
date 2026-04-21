@@ -45,7 +45,7 @@ export default function LandingServices() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 28, textAlign: 'left' }}>
           {services.map((s, i) => (
-            <Link href="https://wholesalebeautyhub.com/contact" key={i} style={{ textDecoration: 'none' }}>
+            <Link href="https://wholesalebeautyhub.co.uk/contact/" key={i} style={{ textDecoration: 'none' }}>
               <div style={{
                 background: '#fff', padding: '44px 40px', borderRadius: 40,
                 boxShadow: '0 20px 60px rgba(45,26,18,0.06)',
