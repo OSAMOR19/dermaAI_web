@@ -42,7 +42,7 @@ async function updateSession(request) {
             }
         }
     });
-    // Refresh session if expired
+    // Refresh session
     let user = null;
     try {
         const { data } = await supabase.auth.getUser();
@@ -52,31 +52,14 @@ async function updateSession(request) {
     }
     const pathname = request.nextUrl.pathname;
     const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/auth/');
-    const isAdminRoute = pathname.startsWith('/admin');
     const isPublicPage = pathname === '/' || isAuthPage;
-    // Unauthenticated: block all protected routes
+    // Unauthenticated users: redirect to login for protected routes
     if (!user && !isPublicPage) {
         const url = request.nextUrl.clone();
         url.pathname = '/login';
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
     }
-    // Admin route protection: check role in profiles table
-    if (user && isAdminRoute) {
-        try {
-            const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-            if (!profile || profile.role !== 'admin') {
-                const url = request.nextUrl.clone();
-                url.pathname = '/';
-                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
-            }
-        } catch  {
-            // If profiles table doesn't exist yet or query fails, block access
-            const url = request.nextUrl.clone();
-            url.pathname = '/';
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
-        }
-    }
-    // Redirect authenticated users away from auth pages to dashboard
+    // Authenticated users: redirect away from auth pages to dashboard
     const isResetPage = pathname.startsWith('/reset-password');
     if (user && isAuthPage && !isResetPage) {
         const url = request.nextUrl.clone();
