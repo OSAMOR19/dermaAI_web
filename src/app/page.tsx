@@ -6,6 +6,9 @@ import LandingServices from '@/landing/components/LandingServices';
 import LandingImageGallery from '@/landing/components/LandingImageGallery';
 import LandingFooter from '@/landing/components/LandingFooter';
 
+// Force dynamic rendering — prevents Vercel/CDN from caching a stale redirect
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Wholesale Beauty Hub — AI Skin Analysis & Professional Skincare',
   description: 'Transform your skin with AI-powered analysis and clinical expertise. Trusted by 10,000+ patients worldwide.',
