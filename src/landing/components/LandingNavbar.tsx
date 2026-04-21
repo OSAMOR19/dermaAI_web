@@ -55,8 +55,8 @@ export default function LandingNavbar() {
               <Link key={link.name} href={link.href} style={{
                 textDecoration: 'none', fontSize: 15, fontWeight: 700,
                 color: '#2d1a12', opacity: 0.75, transition: 'all 0.3s ease',
-                position: 'relative',
-              }} className="nav-link" style={{ animationDelay: `${i * 0.1}s` }}>
+                position: 'relative', animationDelay: `${i * 0.1}s`,
+              }} className="nav-link">
                 {link.name}
               </Link>
             ))}
