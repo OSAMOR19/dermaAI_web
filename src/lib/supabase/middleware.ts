@@ -25,7 +25,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Refresh session if expired
+  // Refresh session
   let user = null;
   try {
     const { data } = await supabase.auth.getUser();
@@ -42,39 +42,16 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/reset-password') ||
     pathname.startsWith('/auth/');
 
-  const isAdminRoute = pathname.startsWith('/admin');
   const isPublicPage = pathname === '/' || isAuthPage;
 
-  // Unauthenticated: block all protected routes
+  // Unauthenticated users: redirect to login for protected routes
   if (!user && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
-  // Admin route protection: check role in profiles table
-  if (user && isAdminRoute) {
-    try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      if (!profile || profile.role !== 'admin') {
-        const url = request.nextUrl.clone();
-        url.pathname = '/';
-        return NextResponse.redirect(url);
-      }
-    } catch {
-      // If profiles table doesn't exist yet or query fails, block access
-      const url = request.nextUrl.clone();
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
-  }
-
-  // Redirect authenticated users away from auth pages to dashboard
+  // Authenticated users: redirect away from auth pages to dashboard
   const isResetPage = pathname.startsWith('/reset-password');
   if (user && isAuthPage && !isResetPage) {
     const url = request.nextUrl.clone();
