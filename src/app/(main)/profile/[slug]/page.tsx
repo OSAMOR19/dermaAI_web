@@ -92,10 +92,8 @@ function EditProfile() {
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
-    
     setUploadingAvatar(true);
     setError('');
-    
     try {
       const base64Avatar = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -104,16 +102,12 @@ function EditProfile() {
           img.onload = () => {
             const canvas = document.createElement('canvas');
             const size = 150;
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = size; canvas.height = size;
             const ctx = canvas.getContext('2d');
             if (!ctx) return reject('Canvas error');
-            // object-fit: cover equivalent calculation
             const scale = Math.max(size / img.width, size / img.height);
-            const w = img.width * scale;
-            const h = img.height * scale;
-            const x = (size - w) / 2;
-            const y = (size - h) / 2;
+            const w = img.width * scale; const h = img.height * scale;
+            const x = (size - w) / 2; const y = (size - h) / 2;
             ctx.drawImage(img, x, y, w, h);
             resolve(canvas.toDataURL('image/jpeg', 0.8));
           };
@@ -123,22 +117,17 @@ function EditProfile() {
         reader.onerror = () => reject('File read error');
         reader.readAsDataURL(file);
       });
-
       setAvatarUrl(base64Avatar);
-
-      // Save to profiles
+      // Save ONLY to profiles table — never to auth.updateUser
+      // Storing base64 in auth metadata bloats the JWT cookie → Vercel 494 error
       await supabase.from('profiles').update({ avatar_url: base64Avatar }).eq('id', user.id);
-      
-      // Add to auth metadata so layout spots it instantly
-      await supabase.auth.updateUser({ data: { avatar_url: base64Avatar } });
-      
-    } catch (err: any) {
-      console.error(err);
-      setError('Failed to process profile picture: ' + err.message);
+    } catch (err: unknown) {
+      setError('Failed to process profile picture.');
     } finally {
       setUploadingAvatar(false);
     }
   };
+
 
   const handleSave = async () => {
     if (!user) return;
