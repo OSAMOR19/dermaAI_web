@@ -58,10 +58,11 @@ async function updateSession(request) {
         url.pathname = '/login';
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
     }
-    // Redirect authenticated users away from auth pages to dashboard
-    // BUT allow /reset-password even when authenticated (recovery flow)
+    // Redirect authenticated users away from auth pages OR landing → dashboard
+    // (Allow /reset-password even when authenticated for the recovery flow)
     const isResetPage = request.nextUrl.pathname.startsWith('/reset-password');
-    if (user && isAuthPage && !isResetPage) {
+    const isLandingPage = request.nextUrl.pathname === '/';
+    if (user && (isAuthPage || isLandingPage) && !isResetPage) {
         const url = request.nextUrl.clone();
         url.pathname = '/dashboard';
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
@@ -90,9 +91,9 @@ const config = {
      * - _next/static (static files)
      * - _next/image (image optimisation)
      * - favicon.ico
-     * - public folder assets (images, icons, etc.)
+     * - any file with an image extension (.svg, .png, .jpg, .jpeg, .gif, .webp)
      * - api routes (handled separately)
-     */ '/((?!_next/static|_next/image|favicon.ico|images/|icons/|api/).*)'
+     */ '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|api/).*)'
     ]
 };
 }),

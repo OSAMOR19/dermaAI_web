@@ -12,9 +12,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimisation)
      * - favicon.ico
-     * - public folder assets (images, icons, etc.)
+     * - any file with an image extension (.svg, .png, .jpg, .jpeg, .gif, .webp)
      * - api routes (handled separately)
      */
-    '/((?!_next/static|_next/image|favicon.ico|images/|icons/|api/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|api/).*)',
   ],
 };

@@ -615,17 +615,20 @@ function ScanPage() {
         speak
     ]);
     /* ---- Take snapshot ---- */ const takeSnapshot = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])(()=>{
-        if (capturedImages.length >= MAX_IMAGES || phase !== 'position') return;
+        if (capturedImages.length >= MAX_IMAGES || phase !== 'position') return null;
         const img = captureFrame();
         if (img) {
             setCapturedImages([
                 img
             ]);
             playShutter();
-            setPhase('review');
-            setStatusText('Please review your capture');
-            speak('Capture successful. Please review your capture.');
+            // Bypass the extra review screen completely
+            setPhase('analyze');
+            setStatusText('Processing your result...');
+            speak('Capture successful. Processing your AI results now.');
+            return img;
         }
+        return null;
     }, [
         capturedImages.length,
         captureFrame,
@@ -777,12 +780,12 @@ function ScanPage() {
                                 size: 20
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 376,
+                                lineNumber: 379,
                                 columnNumber: 56
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 376,
+                            lineNumber: 379,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -792,12 +795,12 @@ function ScanPage() {
                                 alt: "WBH"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 377,
+                                lineNumber: 380,
                                 columnNumber: 38
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 377,
+                            lineNumber: 380,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -805,13 +808,13 @@ function ScanPage() {
                             children: "READY"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 378,
+                            lineNumber: 381,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                    lineNumber: 375,
+                    lineNumber: 378,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -822,7 +825,7 @@ function ScanPage() {
                             children: "How would you like to scan?"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 381,
+                            lineNumber: 384,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -830,7 +833,7 @@ function ScanPage() {
                             children: "For maximum accuracy, use the live camera feed."
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 382,
+                            lineNumber: 385,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -846,32 +849,32 @@ function ScanPage() {
                                                 size: 32
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                                lineNumber: 385,
+                                                lineNumber: 388,
                                                 columnNumber: 61
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 385,
+                                            lineNumber: 388,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             children: "Live Scan"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 386,
+                                            lineNumber: 389,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             children: "Real-time validation"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 387,
+                                            lineNumber: 390,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 384,
+                                    lineNumber: 387,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -884,50 +887,50 @@ function ScanPage() {
                                                 size: 32
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                                lineNumber: 390,
+                                                lineNumber: 393,
                                                 columnNumber: 61
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 390,
+                                            lineNumber: 393,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             children: "Upload Photo"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 391,
+                                            lineNumber: 394,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             children: "Submit existing image"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 392,
+                                            lineNumber: 395,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 389,
+                                    lineNumber: 392,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 383,
+                            lineNumber: 386,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                    lineNumber: 380,
+                    lineNumber: 383,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/(main)/scan/page.tsx",
-            lineNumber: 374,
+            lineNumber: 377,
             columnNumber: 7
         }, this);
     }
@@ -950,12 +953,12 @@ function ScanPage() {
                                 size: 20
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 405,
+                                lineNumber: 408,
                                 columnNumber: 144
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 405,
+                            lineNumber: 408,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -965,12 +968,12 @@ function ScanPage() {
                                 alt: "WBH"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 406,
+                                lineNumber: 409,
                                 columnNumber: 38
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 406,
+                            lineNumber: 409,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -978,13 +981,13 @@ function ScanPage() {
                             children: analyzing ? '● ANALYZING' : uploadImages.length > 0 ? 'READY' : 'SELECT'
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 407,
+                            lineNumber: 410,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                    lineNumber: 404,
+                    lineNumber: 407,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -998,12 +1001,12 @@ function ScanPage() {
                                 className: "scan-upload-img"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 413,
+                                lineNumber: 416,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 412,
+                            lineNumber: 415,
                             columnNumber: 13
                         }, this),
                         uploadImages.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1015,21 +1018,21 @@ function ScanPage() {
                                     strokeWidth: 1.5
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 420,
+                                    lineNumber: 423,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                     children: "Select Photo"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 421,
+                                    lineNumber: 424,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     children: "Upload an image of the affected skin area for better accuracy (Max 20MB)"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 422,
+                                    lineNumber: 425,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1037,13 +1040,13 @@ function ScanPage() {
                                     children: "JPG, PNG, HEIC"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 423,
+                                    lineNumber: 426,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 419,
+                            lineNumber: 422,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1056,7 +1059,7 @@ function ScanPage() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 427,
+                            lineNumber: 430,
                             columnNumber: 11
                         }, this),
                         analyzing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1066,7 +1069,7 @@ function ScanPage() {
                                     className: "scn-loading-spinner"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 438,
+                                    lineNumber: 441,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1077,13 +1080,13 @@ function ScanPage() {
                                     children: SCAN_METRICS[metricIdx]
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 439,
+                                    lineNumber: 442,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 437,
+                            lineNumber: 440,
                             columnNumber: 13
                         }, this),
                         apiError && !analyzing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1106,7 +1109,7 @@ function ScanPage() {
                                     children: "✓ Validation Issue"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 446,
+                                    lineNumber: 449,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1117,13 +1120,13 @@ function ScanPage() {
                                     children: apiError
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 447,
+                                    lineNumber: 450,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 445,
+                            lineNumber: 448,
                             columnNumber: 13
                         }, this),
                         uploadImages.length > 0 && !analyzing && !apiError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1135,7 +1138,7 @@ function ScanPage() {
                                     children: "Upload Another"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 454,
+                                    lineNumber: 457,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1144,29 +1147,258 @@ function ScanPage() {
                                     children: "Analyse My Skin"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 457,
+                                    lineNumber: 460,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 453,
+                            lineNumber: 456,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                    lineNumber: 409,
+                    lineNumber: 412,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/(main)/scan/page.tsx",
-            lineNumber: 403,
+            lineNumber: 406,
             columnNumber: 7
         }, this);
     }
     /* ============ CAMERA MODE ============ */ const allIndicatorsOk = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
+    /* ---- DEDICATED PROCESSING SCREEN (replaces camera completely) ---- */ if (phase === 'analyze' || phase === 'done') {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "scn-page",
+            style: {
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100dvh',
+                background: 'var(--bg, #0a0a0a)'
+            },
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        textAlign: 'center',
+                        padding: '0 32px',
+                        maxWidth: 360
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                position: 'relative',
+                                width: 120,
+                                height: 120,
+                                margin: '0 auto 32px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        position: 'absolute',
+                                        inset: 0,
+                                        borderRadius: '50%',
+                                        background: 'radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%)',
+                                        animation: 'pulse 2s ease-in-out infinite'
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                    lineNumber: 480,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        position: 'absolute',
+                                        inset: 12,
+                                        borderRadius: '50%',
+                                        background: 'radial-gradient(circle, rgba(236,72,153,0.4) 0%, transparent 70%)',
+                                        animation: 'pulse 2s ease-in-out infinite 0.4s'
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                    lineNumber: 485,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        position: 'absolute',
+                                        inset: 24,
+                                        borderRadius: '50%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        background: 'rgba(236,72,153,0.12)',
+                                        border: '2px solid rgba(236,72,153,0.5)'
+                                    },
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
+                                        size: 32,
+                                        color: "#ec4899"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                        lineNumber: 495,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                    lineNumber: 490,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                            lineNumber: 479,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                            style: {
+                                fontSize: '1.4rem',
+                                fontWeight: 700,
+                                color: 'var(--text, #fff)',
+                                marginBottom: 10
+                            },
+                            children: phase === 'done' ? '✓ Scan Complete!' : 'Analysing Your Skin'
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                            lineNumber: 499,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            style: {
+                                fontSize: '0.9rem',
+                                color: 'rgba(255,255,255,0.55)',
+                                marginBottom: 28,
+                                lineHeight: 1.6
+                            },
+                            children: phase === 'done' ? 'Taking you to your results…' : 'Our AI is carefully examining your skin. This usually takes 10–15 seconds.'
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                            lineNumber: 502,
+                            columnNumber: 11
+                        }, this),
+                        phase === 'analyze' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: 8,
+                                        padding: '10px 20px',
+                                        borderRadius: 30,
+                                        background: 'rgba(236,72,153,0.08)',
+                                        border: '1px solid rgba(236,72,153,0.2)',
+                                        color: '#ec4899',
+                                        fontSize: '0.82rem',
+                                        fontWeight: 600,
+                                        marginBottom: 20
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "scn-loading-spinner",
+                                            style: {
+                                                width: 12,
+                                                height: 12
+                                            }
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                            lineNumber: 517,
+                                            columnNumber: 17
+                                        }, this),
+                                        SCAN_METRICS[metricIdx]
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                    lineNumber: 511,
+                                    columnNumber: 15
+                                }, this),
+                                apiError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        padding: '14px 20px',
+                                        borderRadius: 12,
+                                        background: 'rgba(229,57,53,0.12)',
+                                        border: '1px solid rgba(229,57,53,0.3)',
+                                        textAlign: 'center'
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            style: {
+                                                color: '#E53935',
+                                                fontSize: '0.88rem',
+                                                fontWeight: 600,
+                                                marginBottom: 6
+                                            },
+                                            children: "⚠ AI Unavailable"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                            lineNumber: 524,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            style: {
+                                                color: '#E53935',
+                                                fontSize: '0.8rem',
+                                                opacity: 0.85
+                                            },
+                                            children: apiError
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                            lineNumber: 525,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                            className: "btn btn-primary",
+                                            style: {
+                                                marginTop: 14,
+                                                width: '100%'
+                                            },
+                                            onClick: ()=>{
+                                                setApiError(null);
+                                                setAnalyzing(false);
+                                                setPhase('position');
+                                                setStatusText('Position your face within the frame');
+                                            },
+                                            children: "Try Again"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                            lineNumber: 526,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                                    lineNumber: 523,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                    lineNumber: 477,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
+                    children: `
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 1; }
+          }
+        `
+                }, void 0, false, {
+                    fileName: "[project]/src/app/(main)/scan/page.tsx",
+                    lineNumber: 544,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/app/(main)/scan/page.tsx",
+            lineNumber: 476,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "scn-page",
         children: [
@@ -1184,12 +1416,12 @@ function ScanPage() {
                             size: 20
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 473,
+                            lineNumber: 557,
                             columnNumber: 159
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 473,
+                        lineNumber: 557,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1199,26 +1431,26 @@ function ScanPage() {
                             alt: "WBH"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 474,
+                            lineNumber: 558,
                             columnNumber: 36
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 474,
+                        lineNumber: 558,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `scn-badge ${phase === 'done' ? 'done' : 'live'}`,
-                        children: phase === 'done' ? '✓ DONE' : phase === 'review' ? 'REVIEW' : 'LIVE'
+                        className: "scn-badge live",
+                        children: "LIVE"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 475,
+                        lineNumber: 559,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                lineNumber: 472,
+                lineNumber: 556,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1226,91 +1458,15 @@ function ScanPage() {
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "scn-viewport",
                     children: [
-                        phase === 'review' && capturedImages[0] ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                            src: capturedImages[0],
-                            alt: "Captured Review",
-                            style: {
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                transform: 'scaleX(-1)'
-                            }
-                        }, void 0, false, {
-                            fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 483,
-                            columnNumber: 13
-                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("video", {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("video", {
                             ref: videoRef,
                             className: "scn-video",
                             playsInline: true,
                             muted: true
                         }, void 0, false, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 485,
-                            columnNumber: 13
-                        }, this),
-                        (phase === 'analyze' || phase === 'done') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "wire-layer",
-                            children: [
-                                WIREFRAME_POINTS.map((p, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "wd",
-                                        style: {
-                                            left: `${p.x}%`,
-                                            top: `${p.y}%`,
-                                            animationDelay: `${p.d}s`
-                                        }
-                                    }, i, false, {
-                                        fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 492,
-                                        columnNumber: 17
-                                    }, this)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                    className: "wl",
-                                    viewBox: "0 0 100 100",
-                                    preserveAspectRatio: "none",
-                                    children: WIRE_LINES.map(([x1, y1, x2, y2], i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
-                                            x1: x1,
-                                            y1: y1,
-                                            x2: x2,
-                                            y2: y2
-                                        }, i, false, {
-                                            fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                            lineNumber: 496,
-                                            columnNumber: 19
-                                        }, this))
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 494,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 490,
-                            columnNumber: 13
-                        }, this),
-                        phase === 'analyze' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "scan-upload-overlay",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "scn-loading-spinner"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 505,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    children: SCAN_METRICS[metricIdx]
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 506,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 504,
-                            columnNumber: 13
+                            lineNumber: 564,
+                            columnNumber: 11
                         }, this),
                         phase === 'init' && !cameraError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "scn-loading",
@@ -1319,20 +1475,20 @@ function ScanPage() {
                                     className: "scn-loading-spinner"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 513,
+                                    lineNumber: 569,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     children: "Preparing camera…"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 514,
+                                    lineNumber: 570,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 512,
+                            lineNumber: 568,
                             columnNumber: 13
                         }, this),
                         cameraError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1346,7 +1502,7 @@ function ScanPage() {
                                     children: "🔒"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 521,
+                                    lineNumber: 577,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1356,7 +1512,7 @@ function ScanPage() {
                                     children: "Camera access denied"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 522,
+                                    lineNumber: 578,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1368,13 +1524,13 @@ function ScanPage() {
                                     children: "Enable camera in browser settings and reload"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 523,
+                                    lineNumber: 579,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 520,
+                            lineNumber: 576,
                             columnNumber: 13
                         }, this),
                         phase === 'position' && !cameraError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1385,28 +1541,28 @@ function ScanPage() {
                                         className: "bk tl"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 532,
+                                        lineNumber: 587,
                                         columnNumber: 18
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "bk tr"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 532,
+                                        lineNumber: 587,
                                         columnNumber: 49
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "bk bl"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 533,
+                                        lineNumber: 588,
                                         columnNumber: 18
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "bk br"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 533,
+                                        lineNumber: 588,
                                         columnNumber: 49
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1414,48 +1570,30 @@ function ScanPage() {
                                         children: "Center Face Here"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 534,
+                                        lineNumber: 589,
                                         columnNumber: 18
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 531,
+                                lineNumber: 586,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                    lineNumber: 481,
+                    lineNumber: 563,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                lineNumber: 480,
+                lineNumber: 562,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
                 className: "scn-hud",
                 children: [
-                    analyzing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "scn-metric",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$activity$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Activity$3e$__["Activity"], {
-                                size: 13
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 542,
-                                columnNumber: 51
-                            }, this),
-                            " ",
-                            SCAN_METRICS[metricIdx]
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 542,
-                        columnNumber: 23
-                    }, this),
                     phase === 'position' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "scn-status phase-position",
                         style: {
@@ -1464,35 +1602,7 @@ function ScanPage() {
                         children: statusText
                     }, void 0, false, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 545,
-                        columnNumber: 11
-                    }, this),
-                    apiError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        style: {
-                            padding: '10px 16px',
-                            margin: '8px 0',
-                            background: 'rgba(229,57,53,0.12)',
-                            borderRadius: 10,
-                            textAlign: 'center'
-                        },
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            style: {
-                                color: '#E53935',
-                                fontSize: '0.82rem',
-                                fontWeight: 600
-                            },
-                            children: [
-                                "⚠ ",
-                                apiError
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/(main)/scan/page.tsx",
-                            lineNumber: 552,
-                            columnNumber: 13
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 551,
+                        lineNumber: 598,
                         columnNumber: 11
                     }, this),
                     phase === 'position' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1514,7 +1624,7 @@ function ScanPage() {
                                         children: "Face Position"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 559,
+                                        lineNumber: 606,
                                         columnNumber: 74
                                     }, this),
                                     " ",
@@ -1522,13 +1632,13 @@ function ScanPage() {
                                         children: indicators.position ? '✓' : '✗'
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 559,
+                                        lineNumber: 606,
                                         columnNumber: 99
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 559,
+                                lineNumber: 606,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1540,7 +1650,7 @@ function ScanPage() {
                                         children: "Lighting"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 560,
+                                        lineNumber: 607,
                                         columnNumber: 74
                                     }, this),
                                     " ",
@@ -1548,13 +1658,13 @@ function ScanPage() {
                                         children: indicators.lighting ? '✓' : '✗'
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 560,
+                                        lineNumber: 607,
                                         columnNumber: 94
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 560,
+                                lineNumber: 607,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1566,7 +1676,7 @@ function ScanPage() {
                                         children: "Sharpness"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 561,
+                                        lineNumber: 608,
                                         columnNumber: 75
                                     }, this),
                                     " ",
@@ -1574,13 +1684,13 @@ function ScanPage() {
                                         children: indicators.sharpness ? '✓' : '✗'
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 561,
+                                        lineNumber: 608,
                                         columnNumber: 96
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 561,
+                                lineNumber: 608,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1592,7 +1702,7 @@ function ScanPage() {
                                         children: "Angle"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 562,
+                                        lineNumber: 609,
                                         columnNumber: 71
                                     }, this),
                                     " ",
@@ -1600,22 +1710,22 @@ function ScanPage() {
                                         children: indicators.angle ? '✓' : '✗'
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                        lineNumber: 562,
+                                        lineNumber: 609,
                                         columnNumber: 88
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 562,
+                                lineNumber: 609,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 558,
+                        lineNumber: 605,
                         columnNumber: 11
                     }, this),
-                    phase === 'position' && !analyzing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    phase === 'position' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "scan-camera-controls",
                         style: {
                             marginTop: 0
@@ -1623,7 +1733,12 @@ function ScanPage() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 className: "scan-shutter-btn",
-                                onClick: takeSnapshot,
+                                onClick: ()=>{
+                                    const img = takeSnapshot();
+                                    if (img) runAnalysis([
+                                        img
+                                    ]);
+                                },
                                 "aria-label": "Take photo",
                                 disabled: !allIndicatorsOk,
                                 style: {
@@ -1634,12 +1749,12 @@ function ScanPage() {
                                     className: "scan-shutter-inner"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                    lineNumber: 576,
+                                    lineNumber: 626,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 569,
+                                lineNumber: 616,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1651,60 +1766,25 @@ function ScanPage() {
                                 children: "Align indicators to unlock camera"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 578,
+                                lineNumber: 628,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 568,
+                        lineNumber: 615,
                         columnNumber: 11
-                    }, this),
-                    phase === 'review' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "scan-upload-actions",
-                        style: {
-                            padding: '0 20px',
-                            marginTop: 10
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: "btn btn-outline",
-                                onClick: ()=>{
-                                    setPhase('position');
-                                    setCapturedImages([]);
-                                    setStatusText('Position your face within the frame');
-                                },
-                                children: "Retake"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 587,
-                                columnNumber: 15
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: "btn btn-primary",
-                                onClick: ()=>runAnalysis(capturedImages),
-                                children: "Analyse My Skin"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/(main)/scan/page.tsx",
-                                lineNumber: 593,
-                                columnNumber: 15
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/(main)/scan/page.tsx",
-                        lineNumber: 586,
-                        columnNumber: 12
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(main)/scan/page.tsx",
-                lineNumber: 541,
+                lineNumber: 596,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(main)/scan/page.tsx",
-        lineNumber: 471,
+        lineNumber: 555,
         columnNumber: 5
     }, this);
 }
