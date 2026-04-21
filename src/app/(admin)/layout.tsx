@@ -9,13 +9,10 @@ export const metadata = {
 };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Server-side admin check — belt and suspenders alongside middleware
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect('/login');
-  }
+  if (!user) { redirect('/login'); }
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -23,9 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .eq('id', user.id)
     .single();
 
-  if (!profile || profile.role !== 'admin') {
-    redirect('/');
-  }
+  if (!profile || profile.role !== 'admin') { redirect('/'); }
 
   return (
     <html lang="en">

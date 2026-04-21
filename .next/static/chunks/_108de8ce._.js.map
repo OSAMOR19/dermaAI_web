@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/KINGSTON/dermaAI_web/src/app/page.tsx"],"sourcesContent":["'use client';\n\nimport { redirect } from 'next/navigation';\n\nexport default function LandingPage() {\n  redirect('/login');\n}\n"],"names":[],"mappings":";;;;AAEA;AAFA;;AAIe,SAAS;IACtB,IAAA,iJAAQ,EAAC;AACX;KAFwB","debugId":null}},
-    {"offset": {"line": 23, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/KINGSTON/dermaAI_web/node_modules/next/navigation.js"],"sourcesContent":["module.exports = require('./dist/client/components/navigation')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0],"debugId":null}}]
-}
