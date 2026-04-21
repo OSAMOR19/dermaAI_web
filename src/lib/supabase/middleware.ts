@@ -49,11 +49,11 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from auth pages OR landing → dashboard
+  // Redirect authenticated users away from auth pages to dashboard
   // (Allow /reset-password even when authenticated for the recovery flow)
+  // NOTE: We do NOT redirect from '/' — logged-in users can still see the landing page
   const isResetPage = request.nextUrl.pathname.startsWith('/reset-password');
-  const isLandingPage = request.nextUrl.pathname === '/';
-  if (user && (isAuthPage || isLandingPage) && !isResetPage) {
+  if (user && isAuthPage && !isResetPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);
