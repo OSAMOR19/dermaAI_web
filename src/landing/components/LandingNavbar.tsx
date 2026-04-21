@@ -72,7 +72,7 @@ export default function LandingNavbar() {
                   borderRadius: 50, padding: '10px 24px', fontSize: 14, fontWeight: 800,
                   cursor: 'pointer', transition: 'all 0.3s ease',
                 }} className="btn-glow-hover">
-                  Login <LogIn size={16} />
+                  Login
                 </button>
               </Link>
               <Link href="/signup" style={{ textDecoration: 'none' }}>
@@ -83,7 +83,7 @@ export default function LandingNavbar() {
                   cursor: 'pointer', boxShadow: '0 8px 24px rgba(227,27,93,0.3)',
                   transition: 'all 0.3s ease',
                 }} className="btn-float-hover">
-                  Sign Up <ArrowRight size={16} />
+                  Sign Up
                 </button>
               </Link>
             </div>
@@ -131,7 +131,7 @@ export default function LandingNavbar() {
                 width: '100%', background: 'rgba(227,27,93,0.1)', color: '#e31b5d', border: '1px solid rgba(227,27,93,0.2)',
                 borderRadius: 16, padding: '16px 0', fontSize: 16, fontWeight: 800, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-              }}>Login <LogIn size={18} /></button>
+              }}>Login</button>
             </Link>
             <Link href="/signup" style={{ textDecoration: 'none' }}>
               <button style={{
@@ -139,7 +139,7 @@ export default function LandingNavbar() {
                 borderRadius: 16, padding: '16px 0', fontSize: 16, fontWeight: 800, cursor: 'pointer',
                 boxShadow: '0 8px 24px rgba(227,27,93,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              }}>Sign Up <ArrowRight size={18} /></button>
+              }}>Sign Up</button>
             </Link>
           </div>
         </div>

@@ -12,8 +12,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$imag
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/menu.js [app-client] (ecmascript) <export default as Menu>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/x.js [app-client] (ecmascript) <export default as X>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$in$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogIn$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-in.js [app-client] (ecmascript) <export default as LogIn>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-client] (ecmascript) <export default as ArrowRight>");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
@@ -189,17 +187,8 @@ function LandingNavbar() {
                                                     transition: 'all 0.3s ease'
                                                 },
                                                 className: "btn-glow-hover",
-                                                children: [
-                                                    "Login ",
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$in$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogIn$3e$__["LogIn"], {
-                                                        size: 16
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingNavbar.tsx",
-                                                        lineNumber: 75,
-                                                        columnNumber: 25
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                                children: "Login"
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/landing/components/LandingNavbar.tsx",
                                                 lineNumber: 69,
                                                 columnNumber: 17
@@ -231,17 +220,8 @@ function LandingNavbar() {
                                                     transition: 'all 0.3s ease'
                                                 },
                                                 className: "btn-float-hover",
-                                                children: [
-                                                    "Sign Up ",
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                                        size: 16
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingNavbar.tsx",
-                                                        lineNumber: 86,
-                                                        columnNumber: 27
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                                children: "Sign Up"
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/landing/components/LandingNavbar.tsx",
                                                 lineNumber: 79,
                                                 columnNumber: 17
@@ -414,17 +394,8 @@ function LandingNavbar() {
                                                 justifyContent: 'center',
                                                 gap: 10
                                             },
-                                            children: [
-                                                "Login ",
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$in$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogIn$3e$__["LogIn"], {
-                                                    size: 18
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/landing/components/LandingNavbar.tsx",
-                                                    lineNumber: 134,
-                                                    columnNumber: 24
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: "Login"
+                                        }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingNavbar.tsx",
                                             lineNumber: 130,
                                             columnNumber: 15
@@ -456,17 +427,8 @@ function LandingNavbar() {
                                                 justifyContent: 'center',
                                                 gap: 8
                                             },
-                                            children: [
-                                                "Sign Up ",
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                                    size: 18
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/landing/components/LandingNavbar.tsx",
-                                                    lineNumber: 142,
-                                                    columnNumber: 26
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: "Sign Up"
+                                        }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingNavbar.tsx",
                                             lineNumber: 137,
                                             columnNumber: 15
@@ -522,14 +484,53 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$star$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Star$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/star.js [app-client] (ecmascript) <export default as Star>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/arrow-right.js [app-client] (ecmascript) <export default as ArrowRight>");
+;
+var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
 ;
 ;
+const REVIEWS = [
+    {
+        title: "Clinical Excellence",
+        text: "The AI diagnosis spotted exactly what my skin needed. Absolutely flawless."
+    },
+    {
+        title: "Perfect Accuracy",
+        text: "I've never seen such detail. The treatment plan worked in just 2 weeks."
+    },
+    {
+        title: "Transformed Skin",
+        text: "Wholesale Beauty Hub gave me back my confidence with expert care."
+    }
+];
 function LandingHero() {
+    _s();
+    const [quoteIdx, setQuoteIdx] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [fade, setFade] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "LandingHero.useEffect": ()=>{
+            const interval = setInterval({
+                "LandingHero.useEffect.interval": ()=>{
+                    setFade(false);
+                    setTimeout({
+                        "LandingHero.useEffect.interval": ()=>{
+                            setQuoteIdx({
+                                "LandingHero.useEffect.interval": (prev)=>(prev + 1) % REVIEWS.length
+                            }["LandingHero.useEffect.interval"]);
+                            setFade(true);
+                        }
+                    }["LandingHero.useEffect.interval"], 400); // Wait for fade out
+                }
+            }["LandingHero.useEffect.interval"], 5000);
+            return ({
+                "LandingHero.useEffect": ()=>clearInterval(interval)
+            })["LandingHero.useEffect"];
+        }
+    }["LandingHero.useEffect"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         style: {
             position: 'relative',
@@ -546,14 +547,14 @@ function LandingHero() {
                 className: "hero-orb orb-1"
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingHero.tsx",
-                lineNumber: 15,
+                lineNumber: 35,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "hero-orb orb-2"
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingHero.tsx",
-                lineNumber: 16,
+                lineNumber: 36,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -605,14 +606,14 @@ function LandingHero() {
                                             className: "pulse-dot"
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 30,
+                                            lineNumber: 50,
                                             columnNumber: 15
                                         }, this),
                                         "Next-Gen Medical Beauty"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 23,
+                                    lineNumber: 43,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -630,7 +631,7 @@ function LandingHero() {
                                         "The pinnacle of ",
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 38,
+                                            lineNumber: 58,
                                             columnNumber: 31
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -641,14 +642,14 @@ function LandingHero() {
                                             children: "clinical skin"
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 39,
+                                            lineNumber: 59,
                                             columnNumber: 15
                                         }, this),
                                         " perfection."
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 34,
+                                    lineNumber: 54,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -664,7 +665,7 @@ function LandingHero() {
                                     children: "Transform your skin at Wholesale Beauty Hub. Our proprietary AI diagnosis and clinical expertise reveal your natural, flawless brilliance faster than ever before."
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 42,
+                                    lineNumber: 62,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -697,37 +698,28 @@ function LandingHero() {
                                                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                                             },
                                             className: "btn-primary-tech",
-                                            children: [
-                                                "Start Your Journey ",
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
-                                                    size: 20,
-                                                    strokeWidth: 2.5
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 58,
-                                                    columnNumber: 38
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: "Start Your Journey"
+                                        }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 51,
+                                            lineNumber: 71,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                        lineNumber: 50,
+                                        lineNumber: 70,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 49,
+                                    lineNumber: 69,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
                                         display: 'flex',
                                         alignItems: 'center',
-                                        gap: 24
+                                        gap: 24,
+                                        flexWrap: 'wrap'
                                     },
                                     className: "stagger-5",
                                     children: [
@@ -761,17 +753,17 @@ function LandingHero() {
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                        lineNumber: 72,
+                                                        lineNumber: 92,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, i, false, {
                                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 66,
+                                                    lineNumber: 86,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 64,
+                                            lineNumber: 84,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -796,7 +788,7 @@ function LandingHero() {
                                                                 fill: "#e31b5d"
                                                             }, i, false, {
                                                                 fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                                lineNumber: 78,
+                                                                lineNumber: 98,
                                                                 columnNumber: 41
                                                             }, this)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -809,13 +801,13 @@ function LandingHero() {
                                                             children: "5.0 / 5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                            lineNumber: 79,
+                                                            lineNumber: 99,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 77,
+                                                    lineNumber: 97,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -829,25 +821,25 @@ function LandingHero() {
                                                     children: "Loved by 10k+ Patients"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 81,
+                                                    lineNumber: 101,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 76,
+                                            lineNumber: 96,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 63,
+                                    lineNumber: 83,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                            lineNumber: 22,
+                            lineNumber: 42,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -880,7 +872,7 @@ function LandingHero() {
                                             className: "image-zoom"
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 94,
+                                            lineNumber: 114,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -891,20 +883,20 @@ function LandingHero() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 95,
+                                            lineNumber: 115,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 108,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "tech-ring"
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 119,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -948,12 +940,12 @@ function LandingHero() {
                                                         color: "#fff"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                        lineNumber: 111,
+                                                        lineNumber: 131,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 110,
+                                                    lineNumber: 130,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -970,7 +962,7 @@ function LandingHero() {
                                                             children: "Verified Result"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                            lineNumber: 114,
+                                                            lineNumber: 134,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -978,24 +970,26 @@ function LandingHero() {
                                                                 fontFamily: 'Georgia,serif',
                                                                 fontWeight: 700,
                                                                 fontSize: 18,
-                                                                color: '#2d1a12'
+                                                                color: '#2d1a12',
+                                                                transition: 'opacity 0.4s ease',
+                                                                opacity: fade ? 1 : 0
                                                             },
-                                                            children: "Clinical Excellence"
+                                                            children: REVIEWS[quoteIdx].title
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                            lineNumber: 115,
+                                                            lineNumber: 135,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                                    lineNumber: 113,
+                                                    lineNumber: 133,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 109,
+                                            lineNumber: 129,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1004,51 +998,58 @@ function LandingHero() {
                                                 color: 'rgba(45,26,18,0.65)',
                                                 fontStyle: 'italic',
                                                 lineHeight: 1.6,
-                                                fontWeight: 500
+                                                fontWeight: 500,
+                                                transition: 'opacity 0.4s ease',
+                                                opacity: fade ? 1 : 0
                                             },
-                                            children: '"The AI diagnosis spotted exactly what my skin needed. Absolutely flawless."'
-                                        }, void 0, false, {
+                                            children: [
+                                                '"',
+                                                REVIEWS[quoteIdx].text,
+                                                '"'
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                            lineNumber: 118,
+                                            lineNumber: 140,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 122,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/landing/components/LandingHero.tsx",
-                            lineNumber: 87,
+                            lineNumber: 107,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/landing/components/LandingHero.tsx",
-                    lineNumber: 19,
+                    lineNumber: 39,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingHero.tsx",
-                lineNumber: 18,
+                lineNumber: 38,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                 children: '\n        /* Orbs & Backgrounds */\n        .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: drift 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); z-index: 0; }\n        .orb-1 { width: 50vw; height: 50vw; background: rgba(227,27,93,0.15); top: -20vw; right: -10vw; animation-delay: 0s; }\n        .orb-2 { width: 40vw; height: 40vw; background: rgba(255,182,193,0.3); bottom: -10vw; left: -10vw; animation-delay: -5s; }\n        \n        .pulse-dot { width: 8px; height: 8px; background: #e31b5d; border-radius: 50%; display: inline-block; animation: dotPulse 2s infinite ease-in-out; box-shadow: 0 0 10px rgba(227,27,93,0.6); }\n        .gradient-text { background: linear-gradient(135deg, #e31b5d 0%, #ff4d85 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }\n        .gradient-glow { position: relative; }\n        .gradient-glow::after { content: "clinical skin"; position: absolute; left: 0; top: 0; background: linear-gradient(135deg, #e31b5d 0%, #ff4d85 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: blur(16px); opacity: 0.4; z-index: -1; animation: glowPulse 3s infinite alternate; }\n        \n        .btn-primary-tech:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 24px 48px rgba(227,27,93,0.4) !important; }\n        \n        /* Entrance Animations */\n        .hero-content > * { opacity: 0; animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }\n        .stagger-1 { animation-delay: 0.1s; } .stagger-2 { animation-delay: 0.2s; }\n        .stagger-3 { animation-delay: 0.3s; } .stagger-4 { animation-delay: 0.4s; } .stagger-5 { animation-delay: 0.5s; }\n        \n        .hero-image-wrapper { opacity: 0; animation: fadeLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }\n        .image-zoom { animation: subtleZoom 20s infinite alternate ease-in-out; transform-origin: center; }\n        .float-badge { animation: floating 6s ease-in-out infinite; }\n        \n        .tech-ring { position: absolute; inset: -30px; border: 1px dashed rgba(227,27,93,0.3); border-radius: 60px; animation: spinReverse 40s linear infinite; z-index: -1; }\n\n        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }\n        @keyframes fadeLeft { from { opacity: 0; transform: translateX(50px) scale(0.95); } to { opacity: 1; transform: translateX(0) scale(1); } }\n        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }\n        @keyframes drift { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-10%, 10%) scale(1.1); } }\n        @keyframes dotPulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }\n        @keyframes glowPulse { 0% { opacity: 0.2; } 100% { opacity: 0.6; filter: blur(24px); } }\n        @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }\n        @keyframes spinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }\n\n        /* Responsive Fixes */\n        @media (max-width: 768px) {\n           .float-badge { left: 5%; right: 5%; bottom: -40px; }\n           .tech-ring { display: none; }\n        }\n      '
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingHero.tsx",
-                lineNumber: 126,
+                lineNumber: 148,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/landing/components/LandingHero.tsx",
-        lineNumber: 9,
+        lineNumber: 29,
         columnNumber: 5
     }, this);
 }
+_s(LandingHero, "5Um6uWaMSPXXojurAo1rykA6pU8=");
 _c = LandingHero;
 var _c;
 __turbopack_context__.k.register(_c, "LandingHero");
@@ -1064,7 +1065,6 @@ __turbopack_context__.s([
     ()=>LandingSkinAnalysis
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$camera$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Camera$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/camera.js [app-client] (ecmascript) <export default as Camera>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scan$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Scan$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/scan.js [app-client] (ecmascript) <export default as Scan>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/shield-check.js [app-client] (ecmascript) <export default as ShieldCheck>");
@@ -1073,8 +1073,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/sparkles.js [app-client] (ecmascript) <export default as Sparkles>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
-;
-var _s = __turbopack_context__.k.signature();
 'use client';
 ;
 ;
@@ -1103,30 +1101,9 @@ const features = [
     }
 ];
 function LandingSkinAnalysis() {
-    _s();
-    const [isScanning, setIsScanning] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [progress, setProgress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [result, setResult] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const startScan = ()=>{
-        setIsScanning(true);
-        setProgress(0);
-        setResult(null);
-        const interval = setInterval(()=>{
-            setProgress((prev)=>{
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    setIsScanning(false);
-                    setResult({
-                        hydration: '82%',
-                        elasticity: 'Excellent',
-                        pigmentation: 'Normal',
-                        diagnosis: 'Your skin barrier is healthy. We noticed minor dehydration around the forehead area. Recommended treatment: Hyaluronic Acid infusion.'
-                    });
-                    return 100;
-                }
-                return prev + 2;
-            });
-        }, 50);
+    // This previously simulated a scan locally.
+    // It's no longer used as the button now routes to the real /scan page.
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         id: "analysis",
@@ -1148,7 +1125,7 @@ function LandingSkinAnalysis() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                lineNumber: 37,
+                lineNumber: 24,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1167,6 +1144,7 @@ function LandingSkinAnalysis() {
                         gap: 80,
                         flexWrap: 'wrap'
                     },
+                    className: "skin-analysis-container",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -1196,14 +1174,14 @@ function LandingSkinAnalysis() {
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 50,
+                                            lineNumber: 37,
                                             columnNumber: 15
                                         }, this),
                                         " Next-Gen Technology"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                    lineNumber: 43,
+                                    lineNumber: 30,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1218,7 +1196,7 @@ function LandingSkinAnalysis() {
                                         "AI-Powered Skin Analysis",
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 57,
+                                            lineNumber: 44,
                                             columnNumber: 39
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1229,13 +1207,13 @@ function LandingSkinAnalysis() {
                                             children: "Instant Clinical Diagnosis"
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 58,
+                                            lineNumber: 45,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                    lineNumber: 53,
+                                    lineNumber: 40,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1249,7 +1227,7 @@ function LandingSkinAnalysis() {
                                     children: "Using advanced computer vision, our scanner identifies 14+ specific skin concerns in seconds. Professional medical insights at your fingertips."
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 48,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1259,6 +1237,7 @@ function LandingSkinAnalysis() {
                                         gap: 16,
                                         marginBottom: 48
                                     },
+                                    className: "skin-features-grid",
                                     children: features.map((param, i)=>{
                                         let { Icon, title, desc } = param;
                                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1288,12 +1267,12 @@ function LandingSkinAnalysis() {
                                                         size: 20
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 77,
+                                                        lineNumber: 64,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                    lineNumber: 72,
+                                                    lineNumber: 59,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1307,7 +1286,7 @@ function LandingSkinAnalysis() {
                                                             children: title
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                            lineNumber: 80,
+                                                            lineNumber: 67,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1318,25 +1297,25 @@ function LandingSkinAnalysis() {
                                                             children: desc
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                            lineNumber: 81,
+                                                            lineNumber: 68,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                    lineNumber: 79,
+                                                    lineNumber: 66,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, i, true, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 67,
+                                            lineNumber: 54,
                                             columnNumber: 17
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                    lineNumber: 65,
+                                    lineNumber: 52,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1346,40 +1325,45 @@ function LandingSkinAnalysis() {
                                         flexWrap: 'wrap'
                                     },
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: startScan,
-                                            disabled: isScanning,
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                            href: "/scan",
                                             style: {
-                                                background: '#e31b5d',
-                                                color: '#fff',
-                                                border: 'none',
-                                                borderRadius: 20,
-                                                padding: '18px 40px',
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                cursor: isScanning ? 'not-allowed' : 'pointer',
-                                                opacity: isScanning ? 0.7 : 1,
-                                                boxShadow: '0 12px 32px rgba(227,27,93,0.3)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 10
+                                                textDecoration: 'none'
                                             },
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scan$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Scan$3e$__["Scan"], {
-                                                    size: 20,
-                                                    style: {
-                                                        animation: isScanning ? 'pulse 1s infinite' : 'none'
-                                                    }
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                    lineNumber: 98,
-                                                    columnNumber: 17
-                                                }, this),
-                                                isScanning ? "Scanning... ".concat(progress, "%") : 'Start Diagnostic Scan'
-                                            ]
-                                        }, void 0, true, {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                style: {
+                                                    background: '#e31b5d',
+                                                    color: '#fff',
+                                                    border: 'none',
+                                                    borderRadius: 20,
+                                                    padding: '18px 40px',
+                                                    fontSize: 16,
+                                                    fontWeight: 700,
+                                                    cursor: 'pointer',
+                                                    opacity: 1,
+                                                    boxShadow: '0 12px 32px rgba(227,27,93,0.3)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 10
+                                                },
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scan$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Scan$3e$__["Scan"], {
+                                                        size: 20
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
+                                                        lineNumber: 84,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    "Start Diagnostic Scan"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
+                                                lineNumber: 76,
+                                                columnNumber: 17
+                                            }, this)
+                                        }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 88,
+                                            lineNumber: 75,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1401,24 +1385,24 @@ function LandingSkinAnalysis() {
                                                 children: "Get Full Analysis"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                lineNumber: 102,
+                                                lineNumber: 89,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 101,
+                                            lineNumber: 88,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                    lineNumber: 87,
+                                    lineNumber: 74,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                            lineNumber: 42,
+                            lineNumber: 29,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1438,250 +1422,7 @@ function LandingSkinAnalysis() {
                                     boxShadow: '0 40px 80px rgba(0,0,0,0.4)'
                                 },
                                 children: [
-                                    isScanning || result ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        style: {
-                                            position: 'absolute',
-                                            inset: 0,
-                                            zIndex: 20,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            padding: 32
-                                        },
-                                        children: [
-                                            isScanning && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                style: {
-                                                    textAlign: 'center'
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$scan$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Scan$3e$__["Scan"], {
-                                                        size: 80,
-                                                        color: "#e31b5d",
-                                                        style: {
-                                                            animation: 'pulse 1.5s infinite',
-                                                            marginBottom: 24
-                                                        }
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 122,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        style: {
-                                                            fontSize: 24,
-                                                            fontFamily: 'Georgia,serif',
-                                                            fontWeight: 700,
-                                                            marginBottom: 8
-                                                        },
-                                                        children: "Face analysis in progress"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 123,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        style: {
-                                                            color: 'rgba(255,255,255,0.6)'
-                                                        },
-                                                        children: "Please keep your face centered"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 124,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                lineNumber: 121,
-                                                columnNumber: 21
-                                            }, this),
-                                            result && !isScanning && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                style: {
-                                                    textAlign: 'center',
-                                                    width: '100%'
-                                                },
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        style: {
-                                                            width: 72,
-                                                            height: 72,
-                                                            background: '#e31b5d',
-                                                            borderRadius: '50%',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            margin: '0 auto 20px'
-                                                        },
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__["ShieldCheck"], {
-                                                            size: 36,
-                                                            color: "#fff"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                            lineNumber: 130,
-                                                            columnNumber: 25
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 129,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        style: {
-                                                            fontSize: 28,
-                                                            fontFamily: 'Georgia,serif',
-                                                            fontWeight: 700,
-                                                            marginBottom: 20
-                                                        },
-                                                        children: "Analysis Complete"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 132,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        style: {
-                                                            display: 'grid',
-                                                            gridTemplateColumns: '1fr 1fr 1fr',
-                                                            gap: 12,
-                                                            marginBottom: 20
-                                                        },
-                                                        children: [
-                                                            {
-                                                                label: 'Hydration',
-                                                                val: result.hydration
-                                                            },
-                                                            {
-                                                                label: 'Elastic',
-                                                                val: result.elasticity
-                                                            },
-                                                            {
-                                                                label: 'Pigment',
-                                                                val: result.pigmentation
-                                                            }
-                                                        ].map((item, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                style: {
-                                                                    background: 'rgba(255,255,255,0.1)',
-                                                                    padding: '14px 10px',
-                                                                    borderRadius: 16,
-                                                                    border: '1px solid rgba(255,255,255,0.06)'
-                                                                },
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                        style: {
-                                                                            fontSize: 20,
-                                                                            fontFamily: 'Georgia,serif',
-                                                                            fontWeight: 700,
-                                                                            color: '#e31b5d',
-                                                                            marginBottom: 4
-                                                                        },
-                                                                        children: item.val
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                        lineNumber: 136,
-                                                                        columnNumber: 29
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                        style: {
-                                                                            fontSize: 10,
-                                                                            color: 'rgba(255,255,255,0.4)',
-                                                                            fontWeight: 700,
-                                                                            textTransform: 'uppercase',
-                                                                            letterSpacing: '0.15em'
-                                                                        },
-                                                                        children: item.label
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                        lineNumber: 137,
-                                                                        columnNumber: 29
-                                                                    }, this)
-                                                                ]
-                                                            }, i, true, {
-                                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                lineNumber: 135,
-                                                                columnNumber: 27
-                                                            }, this))
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 133,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        style: {
-                                                            background: 'rgba(227,27,93,0.1)',
-                                                            padding: '16px 20px',
-                                                            borderRadius: 20,
-                                                            border: '1px solid rgba(227,27,93,0.2)',
-                                                            textAlign: 'left',
-                                                            marginBottom: 16
-                                                        },
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                style: {
-                                                                    color: '#e31b5d',
-                                                                    fontWeight: 700,
-                                                                    fontSize: 10,
-                                                                    textTransform: 'uppercase',
-                                                                    letterSpacing: '0.1em',
-                                                                    marginBottom: 8
-                                                                },
-                                                                children: "Clinical Observation"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                lineNumber: 142,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                style: {
-                                                                    fontFamily: 'Georgia,serif',
-                                                                    fontStyle: 'italic',
-                                                                    color: 'rgba(255,255,255,0.9)',
-                                                                    lineHeight: 1.6,
-                                                                    fontSize: 14
-                                                                },
-                                                                children: [
-                                                                    '"',
-                                                                    result.diagnosis,
-                                                                    '"'
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                lineNumber: 143,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 141,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                        onClick: ()=>setResult(null),
-                                                        style: {
-                                                            background: 'transparent',
-                                                            border: 'none',
-                                                            color: '#e31b5d',
-                                                            fontWeight: 700,
-                                                            cursor: 'pointer',
-                                                            fontSize: 14
-                                                        },
-                                                        children: "Restart Scan"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 145,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                lineNumber: 128,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                        lineNumber: 119,
-                                        columnNumber: 17
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         style: {
                                             position: 'absolute',
                                             inset: 0,
@@ -1707,8 +1448,8 @@ function LandingSkinAnalysis() {
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 154,
-                                                        columnNumber: 21
+                                                        lineNumber: 107,
+                                                        columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         style: {
@@ -1718,14 +1459,14 @@ function LandingSkinAnalysis() {
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 155,
-                                                        columnNumber: 21
+                                                        lineNumber: 108,
+                                                        columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                lineNumber: 153,
-                                                columnNumber: 19
+                                                lineNumber: 106,
+                                                columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 style: {
@@ -1758,22 +1499,22 @@ function LandingSkinAnalysis() {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                lineNumber: 159,
-                                                                columnNumber: 23
+                                                                lineNumber: 112,
+                                                                columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$camera$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Camera$3e$__["Camera"], {
                                                                 size: 40,
                                                                 color: "#fff"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                                lineNumber: 160,
-                                                                columnNumber: 23
+                                                                lineNumber: 113,
+                                                                columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 158,
-                                                        columnNumber: 21
+                                                        lineNumber: 111,
+                                                        columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                                         style: {
@@ -1785,8 +1526,8 @@ function LandingSkinAnalysis() {
                                                         children: "Scanner Ready"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 162,
-                                                        columnNumber: 21
+                                                        lineNumber: 115,
+                                                        columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         style: {
@@ -1798,20 +1539,20 @@ function LandingSkinAnalysis() {
                                                         children: "Position yourself in a well-lit area for the most accurate diagnostic result."
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                        lineNumber: 163,
-                                                        columnNumber: 21
+                                                        lineNumber: 116,
+                                                        columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                                lineNumber: 157,
-                                                columnNumber: 19
+                                                lineNumber: 110,
+                                                columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                        lineNumber: 152,
-                                        columnNumber: 17
+                                        lineNumber: 105,
+                                        columnNumber: 15
                                     }, this),
                                     [
                                         {
@@ -1851,46 +1592,45 @@ function LandingSkinAnalysis() {
                                             }
                                         }, i, false, {
                                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                            lineNumber: 172,
+                                            lineNumber: 124,
                                             columnNumber: 17
                                         }, this))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                                lineNumber: 112,
+                                lineNumber: 99,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                            lineNumber: 111,
+                            lineNumber: 98,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                    lineNumber: 40,
+                    lineNumber: 27,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                lineNumber: 39,
+                lineNumber: 26,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
-                children: "\n        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }\n        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }\n      "
+                children: "\n        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }\n        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }\n\n        @media (max-width: 768px) {\n          .skin-analysis-container { gap: 40px !important; flex-direction: column-reverse !important; }\n          .skin-features-grid { grid-template-columns: 1fr !important; }\n        }\n      "
             }, void 0, false, {
                 fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-                lineNumber: 179,
+                lineNumber: 131,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/landing/components/LandingSkinAnalysis.tsx",
-        lineNumber: 35,
+        lineNumber: 22,
         columnNumber: 5
     }, this);
 }
-_s(LandingSkinAnalysis, "//piJ9aYVafX2LY9dLHZ6FUV9fU=");
 _c = LandingSkinAnalysis;
 var _c;
 __turbopack_context__.k.register(_c, "LandingSkinAnalysis");

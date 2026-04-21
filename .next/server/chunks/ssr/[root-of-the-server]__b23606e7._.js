@@ -520,6 +520,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.js [app-rsc] (ecmascript) <export default as Zap>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$target$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__Target$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/target.js [app-rsc] (ecmascript) <export default as Target>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$droplets$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__Droplets$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/droplets.js [app-rsc] (ecmascript) <export default as Droplets>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-rsc] (ecmascript)");
+;
 ;
 ;
 const services = [
@@ -530,7 +532,7 @@ const services = [
             strokeWidth: 1.5
         }, void 0, false, {
             fileName: "[project]/src/landing/components/LandingServices.tsx",
-            lineNumber: 6,
+            lineNumber: 7,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         desc: 'Advanced laser treatments and clinical procedures to minimize scar appearance and restore skin texture smooth for all skin types.'
@@ -542,7 +544,7 @@ const services = [
             strokeWidth: 1.5
         }, void 0, false, {
             fileName: "[project]/src/landing/components/LandingServices.tsx",
-            lineNumber: 11,
+            lineNumber: 12,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         desc: 'Personalized anti-aging solutions using state-of-the-art diagnostic tools to ensure the most effective rejuvenated results.'
@@ -554,7 +556,7 @@ const services = [
             strokeWidth: 1.5
         }, void 0, false, {
             fileName: "[project]/src/landing/components/LandingServices.tsx",
-            lineNumber: 16,
+            lineNumber: 17,
             columnNumber: 11
         }, ("TURBOPACK compile-time value", void 0)),
         desc: 'Medical-grade exfoliation treatments designed to resurface skin and target deep pigmentation or uneven texture.'
@@ -599,7 +601,7 @@ function LandingServices() {
                             children: "Our Expertise"
                         }, void 0, false, {
                             fileName: "[project]/src/landing/components/LandingServices.tsx",
-                            lineNumber: 26,
+                            lineNumber: 27,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -622,13 +624,13 @@ function LandingServices() {
                                     children: "for every skin need"
                                 }, void 0, false, {
                                     fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 38,
+                                    lineNumber: 39,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/landing/components/LandingServices.tsx",
-                            lineNumber: 33,
+                            lineNumber: 34,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -643,13 +645,13 @@ function LandingServices() {
                             children: "From medical diagnostics to aesthetic enhancement, our specialized treatments are designed to empower your skin's natural brilliance."
                         }, void 0, false, {
                             fileName: "[project]/src/landing/components/LandingServices.tsx",
-                            lineNumber: 40,
+                            lineNumber: 41,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/landing/components/LandingServices.tsx",
-                    lineNumber: 25,
+                    lineNumber: 26,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -659,193 +661,178 @@ function LandingServices() {
                         gap: 28,
                         textAlign: 'left'
                     },
-                    children: services.map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    children: services.map((s, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
+                            href: "https://wholesalebeautyhub.com/contact",
                             style: {
-                                background: '#fff',
-                                padding: '44px 40px',
-                                borderRadius: 40,
-                                boxShadow: '0 20px 60px rgba(45,26,18,0.06)',
-                                border: '1px solid rgba(227,27,93,0.06)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                transition: 'box-shadow 0.3s',
-                                cursor: 'default'
+                                textDecoration: 'none'
                             },
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    style: {
-                                        fontSize: 32,
-                                        marginBottom: 28,
-                                        width: 64,
-                                        height: 64,
-                                        background: '#f8f6f5',
-                                        borderRadius: 20,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    },
-                                    children: s.icon
-                                }, void 0, false, {
-                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 54,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    style: {
-                                        fontSize: 26,
-                                        fontFamily: 'Georgia,serif',
-                                        fontWeight: 700,
-                                        color: '#2d1a12',
-                                        marginBottom: 14
-                                    },
-                                    children: s.title
-                                }, void 0, false, {
-                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 59,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    style: {
-                                        fontSize: 16,
-                                        color: 'rgba(45,26,18,0.6)',
-                                        lineHeight: 1.7,
-                                        marginBottom: 32,
-                                        flex: 1
-                                    },
-                                    children: s.desc
-                                }, void 0, false, {
-                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 60,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    style: {
-                                        borderTop: '1px solid rgba(227,27,93,0.08)',
-                                        paddingTop: 20,
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center'
-                                    },
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            style: {
-                                                fontSize: 11,
-                                                fontWeight: 700,
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.2em',
-                                                color: 'rgba(227,27,93,0.4)'
-                                            },
-                                            children: "Learn More"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                            lineNumber: 62,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            style: {
-                                                width: 40,
-                                                height: 40,
-                                                borderRadius: '50%',
-                                                border: '1px solid rgba(227,27,93,0.15)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                color: '#e31b5d'
-                                            },
-                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$up$2d$right$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowUpRight$3e$__["ArrowUpRight"], {
-                                                size: 18
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    background: '#fff',
+                                    padding: '44px 40px',
+                                    borderRadius: 40,
+                                    boxShadow: '0 20px 60px rgba(45,26,18,0.06)',
+                                    border: '1px solid rgba(227,27,93,0.06)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                    transition: 'transform 0.3s, box-shadow 0.3s',
+                                    cursor: 'pointer',
+                                    height: '100%'
+                                },
+                                className: "service-card-hover",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            fontSize: 32,
+                                            marginBottom: 28,
+                                            width: 64,
+                                            height: 64,
+                                            background: '#f8f6f5',
+                                            borderRadius: 20,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        },
+                                        children: s.icon
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                        lineNumber: 56,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        style: {
+                                            fontSize: 26,
+                                            fontFamily: 'Georgia,serif',
+                                            fontWeight: 700,
+                                            color: '#2d1a12',
+                                            marginBottom: 14
+                                        },
+                                        children: s.title
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                        lineNumber: 61,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        style: {
+                                            fontSize: 16,
+                                            color: 'rgba(45,26,18,0.6)',
+                                            lineHeight: 1.7,
+                                            marginBottom: 32,
+                                            flex: 1
+                                        },
+                                        children: s.desc
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                        lineNumber: 62,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            borderTop: '1px solid rgba(227,27,93,0.08)',
+                                            paddingTop: 20,
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center'
+                                        },
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                style: {
+                                                    fontSize: 11,
+                                                    fontWeight: 700,
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.2em',
+                                                    color: 'rgba(227,27,93,0.4)'
+                                                },
+                                                children: "Learn More"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                                lineNumber: 67,
+                                                lineNumber: 64,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                style: {
+                                                    width: 40,
+                                                    height: 40,
+                                                    borderRadius: '50%',
+                                                    border: '1px solid rgba(227,27,93,0.15)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: '#e31b5d'
+                                                },
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$up$2d$right$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowUpRight$3e$__["ArrowUpRight"], {
+                                                    size: 18
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                                    lineNumber: 69,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                                lineNumber: 65,
                                                 columnNumber: 19
                                             }, this)
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                            lineNumber: 63,
-                                            columnNumber: 17
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 61,
-                                    columnNumber: 15
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    style: {
-                                        position: 'absolute',
-                                        top: -32,
-                                        right: -32,
-                                        width: 100,
-                                        height: 100,
-                                        background: 'rgba(227,27,93,0.04)',
-                                        borderRadius: '50%'
-                                    }
-                                }, void 0, false, {
-                                    fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                    lineNumber: 70,
-                                    columnNumber: 15
-                                }, this)
-                            ]
-                        }, i, true, {
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                        lineNumber: 63,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            position: 'absolute',
+                                            top: -32,
+                                            right: -32,
+                                            width: 100,
+                                            height: 100,
+                                            background: 'rgba(227,27,93,0.04)',
+                                            borderRadius: '50%'
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                        lineNumber: 72,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/landing/components/LandingServices.tsx",
+                                lineNumber: 49,
+                                columnNumber: 15
+                            }, this)
+                        }, i, false, {
                             fileName: "[project]/src/landing/components/LandingServices.tsx",
-                            lineNumber: 47,
+                            lineNumber: 48,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/landing/components/LandingServices.tsx",
-                    lineNumber: 45,
+                    lineNumber: 46,
                     columnNumber: 9
                 }, this),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    style: {
-                        marginTop: 60
-                    },
-                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        style: {
-                            background: '#e31b5d',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: 50,
-                            padding: '18px 48px',
-                            fontSize: 18,
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            boxShadow: '0 16px 40px rgba(227,27,93,0.25)',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 10
-                        },
-                        children: [
-                            "Explore All Clinical Services ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$up$2d$right$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowUpRight$3e$__["ArrowUpRight"], {
-                                size: 22
-                            }, void 0, false, {
-                                fileName: "[project]/src/landing/components/LandingServices.tsx",
-                                lineNumber: 82,
-                                columnNumber: 43
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/landing/components/LandingServices.tsx",
-                        lineNumber: 76,
-                        columnNumber: 11
-                    }, this)
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
+                    children: `
+          .service-card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(227,27,93,0.15) !important;
+          }
+        `
                 }, void 0, false, {
                     fileName: "[project]/src/landing/components/LandingServices.tsx",
-                    lineNumber: 75,
+                    lineNumber: 78,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/landing/components/LandingServices.tsx",
-            lineNumber: 24,
+            lineNumber: 25,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/landing/components/LandingServices.tsx",
-        lineNumber: 23,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 }

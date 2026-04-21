@@ -1,4 +1,5 @@
 import { ArrowUpRight, Zap, Target, Droplets } from 'lucide-react';
+import Link from 'next/link';
 
 const services = [
   {
@@ -44,44 +45,42 @@ export default function LandingServices() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 28, textAlign: 'left' }}>
           {services.map((s, i) => (
-            <div key={i} style={{
-              background: '#fff', padding: '44px 40px', borderRadius: 40,
-              boxShadow: '0 20px 60px rgba(45,26,18,0.06)',
-              border: '1px solid rgba(227,27,93,0.06)',
-              display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden',
-              transition: 'box-shadow 0.3s', cursor: 'default',
-            }}>
+            <Link href="https://wholesalebeautyhub.com/contact" key={i} style={{ textDecoration: 'none' }}>
               <div style={{
-                fontSize: 32, marginBottom: 28, width: 64, height: 64,
-                background: '#f8f6f5', borderRadius: 20,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>{s.icon}</div>
-              <h3 style={{ fontSize: 26, fontFamily: 'Georgia,serif', fontWeight: 700, color: '#2d1a12', marginBottom: 14 }}>{s.title}</h3>
-              <p style={{ fontSize: 16, color: 'rgba(45,26,18,0.6)', lineHeight: 1.7, marginBottom: 32, flex: 1 }}>{s.desc}</p>
-              <div style={{ borderTop: '1px solid rgba(227,27,93,0.08)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(227,27,93,0.4)' }}>Learn More</span>
+                background: '#fff', padding: '44px 40px', borderRadius: 40,
+                boxShadow: '0 20px 60px rgba(45,26,18,0.06)',
+                border: '1px solid rgba(227,27,93,0.06)',
+                display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden',
+                transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer', height: '100%',
+              }} className="service-card-hover">
                 <div style={{
-                  width: 40, height: 40, borderRadius: '50%', border: '1px solid rgba(227,27,93,0.15)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e31b5d',
-                }}>
-                  <ArrowUpRight size={18} />
+                  fontSize: 32, marginBottom: 28, width: 64, height: 64,
+                  background: '#f8f6f5', borderRadius: 20,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>{s.icon}</div>
+                <h3 style={{ fontSize: 26, fontFamily: 'Georgia,serif', fontWeight: 700, color: '#2d1a12', marginBottom: 14 }}>{s.title}</h3>
+                <p style={{ fontSize: 16, color: 'rgba(45,26,18,0.6)', lineHeight: 1.7, marginBottom: 32, flex: 1 }}>{s.desc}</p>
+                <div style={{ borderTop: '1px solid rgba(227,27,93,0.08)', paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(227,27,93,0.4)' }}>Learn More</span>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: '50%', border: '1px solid rgba(227,27,93,0.15)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e31b5d',
+                  }}>
+                    <ArrowUpRight size={18} />
+                  </div>
                 </div>
+                <div style={{ position: 'absolute', top: -32, right: -32, width: 100, height: 100, background: 'rgba(227,27,93,0.04)', borderRadius: '50%' }} />
               </div>
-              <div style={{ position: 'absolute', top: -32, right: -32, width: 100, height: 100, background: 'rgba(227,27,93,0.04)', borderRadius: '50%' }} />
-            </div>
+            </Link>
           ))}
         </div>
 
-        <div style={{ marginTop: 60 }}>
-          <button style={{
-            background: '#e31b5d', color: '#fff', border: 'none',
-            borderRadius: 50, padding: '18px 48px', fontSize: 18, fontWeight: 700,
-            cursor: 'pointer', boxShadow: '0 16px 40px rgba(227,27,93,0.25)',
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-          }}>
-            Explore All Clinical Services <ArrowUpRight size={22} />
-          </button>
-        </div>
+        <style>{`
+          .service-card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(227,27,93,0.15) !important;
+          }
+        `}</style>
       </div>
     </section>
   );

@@ -13,22 +13,9 @@ const features = [
 ];
 
 export default function LandingSkinAnalysis() {
-  const [isScanning, setIsScanning] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [result, setResult] = useState<null | { hydration: string; elasticity: string; pigmentation: string; diagnosis: string }>(null);
-
   const startScan = () => {
-    setIsScanning(true); setProgress(0); setResult(null);
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval); setIsScanning(false);
-          setResult({ hydration: '82%', elasticity: 'Excellent', pigmentation: 'Normal', diagnosis: 'Your skin barrier is healthy. We noticed minor dehydration around the forehead area. Recommended treatment: Hyaluronic Acid infusion.' });
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, 50);
+    // This previously simulated a scan locally.
+    // It's no longer used as the button now routes to the real /scan page.
   };
 
   return (
@@ -37,7 +24,7 @@ export default function LandingSkinAnalysis() {
       <div style={{ position: 'absolute', inset: 0, opacity: 0.06, backgroundImage: 'linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', position: 'relative', zIndex: 10 }}>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 80, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 80, flexWrap: 'wrap' }} className="skin-analysis-container">
           {/* Left text */}
           <div style={{ flex: 1, minWidth: 280, textAlign: 'left' }}>
             <div style={{
@@ -62,7 +49,7 @@ export default function LandingSkinAnalysis() {
               Using advanced computer vision, our scanner identifies 14+ specific skin concerns in seconds. Professional medical insights at your fingertips.
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 48 }} className="skin-features-grid">
               {features.map(({ Icon, title, desc }, i) => (
                 <div key={i} style={{
                   display: 'flex', alignItems: 'center', gap: 14,
@@ -85,19 +72,19 @@ export default function LandingSkinAnalysis() {
             </div>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <button
-                onClick={startScan}
-                disabled={isScanning}
-                style={{
-                  background: '#e31b5d', color: '#fff', border: 'none',
-                  borderRadius: 20, padding: '18px 40px', fontSize: 16, fontWeight: 700,
-                  cursor: isScanning ? 'not-allowed' : 'pointer', opacity: isScanning ? 0.7 : 1,
-                  boxShadow: '0 12px 32px rgba(227,27,93,0.3)',
-                  display: 'flex', alignItems: 'center', gap: 10,
-                }}>
-                <Scan size={20} style={{ animation: isScanning ? 'pulse 1s infinite' : 'none' }} />
-                {isScanning ? `Scanning... ${progress}%` : 'Start Diagnostic Scan'}
-              </button>
+              <Link href="/scan" style={{ textDecoration: 'none' }}>
+                <button
+                  style={{
+                    background: '#e31b5d', color: '#fff', border: 'none',
+                    borderRadius: 20, padding: '18px 40px', fontSize: 16, fontWeight: 700,
+                    cursor: 'pointer', opacity: 1,
+                    boxShadow: '0 12px 32px rgba(227,27,93,0.3)',
+                    display: 'flex', alignItems: 'center', gap: 10,
+                  }}>
+                  <Scan size={20} />
+                  Start Diagnostic Scan
+                </button>
+              </Link>
               <Link href="/signup" style={{ textDecoration: 'none' }}>
                 <button style={{
                   background: 'transparent', color: '#fff', border: '2px solid rgba(255,255,255,0.3)',
@@ -115,57 +102,22 @@ export default function LandingSkinAnalysis() {
               background: 'rgba(0,0,0,0.3)', boxShadow: '0 40px 80px rgba(0,0,0,0.4)',
             }}>
               {/* Scanner result overlay */}
-              {(isScanning || result) ? (
-                <div style={{ position: 'absolute', inset: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 32 }}>
-                  {isScanning && (
-                    <div style={{ textAlign: 'center' }}>
-                      <Scan size={80} color="#e31b5d" style={{ animation: 'pulse 1.5s infinite', marginBottom: 24 }} />
-                      <h3 style={{ fontSize: 24, fontFamily: 'Georgia,serif', fontWeight: 700, marginBottom: 8 }}>Face analysis in progress</h3>
-                      <p style={{ color: 'rgba(255,255,255,0.6)' }}>Please keep your face centered</p>
-                    </div>
-                  )}
-                  {result && !isScanning && (
-                    <div style={{ textAlign: 'center', width: '100%' }}>
-                      <div style={{ width: 72, height: 72, background: '#e31b5d', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-                        <ShieldCheck size={36} color="#fff" />
-                      </div>
-                      <h3 style={{ fontSize: 28, fontFamily: 'Georgia,serif', fontWeight: 700, marginBottom: 20 }}>Analysis Complete</h3>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 20 }}>
-                        {[{ label: 'Hydration', val: result.hydration }, { label: 'Elastic', val: result.elasticity }, { label: 'Pigment', val: result.pigmentation }].map((item, i) => (
-                          <div key={i} style={{ background: 'rgba(255,255,255,0.1)', padding: '14px 10px', borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <p style={{ fontSize: 20, fontFamily: 'Georgia,serif', fontWeight: 700, color: '#e31b5d', marginBottom: 4 }}>{item.val}</p>
-                            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em' }}>{item.label}</p>
-                          </div>
-                        ))}
-                      </div>
-                      <div style={{ background: 'rgba(227,27,93,0.1)', padding: '16px 20px', borderRadius: 20, border: '1px solid rgba(227,27,93,0.2)', textAlign: 'left', marginBottom: 16 }}>
-                        <p style={{ color: '#e31b5d', fontWeight: 700, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Clinical Observation</p>
-                        <p style={{ fontFamily: 'Georgia,serif', fontStyle: 'italic', color: 'rgba(255,255,255,0.9)', lineHeight: 1.6, fontSize: 14 }}>"{result.diagnosis}"</p>
-                      </div>
-                      <button onClick={() => setResult(null)} style={{ background: 'transparent', border: 'none', color: '#e31b5d', fontWeight: 700, cursor: 'pointer', fontSize: 14 }}>
-                        Restart Scan
-                      </button>
-                    </div>
-                  )}
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                  <Image src="/face1.jpg" alt="Scanner Ready" fill style={{ objectFit: 'cover', opacity: 0.4 }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #2d1a12 0%, rgba(45,26,18,0.4) 50%, transparent 100%)' }} />
                 </div>
-              ) : (
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                    <Image src="/face1.jpg" alt="Scanner Ready" fill style={{ objectFit: 'cover', opacity: 0.4 }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #2d1a12 0%, rgba(45,26,18,0.4) 50%, transparent 100%)' }} />
+                <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: 32 }}>
+                  <div style={{ width: 100, height: 100, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', position: 'relative' }}>
+                    <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px dashed rgba(227,27,93,0.4)', animation: 'spin 20s linear infinite' }} />
+                    <Camera size={40} color="#fff" />
                   </div>
-                  <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', padding: 32 }}>
-                    <div style={{ width: 100, height: 100, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', position: 'relative' }}>
-                      <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px dashed rgba(227,27,93,0.4)', animation: 'spin 20s linear infinite' }} />
-                      <Camera size={40} color="#fff" />
-                    </div>
-                    <h3 style={{ fontSize: 24, fontFamily: 'Georgia,serif', fontWeight: 700, marginBottom: 12 }}>Scanner Ready</h3>
-                    <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 260, margin: '0 auto', lineHeight: 1.6 }}>
-                      Position yourself in a well-lit area for the most accurate diagnostic result.
-                    </p>
-                  </div>
+                  <h3 style={{ fontSize: 24, fontFamily: 'Georgia,serif', fontWeight: 700, marginBottom: 12 }}>Scanner Ready</h3>
+                  <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 260, margin: '0 auto', lineHeight: 1.6 }}>
+                    Position yourself in a well-lit area for the most accurate diagnostic result.
+                  </p>
                 </div>
-              )}
+              </div>
 
               {/* Corner accents */}
               {[{top:20,left:20,borderTop:'2px solid rgba(227,27,93,0.4)',borderLeft:'2px solid rgba(227,27,93,0.4)',borderTopLeftRadius:16},{top:20,right:20,borderTop:'2px solid rgba(227,27,93,0.4)',borderRight:'2px solid rgba(227,27,93,0.4)',borderTopRightRadius:16},{bottom:20,left:20,borderBottom:'2px solid rgba(227,27,93,0.4)',borderLeft:'2px solid rgba(227,27,93,0.4)',borderBottomLeftRadius:16},{bottom:20,right:20,borderBottom:'2px solid rgba(227,27,93,0.4)',borderRight:'2px solid rgba(227,27,93,0.4)',borderBottomRightRadius:16}].map((s,i) => (
@@ -179,6 +131,11 @@ export default function LandingSkinAnalysis() {
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
+
+        @media (max-width: 768px) {
+          .skin-analysis-container { gap: 40px !important; flex-direction: column-reverse !important; }
+          .skin-features-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
   );

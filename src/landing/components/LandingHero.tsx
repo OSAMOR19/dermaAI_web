@@ -2,9 +2,29 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, LogIn, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, LogIn } from 'lucide-react';
+
+const REVIEWS = [
+  { title: "Clinical Excellence", text: "The AI diagnosis spotted exactly what my skin needed. Absolutely flawless." },
+  { title: "Perfect Accuracy", text: "I've never seen such detail. The treatment plan worked in just 2 weeks." },
+  { title: "Transformed Skin", text: "Wholesale Beauty Hub gave me back my confidence with expert care." }
+];
 
 export default function LandingHero() {
+  const [quoteIdx, setQuoteIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setQuoteIdx(prev => (prev + 1) % REVIEWS.length);
+        setFade(true);
+      }, 400); // Wait for fade out
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section style={{
       position: 'relative', paddingTop: 160, paddingBottom: 100,
@@ -55,12 +75,12 @@ export default function LandingHero() {
                   cursor: 'pointer', boxShadow: '0 16px 40px rgba(227,27,93,0.3)',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }} className="btn-primary-tech">
-                  Start Your Journey <ArrowRight size={20} strokeWidth={2.5} />
+                  Start Your Journey
                 </button>
               </Link>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }} className="stagger-5">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }} className="stagger-5">
               <div style={{ display: 'flex' }}>
                 {[1,2,3,4].map(i => (
                   <div key={i} style={{
@@ -112,11 +132,13 @@ export default function LandingHero() {
                 </div>
                 <div>
                   <p style={{ fontSize: 11, color: '#e31b5d', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4 }}>Verified Result</p>
-                  <p style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 18, color: '#2d1a12' }}>Clinical Excellence</p>
+                  <p style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 18, color: '#2d1a12', transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }}>
+                    {REVIEWS[quoteIdx].title}
+                  </p>
                 </div>
               </div>
-              <p style={{ fontSize: 14, color: 'rgba(45,26,18,0.65)', fontStyle: 'italic', lineHeight: 1.6, fontWeight: 500 }}>
-                "The AI diagnosis spotted exactly what my skin needed. Absolutely flawless."
+              <p style={{ fontSize: 14, color: 'rgba(45,26,18,0.65)', fontStyle: 'italic', lineHeight: 1.6, fontWeight: 500, transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }}>
+                "{REVIEWS[quoteIdx].text}"
               </p>
             </div>
           </div>
