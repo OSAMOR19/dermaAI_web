@@ -470,45 +470,98 @@ export default function ScanPage() {
   /* ============ CAMERA MODE ============ */
   const allIndicatorsOk = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
 
+  /* ---- DEDICATED PROCESSING SCREEN (replaces camera completely) ---- */
+  if (phase === 'analyze' || phase === 'done') {
+    return (
+      <div className="scn-page" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100dvh', background: 'var(--bg, #0a0a0a)' }}>
+        <div style={{ textAlign: 'center', padding: '0 32px', maxWidth: 360 }}>
+          {/* Animated pulse ring */}
+          <div style={{ position: 'relative', width: 120, height: 120, margin: '0 auto 32px' }}>
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(236,72,153,0.25) 0%, transparent 70%)',
+              animation: 'pulse 2s ease-in-out infinite',
+            }} />
+            <div style={{
+              position: 'absolute', inset: 12, borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(236,72,153,0.4) 0%, transparent 70%)',
+              animation: 'pulse 2s ease-in-out infinite 0.4s',
+            }} />
+            <div style={{
+              position: 'absolute', inset: 24, borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(236,72,153,0.12)', border: '2px solid rgba(236,72,153,0.5)',
+            }}>
+              <Activity size={32} color="#ec4899" />
+            </div>
+          </div>
+
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text, #fff)', marginBottom: 10 }}>
+            {phase === 'done' ? '✓ Scan Complete!' : 'Analysing Your Skin'}
+          </h2>
+          <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', marginBottom: 28, lineHeight: 1.6 }}>
+            {phase === 'done'
+              ? 'Taking you to your results…'
+              : 'Our AI is carefully examining your skin. This usually takes 10–15 seconds.'}
+          </p>
+
+          {phase === 'analyze' && (
+            <>
+              {/* Cycling metric */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '10px 20px', borderRadius: 30,
+                background: 'rgba(236,72,153,0.08)', border: '1px solid rgba(236,72,153,0.2)',
+                color: '#ec4899', fontSize: '0.82rem', fontWeight: 600, marginBottom: 20,
+              }}>
+                <div className="scn-loading-spinner" style={{ width: 12, height: 12 }} />
+                {SCAN_METRICS[metricIdx]}
+              </div>
+
+              {/* Error state */}
+              {apiError && (
+                <div style={{ padding: '14px 20px', borderRadius: 12, background: 'rgba(229,57,53,0.12)', border: '1px solid rgba(229,57,53,0.3)', textAlign: 'center' }}>
+                  <p style={{ color: '#E53935', fontSize: '0.88rem', fontWeight: 600, marginBottom: 6 }}>⚠ AI Unavailable</p>
+                  <p style={{ color: '#E53935', fontSize: '0.8rem', opacity: 0.85 }}>{apiError}</p>
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginTop: 14, width: '100%' }}
+                    onClick={() => {
+                      setApiError(null);
+                      setAnalyzing(false);
+                      setPhase('position');
+                      setStatusText('Position your face within the frame');
+                    }}
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        <style>{`
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 1; }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
     <div className="scn-page">
       <header className="scn-header">
         <button className="scn-back" onClick={() => { setScanMode('choose'); setCapturedImages([]); streamRef.current?.getTracks().forEach(t => t.stop()); }}><ArrowLeft size={20} /></button>
         <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
-        <div className={`scn-badge ${phase === 'done' ? 'done' : 'live'}`}>
-          {phase === 'done' ? '✓ DONE' : phase === 'review' ? 'REVIEW' : 'LIVE'}
-        </div>
+        <div className="scn-badge live">LIVE</div>
       </header>
 
       <div className="scn-body">
         <div className="scn-viewport">
-          {phase === 'review' && capturedImages[0] ? (
-            <img src={capturedImages[0]} alt="Captured Review" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
-          ) : (
-            <video ref={videoRef} className="scn-video" playsInline muted />
-          )}
-
-          {/* Wireframe effect during analysis - visually looks cool */}
-          {(phase === 'analyze' || phase === 'done') && (
-            <div className="wire-layer">
-              {WIREFRAME_POINTS.map((p, i) => (
-                <span key={i} className="wd" style={{ left: `${p.x}%`, top: `${p.y}%`, animationDelay: `${p.d}s` }} />
-              ))}
-              <svg className="wl" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {WIRE_LINES.map(([x1, y1, x2, y2], i) => (
-                  <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
-                ))}
-              </svg>
-            </div>
-          )}
-
-          {/* Analyzing overlay on camera */}
-          {phase === 'analyze' && (
-            <div className="scan-upload-overlay">
-              <div className="scn-loading-spinner" />
-              <p>{SCAN_METRICS[metricIdx]}</p>
-            </div>
-          )}
+          <video ref={videoRef} className="scn-video" playsInline muted />
 
           {/* Camera loading */}
           {phase === 'init' && !cameraError && (
@@ -530,7 +583,6 @@ export default function ScanPage() {
           {/* Camera Oval guide */}
           {phase === 'position' && !cameraError && (
             <>
-              {/* Fake Oval for aesthetics */}
               <div className={`scn-oval ${allIndicatorsOk ? 'complete' : ''}`}>
                  <span className="bk tl"></span><span className="bk tr"></span>
                  <span className="bk bl"></span><span className="bk br"></span>
@@ -542,17 +594,9 @@ export default function ScanPage() {
       </div>
 
       <footer className="scn-hud">
-        {analyzing && <div className="scn-metric"><Activity size={13} /> {SCAN_METRICS[metricIdx]}</div>}
-        
         {phase === 'position' && (
           <div className="scn-status phase-position" style={{ color: allIndicatorsOk ? 'var(--primary)' : 'var(--text-secondary)' }}>
             {statusText}
-          </div>
-        )}
-        
-        {apiError && (
-          <div style={{ padding: '10px 16px', margin: '8px 0', background: 'rgba(229,57,53,0.12)', borderRadius: 10, textAlign: 'center' }}>
-            <p style={{ color: '#E53935', fontSize: '0.82rem', fontWeight: 600 }}>⚠ {apiError}</p>
           </div>
         )}
 
@@ -567,14 +611,14 @@ export default function ScanPage() {
         )}
 
         {/* Action Controls */}
-        {phase === 'position' && !analyzing && (
+        {phase === 'position' && (
           <div className="scan-camera-controls" style={{ marginTop: 0 }}>
-            <button 
-              className="scan-shutter-btn" 
+            <button
+              className="scan-shutter-btn"
               onClick={() => {
                 const img = takeSnapshot();
                 if (img) runAnalysis([img]);
-              }} 
+              }}
               aria-label="Take photo"
               disabled={!allIndicatorsOk}
               style={{ opacity: allIndicatorsOk ? 1 : 0.4, cursor: allIndicatorsOk ? 'pointer' : 'not-allowed' }}
@@ -585,24 +629,6 @@ export default function ScanPage() {
               Align indicators to unlock camera
             </p>
           </div>
-        )}
-
-        {/* Review Screen Actions */}
-        {phase === 'review' && (
-           <div className="scan-upload-actions" style={{ padding: '0 20px', marginTop: 10 }}>
-              <button 
-                className="btn btn-outline" 
-                onClick={() => { setPhase('position'); setCapturedImages([]); setStatusText('Position your face within the frame'); }}
-              >
-                Retake
-              </button>
-              <button 
-                className="btn btn-primary" 
-                onClick={() => runAnalysis(capturedImages)}
-              >
-                Analyse My Skin
-              </button>
-           </div>
         )}
       </footer>
     </div>
