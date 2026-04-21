@@ -109,7 +109,7 @@ export default function LandingNavbar() {
         transform: mobileOpen ? 'translateY(0)' : 'translateY(-20px)',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         display: 'flex', flexDirection: 'column',
-        paddingTop: 100, paddingBottom: 40, px: 24,
+        paddingTop: 100, paddingBottom: 40, paddingLeft: 24, paddingRight: 24,
       }}>
         <div style={{ flex: 1, padding: '0 32px', display: 'flex', flexDirection: 'column', gap: 24 }}>
           {navLinks.map((link, i) => (
