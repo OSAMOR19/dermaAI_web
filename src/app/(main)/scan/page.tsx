@@ -64,6 +64,7 @@ export default function ScanPage() {
   const [cameraError, setCameraError] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [hasPrompted, setHasPrompted] = useState(false);
 
   // Advanced Indicators
   const [indicators, setIndicators] = useState({
@@ -81,6 +82,25 @@ export default function ScanPage() {
   const { user } = useAuth();
 
   /* ---- Sound helpers ---- */
+  const speak = useCallback((text: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.volume = 1;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.1;
+
+    // Prefer a female English voice for a beauty app feel
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v =>
+      v.lang.startsWith('en') && /samantha|victoria|karen|fiona|moira|tessa|female|woman/i.test(v.name)
+    ) || voices.find(v =>
+      v.lang.startsWith('en') && !/male|guy|daniel|thomas|alex|fred|junior|ralph/i.test(v.name)
+    ) || voices.find(v => v.lang.startsWith('en'));
+
+    if (femaleVoice) utterance.voice = femaleVoice;
+    window.speechSynthesis.speak(utterance);
+  }, []);
   const playBeep = useCallback((freq = 800, dur = 0.12, vol = 0.06) => {
     try {
       const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
@@ -134,6 +154,7 @@ export default function ScanPage() {
           await videoRef.current.play();
           setPhase('position');
           setStatusText(`Position your face within the frame`);
+          speak('Please position your face within the frame.');
         }
       } catch {
         if (!isActive) return;
@@ -165,15 +186,9 @@ export default function ScanPage() {
               const holdSecs = (Date.now() - validSince) / 1000;
               
               if (holdSecs > 1) {
-                setStatusText('Hold still... Auto-capturing');
+                setStatusText('Perfectly aligned! Press capture.');
               } else {
                 setStatusText('Perfectly aligned!');
-              }
-
-              // Auto capture after 2.5 seconds of holding still
-              if (holdSecs > 2.5) {
-                // To avoid multiple triggers, we ensure we only trigger if we haven't already moved to review
-                // A bit tricky within setState, so we fire an event or just do it outside
               }
             } else {
               validSince = 0;
@@ -193,20 +208,7 @@ export default function ScanPage() {
       cancelAnimationFrame(rafId);
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
-  }, [scanMode, phase]);
-
-  // Hack for auto-capture from state
-  useEffect(() => {
-    if (phase !== 'position') return;
-    const allValid = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
-    if (allValid) {
-      const t = setTimeout(() => {
-        takeSnapshot();
-      }, 2500);
-      return () => clearTimeout(t);
-    }
-  }, [indicators, phase]);
-
+  }, [scanMode, phase, speak]);
 
   /* ---- Take snapshot ---- */
   const takeSnapshot = useCallback(() => {
@@ -217,8 +219,26 @@ export default function ScanPage() {
       playShutter();
       setPhase('review');
       setStatusText('Please review your capture');
+      speak('Capture successful. Please review your capture.');
     }
-  }, [capturedImages.length, captureFrame, playShutter, phase]);
+  }, [capturedImages.length, captureFrame, playShutter, phase, speak]);
+
+  // Manual capture prompt logic
+  useEffect(() => {
+    if (phase !== 'position') {
+      setHasPrompted(false);
+      return;
+    }
+    const allValid = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
+    if (allValid) {
+      if (!hasPrompted) {
+        setHasPrompted(true);
+        speak('Alignment is perfect. Please press the capture button.');
+      }
+    } else {
+      if (hasPrompted) setHasPrompted(false);
+    }
+  }, [indicators, phase, hasPrompted, speak]);
 
   /* ---- Upload handler ---- */
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -260,6 +280,7 @@ export default function ScanPage() {
     setAnalyzing(true);
     setApiError(null);
     setStatusText('Connecting to AI…');
+    speak('Analyzing your skin, please wait.');
 
     try {
       sessionStorage.setItem('wbh_scan_image', images[0]);
@@ -334,9 +355,12 @@ export default function ScanPage() {
       playChime();
       setTimeout(() => router.push('/analysis'), 1800);
     } catch (err: unknown) {
+      const is503 = err instanceof Error && (err.message.includes('503') || err.message.includes('502'));
       const msg = err instanceof DOMException && err.name === 'AbortError'
         ? 'Request timed out. The AI server may be starting up — please retry.'
+        : is503 ? 'The AI is currently experiencing high demand. Please try again in a few moments.'
         : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
+      speak('Analysis failed. Please try again.');
       setApiError(msg);
       setStatusText('Analysis failed');
       setAnalyzing(false);
@@ -552,7 +576,7 @@ export default function ScanPage() {
               <span className="scan-shutter-inner" />
             </button>
             <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: 12 }}>
-              Align indicators to auto-capture
+              Align indicators to unlock camera
             </p>
           </div>
         )}

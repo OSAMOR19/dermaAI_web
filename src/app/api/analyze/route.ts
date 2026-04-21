@@ -57,6 +57,64 @@ Return the response in the following strict JSON format ONLY:
 If no condition is detected, return an empty array for detected_conditions.
 Do not return any explanation outside the JSON object.`;
 
+const GEMINI_MODELS = [
+  'gemini-2.5-flash',
+  'gemini-2.0-flash',
+];
+
+function getGeminiUrl(model: string) {
+  return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+}
+
+async function callGeminiWithRetry(
+  parts: ({ text: string } | { inline_data: { mime_type: string; data: string } })[],
+  maxRetries = 3
+) {
+  const body = JSON.stringify({
+    contents: [{ parts }],
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 8192,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  for (const model of GEMINI_MODELS) {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      console.log(`Gemini attempt ${attempt + 1}/${maxRetries} with model ${model}`);
+
+      const response = await fetch(getGeminiUrl(model), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+
+      if (response.ok) {
+        return { response, model };
+      }
+
+      const status = response.status;
+      console.error(`Gemini ${model} error (attempt ${attempt + 1}):`, status);
+
+      // Only retry on 503 (overloaded) or 429 (rate limit)
+      if (status !== 503 && status !== 429) {
+        const errText = await response.text();
+        throw new Error(`AI service error (${status}): ${errText}`);
+      }
+
+      // Wait before retrying: 2s, 4s, 8s
+      if (attempt < maxRetries - 1) {
+        const delay = Math.pow(2, attempt + 1) * 1000;
+        console.log(`Waiting ${delay}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+    console.log(`All retries exhausted for ${model}, trying next model...`);
+  }
+
+  throw new Error('AI_OVERLOADED');
+}
+
 export async function POST(request: NextRequest) {
   try {
     if (!GEMINI_API_KEY) {
@@ -112,50 +170,31 @@ export async function POST(request: NextRequest) {
       ...imageParts,
     ];
 
-    const geminiResponse = await fetch(GEMINI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts }],
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 2048,
-          responseMimeType: 'application/json',
-        },
-      }),
-    });
-
-    if (!geminiResponse.ok) {
-      const errText = await geminiResponse.text();
-      console.error('Gemini API error:', geminiResponse.status, errText);
-
-      if (geminiResponse.status === 429) {
-        let retryMsg = 'AI rate limit reached. Please wait 30 seconds and try again.';
-        try {
-          const errJson = JSON.parse(errText);
-          const retryInfo = errJson?.error?.details?.find(
-            (d: { '@type': string }) => d['@type']?.includes('RetryInfo')
-          );
-          if (retryInfo?.retryDelay) {
-            retryMsg = `AI rate limit reached. Please retry in ${retryInfo.retryDelay}.`;
-          }
-        } catch { /* use default message */ }
-        return NextResponse.json({ error: retryMsg }, { status: 429 });
+    let geminiData;
+    try {
+      const { response } = await callGeminiWithRetry(parts);
+      geminiData = await response.json();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      if (msg === 'AI_OVERLOADED') {
+        return NextResponse.json(
+          { error: 'Our AI is experiencing very high demand right now. Please wait a moment and try again.' },
+          { status: 503 }
+        );
       }
-
+      console.error('Gemini call failed:', msg);
       return NextResponse.json(
-        { error: `AI service error (${geminiResponse.status})` },
+        { error: `AI service error` },
         { status: 502 }
       );
     }
 
-    const geminiData = await geminiResponse.json();
     const textContent = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!textContent) {
       console.error('No text in Gemini response:', JSON.stringify(geminiData));
       return NextResponse.json(
-        { error: 'AI returned an empty response' },
+        { error: 'AI returned an empty response. Please try again.' },
         { status: 502 }
       );
     }
