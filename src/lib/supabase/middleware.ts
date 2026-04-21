@@ -34,25 +34,48 @@ export async function updateSession(request: NextRequest) {
     console.error('Supabase middleware auth error:', error);
   }
 
-  // Redirect unauthenticated users away from protected routes
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
-    request.nextUrl.pathname.startsWith('/signup') ||
-    request.nextUrl.pathname.startsWith('/forgot-password') ||
-    request.nextUrl.pathname.startsWith('/reset-password') ||
-    request.nextUrl.pathname.startsWith('/auth/');
+  const pathname = request.nextUrl.pathname;
 
-  const isPublicPage = request.nextUrl.pathname === '/' || isAuthPage;
+  const isAuthPage = pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password') ||
+    pathname.startsWith('/auth/');
 
+  const isAdminRoute = pathname.startsWith('/admin');
+  const isPublicPage = pathname === '/' || isAuthPage;
+
+  // Unauthenticated: block all protected routes
   if (!user && !isPublicPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
+  // Admin route protection: check role in profiles table
+  if (user && isAdminRoute) {
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+      if (!profile || profile.role !== 'admin') {
+        const url = request.nextUrl.clone();
+        url.pathname = '/';
+        return NextResponse.redirect(url);
+      }
+    } catch {
+      // If profiles table doesn't exist yet or query fails, block access
+      const url = request.nextUrl.clone();
+      url.pathname = '/';
+      return NextResponse.redirect(url);
+    }
+  }
+
   // Redirect authenticated users away from auth pages to dashboard
-  // (Allow /reset-password even when authenticated for the recovery flow)
-  // NOTE: We do NOT redirect from '/' — logged-in users can still see the landing page
-  const isResetPage = request.nextUrl.pathname.startsWith('/reset-password');
+  const isResetPage = pathname.startsWith('/reset-password');
   if (user && isAuthPage && !isResetPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';

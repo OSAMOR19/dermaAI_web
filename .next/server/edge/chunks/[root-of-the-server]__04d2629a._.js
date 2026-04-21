@@ -50,18 +50,34 @@ async function updateSession(request) {
     } catch (error) {
         console.error('Supabase middleware auth error:', error);
     }
-    // Redirect unauthenticated users away from protected routes
-    const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/forgot-password') || request.nextUrl.pathname.startsWith('/reset-password') || request.nextUrl.pathname.startsWith('/auth/');
-    const isPublicPage = request.nextUrl.pathname === '/' || isAuthPage;
+    const pathname = request.nextUrl.pathname;
+    const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/auth/');
+    const isAdminRoute = pathname.startsWith('/admin');
+    const isPublicPage = pathname === '/' || isAuthPage;
+    // Unauthenticated: block all protected routes
     if (!user && !isPublicPage) {
         const url = request.nextUrl.clone();
         url.pathname = '/login';
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
     }
+    // Admin route protection: check role in profiles table
+    if (user && isAdminRoute) {
+        try {
+            const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+            if (!profile || profile.role !== 'admin') {
+                const url = request.nextUrl.clone();
+                url.pathname = '/';
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
+            }
+        } catch  {
+            // If profiles table doesn't exist yet or query fails, block access
+            const url = request.nextUrl.clone();
+            url.pathname = '/';
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(url);
+        }
+    }
     // Redirect authenticated users away from auth pages to dashboard
-    // (Allow /reset-password even when authenticated for the recovery flow)
-    // NOTE: We do NOT redirect from '/' — logged-in users can still see the landing page
-    const isResetPage = request.nextUrl.pathname.startsWith('/reset-password');
+    const isResetPage = pathname.startsWith('/reset-password');
     if (user && isAuthPage && !isResetPage) {
         const url = request.nextUrl.clone();
         url.pathname = '/dashboard';
