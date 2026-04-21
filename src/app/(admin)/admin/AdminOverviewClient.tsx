@@ -126,7 +126,7 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
                           nameKey="name"
                           cx="50%" cy="50%"
                           outerRadius={80}
-                          label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                          label={({ name, percent }) => `${((percent ?? 0) * 100).toFixed(0)}%`}
                           labelLine={false}
                         >
                           {stats.topConditions.map((_, i) => (
