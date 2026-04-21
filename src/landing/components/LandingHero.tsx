@@ -126,18 +126,18 @@ export default function LandingHero() {
               boxShadow: '0 30px 60px rgba(0,0,0,0.12)', border: '1px solid rgba(255,255,255,0.8)',
               maxWidth: 280, zIndex: 20,
             }} className="float-badge">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 14 }}>
-                <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #e31b5d, #ff4d85)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 16px rgba(227,27,93,0.3)' }}>
-                  <Star size={24} fill="#fff" color="#fff" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 14 }} className="badge-header">
+                <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg, #e31b5d, #ff4d85)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 16px rgba(227,27,93,0.3)' }} className="badge-icon-wrap">
+                  <Star size={24} fill="#fff" color="#fff" className="badge-star-icon" />
                 </div>
                 <div>
-                  <p style={{ fontSize: 11, color: '#e31b5d', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4 }}>Verified Result</p>
-                  <p style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 18, color: '#2d1a12', transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }}>
+                  <p style={{ fontSize: 11, color: '#e31b5d', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4 }} className="badge-subtitle">Verified Result</p>
+                  <p style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 18, color: '#2d1a12', transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }} className="badge-title">
                     {REVIEWS[quoteIdx].title}
                   </p>
                 </div>
               </div>
-              <p style={{ fontSize: 14, color: 'rgba(45,26,18,0.65)', fontStyle: 'italic', lineHeight: 1.6, fontWeight: 500, transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }}>
+              <p style={{ fontSize: 14, color: 'rgba(45,26,18,0.65)', fontStyle: 'italic', lineHeight: 1.6, fontWeight: 500, transition: 'opacity 0.4s ease', opacity: fade ? 1 : 0 }} className="badge-text">
                 "{REVIEWS[quoteIdx].text}"
               </p>
             </div>
@@ -180,7 +180,16 @@ export default function LandingHero() {
 
         /* Responsive Fixes */
         @media (max-width: 768px) {
-           .float-badge { left: 5%; right: 5%; bottom: -40px; }
+           .float-badge { 
+             left: 20px !important; right: 20px !important; bottom: -20px !important; 
+             padding: 16px 20px !important; border-radius: 20px !important; max-width: none !important;
+           }
+           .badge-header { gap: 12px !important; margin-bottom: 10px !important; }
+           .badge-icon-wrap { width: 36px !important; height: 36px !important; border-radius: 12px !important; }
+           .badge-star-icon { width: 18px !important; height: 18px !important; }
+           .badge-subtitle { font-size: 10px !important; margin-bottom: 2px !important; }
+           .badge-title { font-size: 15px !important; }
+           .badge-text { font-size: 12px !important; line-height: 1.4 !important; }
            .tech-ring { display: none; }
         }
       `}</style>
