@@ -212,15 +212,18 @@ export default function ScanPage() {
 
   /* ---- Take snapshot ---- */
   const takeSnapshot = useCallback(() => {
-    if (capturedImages.length >= MAX_IMAGES || phase !== 'position') return;
+    if (capturedImages.length >= MAX_IMAGES || phase !== 'position') return null;
     const img = captureFrame();
     if (img) {
       setCapturedImages([img]);
       playShutter();
-      setPhase('review');
-      setStatusText('Please review your capture');
-      speak('Capture successful. Please review your capture.');
+      // Bypass the extra review screen completely
+      setPhase('analyze');
+      setStatusText('Processing your result...');
+      speak('Capture successful. Processing your AI results now.');
+      return img;
     }
+    return null;
   }, [capturedImages.length, captureFrame, playShutter, phase, speak]);
 
   // Manual capture prompt logic
@@ -568,7 +571,10 @@ export default function ScanPage() {
           <div className="scan-camera-controls" style={{ marginTop: 0 }}>
             <button 
               className="scan-shutter-btn" 
-              onClick={takeSnapshot} 
+              onClick={() => {
+                const img = takeSnapshot();
+                if (img) runAnalysis([img]);
+              }} 
               aria-label="Take photo"
               disabled={!allIndicatorsOk}
               style={{ opacity: allIndicatorsOk ? 1 : 0.4, cursor: allIndicatorsOk ? 'pointer' : 'not-allowed' }}
