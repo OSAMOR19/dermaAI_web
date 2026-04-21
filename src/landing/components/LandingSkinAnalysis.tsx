@@ -71,25 +71,27 @@ export default function LandingSkinAnalysis() {
               ))}
             </div>
 
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-              <Link href="/scan" style={{ textDecoration: 'none' }}>
+            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }} className="analysis-btn-container">
+              <Link href="/scan" style={{ textDecoration: 'none', flex: 1, display: 'flex' }}>
                 <button
                   style={{
                     background: '#e31b5d', color: '#fff', border: 'none',
                     borderRadius: 20, padding: '18px 40px', fontSize: 16, fontWeight: 700,
                     cursor: 'pointer', opacity: 1,
                     boxShadow: '0 12px 32px rgba(227,27,93,0.3)',
-                    display: 'flex', alignItems: 'center', gap: 10,
-                  }}>
-                  <Scan size={20} />
-                  Start Diagnostic Scan
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                    width: '100%',
+                  }} className="analysis-btn">
+                  <Scan size={20} className="analysis-btn-icon" />
+                  <span>Start Scan</span>
                 </button>
               </Link>
-              <Link href="/signup" style={{ textDecoration: 'none' }}>
+              <Link href="/signup" style={{ textDecoration: 'none', flex: 1, display: 'flex' }}>
                 <button style={{
                   background: 'transparent', color: '#fff', border: '2px solid rgba(255,255,255,0.3)',
                   borderRadius: 20, padding: '16px 40px', fontSize: 16, fontWeight: 700, cursor: 'pointer',
-                }}>Get Full Analysis</button>
+                  width: '100%',
+                }} className="analysis-btn">Get Full Analysis</button>
               </Link>
             </div>
           </div>
@@ -135,6 +137,9 @@ export default function LandingSkinAnalysis() {
         @media (max-width: 768px) {
           .skin-analysis-container { gap: 40px !important; flex-direction: column-reverse !important; }
           .skin-features-grid { grid-template-columns: 1fr !important; }
+          .analysis-btn-container { flex-wrap: nowrap !important; }
+          .analysis-btn { padding: 14px 10px !important; font-size: 13px !important; }
+          .analysis-btn-icon { width: 16px; height: 16px; }
         }
       `}</style>
     </section>
