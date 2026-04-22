@@ -64,7 +64,6 @@ export default function ScanPage() {
   const [cameraError, setCameraError] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
-  const [hasPrompted, setHasPrompted] = useState(false);
 
   // Advanced Indicators
   const [indicators, setIndicators] = useState({
@@ -82,25 +81,6 @@ export default function ScanPage() {
   const { user } = useAuth();
 
   /* ---- Sound helpers ---- */
-  const speak = useCallback((text: string) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.volume = 1;
-    utterance.rate = 0.95;
-    utterance.pitch = 1.1;
-
-    // Prefer a female English voice for a beauty app feel
-    const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(v =>
-      v.lang.startsWith('en') && /samantha|victoria|karen|fiona|moira|tessa|female|woman/i.test(v.name)
-    ) || voices.find(v =>
-      v.lang.startsWith('en') && !/male|guy|daniel|thomas|alex|fred|junior|ralph/i.test(v.name)
-    ) || voices.find(v => v.lang.startsWith('en'));
-
-    if (femaleVoice) utterance.voice = femaleVoice;
-    window.speechSynthesis.speak(utterance);
-  }, []);
   const playBeep = useCallback((freq = 800, dur = 0.12, vol = 0.06) => {
     try {
       const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
@@ -154,7 +134,6 @@ export default function ScanPage() {
           await videoRef.current.play();
           setPhase('position');
           setStatusText(`Position your face within the frame`);
-          speak('Please position your face within the frame.');
         }
       } catch {
         if (!isActive) return;
@@ -208,7 +187,7 @@ export default function ScanPage() {
       cancelAnimationFrame(rafId);
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
-  }, [scanMode, phase, speak]);
+  }, [scanMode, phase]);
 
   /* ---- Take snapshot ---- */
   const takeSnapshot = useCallback(() => {
@@ -220,28 +199,10 @@ export default function ScanPage() {
       // Bypass the extra review screen completely
       setPhase('analyze');
       setStatusText('Processing your result...');
-      speak('Capture successful. Processing your AI results now.');
       return img;
     }
     return null;
-  }, [capturedImages.length, captureFrame, playShutter, phase, speak]);
-
-  // Manual capture prompt logic
-  useEffect(() => {
-    if (phase !== 'position') {
-      setHasPrompted(false);
-      return;
-    }
-    const allValid = indicators.position && indicators.lighting && indicators.sharpness && indicators.angle;
-    if (allValid) {
-      if (!hasPrompted) {
-        setHasPrompted(true);
-        speak('Alignment is perfect. Please press the capture button.');
-      }
-    } else {
-      if (hasPrompted) setHasPrompted(false);
-    }
-  }, [indicators, phase, hasPrompted, speak]);
+  }, [capturedImages.length, captureFrame, playShutter, phase]);
 
   /* ---- Upload handler ---- */
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -283,7 +244,6 @@ export default function ScanPage() {
     setAnalyzing(true);
     setApiError(null);
     setStatusText('Connecting to AI…');
-    speak('Analyzing your skin, please wait.');
 
     try {
       sessionStorage.setItem('wbh_scan_image', images[0]);
@@ -363,7 +323,6 @@ export default function ScanPage() {
         ? 'Request timed out. The AI server may be starting up — please retry.'
         : is503 ? 'The AI is currently experiencing high demand. Please try again in a few moments.'
         : err instanceof Error ? err.message : 'Analysis failed. Please try again.';
-      speak('Analysis failed. Please try again.');
       setApiError(msg);
       setStatusText('Analysis failed');
       setAnalyzing(false);
@@ -499,7 +458,7 @@ export default function ScanPage() {
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text, #fff)', marginBottom: 10 }}>
             {phase === 'done' ? '✓ Scan Complete!' : 'Analysing Your Skin'}
           </h2>
-          <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', marginBottom: 28, lineHeight: 1.6 }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary, rgba(0,0,0,0.6))', marginBottom: 28, lineHeight: 1.6 }}>
             {phase === 'done'
               ? 'Taking you to your results…'
               : 'Our AI is carefully examining your skin. This usually takes 10–15 seconds.'}
