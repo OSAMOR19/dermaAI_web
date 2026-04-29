@@ -1,119 +1,188 @@
-import Link from 'next/link';
+'use client';
+
 import Image from 'next/image';
-import { Mail, MapPin, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { Instagram, Twitter } from 'lucide-react';
 
-const infoItems = [
-  { Icon: Mail, title: 'Contact Us', lines: ['info@wbhskin.com', '(123) 465 - 798'] },
-  { Icon: MapPin, title: 'Our Location', lines: ['2 Akinmade Street Off Sylvia Crescent', 'Anthony Village Maryland, Lagos, Nigeria.'] },
-  { Icon: Clock, title: 'Working Hours', lines: ['Monday - Friday : 9:00 am to 6:00 pm', 'Saturday : 11:00 am to 5pm'] },
-];
+const WBH_SITE = 'https://wholesalebeautyhub.co.uk';
 
-const quickLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Login', href: '/login' },
-  { name: 'Get Started', href: '/signup' },
-  { name: 'Services', href: '#services' },
-  { name: 'Contact', href: '#contact' },
-];
-
-const serviceLinks = ['Scar Revision', 'Wrinkle Reduction', 'Chemical Peels', 'Diagnosis Imaging', 'Dermabrasion'];
+const footerLinks = {
+  shop: [
+    { name: 'Skincare', href: `${WBH_SITE}/product-category/skin-care/` },
+    { name: 'Makeup', href: `${WBH_SITE}/product-category/makeup/` },
+    { name: 'Bath & Body', href: `${WBH_SITE}/product-category/bath-body-care/` },
+    { name: 'Beauty Tools', href: `${WBH_SITE}/product-category/beauty-tools/` },
+    { name: 'All Brands', href: `${WBH_SITE}/brands/` },
+  ],
+  platform: [
+    { name: 'AI Skin Analysis', href: '/scan', internal: true },
+    { name: 'My Account', href: '/login', internal: true },
+    { name: 'About WBH', href: `${WBH_SITE}/about/` },
+    { name: 'Contact Us', href: `${WBH_SITE}/contact/` },
+    { name: 'WBH Community', href: `${WBH_SITE}/wbh-beauty-blog/` },
+  ],
+  support: [
+    { name: 'Shipping Info', href: `${WBH_SITE}` },
+    { name: 'Returns Policy', href: `${WBH_SITE}` },
+    { name: 'Privacy Policy', href: `${WBH_SITE}` },
+    { name: 'Terms of Service', href: `${WBH_SITE}` },
+  ],
+};
 
 export default function LandingFooter() {
   return (
-    <footer id="contact" style={{ background: '#2d1a12', color: '#fff', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', bottom: 0, right: 0, width: 300, height: 300, background: 'rgba(227,27,93,0.04)', borderRadius: '50%', transform: 'translate(50px, 50px)' }} />
-
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', position: 'relative', zIndex: 10 }}>
-        {/* Info row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 40, padding: '60px 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-          {infoItems.map(({ Icon, title, lines }, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-              <Icon size={28} color="#e31b5d" style={{ marginTop: 4, flexShrink: 0 }} />
-              <div>
-                <h3 style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 22, color: '#fff', marginBottom: 8 }}>{title}</h3>
-                {lines.map((l, j) => <p key={j} style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 500, fontSize: 15, lineHeight: 1.6 }}>{l}</p>)}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Links grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 48, padding: '60px 0' }}>
-          {/* Brand */}
-          <div>
-            <div style={{ background: '#fff', padding: 16, borderRadius: 16, display: 'inline-block', marginBottom: 24 }}>
-              <div style={{ position: 'relative', width: 120, height: 36 }}>
-                <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" fill style={{ objectFit: 'contain' }} />
-              </div>
-            </div>
-            <p style={{ color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, fontSize: 15, fontWeight: 500, marginBottom: 24 }}>
-              Providing professional beauty care with the perfect blend of medical science and artistic precision.
+    <footer className="landing-footer">
+      <div className="landing-footer-inner">
+        <div className="landing-footer-grid">
+          {/* Brand column */}
+          <div className="landing-footer-brand">
+            <Link href="/" className="landing-footer-logo">
+              <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" width={120} height={48} style={{ objectFit: 'contain' }} />
+            </Link>
+            <p className="landing-footer-blurb">
+              Premium makeup, skincare &amp; beauty products with AI-powered skin analysis. 
+              UK-based with next-day delivery &amp; worldwide shipping.
             </p>
+            <div className="landing-footer-socials">
+              <a href="https://instagram.com/wholesalebeautyhub" target="_blank" rel="noopener noreferrer" className="landing-social-link" aria-label="Instagram">
+                <Instagram size={18} />
+              </a>
+              <a href="https://twitter.com/wbhbeauty" target="_blank" rel="noopener noreferrer" className="landing-social-link" aria-label="Twitter">
+                <Twitter size={18} />
+              </a>
+            </div>
           </div>
 
-          {/* Quick links */}
-          <div>
-            <h4 style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 22, color: '#e31b5d', fontStyle: 'italic', marginBottom: 28 }}>Quick Links</h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {quickLinks.map(({ name, href }) => (
-                <li key={name}>
-                  <Link href={href} style={{ textDecoration: 'none', color: 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ display: 'inline-block', width: 0, height: 2, background: '#e31b5d', transition: 'width 0.2s' }} />
-                    {name}
-                  </Link>
+          {/* Shop column */}
+          <div className="landing-footer-col">
+            <h4 className="landing-footer-heading">Shop</h4>
+            <ul className="landing-footer-list">
+              {footerLinks.shop.map(link => (
+                <li key={link.name}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer">{link.name}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 22, color: '#e31b5d', fontStyle: 'italic', marginBottom: 28 }}>Our Services</h4>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {serviceLinks.map(s => (
-                <li key={s} style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 700, fontSize: 16 }}>{s}</li>
+          {/* Platform column */}
+          <div className="landing-footer-col">
+            <h4 className="landing-footer-heading">Platform</h4>
+            <ul className="landing-footer-list">
+              {footerLinks.platform.map(link => (
+                <li key={link.name}>
+                  {'internal' in link && link.internal ? (
+                    <Link href={link.href}>{link.name}</Link>
+                  ) : (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">{link.name}</a>
+                  )}
+                </li>
               ))}
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div>
-            <h4 style={{ fontFamily: 'Georgia,serif', fontWeight: 700, fontSize: 22, color: '#e31b5d', fontStyle: 'italic', marginBottom: 16 }}>Newsletter</h4>
-            <p style={{ color: 'rgba(255,255,255,0.4)', fontWeight: 500, fontSize: 15, marginBottom: 24, lineHeight: 1.7 }}>
-              Join our newsletter to stay updated with latest beauty tips and clinical insights.
-            </p>
-            <div style={{ position: 'relative' }}>
-              <input type="email" placeholder="Enter your email" style={{
-                width: '100%', background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16,
-                padding: '16px 120px 16px 20px', color: '#fff', fontSize: 14,
-                outline: 'none', boxSizing: 'border-box',
-              }} />
-              <button style={{
-                position: 'absolute', right: 8, top: 8, bottom: 8,
-                background: '#e31b5d', color: '#fff', border: 'none', borderRadius: 10,
-                padding: '0 20px', fontWeight: 700, fontSize: 14, cursor: 'pointer',
-              }}>Join</button>
+          {/* Support column */}
+          <div className="landing-footer-col">
+            <h4 className="landing-footer-heading">Support</h4>
+            <ul className="landing-footer-list">
+              {footerLinks.support.map(link => (
+                <li key={link.name}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer">{link.name}</a>
+                </li>
+              ))}
+            </ul>
+            <div className="landing-footer-contact">
+              <p className="landing-footer-email">info@wholesalebeautyhub.co.uk</p>
+              <p className="landing-footer-hours">Mon–Sat 9am–6pm GMT</p>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div style={{
-          padding: '28px 0', borderTop: '1px solid rgba(255,255,255,0.1)',
-          display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-          alignItems: 'center', gap: 16, flexWrap: 'wrap',
-          color: 'rgba(255,255,255,0.2)', fontSize: 11, fontWeight: 700,
-          textTransform: 'uppercase', letterSpacing: '0.25em',
-        }}>
-          <p>© 2026 Wholesale Beauty Hub. All Rights Reserved.</p>
-          <div style={{ display: 'flex', gap: 32 }}>
-            {['Privacy', 'Terms', 'Cookies'].map(l => (
-              <Link key={l} href="#" style={{ textDecoration: 'underline', color: 'inherit', textDecorationColor: 'rgba(227,27,93,0.3)', textUnderlineOffset: 6 }}>{l}</Link>
-            ))}
-          </div>
+        <div className="landing-footer-bottom">
+          <p className="landing-footer-copyright">
+            &copy; {new Date().getFullYear()} Wholesale Beauty Hub. All rights reserved.
+          </p>
+          <p className="landing-footer-tagline">
+            Powered by DermaAI · Made in the UK 🇬🇧
+          </p>
         </div>
       </div>
+
+      <style>{`
+        .landing-footer {
+          background: #1a1109; color: rgba(255,255,255,0.6);
+          padding: 100px 0 40px;
+        }
+        .landing-footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+        .landing-footer-grid {
+          display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 56px;
+          margin-bottom: 60px;
+        }
+        .landing-footer-logo { display: inline-flex; margin-bottom: 20px; }
+        .landing-footer-blurb {
+          font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.4);
+          max-width: 280px; margin-bottom: 24px; font-family: 'DM Sans', sans-serif;
+        }
+        .landing-footer-socials { display: flex; gap: 12px; }
+        .landing-social-link {
+          width: 40px; height: 40px; border-radius: 50%;
+          background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+          display: flex; align-items: center; justify-content: center;
+          color: rgba(255,255,255,0.5); transition: all 0.3s;
+        }
+        .landing-social-link:hover {
+          background: rgba(232,76,136,0.15); border-color: rgba(232,76,136,0.3);
+          color: #e84c88;
+        }
+
+        .landing-footer-heading {
+          font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.15em;
+          text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 20px;
+          font-weight: 600;
+        }
+        .landing-footer-list { list-style: none; margin: 0; padding: 0; }
+        .landing-footer-list li { margin-bottom: 12px; }
+        .landing-footer-list a {
+          text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.55);
+          transition: color 0.25s; font-family: 'DM Sans', sans-serif;
+        }
+        .landing-footer-list a:hover { color: #e84c88; }
+
+        .landing-footer-contact { margin-top: 24px; }
+        .landing-footer-email {
+          font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 4px;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .landing-footer-hours {
+          font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.25);
+          letter-spacing: 0.05em;
+        }
+
+        .landing-footer-bottom {
+          border-top: 1px solid rgba(255,255,255,0.06);
+          padding-top: 28px; display: flex; justify-content: space-between;
+          align-items: center;
+        }
+        .landing-footer-copyright {
+          font-size: 12px; color: rgba(255,255,255,0.25);
+          font-family: 'DM Sans', sans-serif;
+        }
+        .landing-footer-tagline {
+          font-family: 'DM Mono', monospace; font-size: 11px;
+          color: rgba(255,255,255,0.2); letter-spacing: 0.06em;
+        }
+
+        @media (max-width: 768px) {
+          .landing-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+          .landing-footer { padding: 80px 0 32px !important; }
+          .landing-footer-inner { padding: 0 20px; }
+          .landing-footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+        }
+        @media (max-width: 480px) {
+          .landing-footer-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </footer>
   );
 }

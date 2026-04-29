@@ -3,14 +3,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Menu, X, LogIn, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+
+const WBH_SITE = 'https://wholesalebeautyhub.co.uk';
 
 const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'About Us', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Analysis', href: '#analysis' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Shop', href: WBH_SITE, external: true },
+  { name: 'Skin Analysis', href: '/scan', external: false },
+  { name: 'About', href: `${WBH_SITE}/about/`, external: true },
+  { name: 'Contact', href: `${WBH_SITE}/contact/`, external: true },
 ];
 
 export default function LandingNavbar() {
@@ -23,135 +24,150 @@ export default function LandingNavbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const linkProps = (external: boolean) =>
+    external ? { target: '_blank' as const, rel: 'noopener noreferrer' } : {};
+
   return (
     <>
-      <nav style={{
-        position: 'fixed',
-        top: isScrolled ? 20 : 0,
-        left: isScrolled ? '5%' : 0,
-        right: isScrolled ? '5%' : 0,
-        width: isScrolled ? '90%' : '100%',
-        margin: '0 auto',
-        maxWidth: 1400,
-        zIndex: 50,
-        padding: isScrolled ? '14px 28px' : '24px 5%',
-        background: isScrolled ? 'rgba(255, 255, 255, 0.85)' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'none',
-        border: isScrolled ? '1px solid rgba(227,27,93,0.1)' : '1px solid transparent',
-        borderRadius: isScrolled ? 50 : 0,
-        boxShadow: isScrolled ? '0 10px 40px rgba(0,0,0,0.08)' : 'none',
-        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <div style={{ position: 'relative', width: 140, height: 40, transition: 'transform 0.3s ease' }} className="nav-logo">
-              <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" fill style={{ objectFit: 'contain' }} priority />
-            </div>
-          </Link>
+      <nav className={`landing-nav ${isScrolled ? 'scrolled' : ''}`}>
+        <Link href="/" className="landing-nav-logo">
+          <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" width={140} height={56} style={{ objectFit: 'contain' }} priority />
+        </Link>
 
-          {/* Desktop nav */}
-          <div style={{ display: 'flex', gap: 40, alignItems: 'center' }} className="landing-desktop-nav">
-            {navLinks.map((link, i) => (
-              <Link key={link.name} href={link.href} style={{
-                textDecoration: 'none', fontSize: 15, fontWeight: 700,
-                color: '#2d1a12', opacity: 0.75, transition: 'all 0.3s ease',
-                position: 'relative', animationDelay: `${i * 0.1}s`,
-              }} className="nav-link">
-                {link.name}
-              </Link>
-            ))}
-          </div>
+        <ul className="landing-nav-links">
+          {navLinks.map(link => (
+            <li key={link.name}>
+              <Link href={link.href} {...linkProps(link.external)}>{link.name}</Link>
+            </li>
+          ))}
+          <li>
+            <Link href="/scan" className="landing-nav-cta">
+              Start AI Scan
+            </Link>
+          </li>
+        </ul>
 
-          {/* CTA buttons */}
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-            <div className="landing-desktop-nav" style={{ display: 'flex', gap: 12 }}>
-              <Link href="/login" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  background: 'rgba(227,27,93,0.1)', color: '#e31b5d', border: '1px solid rgba(227,27,93,0.2)',
-                  borderRadius: 50, padding: '10px 24px', fontSize: 14, fontWeight: 800,
-                  cursor: 'pointer', transition: 'all 0.3s ease',
-                }} className="btn-glow-hover">
-                  Login
-                </button>
-              </Link>
-              <Link href="/signup" style={{ textDecoration: 'none' }}>
-                <button style={{
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  background: '#e31b5d', color: '#fff', border: 'none',
-                  borderRadius: 50, padding: '10px 28px', fontSize: 14, fontWeight: 800,
-                  cursor: 'pointer', boxShadow: '0 8px 24px rgba(227,27,93,0.3)',
-                  transition: 'all 0.3s ease',
-                }} className="btn-float-hover">
-                  Sign Up
-                </button>
-              </Link>
-            </div>
-            {/* Mobile hamburger */}
-            <button onClick={() => setMobileOpen(!mobileOpen)} style={{
-              background: mobileOpen ? 'rgba(227,27,93,0.1)' : 'transparent', 
-              border: 'none', cursor: 'pointer', 
-              padding: 10, borderRadius: '50%',
-              display: 'none', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.3s ease'
-            }} className="landing-hamburger">
-              {mobileOpen ? <X size={26} color="#e31b5d" /> : <Menu size={26} color="#2d1a12" />}
-            </button>
-          </div>
-        </div>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="landing-hamburger"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X size={26} color="#e84c88" /> : <Menu size={26} color="#1a1109" />}
+        </button>
       </nav>
 
       {/* Mobile menu overlay */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-        backgroundColor: '#fff', zIndex: 40,
-        opacity: mobileOpen ? 1 : 0, pointerEvents: mobileOpen ? 'auto' : 'none',
-        transform: mobileOpen ? 'translateY(0)' : 'translateY(-20px)',
-        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-        display: 'flex', flexDirection: 'column',
-        paddingTop: 100, paddingBottom: 40, paddingLeft: 24, paddingRight: 24,
-      }}>
-        <div style={{ flex: 1, padding: '0 32px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div className={`landing-mobile-menu ${mobileOpen ? 'open' : ''}`}>
+        <div className="landing-mobile-links">
           {navLinks.map((link, i) => (
-            <Link key={link.name} href={link.href} onClick={() => setMobileOpen(false)} style={{
-              textDecoration: 'none', fontSize: 28, fontWeight: 800, color: '#2d1a12',
-              fontFamily: 'Georgia, serif', borderBottom: '1px solid #f0ece9', paddingBottom: 16,
-              transform: mobileOpen ? 'translateX(0)' : 'translateX(-20px)',
-              opacity: mobileOpen ? 1 : 0,
-              transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.05 + 0.1}s`,
-            }}>{link.name}</Link>
+            <Link
+              key={link.name}
+              href={link.href}
+              {...linkProps(link.external)}
+              onClick={() => setMobileOpen(false)}
+              className="landing-mobile-link"
+              style={{ transitionDelay: `${i * 0.05 + 0.1}s` }}
+            >
+              {link.name}
+            </Link>
           ))}
         </div>
-        
-        <div style={{ padding: '0 32px', display: 'flex', flexDirection: 'column', gap: 16, marginTop: 'auto' }}>
-          <p style={{ fontSize: 12, fontWeight: 800, color: 'rgba(45,26,18,0.4)', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Get Started</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-             <Link href="/login" style={{ textDecoration: 'none' }}>
-              <button style={{
-                width: '100%', background: 'rgba(227,27,93,0.1)', color: '#e31b5d', border: '1px solid rgba(227,27,93,0.2)',
-                borderRadius: 16, padding: '16px 0', fontSize: 16, fontWeight: 800, cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-              }}>Login</button>
-            </Link>
-            <Link href="/signup" style={{ textDecoration: 'none' }}>
-              <button style={{
-                width: '100%', background: '#e31b5d', color: '#fff', border: 'none',
-                borderRadius: 16, padding: '16px 0', fontSize: 16, fontWeight: 800, cursor: 'pointer',
-                boxShadow: '0 8px 24px rgba(227,27,93,0.3)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              }}>Sign Up</button>
-            </Link>
+
+        <div className="landing-mobile-actions">
+          <p className="landing-mobile-label">Get Started</p>
+          <div className="landing-mobile-btns">
+            <Link href="/login" className="landing-mobile-btn-outline" onClick={() => setMobileOpen(false)}>Login</Link>
+            <Link href="/scan" className="landing-mobile-btn-fill" onClick={() => setMobileOpen(false)}>Start Scan</Link>
           </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 1023px) { .landing-desktop-nav { display: none !important; } }
-        @media (max-width: 1023px) { .landing-hamburger { display: flex !important; } }
-        .nav-link:hover { color: #e31b5d !important; opacity: 1 !important; transform: translateY(-1px); }
-        .btn-glow-hover:hover { background: rgba(227,27,93,0.2) !important; transform: scale(1.05); }
-        .btn-float-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(227,27,93,0.4) !important; }
-        .nav-logo:hover { transform: scale(1.05); }
+        .landing-nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 14px 48px;
+          background: rgba(254,252,250,0.85);
+          backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+          border-bottom: 1px solid rgba(0,0,0,0.06);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .landing-nav.scrolled {
+          padding: 10px 48px;
+          box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+        }
+        .landing-nav-logo { display: flex; align-items: center; text-decoration: none; }
+        .landing-nav-links {
+          display: flex; align-items: center; gap: 32px; list-style: none; margin: 0; padding: 0;
+        }
+        .landing-nav-links a {
+          font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+          color: #333; text-decoration: none; font-weight: 500; transition: color 0.25s;
+          font-family: 'DM Sans', sans-serif; position: relative;
+        }
+        .landing-nav-links a::after {
+          content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+          height: 2px; background: #e84c88; transform: scaleX(0);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transform-origin: right;
+        }
+        .landing-nav-links a:hover { color: #e84c88; }
+        .landing-nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+        .landing-nav-cta {
+          background: linear-gradient(135deg, #e84c88 0%, #d63a74 100%) !important;
+          color: #fff !important; padding: 12px 28px !important; border-radius: 50px !important;
+          font-size: 12px !important; letter-spacing: 0.15em !important;
+          transition: all 0.3s !important; box-shadow: 0 4px 16px rgba(232,76,136,0.25);
+        }
+        .landing-nav-cta::after { display: none !important; }
+        .landing-nav-cta:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 24px rgba(232,76,136,0.35) !important;
+        }
+        .landing-hamburger {
+          display: none; background: transparent; border: none; cursor: pointer;
+          padding: 8px; border-radius: 50%;
+        }
+
+        .landing-mobile-menu {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: #fff; z-index: 800; display: flex; flex-direction: column;
+          padding: 100px 24px 40px;
+          opacity: 0; pointer-events: none; transform: translateY(-20px);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .landing-mobile-menu.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .landing-mobile-links { flex: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 20px; }
+        .landing-mobile-link {
+          text-decoration: none; font-size: 24px; font-weight: 600; color: #1a1109;
+          font-family: 'DM Sans', sans-serif;
+          border-bottom: 1px solid #f0ece8; padding-bottom: 16px;
+          transition: color 0.2s;
+        }
+        .landing-mobile-link:hover { color: #e84c88; }
+        .landing-mobile-actions { padding: 0 16px; margin-top: auto; }
+        .landing-mobile-label {
+          font-size: 11px; font-weight: 700; color: rgba(26,17,9,0.4);
+          text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px;
+        }
+        .landing-mobile-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .landing-mobile-btn-outline {
+          text-decoration: none; text-align: center; background: rgba(232,76,136,0.08);
+          color: #e84c88; border: 1px solid rgba(232,76,136,0.2); border-radius: 50px;
+          padding: 14px 0; font-size: 15px; font-weight: 600;
+        }
+        .landing-mobile-btn-fill {
+          text-decoration: none; text-align: center;
+          background: linear-gradient(135deg, #e84c88, #d63a74); color: #fff;
+          border-radius: 50px; padding: 14px 0; font-size: 15px; font-weight: 600;
+          box-shadow: 0 6px 20px rgba(232,76,136,0.3);
+        }
+
+        @media (max-width: 1023px) {
+          .landing-nav-links { display: none !important; }
+          .landing-hamburger { display: flex !important; }
+          .landing-nav { padding: 12px 20px !important; }
+        }
       `}</style>
     </>
   );

@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wholesale Beauty Hub — AI Skin Analysis & Professional Skincare</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #1a1109;
+    --cream:   #faf7f2;
+    --warm:    #f3ede3;
+    --blush:   #e8c4b8;
+    --rose:    #c8504a;
+    --rose-lt: #e8897f;
+    --gold:    #b89060;
+    --teal:    #2a4a4e;
+    --teal-lt: #3d6b70;
+    --scan:    #00d4b4;
+    --glass:   rgba(250,247,242,0.72);
+    --serif:   'Cormorant Garamond', Georgia, serif;
+    --sans:    'DM Sans', sans-serif;
+    --mono:    'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(184,144,96,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .logo-text {
+    font-family: var(--serif);
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .logo-sub {
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+
+  .nav-cta {
+    background: var(--rose);
+    color: #fff !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-size: 11px !important;
+    letter-spacing: 0.2em !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--teal) !important; color: #fff !important; }
+
+  .nav-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    background: var(--teal);
+    color: var(--scan);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 88px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,80,74,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(42,74,78,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 10%, rgba(184,144,96,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 72px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--scan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .badge-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--teal);
+    text-transform: uppercase;
+  }
+
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(52px, 6vw, 84px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-headline strong {
+    font-weight: 600;
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #5a4e42;
+    max-width: 420px;
+    margin-bottom: 44px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 64px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--rose);
+    color: #fff;
+    padding: 16px 36px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sans);
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(26,17,9,0.18);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    padding: 15px 32px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid rgba(26,17,9,0.2);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    font-family: var(--sans);
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    border-color: var(--rose);
+    color: var(--rose);
+  }
+
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .trust-avatars {
+    display: flex;
+  }
+  .trust-avatars span {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--blush);
+    color: var(--ink);
+  }
+  .trust-avatars span:first-child { margin-left: 0; }
+
+  .trust-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .trust-text span {
+    font-size: 12px;
+    color: #8a7a6a;
+    letter-spacing: 0.05em;
+  }
+
+  .trust-stars {
+    color: var(--rose);
+    font-size: 13px;
+    letter-spacing: 2px;
+    display: block;
+  }
+
+  .hero-divider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(184,144,96,0.3) 30%, rgba(184,144,96,0.3) 70%, transparent);
+    transform: translateX(calc(50vw - 1px));
+  }
+
+  /* ─── HERO RIGHT — AI SCANNER ─── */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 72px 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .scanner-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow:
+      0 0 0 1px rgba(184,144,96,0.15),
+      0 24px 64px rgba(26,17,9,0.10),
+      0 4px 12px rgba(26,17,9,0.05);
+    position: relative;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .scanner-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--scan);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .scanner-label::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: var(--scan);
+    display: inline-block;
+  }
+
+  .scanner-face {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 240px;
+    margin: 0 auto 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .face-circle {
+    width: 180px;
+    height: 210px;
+    border: 1.5px dashed rgba(0,212,180,0.4);
+    border-radius: 50%;
+    position: absolute;
+    animation: rotate 12s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .face-grid {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .face-portrait {
+    width: 140px;
+    height: 168px;
+    background: linear-gradient(160deg, #f0e8e0 0%, #e8d8cc 100%);
+    border-radius: 50% 50% 45% 45%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .face-portrait::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    right: 25%;
+    height: 8px;
+    background: rgba(100,70,50,0.15);
+    border-radius: 50%;
+    box-shadow: 0 28px 0 rgba(100,70,50,0.15);
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--scan), transparent);
+    box-shadow: 0 0 12px var(--scan);
+    top: 0;
+    animation: scanMove 2.5s ease-in-out infinite;
+  }
+
+  @keyframes scanMove {
+    0% { top: 10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 90%; opacity: 0; }
+  }
+
+  /* Corner brackets */
+  .scan-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--scan);
+    border-style: solid;
+    border-width: 0;
+  }
+  .scan-corner.tl { top: 12px; left: 12px; border-top-width: 2px; border-left-width: 2px; }
+  .scan-corner.tr { top: 12px; right: 12px; border-top-width: 2px; border-right-width: 2px; }
+  .scan-corner.bl { bottom: 12px; left: 12px; border-bottom-width: 2px; border-left-width: 2px; }
+  .scan-corner.br { bottom: 12px; right: 12px; border-bottom-width: 2px; border-right-width: 2px; }
+
+  /* Floating metric tags */
+  .metric-tag {
+    position: absolute;
+    background: var(--teal);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(42,74,78,0.3);
+    animation: floatTag 3s ease-in-out infinite;
+  }
+
+  .metric-tag.hydration { top: 20px; right: -60px; animation-delay: 0s; }
+  .metric-tag.pores { bottom: 40px; right: -70px; animation-delay: 0.8s; }
+  .metric-tag.texture { top: 50%; left: -80px; transform: translateY(-50%); animation-delay: 1.6s; }
+
+  @keyframes floatTag {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .metric-tag.texture {
+    animation: floatTagCenter 3s ease-in-out infinite;
+  }
+  @keyframes floatTagCenter {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    50% { transform: translateY(-50%) translateX(-3px); }
+  }
+
+  .metric-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--scan);
+  }
+
+  .scanner-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .scanner-sub {
+    font-size: 13px;
+    color: #8a7a6a;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .scanner-concerns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 28px;
+    justify-content: center;
+  }
+
+  .concern-chip {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: rgba(42,74,78,0.08);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .scanner-cta {
+    display: flex;
+    gap: 10px;
+  }
+
+  .scanner-cta .btn-primary {
+    flex: 1;
+    justify-content: center;
+    font-size: 11px;
+    padding: 14px 20px;
+  }
+
+  .scanner-privacy {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #a09080;
+  }
+  .scanner-privacy svg { color: var(--teal); }
+
+  /* ─── FADE UP ANIMATION ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── TRUST BAR ─── */
+  .trust-bar {
+    background: var(--teal);
+    color: #fff;
+    padding: 16px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    overflow: hidden;
+  }
+
+  .trust-bar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .trust-bar-item svg {
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  .trust-sep {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .section {
+    padding: 100px 72px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--rose); }
+
+  .section-sub {
+    font-size: 16px;
+    color: #6a5a4a;
+    max-width: 560px;
+    line-height: 1.75;
+  }
+
+  /* Steps */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: 64px;
+    background: rgba(184,144,96,0.15);
+    border: 1px solid rgba(184,144,96,0.15);
+  }
+
+  .step {
+    background: var(--cream);
+    padding: 48px 40px;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  .step:hover { background: #fff; }
+
+  .step-num {
+    font-family: var(--serif);
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(200,80,74,0.12);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .step-icon {
+    width: 48px; height: 48px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--scan);
+    font-size: 20px;
+  }
+
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .step p {
+    font-size: 14px;
+    color: #6a5a4a;
+    line-height: 1.7;
+  }
+
+  .step-arrow {
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    transform: translateY(-50%);
+    width: 32px; height: 32px;
+    background: var(--rose);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    z-index: 2;
+  }
+  .step:last-child .step-arrow { display: none; }
+
+  /* ─── SERVICES ─── */
+  .services {
+    background: var(--ink);
+    padding: 100px 72px;
+    color: #fff;
+  }
+
+  .services .section-label { color: var(--scan); }
+  .services .section-label::before { background: var(--scan); }
+  .services .section-title { color: #fff; }
+  .services .section-sub { color: rgba(255,255,255,0.6); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin-top: 64px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .service-card {
+    background: var(--ink);
+    padding: 48px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    cursor: pointer;
+  }
+  .service-card:hover { background: #1e1510; }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--rose);
+    transition: height 0.4s ease;
+  }
+  .service-card:hover::before { height: 100%; }
+
+  .service-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .service-card h3 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+
+  .service-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose-lt);
+    text-decoration: none;
+    font-weight: 500;
+    transition: gap 0.2s;
+  }
+  .service-link:hover { gap: 16px; }
+
+  /* ─── PRODUCTS TEASER ─── */
+  .products {
+    padding: 100px 72px;
+    background: var(--warm);
+  }
+
+  .products-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    gap: 24px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(26,17,9,0.06);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(26,17,9,0.12);
+  }
+
+  .product-img {
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-img-1 { background: linear-gradient(145deg, #f5ece4 0%, #e8d4c4 100%); }
+  .product-img-2 { background: linear-gradient(145deg, #e8f0ee 0%, #c8ddd8 100%); }
+  .product-img-3 { background: linear-gradient(145deg, #f0ece8 0%, #ddd0c4 100%); }
+  .product-img-4 { background: linear-gradient(145deg, #e8eaf0 0%, #c8ccdc 100%); }
+
+  .product-bottle {
+    width: 80px;
+    position: relative;
+  }
+
+  .bottle-body {
+    width: 60px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 6px 6px 10px 10px;
+    position: relative;
+  }
+  .b1 { background: linear-gradient(160deg, #c8afa0, #a07860); }
+  .b2 { background: linear-gradient(160deg, #5a8a82, #2a5a52); }
+  .b3 { background: linear-gradient(160deg, #b0a090, #806050); }
+  .b4 { background: linear-gradient(160deg, #8090b0, #506080); }
+
+  .bottle-cap {
+    width: 40px;
+    height: 20px;
+    background: rgba(0,0,0,0.15);
+    margin: 0 auto;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .product-info {
+    padding: 20px;
+  }
+
+  .product-category {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .product-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .product-desc {
+    font-size: 12px;
+    color: #8a7a6a;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .product-add {
+    width: 36px; height: 36px;
+    background: var(--rose);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .product-add:hover {
+    background: var(--teal);
+    transform: scale(1.1);
+  }
+
+  .product-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--rose);
+    color: #fff;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+
+  /* ─── TESTIMONIAL ─── */
+  .testimonials {
+    padding: 100px 72px;
+    background: #fff;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .testimonial-card {
+    background: var(--warm);
+    border-radius: 12px;
+    padding: 36px 32px;
+    position: relative;
+    border: 1px solid rgba(184,144,96,0.12);
+  }
+
+  .testimonial-card.featured {
+    background: var(--teal);
+    color: #fff;
+    grid-row: span 1;
+  }
+
+  .t-stars {
+    color: var(--rose);
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  .testimonial-card.featured .t-stars { color: var(--scan); }
+
+  .t-quote {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .testimonial-card.featured .t-quote { color: rgba(255,255,255,0.9); }
+
+  .t-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .t-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--blush);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .testimonial-card.featured .t-avatar { background: rgba(255,255,255,0.2); color: #fff; }
+
+  .t-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    display: block;
+  }
+  .testimonial-card.featured .t-name { color: #fff; }
+
+  .t-detail {
+    font-size: 12px;
+    color: #8a7a6a;
+  }
+  .testimonial-card.featured .t-detail { color: rgba(255,255,255,0.6); }
+
+  .t-verified {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    background: rgba(42,74,78,0.1);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .testimonial-card.featured .t-verified {
+    color: var(--scan);
+    background: rgba(0,212,180,0.15);
+  }
+
+  /* ─── WHOLESALE CTA ─── */
+  .wholesale {
+    background: var(--gold);
+    padding: 80px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .wholesale-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .wholesale-left p {
+    font-size: 15px;
+    color: rgba(26,17,9,0.7);
+    max-width: 460px;
+    line-height: 1.7;
+  }
+
+  .wholesale-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 220px;
+  }
+
+  .btn-dark {
+    background: var(--ink);
+    color: #fff;
+    padding: 16px 32px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    font-family: var(--sans);
+    transition: background 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-dark:hover { background: var(--teal); }
+
+  .btn-outline-dark {
+    background: transparent;
+    border: 1.5px solid rgba(26,17,9,0.3);
+    color: var(--ink);
+    padding: 14px 32px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    font-family: var(--sans);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline-dark:hover { border-color: var(--ink); background: rgba(26,17,9,0.06); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.65);
+    padding: 72px 72px 36px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .footer-brand p {
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: 16px;
+    max-width: 240px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-logo .logo-mark {
+    border-color: rgba(184,144,96,0.5);
+    color: var(--gold);
+  }
+  .footer-logo .logo-text { color: rgba(255,255,255,0.85); }
+
+  .footer-col h4 {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-family: var(--mono);
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: #fff; }
+
+  .footer-contact p {
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 6px;
+  }
+
+  .footer-contact a {
+    color: var(--scan);
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .newsletter-input {
+    display: flex;
+    margin-top: 16px;
+    gap: 0;
+  }
+
+  .newsletter-input input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-right: none;
+    color: #fff;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-family: var(--sans);
+    outline: none;
+    border-radius: 2px 0 0 2px;
+  }
+  .newsletter-input input::placeholder { color: rgba(255,255,255,0.35); }
+
+  .newsletter-input button {
+    background: var(--rose);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-weight: 600;
+    border-radius: 0 2px 2px 0;
+    transition: background 0.2s;
+  }
+  .newsletter-input button:hover { background: var(--teal); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-bottom-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-bottom-links a:hover { color: #fff; }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── WHATSAPP BUTTON ─── */
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px; height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+    z-index: 800;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: fadeUp 1s 1s ease both;
+  }
+  .whatsapp-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(37,211,102,0.45);
+  }
+
+  /* ─── ANNOTATION CALLOUTS (for mockup only) ─── */
+  .annotation {
+    background: rgba(200,80,74,0.08);
+    border-left: 3px solid var(--rose);
+    padding: 12px 16px;
+    margin: 0 72px;
+    font-size: 12px;
+    color: var(--rose);
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    display: none;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">W</div>
+    <div class="logo-text">
+      Wholesale Beauty Hub
+      <span class="logo-sub">Clinical · AI-Powered · Professional</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Shop</a></li>
+    <li><a href="#">Skin Quiz</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Wholesale</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#" class="nav-cta">Book Now</a></li>
+    <li><span class="nav-tag">AI LIVE</span></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="badge-text">AI Skin Analysis — Now Live</span>
+    </div>
+
+    <h1 class="hero-headline">
+      Your skin,<br>
+      <em>decoded</em> by<br>
+      <strong>clinical AI.</strong>
+    </h1>
+
+    <p class="hero-sub">
+      Scan your face in 60 seconds. Get a clinical diagnosis of 14+ skin concerns. Shop professional-grade products matched precisely to your skin — or book a hands-on treatment at our Lagos clinic.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Start Free Skin Scan
+      </a>
+      <a href="#" class="btn-secondary">Shop Products</a>
+    </div>
+
+    <div class="hero-trust">
+      <div class="trust-avatars">
+        <span>A</span><span>O</span><span>F</span><span>C</span>
+      </div>
+      <div class="trust-text">
+        <span class="trust-stars">★★★★★</span>
+        <strong>10,000+ clients</strong>
+        <span>trust WBH Skin</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-divider"></div>
+
+  <!-- AI Scanner Widget -->
+  <div class="hero-right">
+    <div class="scanner-card">
+      <div class="scanner-label">AI Scanner Active</div>
+
+      <div class="scanner-face">
+        <div class="face-circle"></div>
+        <div class="scan-corner tl"></div>
+        <div class="scan-corner tr"></div>
+        <div class="scan-corner bl"></div>
+        <div class="scan-corner br"></div>
+        <div class="face-portrait">
+          <div class="scan-line"></div>
+        </div>
+
+        <div class="metric-tag hydration">
+          <span class="metric-dot"></span>
+          Hydration 72%
+        </div>
+        <div class="metric-tag pores">
+          <span class="metric-dot"></span>
+          Pores: Mild
+        </div>
+        <div class="metric-tag texture">
+          <span class="metric-dot"></span>
+          Texture: Even
+        </div>
+      </div>
+
+      <h2 class="scanner-title">Instant Clinical Diagnosis</h2>
+      <p class="scanner-sub">14+ skin concerns analysed in seconds. Privacy-first. Medical accuracy.</p>
+
+      <div class="scanner-concerns">
+        <span class="concern-chip">Hydration</span>
+        <span class="concern-chip">Pores</span>
+        <span class="concern-chip">Fine Lines</span>
+        <span class="concern-chip">Pigmentation</span>
+        <span class="concern-chip">Elasticity</span>
+        <span class="concern-chip">Texture</span>
+        <span class="concern-chip">+8 more</span>
+      </div>
+
+      <div class="scanner-cta">
+        <a href="#" class="btn-primary">Start Scan — Free</a>
+      </div>
+
+      <p class="scanner-privacy">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Facial data is encoded and never stored
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST BAR ═══ -->
+<div class="trust-bar">
+  <div class="trust-bar-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Clinical-Grade Products
+  </div>
+  <div class="trust-sep"></div>
+  <div class="trust-bar-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    Same-Day Lagos Delivery
+  </div>
+  <div class="trust-sep"></div>
+  <div class="trust-bar-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    AI-Personalised Care Plans
+  </div>
+  <div class="trust-sep"></div>
+  <div class="trust-bar-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+    Wholesale Accounts Available
+  </div>
+  <div class="trust-sep"></div>
+  <div class="trust-bar-item">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 5.16 5.16"/></svg>
+    Expert Concierge Support
+  </div>
+</div>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section reveal">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">From scan to <em>glowing skin</em><br>in three steps.</h2>
+  <p class="section-sub">Our AI-powered platform removes the guesswork from skincare. In under two minutes, you have a clinical-grade skin profile and a personalised product routine.</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-icon">◎</div>
+      <h3>Scan Your Skin</h3>
+      <p>Position your face in our AI scanner. In 60 seconds our computer vision model analyses 14+ skin concerns with medical-grade accuracy — from pore size to fine lines and pigmentation.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-icon">◈</div>
+      <h3>Get Your Report</h3>
+      <p>Receive a detailed clinical skin report with percentage scores for each concern. Your results are benchmarked against your skin type, age, and environmental factors.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-icon">◇</div>
+      <h3>Shop Your Routine</h3>
+      <p>Your report maps directly to a curated AM/PM routine from our professional product catalogue. Every recommendation is ingredient-verified and clinician-approved.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services reveal">
+  <div class="section-label">Clinical Services — Lagos</div>
+  <h2 class="section-title">In-clinic treatments<br><em>tailored to you.</em></h2>
+  <p class="section-sub">Based at our Anthony Village, Maryland clinic in Lagos. Our dermatology-trained specialists use the same AI diagnosis to guide every hands-on treatment.</p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01 / TREATMENT</div>
+      <h3>Scar Revision</h3>
+      <p>Advanced laser and micro-needling protocols to minimise scar tissue and restore smooth, even texture across all skin tones and types.</p>
+      <a href="#" class="service-link">Book a Consultation →</a>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02 / TREATMENT</div>
+      <h3>Wrinkle Reduction</h3>
+      <p>Personalised anti-ageing protocols using AI diagnosis to select the most effective combination of injectables, RF, or ultrasound therapy.</p>
+      <a href="#" class="service-link">Book a Consultation →</a>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03 / TREATMENT</div>
+      <h3>Medical-Grade Peels</h3>
+      <p>Clinical-strength chemical exfoliation designed to resurface skin, target deep pigmentation, and improve texture — with zero downtime options available.</p>
+      <a href="#" class="service-link">Book a Consultation →</a>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04 / TREATMENT</div>
+      <h3>Dermabrasion & Imaging</h3>
+      <p>Medical dermabrasion combined with high-resolution diagnostic imaging to track progress and adapt treatment protocols over time.</p>
+      <a href="#" class="service-link">Book a Consultation →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRODUCTS ═══ -->
+<section class="products reveal">
+  <div class="products-header">
+    <div>
+      <div class="section-label">Shop</div>
+      <h2 class="section-title">Clinician-curated<br><em>product range.</em></h2>
+    </div>
+    <a href="#" class="btn-secondary">View All Products →</a>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-img product-img-1">
+        <div class="product-badge">AI Pick</div>
+        <div class="product-bottle">
+          <div class="bottle-cap"></div>
+          <div class="bottle-body b1"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Hydration</div>
+        <div class="product-name">Deep Moisture Serum</div>
+        <div class="product-desc">Hyaluronic acid + ceramide complex for 48h hydration lock.</div>
+        <div class="product-footer">
+          <span class="product-price">₦18,500</span>
+          <button class="product-add">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-2">
+        <div class="product-badge">Bestseller</div>
+        <div class="product-bottle">
+          <div class="bottle-cap"></div>
+          <div class="bottle-body b2"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Brightening</div>
+        <div class="product-name">Vitamin C Radiance Oil</div>
+        <div class="product-desc">Stabilised 15% Vitamin C with niacinamide for even tone.</div>
+        <div class="product-footer">
+          <span class="product-price">₦24,000</span>
+          <button class="product-add">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-3">
+        <div class="product-bottle">
+          <div class="bottle-cap"></div>
+          <div class="bottle-body b3"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Anti-Ageing</div>
+        <div class="product-name">Retinol Night Repair</div>
+        <div class="product-desc">Encapsulated 0.5% retinol with peptide complex for overnight renewal.</div>
+        <div class="product-footer">
+          <span class="product-price">₦31,000</span>
+          <button class="product-add">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-4">
+        <div class="product-badge">New In</div>
+        <div class="product-bottle">
+          <div class="bottle-cap"></div>
+          <div class="bottle-body b4"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">SPF Protection</div>
+        <div class="product-name">Daily Shield SPF 50+</div>
+        <div class="product-desc">Ultra-light mineral SPF, no white cast. Tropical climate formula.</div>
+        <div class="product-footer">
+          <span class="product-price">₦16,500</span>
+          <button class="product-add">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="testimonials reveal">
+  <div class="section-label">Client Results</div>
+  <h2 class="section-title">What our clients <em>say.</em></h2>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card featured">
+      <span class="t-verified">VERIFIED RESULT</span>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"The AI scan picked up pigmentation issues I didn't even know I had. Within 8 weeks of following the recommended routine, my skin tone has completely transformed. This is unlike anything I've experienced at any clinic."</p>
+      <div class="t-author">
+        <div class="t-avatar">A</div>
+        <div>
+          <span class="t-name">Adaeze O.</span>
+          <span class="t-detail">Lagos · Skin Analysis + Routine Plan</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <span class="t-verified">VERIFIED</span>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"I've been to several clinics in Lagos. WBH is on another level — the AI diagnosis before my chemical peel made the treatment so much more targeted."</p>
+      <div class="t-author">
+        <div class="t-avatar">F</div>
+        <div>
+          <span class="t-name">Fatima K.</span>
+          <span class="t-detail">Abuja · Chemical Peel</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <span class="t-verified">VERIFIED</span>
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"As a beauty salon owner, I buy wholesale from WBH. The product quality is clinical grade and the concierge support is exceptional."</p>
+      <div class="t-author">
+        <div class="t-avatar">C</div>
+        <div>
+          <span class="t-name">Chiamaka I.</span>
+          <span class="t-detail">Port Harcourt · Wholesale Partner</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHOLESALE CTA ═══ -->
+<section class="wholesale reveal">
+  <div class="wholesale-left">
+    <h2>Are you a beauty<br>professional?</h2>
+    <p>Access WBH Skin's wholesale catalogue — clinical-grade skincare at professional pricing. Trusted by salons, spas, and dermatology clinics across Nigeria. Set up your account in minutes.</p>
+  </div>
+  <div class="wholesale-actions">
+    <a href="#" class="btn-dark">Apply for Wholesale Account</a>
+    <a href="#" class="btn-outline-dark">Download Product Catalogue</a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="logo-mark">W</div>
+        <div class="logo-text">
+          Wholesale Beauty Hub
+          <span class="logo-sub">Clinical · AI-Powered · Professional</span>
+        </div>
+      </div>
+      <p>Providing professional beauty care with the perfect blend of medical science and clinical AI precision. Lagos, Nigeria.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Hydration</a></li>
+        <li><a href="#">Brightening</a></li>
+        <li><a href="#">Anti-Ageing</a></li>
+        <li><a href="#">SPF & Protection</a></li>
+        <li><a href="#">Cleansers</a></li>
+        <li><a href="#">All Products</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">AI Skin Analysis</a></li>
+        <li><a href="#">Scar Revision</a></li>
+        <li><a href="#">Wrinkle Reduction</a></li>
+        <li><a href="#">Chemical Peels</a></li>
+        <li><a href="#">Dermabrasion</a></li>
+        <li><a href="#">Book Now</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col footer-contact">
+      <h4>Contact & Location</h4>
+      <p>2 Akinmade Street<br>Off Sylvia Crescent<br>Anthony Village Maryland<br>Lagos, Nigeria</p>
+      <p style="margin-top:12px">
+        <a href="mailto:info@wbhskin.com">info@wbhskin.com</a>
+      </p>
+      <p><a href="tel:+234" style="color:rgba(255,255,255,0.55)">+234 — (your number)</a></p>
+      <p style="margin-top:8px; font-size:12px;">Mon–Fri 9am–6pm · Sat 11am–5pm</p>
+
+      <h4 style="margin-top:28px">Newsletter</h4>
+      <div class="newsletter-input">
+        <input type="email" placeholder="your@email.com">
+        <button>Join</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Wholesale Beauty Hub. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cookies</a>
+      <a href="#">Wholesale</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp -->
+<a href="https://wa.me/234" class="whatsapp-btn" title="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.style.boxShadow = '0 4px 24px rgba(26,17,9,0.08)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+</body>
+</html>
