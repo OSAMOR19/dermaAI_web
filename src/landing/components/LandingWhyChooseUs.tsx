@@ -33,14 +33,17 @@ const steps = [
 export default function LandingWhyChooseUs() {
   return (
     <section className="landing-wcus">
-      {/* Trust bar */}
+      {/* Trust marquee bar */}
       <div className="landing-wcus-trust">
-        {trustBadges.map((b, i) => (
-          <div key={i} className="landing-trust-badge">
-            <span className="landing-trust-icon">{b.icon}</span>
-            <span className="landing-trust-text">{b.text}</span>
-          </div>
-        ))}
+        <div className="landing-marquee-track">
+          {[...trustBadges, ...trustBadges].map((b, i) => (
+            <div key={i} className="landing-trust-badge">
+              <span className="landing-trust-icon">{b.icon}</span>
+              <span className="landing-trust-text">{b.text}</span>
+              <span className="landing-trust-sep">✦</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* How it works */}
@@ -66,17 +69,42 @@ export default function LandingWhyChooseUs() {
 
       <style>{`
         .landing-wcus { padding: 0 0 100px; position: relative; }
+
+        /* ─── MARQUEE TRUST BAR ─── */
         .landing-wcus-trust {
-          display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
-          padding: 24px 48px; margin-bottom: 80px;
+          overflow: hidden; padding: 18px 0; margin-bottom: 80px;
           background: linear-gradient(135deg, #1a1109 0%, #2a1a12 100%);
+          position: relative;
         }
+        .landing-wcus-trust::before,
+        .landing-wcus-trust::after {
+          content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2;
+          pointer-events: none;
+        }
+        .landing-wcus-trust::before { left: 0; background: linear-gradient(90deg, #1a1109, transparent); }
+        .landing-wcus-trust::after { right: 0; background: linear-gradient(270deg, #2a1a12, transparent); }
+
+        .landing-marquee-track {
+          display: flex; gap: 0; width: max-content;
+          animation: marqueeScroll 30s linear infinite;
+        }
+        .landing-marquee-track:hover { animation-play-state: paused; }
+
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
         .landing-trust-badge {
           display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.85);
           font-size: 13px; letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif;
+          white-space: nowrap; padding: 0 8px; flex-shrink: 0;
         }
         .landing-trust-icon { color: #e84c88; display: flex; }
         .landing-trust-text { font-weight: 400; }
+        .landing-trust-sep {
+          color: rgba(232,76,136,0.25); font-size: 8px; margin: 0 12px;
+        }
 
         .landing-wcus-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
         .landing-wcus-header { text-align: center; margin-bottom: 64px; }
@@ -123,8 +151,9 @@ export default function LandingWhyChooseUs() {
         }
 
         @media (max-width: 768px) {
-          .landing-wcus-trust { flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px; }
           .landing-wcus { padding: 0 0 60px !important; }
+          .landing-wcus-trust { margin-bottom: 48px !important; }
+          .landing-marquee-track { animation-duration: 20s; }
           .landing-steps-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
           .landing-step-card { padding: 32px 24px 28px !important; }
           .landing-step-arrow { display: none; }
