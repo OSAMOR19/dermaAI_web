@@ -9,7 +9,7 @@ import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
 
-const PIE_COLORS = ['#FC65D1', '#00B4FA', '#4CAF50', '#FF9800', '#7C3AED', '#E53935'];
+const PIE_COLORS = ['#e84c88', '#00B4FA', '#4CAF50', '#FF9800', '#7C3AED', '#E53935'];
 
 function formatRelative(iso: string) {
   const d = new Date(iso);
@@ -62,7 +62,7 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
               <div className="admin-stats-grid">
                 <div className="admin-stat-card">
                   <div className="admin-stat-icon" style={{ background: 'rgba(252,101,209,0.1)' }}>
-                    <Users size={22} color="#FC65D1" />
+                    <Users size={22} color="#e84c88" />
                   </div>
                   <div className="admin-stat-value">{stats.totalUsers.toLocaleString()}</div>
                   <div className="admin-stat-label">Total Users</div>
@@ -108,7 +108,7 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
                         contentStyle={{ borderRadius: 10, border: '1px solid #E8E8E8', fontSize: 12 }}
                         labelFormatter={d => `Date: ${d}`}
                       />
-                      <Bar dataKey="count" name="Scans" fill="#FC65D1" radius={[6, 6, 0, 0]} />
+                      <Bar dataKey="count" name="Scans" fill="#e84c88" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

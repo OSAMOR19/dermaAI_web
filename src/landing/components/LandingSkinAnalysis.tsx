@@ -150,10 +150,15 @@ export default function LandingSkinAnalysis() {
         }
         .landing-service-card:hover .landing-service-cta { color: #ff6da8; }
 
-        @media (max-width: 768px) {
-          .landing-services-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 960px) {
+          .landing-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .landing-services-section { padding: 60px 0 !important; }
           .landing-services-inner { padding: 0 20px; }
+        }
+        @media (max-width: 560px) {
+          .landing-services-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .landing-service-card { padding: 28px 22px !important; }
+          .landing-services-subtitle { font-size: 14px !important; }
         }
       `}</style>
     </section>

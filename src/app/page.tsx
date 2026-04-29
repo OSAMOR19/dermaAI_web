@@ -5,6 +5,7 @@ import LandingSkinAnalysis from '@/landing/components/LandingSkinAnalysis';
 import LandingServices from '@/landing/components/LandingServices';
 import LandingImageGallery from '@/landing/components/LandingImageGallery';
 import LandingFooter from '@/landing/components/LandingFooter';
+import WhatsAppButton from '@/landing/components/WhatsAppButton';
 
 // Force dynamic rendering — prevents Vercel/CDN from caching a stale redirect
 export const dynamic = 'force-dynamic';
@@ -37,6 +38,7 @@ export default function LandingPage() {
         <LandingServices />
         <LandingImageGallery />
         <LandingFooter />
+        <WhatsAppButton />
       </main>
     </>
   );

@@ -13,6 +13,7 @@ const instrumentSans = Instrument_Sans({
 export const metadata: Metadata = {
   title: 'WBH — AI-Powered Skin Analysis',
   description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
+  icons: { icon: '/favicon.png' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

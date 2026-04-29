@@ -1,10 +1,14 @@
 'use client';
 
-import { Truck, Globe, Sparkles, ArrowRight } from 'lucide-react';
+import { Truck, Globe, Sparkles, ArrowRight, FlaskConical, Brain, Users, HeadsetIcon } from 'lucide-react';
 
 const trustBadges = [
   { icon: <Truck size={18} />, text: 'Next-Day UK Delivery' },
   { icon: <Globe size={18} />, text: 'Worldwide Shipping' },
+  { icon: <FlaskConical size={18} />, text: 'Clinical-Grade Products' },
+  { icon: <Brain size={18} />, text: 'AI-Personalised Care Plans' },
+  { icon: <Users size={18} />, text: 'Wholesale Accounts Available' },
+  { icon: <HeadsetIcon size={18} />, text: 'Expert Concierge Support' },
   { icon: <Sparkles size={18} />, text: 'Premium Brands Only' },
 ];
 
@@ -63,7 +67,7 @@ export default function LandingWhyChooseUs() {
       <style>{`
         .landing-wcus { padding: 0 0 100px; position: relative; }
         .landing-wcus-trust {
-          display: flex; justify-content: center; gap: 52px;
+          display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
           padding: 24px 48px; margin-bottom: 80px;
           background: linear-gradient(135deg, #1a1109 0%, #2a1a12 100%);
         }
@@ -102,7 +106,7 @@ export default function LandingWhyChooseUs() {
         }
         .landing-step-num {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: 52px; font-weight: 300; color: rgba(232,76,136,0.12);
+          font-size: 52px; font-weight: 300; color: rgba(232,76,136,0.35);
           line-height: 1; margin-bottom: 20px; display: block;
         }
         .landing-step-title {
@@ -110,7 +114,7 @@ export default function LandingWhyChooseUs() {
           color: #1a1109; margin-bottom: 12px;
         }
         .landing-step-desc {
-          font-size: 14px; line-height: 1.7; color: #7a6a5a;
+          font-size: 14px; line-height: 1.7; color: #5a4a3a;
           font-family: 'DM Sans', sans-serif;
         }
         .landing-step-arrow {
@@ -119,10 +123,14 @@ export default function LandingWhyChooseUs() {
         }
 
         @media (max-width: 768px) {
-          .landing-wcus-trust { flex-direction: column; align-items: center; gap: 16px; padding: 20px; }
-          .landing-steps-grid { grid-template-columns: 1fr !important; }
+          .landing-wcus-trust { flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px; }
+          .landing-wcus { padding: 0 0 60px !important; }
+          .landing-steps-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+          .landing-step-card { padding: 32px 24px 28px !important; }
           .landing-step-arrow { display: none; }
           .landing-wcus-inner { padding: 0 20px; }
+          .landing-wcus-header { margin-bottom: 40px !important; }
+          .landing-section-title { font-size: 28px !important; }
         }
       `}</style>
     </section>

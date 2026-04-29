@@ -288,14 +288,28 @@ export default function LandingHero() {
 
         @media (max-width: 960px) {
           .landing-hero { grid-template-columns: 1fr !important; min-height: auto !important; }
-          .landing-hero-left { padding: 40px 24px 20px !important; text-align: center; align-items: center; }
-          .landing-hero-sub { max-width: 100% !important; }
+          .landing-hero-left { padding: 40px 20px 20px !important; text-align: center; align-items: center; }
+          .landing-hero-headline { font-size: 36px !important; }
+          .landing-hero-sub { max-width: 100% !important; font-size: 15px !important; }
           .landing-hero-actions { flex-wrap: wrap; justify-content: center; }
+          .landing-btn-primary { padding: 14px 28px !important; font-size: 11px !important; }
+          .landing-btn-secondary { padding: 13px 24px !important; font-size: 11px !important; }
           .landing-hero-trust { justify-content: center; }
-          .landing-hero-right { padding: 20px 24px 60px !important; }
-          .landing-metric-tag.hydration { right: -16px !important; }
-          .landing-metric-tag.pores { right: -24px !important; }
-          .landing-metric-tag.texture { left: -24px !important; }
+          .landing-hero-right { padding: 10px 20px 48px !important; }
+          .landing-scanner-card { max-width: 340px; padding: 28px 24px !important; }
+          .landing-scanner-face { max-width: 180px; }
+          .landing-metric-tag.hydration { right: -12px !important; font-size: 9px !important; }
+          .landing-metric-tag.pores { right: -16px !important; font-size: 9px !important; }
+          .landing-metric-tag.texture { left: -16px !important; font-size: 9px !important; }
+        }
+        @media (max-width: 480px) {
+          .landing-hero-left { padding: 24px 16px 12px !important; }
+          .landing-hero-headline { font-size: 30px !important; }
+          .landing-hero-actions { gap: 10px !important; }
+          .landing-btn-primary, .landing-btn-secondary { width: 100%; text-align: center; justify-content: center; }
+          .landing-hero-right { padding: 8px 16px 40px !important; }
+          .landing-metric-tag { display: none !important; }
+          .landing-scanner-card { margin: 0 auto; }
         }
       `}</style>
     </section>

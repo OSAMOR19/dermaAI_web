@@ -103,9 +103,9 @@ export default function LandingFooter() {
           <p className="landing-footer-copyright">
             &copy; {new Date().getFullYear()} Wholesale Beauty Hub. All rights reserved.
           </p>
-          <p className="landing-footer-tagline">
+          {/* <p className="landing-footer-tagline">
             Powered by DermaAI · Made in the UK 🇬🇧
-          </p>
+          </p> */}
         </div>
       </div>
 
@@ -174,13 +174,29 @@ export default function LandingFooter() {
         }
 
         @media (max-width: 768px) {
-          .landing-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
-          .landing-footer { padding: 80px 0 32px !important; }
-          .landing-footer-inner { padding: 0 20px; }
-          .landing-footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+          .landing-footer { padding: 72px 0 32px !important; }
+          .landing-footer-inner { padding: 0 24px; }
+          .landing-footer-grid {
+            grid-template-columns: 1fr 1fr !important; gap: 32px !important;
+          }
+          .landing-footer-brand {
+            grid-column: 1 / -1; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+          }
+          .landing-footer-blurb { max-width: 320px; text-align: center; }
+          .landing-footer-socials { justify-content: center; }
+          .landing-footer-bottom {
+            flex-direction: column; gap: 8px; text-align: center;
+            padding-top: 24px;
+          }
+          .landing-footer-heading { margin-bottom: 14px; }
+          .landing-footer-list li { margin-bottom: 10px; }
+          .landing-footer-contact { margin-top: 18px; }
         }
         @media (max-width: 480px) {
-          .landing-footer-grid { grid-template-columns: 1fr !important; }
+          .landing-footer-grid { grid-template-columns: 1fr !important; text-align: center; }
+          .landing-footer-col { display: flex; flex-direction: column; align-items: center; }
+          .landing-footer-list { text-align: center; }
         }
       `}</style>
     </footer>

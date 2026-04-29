@@ -31,7 +31,7 @@ export default function LandingNavbar() {
     <>
       <nav className={`landing-nav ${isScrolled ? 'scrolled' : ''}`}>
         <Link href="/" className="landing-nav-logo">
-          <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" width={140} height={56} style={{ objectFit: 'contain' }} priority />
+          <Image src="/wbh-logo.png" alt="Wholesale Beauty Hub" width={110} height={40} style={{ objectFit: 'contain' }} priority />
         </Link>
 
         <ul className="landing-nav-links">
@@ -90,11 +90,21 @@ export default function LandingNavbar() {
           background: rgba(254,252,250,0.85);
           backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
           border-bottom: 1px solid rgba(0,0,0,0.06);
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          border-radius: 0;
+          margin: 0;
+          max-width: 100%;
+          transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .landing-nav.scrolled {
-          padding: 10px 48px;
-          box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+          top: 14px;
+          left: 50%; right: auto;
+          transform: translateX(-50%);
+          max-width: 880px; width: calc(100% - 48px);
+          padding: 10px 32px;
+          border-radius: 60px;
+          border: 1px solid rgba(0,0,0,0.06);
+          background: rgba(255,255,255,0.92);
+          box-shadow: 0 8px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
         }
         .landing-nav-logo { display: flex; align-items: center; text-decoration: none; }
         .landing-nav-links {
@@ -167,6 +177,10 @@ export default function LandingNavbar() {
           .landing-nav-links { display: none !important; }
           .landing-hamburger { display: flex !important; }
           .landing-nav { padding: 12px 20px !important; }
+          .landing-nav.scrolled {
+            max-width: calc(100% - 24px) !important; padding: 8px 20px !important;
+            top: 10px !important; border-radius: 50px !important;
+          }
         }
       `}</style>
     </>
