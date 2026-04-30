@@ -6,7 +6,7 @@ import {
   ArrowLeft, ScanLine, Download, Share2, Calendar,
   Sparkles, Sun, FlaskConical, Heart, Droplets,
   ChevronDown, ChevronUp, AlertTriangle, CheckCircle2, Info,
-  ShieldAlert, Eye, ShoppingBag, ArrowRight
+  ShieldAlert, Eye, ShoppingBag, ArrowRight, Check, Stethoscope
 } from 'lucide-react';
 
 /* ---- Types ---- */
@@ -128,13 +128,17 @@ const FALLBACK_RECOMMENDATIONS = [
 export default function AnalysisPage() {
   const [analysis, setAnalysis] = useState<GeminiAnalysis | null>(null);
   const [score, setScore] = useState(0);
-  const [expandedCondition, setExpandedCondition] = useState<number | null>(null);
   const [scanImage, setScanImage] = useState<string | null>(null);
   const [scanTime, setScanTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [recLoading, setRecLoading] = useState(false);
+
+  // New: Condition selection state
+  const [selectedConditions, setSelectedConditions] = useState<Set<number>>(new Set());
+  const [expandedDetails, setExpandedDetails] = useState<Set<number>>(new Set());
+  const [conditionsConfirmed, setConditionsConfirmed] = useState(false);
 
   /* Read analysis data from sessionStorage, fall back to DB */
   useEffect(() => {
@@ -197,16 +201,29 @@ export default function AnalysisPage() {
     loadAnalysis();
   }, []);
 
-  /* Fetch product recommendations when analysis is loaded */
+  /* Fetch product recommendations ONLY after user confirms their conditions */
   useEffect(() => {
-    if (!analysis) return;
+    if (!analysis || !conditionsConfirmed) return;
+
+    // Build a filtered analysis with only selected conditions
+    const filteredConditions = (analysis.detected_conditions || []).filter(
+      (_, idx) => selectedConditions.has(idx)
+    );
+
+    if (filteredConditions.length === 0) return;
+
+    const filteredAnalysis = {
+      ...analysis,
+      detected_conditions: filteredConditions,
+    };
+
     const fetchRecs = async () => {
       setRecLoading(true);
       try {
         const res = await fetch('/api/recommend', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(analysis),
+          body: JSON.stringify(filteredAnalysis),
         });
         if (res.ok) {
           const data: Recommendation = await res.json();
@@ -219,12 +236,40 @@ export default function AnalysisPage() {
       }
     };
     fetchRecs();
-  }, [analysis]);
+  }, [analysis, conditionsConfirmed, selectedConditions]);
 
   const conditions = analysis?.detected_conditions || [];
   const circumference = 2 * Math.PI * 54;
   const offset = circumference - (score / 100) * circumference;
   const scoreInfo = getScoreLabel(score);
+
+  // Toggle condition selection
+  const toggleCondition = (idx: number) => {
+    if (conditionsConfirmed) return; // Don't allow changes after confirmation
+    setSelectedConditions(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  // Toggle detail expansion for a condition
+  const toggleDetail = (idx: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedDetails(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  // Confirm selected conditions
+  const handleConfirmSelection = () => {
+    if (selectedConditions.size === 0) return;
+    setConditionsConfirmed(true);
+  };
 
   /* ---- Loading state ---- */
   if (loading) {
@@ -332,7 +377,7 @@ export default function AnalysisPage() {
         </section>
       )}
 
-      {/* ---- Detected Conditions ---- */}
+      {/* ---- Detected Conditions (Selection Mode) ---- */}
       <section className="results-section">
         <h2 className="section-label">
           <AlertTriangle size={16} />
@@ -345,162 +390,228 @@ export default function AnalysisPage() {
             <p style={{ opacity: 0.6, fontSize: '0.85rem', lineHeight: 1.5 }}>Our AI did not detect any significant skin conditions. Keep up your current skincare routine and stay protected from the sun.</p>
           </div>
         ) : (
-          <div className="conditions-list">
-            {conditions.map((c, idx) => {
-              const isOpen = expandedCondition === idx;
-              return (
-                <div
-                  key={idx}
-                  className={`condition-card ${isOpen ? 'open' : ''}`}
-                  onClick={() => setExpandedCondition(isOpen ? null : idx)}
-                >
-                  <div className="condition-top">
-                    <div>
-                      <div className="condition-name" style={{ textTransform: 'capitalize' }}>{c.condition}</div>
-                      <div className="condition-area">{c.severity} severity</div>
+          <>
+            <p className="selection-hint">
+              {conditionsConfirmed
+                ? '✅ Your selection has been confirmed. Product recommendations are shown below.'
+                : 'Our AI detected the following conditions. Please select the ones you believe apply to you, then confirm to see personalised product recommendations.'}
+            </p>
+            <div className="conditions-list">
+              {conditions.map((c, idx) => {
+                const isSelected = selectedConditions.has(idx);
+                const isDetailOpen = expandedDetails.has(idx);
+                return (
+                  <div
+                    key={idx}
+                    className={`condition-select-card ${isSelected ? 'selected' : ''}`}
+                    onClick={() => toggleCondition(idx)}
+                    style={conditionsConfirmed && !isSelected ? { opacity: 0.45, pointerEvents: 'none' } : {}}
+                  >
+                    {/* Checkbox */}
+                    <div className="condition-checkbox">
+                      <Check size={14} className="condition-checkbox-icon" />
                     </div>
-                    <div className="condition-right">
-                      <span className={`severity-badge ${severityColor(c.severity)}`} style={{ textTransform: 'uppercase' }}>{c.severity}</span>
-                      {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </div>
-                  </div>
-                  {isOpen && (
-                    <div className="condition-detail">
-                      {/* Clinical Explanation */}
-                      {c.clinical_explanation && (
-                         <div style={{ marginBottom: 12 }}>
-                           <p style={{ fontSize: '0.88rem', lineHeight: 1.5, color: 'var(--text-secondary)', margin: 0 }}>
-                             {c.clinical_explanation}
-                           </p>
-                         </div>
-                      )}
-                      
-                      {/* Active Ingredients */}
-                      {c.active_ingredients && c.active_ingredients.length > 0 && (
-                        <div style={{ marginBottom: 16 }}>
-                          <p style={{ fontWeight: 600, fontSize: '0.82rem', marginBottom: 6, opacity: 0.7 }}>
-                            <FlaskConical size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-                            To Treat
-                          </p>
-                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                            {c.active_ingredients.map((ing, ii) => (
-                              <span key={ii} style={{ background: 'rgba(252,101,209,0.1)', color: 'var(--primary)', padding: '3px 8px', borderRadius: 12, fontSize: '0.75rem', fontWeight: 600 }}>{ing}</span>
-                            ))}
+
+                    {/* Content */}
+                    <div className="condition-select-body">
+                      <div className="condition-select-header">
+                        <span className="condition-select-name">{c.condition}</span>
+                        <span className={`severity-badge ${severityColor(c.severity)}`} style={{ textTransform: 'uppercase' }}>{c.severity}</span>
+                      </div>
+
+                      <div className="condition-select-meta">
+                        <span className="condition-confidence-pill">
+                          <Sparkles size={10} /> {c.confidence}% AI Confidence
+                        </span>
+                      </div>
+
+                      {/* Toggle details */}
+                      <button
+                        className="condition-detail-toggle"
+                        onClick={(e) => toggleDetail(idx, e)}
+                      >
+                        {isDetailOpen ? 'Hide details' : 'View details'}
+                        {isDetailOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      </button>
+
+                      {/* Expandable Detail Panel */}
+                      {isDetailOpen && (
+                        <div className="condition-detail" onClick={(e) => e.stopPropagation()}>
+                          {/* Clinical Explanation */}
+                          {c.clinical_explanation && (
+                            <div style={{ marginBottom: 12 }}>
+                              <p style={{ fontSize: '0.88rem', lineHeight: 1.5, color: 'var(--text-secondary)', margin: 0 }}>
+                                {c.clinical_explanation}
+                              </p>
+                            </div>
+                          )}
+
+                          {/* Active Ingredients */}
+                          {c.active_ingredients && c.active_ingredients.length > 0 && (
+                            <div style={{ marginBottom: 16 }}>
+                              <p style={{ fontWeight: 600, fontSize: '0.82rem', marginBottom: 6, opacity: 0.7 }}>
+                                <FlaskConical size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                                To Treat
+                              </p>
+                              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                                {c.active_ingredients.map((ing, ii) => (
+                                  <span key={ii} style={{ background: 'rgba(252,101,209,0.1)', color: 'var(--primary)', padding: '3px 8px', borderRadius: 12, fontSize: '0.75rem', fontWeight: 600 }}>{ing}</span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Observations */}
+                          {c.observations && c.observations.length > 0 && (
+                            <div style={{ marginBottom: 12 }}>
+                              <p style={{ fontWeight: 600, fontSize: '0.82rem', marginBottom: 6, opacity: 0.7 }}>
+                                <Eye size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                                Visual Observations
+                              </p>
+                              <ul style={{ margin: 0, paddingLeft: 18 }}>
+                                {c.observations.map((obs, oi) => (
+                                  <li key={oi} style={{ fontSize: '0.85rem', marginBottom: 3 }}>{obs}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Confidence Bar */}
+                          <div className="confidence-row">
+                            <span>AI Confidence</span>
+                            <div className="confidence-bar">
+                              <div style={{ width: `${c.confidence}%` }} />
+                            </div>
+                            <span className="confidence-val">{c.confidence}%</span>
                           </div>
                         </div>
                       )}
-
-                      {/* Observations */}
-                      {c.observations && c.observations.length > 0 && (
-                        <div style={{ marginBottom: 12 }}>
-                          <p style={{ fontWeight: 600, fontSize: '0.82rem', marginBottom: 6, opacity: 0.7 }}>
-                            <Eye size={13} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-                            Visual Observations
-                          </p>
-                          <ul style={{ margin: 0, paddingLeft: 18 }}>
-                            {c.observations.map((obs, oi) => (
-                              <li key={oi} style={{ fontSize: '0.85rem', marginBottom: 3 }}>{obs}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      <div className="confidence-row">
-                        <span>AI Confidence</span>
-                        <div className="confidence-bar">
-                          <div style={{ width: `${c.confidence}%` }} />
-                        </div>
-                        <span className="confidence-val">{c.confidence}%</span>
-                      </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Confirm Selection Button */}
+            {!conditionsConfirmed && (
+              <button
+                className="confirm-selection-btn"
+                onClick={handleConfirmSelection}
+                disabled={selectedConditions.size === 0}
+              >
+                <CheckCircle2 size={18} />
+                {selectedConditions.size === 0
+                  ? 'Select at least one condition'
+                  : `Confirm ${selectedConditions.size} Selected Condition${selectedConditions.size > 1 ? 's' : ''}`}
+              </button>
+            )}
+          </>
         )}
       </section>
 
 
 
-      {/* ---- Recommended Products ---- */}
+      {/* ---- Recommended Products (Only shown after confirmation) ---- */}
+      {conditionsConfirmed && (
+        <section className="results-section">
+          <h2 className="section-label">
+            <ShoppingBag size={16} />
+            Recommended Products
+          </h2>
+
+          {recLoading ? (
+            <div className="prod-loading">
+              <div className="scn-loading-spinner" style={{ width: 28, height: 28 }} />
+              <p style={{ fontSize: '0.85rem', opacity: 0.5, marginTop: 10 }}>Finding the best products for your skin…</p>
+            </div>
+          ) : recommendation ? (
+            <>
+              {/* Summary */}
+              {recommendation.summary && (
+                <div className="prod-summary">
+                  <Sparkles size={16} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                  <p>{recommendation.summary}</p>
+                </div>
+              )}
+
+              {/* Product Cards */}
+              {recommendation.recommended_products.length > 0 ? (
+                <div className="prod-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+                  {recommendation.recommended_products.map((p, i) => (
+                    <div key={i} className="prod-card" style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column' }}>
+                      <div className="prod-card-img" style={{ position: 'relative', height: 130, background: '#fcfcfc', overflow: 'hidden' }}>
+                        <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        <div style={{ position: 'absolute', top: 6, left: 6, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 800, color: 'var(--primary)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                          {p.match_score}%
+                        </div>
+                        <div style={{ position: 'absolute', top: 6, right: 6, background: '#111', color: '#fff', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 600, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+                          {p.brand}
+                        </div>
+                      </div>
+                      <div className="prod-card-body" style={{ padding: 10, display: 'flex', flexDirection: 'column', flex: 1 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 6 }}>
+                          <h3 style={{ fontSize: '0.85rem', fontWeight: 700, margin: '0 0 4px', color: '#111', lineHeight: 1.2 }}>{p.name}</h3>
+                          <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#111' }}>{p.price}</span>
+                        </div>
+                        
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
+                          <Sparkles size={10} color="var(--primary)" style={{ flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.key_ingredient}</span>
+                        </div>
+                        
+                        <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: 12, lineHeight: 1.3, flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                          {p.reason}
+                        </p>
+                        
+                        <a 
+                          href={p.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn btn-primary btn-block" 
+                          style={{ display: 'flex', width: '100%', padding: '8px 0', fontSize: '0.75rem', textDecoration: 'none', justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
+                        >
+                          Shop Now <ArrowRight size={12} style={{ marginLeft: 4 }} />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
+                  <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>No specific products matched. Check back after your next scan.</p>
+                </div>
+              )}
+
+              {/* Avoid List removed */}
+            </>
+          ) : (
+            <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
+              <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>Product recommendations will appear here after your scan.</p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* ---- Consultation Disclaimer Banner ---- */}
       <section className="results-section">
-        <h2 className="section-label">
-          <ShoppingBag size={16} />
-          Recommended Products
-        </h2>
-
-        {recLoading ? (
-          <div className="prod-loading">
-            <div className="scn-loading-spinner" style={{ width: 28, height: 28 }} />
-            <p style={{ fontSize: '0.85rem', opacity: 0.5, marginTop: 10 }}>Finding the best products for your skin…</p>
+        <div className="consultation-banner">
+          <div className="consultation-banner-icon">
+            <Stethoscope size={24} />
           </div>
-        ) : recommendation ? (
-          <>
-            {/* Summary */}
-            {recommendation.summary && (
-              <div className="prod-summary">
-                <Sparkles size={16} style={{ color: 'var(--primary)', flexShrink: 0 }} />
-                <p>{recommendation.summary}</p>
-              </div>
-            )}
-
-            {/* Morning & Evening Routine removed */}
-
-            {/* Product Cards */}
-            {recommendation.recommended_products.length > 0 ? (
-              <div className="prod-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-                {recommendation.recommended_products.map((p, i) => (
-                  <div key={i} className="prod-card" style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', border: '1px solid #ebebeb', display: 'flex', flexDirection: 'column' }}>
-                    <div className="prod-card-img" style={{ position: 'relative', height: 130, background: '#fcfcfc', overflow: 'hidden' }}>
-                      <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                      <div style={{ position: 'absolute', top: 6, left: 6, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 800, color: 'var(--primary)', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
-                        {p.match_score}%
-                      </div>
-                      <div style={{ position: 'absolute', top: 6, right: 6, background: '#111', color: '#fff', padding: '2px 6px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 600, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-                        {p.brand}
-                      </div>
-                    </div>
-                    <div className="prod-card-body" style={{ padding: 10, display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 6 }}>
-                        <h3 style={{ fontSize: '0.85rem', fontWeight: 700, margin: '0 0 4px', color: '#111', lineHeight: 1.2 }}>{p.name}</h3>
-                        <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#111' }}>{p.price}</span>
-                      </div>
-                      
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}>
-                        <Sparkles size={10} color="var(--primary)" style={{ flexShrink: 0 }} />
-                        <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.key_ingredient}</span>
-                      </div>
-                      
-                      <p style={{ fontSize: '0.7rem', color: '#666', marginBottom: 12, lineHeight: 1.3, flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {p.reason}
-                      </p>
-                      
-                      <a 
-                        href={p.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="btn btn-primary btn-block" 
-                        style={{ display: 'flex', width: '100%', padding: '8px 0', fontSize: '0.75rem', textDecoration: 'none', justifyContent: 'center', alignItems: 'center', borderRadius: 8 }}
-                      >
-                        Shop Now <ArrowRight size={12} style={{ marginLeft: 4 }} />
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
-                <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>No specific products matched. Check back after your next scan.</p>
-              </div>
-            )}
-
-            {/* Avoid List removed */}
-          </>
-        ) : (
-          <div className="metrics-card" style={{ textAlign: 'center', padding: 20 }}>
-            <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>Product recommendations will appear here after your scan.</p>
-          </div>
-        )}
+          <h3>For Informational Purposes Only</h3>
+          <p>
+            This AI skin analysis is intended for informational purposes only and does not constitute medical advice, diagnosis, or treatment. For professional guidance tailored to your unique skin needs, we recommend booking a personalised consultation with the experts at Wholesale Beauty Hub.
+          </p>
+          <a
+            href="https://wholesalebeautyhub.co.uk/contact/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="consultation-btn"
+          >
+            <Calendar size={16} />
+            Book a Consultation with WBH
+          </a>
+        </div>
       </section>
 
       {/* ---- Scan History removed ---- */}
@@ -525,10 +636,10 @@ export default function AnalysisPage() {
           <ScanLine size={18} />
           <span>Scan Again</span>
         </Link>
-        <Link href="/booking" className="action-btn secondary">
+        <a href="https://wholesalebeautyhub.co.uk/contact/" target="_blank" rel="noopener noreferrer" className="action-btn secondary">
           <Calendar size={18} />
-          <span>Book Dr.</span>
-        </Link>
+          <span>Book WBH</span>
+        </a>
       </div>
     </div>
   );

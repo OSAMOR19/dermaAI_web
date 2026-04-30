@@ -6,8 +6,8 @@
     "treatmentSteps": ["Cleanser", "Treatment", "Light Moisturiser"],
     "products": [
       {"name": "25Pskyn Mandelactone", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Mandelactone"},
-      {"name": "25Pskyn Trinity Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trinity+Pads"},
-      {"name": "CosRx Acne Master Patch", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+Acne"}
+      {"name": "25Pskyn Trinity Pads", "image": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trinity+Pads"},
+      {"name": "CosRx Acne Master Patch", "image": "https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+Acne"}
     ],
     "avoid": ["Heavy comedogenic oils", "Picking spots", "Harsh scrubs"]
   },
@@ -17,8 +17,8 @@
     "categories": ["Exfoliators Peels & Scrubs", "Face Cleansers & Wash"],
     "treatmentSteps": ["Cleanser", "Exfoliator", "Light Moisturiser"],
     "products": [
-      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"},
-      {"name": "CosRx Salicylic Acid Daily Gentle Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+cleansers"}
+      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"},
+      {"name": "CosRx Salicylic Acid Daily Gentle Cleanser", "image": "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+cleansers"}
     ],
     "avoid": ["Comedogenic ingredients", "Heavy creams"]
   },
@@ -29,8 +29,8 @@
     "treatmentSteps": ["Gentle Cleanser", "Brightening Serum", "SPF"],
     "products": [
       {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
-      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
-      {"name": "25Pskyn Pigma Blend Cream", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Pigma+Blend+Cream"}
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn Pigma Blend Cream", "image": "https://images.unsplash.com/photo-1570194065650-d99fb4b38b17?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Pigma+Blend+Cream"}
     ],
     "avoid": ["Physical scrubs on active marks", "No SPF exposure"]
   },
@@ -41,7 +41,7 @@
     "treatmentSteps": ["Cleanser", "Treatment Serum", "SPF"],
     "products": [
       {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
-      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
+      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1532947974-2e3427236788?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
     ],
     "avoid": ["Excessive heat exposure", "Skipping sunscreen"]
   },
@@ -51,8 +51,8 @@
     "categories": ["Brightening", "Glow Serum", "Sunscreen"],
     "treatmentSteps": ["Cleanser", "Vitamin C Serum", "SPF"],
     "products": [
-      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
-      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn UV Warrior SPF 50+", "image": "https://images.unsplash.com/photo-1532947974-2e3427236788?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+UV+Warrior+SPF+50"}
     ],
     "avoid": ["Prolonged sun exposure", "Tanning beds"]
   },
@@ -63,8 +63,8 @@
     "treatmentSteps": ["Gentle Cleanser", "Soothing Toner", "Moisturiser"],
     "products": [
       {"name": "Tiam Vita B5 Toner", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Tiam+Vita+B5+Toner"},
-      {"name": "Olay Complete Day Fluid", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+range"},
-      {"name": "La Roche-Posay Toleriane", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay"}
+      {"name": "Olay Complete Day Fluid", "image": "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+range"},
+      {"name": "La Roche-Posay Toleriane", "image": "https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay"}
     ],
     "avoid": ["Harsh physical exfoliants", "Fragrance", "Spicy foods trigger"]
   },
@@ -76,7 +76,7 @@
     "products": [
       {"name": "Tiam Vita B5 Toner", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Tiam+Vita+B5+Toner"},
       {"name": "Olay Regenerist Whip", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+moisturizers"},
-      {"name": "Palmers Cocoa Butter Formula", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Palmers"}
+      {"name": "Palmers Cocoa Butter Formula", "image": "https://images.unsplash.com/photo-1608979048467-6346a96ff713?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Palmers"}
     ],
     "avoid": ["Alcohol-based toners", "Over-washing face", "Hot water"]
   },
@@ -86,8 +86,8 @@
     "categories": ["Face Cleansers & Wash", "Face Toners"],
     "treatmentSteps": ["Foaming Cleanser", "Niacinamide Serum", "Gel Moisturiser"],
     "products": [
-      {"name": "CosRx Low pH Good Morning Gel", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx"},
-      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"}
+      {"name": "CosRx Low pH Good Morning Gel", "image": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx"},
+      {"name": "25Pskyn Trio Cleanser", "image": "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Trio+Cleanser"}
     ],
     "avoid": ["Heavy pore-clogging creams", "Skipping moisturiser"]
   },
@@ -97,8 +97,8 @@
     "categories": ["Serums & Treatment", "Moisturizers & Cream"],
     "treatmentSteps": ["Cleanser", "Retinol Serum", "Rich Moisturiser"],
     "products": [
-      {"name": "Olay Anti-Wrinkle Pro Vital", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Anti-Wrinkle"},
-      {"name": "La Roche-Posay Redermic Retinol", "image": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Retinol"}
+      {"name": "Olay Anti-Wrinkle Pro Vital", "image": "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Anti-Wrinkle"},
+      {"name": "La Roche-Posay Redermic Retinol", "image": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Retinol"}
     ],
     "avoid": ["Skipping SPF while using retinol"]
   },
@@ -108,8 +108,8 @@
     "categories": ["Eye Cream", "Serums & Treatment"],
     "treatmentSteps": ["Cleanser", "Eye Cream", "Moisturiser"],
     "products": [
-      {"name": "La Roche-Posay Pigmentclar Eyes", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Eyes"},
-      {"name": "Olay Eyes Ultimate Eye Cream", "image": "https://images.unsplash.com/photo-1615397323758-2e21b581d6f1?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Eyes"}
+      {"name": "La Roche-Posay Pigmentclar Eyes", "image": "https://images.unsplash.com/photo-1583209814683-c023dd293cc6?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=La+Roche-Posay+Eyes"},
+      {"name": "Olay Eyes Ultimate Eye Cream", "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Olay+Eyes"}
     ],
     "avoid": ["Poor sleep", "Rubbing eyes aggressively"]
   },
@@ -119,7 +119,7 @@
     "categories": ["Serums & Treatment", "Exfoliators"],
     "treatmentSteps": ["Cleanser", "BHA Exfoliant", "Light Moisturiser"],
     "products": [
-      {"name": "CosRx BHA Blackhead Power Liquid", "image": "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+BHA"},
+      {"name": "CosRx BHA Blackhead Power Liquid", "image": "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=CosRx+BHA"},
       {"name": "25Pskyn Mandelactone", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Mandelactone"}
     ],
     "avoid": ["Heavy makeup that clogs pores", "Squeezing pores"]
@@ -130,9 +130,9 @@
     "categories": ["Brightening", "Glow Serum", "Exfoliators"],
     "treatmentSteps": ["Cleanser", "Brightening Serum", "SPF"],
     "products": [
-      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
+      {"name": "25Pskyn Liqueur", "image": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Liqueur"},
       {"name": "25Pskyn Kojitrinol Pads", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=25Pskyn+Kojitrinol+Pads"},
-      {"name": "Bolden Dark Spot Fix", "image": "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Bolden"}
+      {"name": "Bolden Dark Spot Fix", "image": "https://images.unsplash.com/photo-1601049676869-702ea24cfd58?auto=format&fit=crop&q=80&w=300", "link": "https://wholesalebeautyhub.co.uk/?s=Bolden"}
     ],
     "avoid": ["Sun exposure without protection"]
   }
