@@ -39,9 +39,12 @@ export default function ResetPasswordPage() {
       return;
     }
 
+    // Sign the user out so they have to manually log in with their new password
+    await supabase.auth.signOut();
+
     setSuccess(true);
     setLoading(false);
-    setTimeout(() => router.push('/dashboard'), 2500);
+    setTimeout(() => router.push('/login'), 2500);
   };
 
   if (success) {
@@ -52,7 +55,7 @@ export default function ResetPasswordPage() {
             <img src="/images/wbhlogo.svg" alt="WBH" className="auth-logo-img" />
             <CheckCircle2 size={48} style={{ color: 'var(--green)', marginBottom: 8 }} />
             <h1>Password Updated</h1>
-            <p>Your password has been successfully reset. Redirecting you to the dashboard…</p>
+            <p>Your password has been successfully reset. Redirecting you to login…</p>
           </div>
         </div>
       </div>

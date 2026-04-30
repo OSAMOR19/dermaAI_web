@@ -136,36 +136,65 @@ export default function AnalysisPage() {
   const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
   const [recLoading, setRecLoading] = useState(false);
 
-  /* Read analysis data from sessionStorage */
+  /* Read analysis data from sessionStorage, fall back to DB */
   useEffect(() => {
-    try {
-      const img = sessionStorage.getItem('wbh_scan_image');
-      const time = sessionStorage.getItem('wbh_scan_time');
-      if (img) setScanImage(img);
-      const d = time ? new Date(time) : new Date();
-      setScanTime(
-        d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
-        ' · ' +
-        d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-      );
+    const loadAnalysis = async () => {
+      try {
+        // 1. Try sessionStorage first (set after a live scan)
+        const raw = sessionStorage.getItem('wbh_analysis');
+        if (raw) {
+          const img = sessionStorage.getItem('wbh_scan_image');
+          const time = sessionStorage.getItem('wbh_scan_time');
+          if (img) setScanImage(img);
+          const d = time ? new Date(time) : new Date();
+          setScanTime(
+            d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
+            ' · ' +
+            d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+          );
+          const parsed: GeminiAnalysis = JSON.parse(raw);
+          setAnalysis(parsed);
+          setScore(computeScore(parsed.detected_conditions || []));
+          setLoading(false);
+          return;
+        }
 
-      const raw = sessionStorage.getItem('wbh_analysis');
-      if (!raw) {
+        // 2. Fallback: fetch the most recent scan from the database
+        const res = await fetch('/api/scans');
+        if (!res.ok) throw new Error('Failed to fetch scans');
+        const scans = await res.json();
+
+        if (!scans || scans.length === 0) {
+          setNoData(true);
+          setLoading(false);
+          return;
+        }
+
+        const latest = scans[0];
+        if (!latest.analysis) {
+          setNoData(true);
+          setLoading(false);
+          return;
+        }
+
+        // Populate state from the DB record
+        if (latest.image_urls?.[0]) setScanImage(latest.image_urls[0]);
+        const d = new Date(latest.created_at);
+        setScanTime(
+          d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
+          ' · ' +
+          d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+        );
+        const parsed: GeminiAnalysis = latest.analysis;
+        setAnalysis(parsed);
+        setScore(computeScore(parsed.detected_conditions || []));
+      } catch {
         setNoData(true);
+      } finally {
         setLoading(false);
-        return;
       }
-
-      const parsed: GeminiAnalysis = JSON.parse(raw);
-      setAnalysis(parsed);
-      const s = computeScore(parsed.detected_conditions || []);
-      setScore(s);
-      // Removed auto-expand: all condition accordions closed by default until clicked
-    } catch {
-      setNoData(true);
-    } finally {
-      setLoading(false);
-    }
+    };
+    loadAnalysis();
   }, []);
 
   /* Fetch product recommendations when analysis is loaded */
