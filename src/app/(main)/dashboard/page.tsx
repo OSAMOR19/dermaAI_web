@@ -21,10 +21,10 @@ function formatRelativeTime(isoStr: string | null): string {
 }
 
 const CAROUSEL_IMAGES = [
-  '/images/HomeImage2.svg',
-  '/images/carousel1.png',
-  '/images/carousel2.png',
-  '/images/carousel3.png',
+  'https://images.unsplash.com/photo-1590439471364-192aa70c0b53?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=600',
+  'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&q=80&w=600',
 ];
 
 function RecentCarousel() {
@@ -107,7 +107,7 @@ export default function DashboardPage() {
           <Link href="/scan" className="btn btn-white btn-sm">Scan Again</Link>
         </div>
         <div className="score-right">
-          <img src="/images/HomeImage.svg" alt="Facial scan" className="score-face-img" />
+          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400" alt="Facial scan" className="score-face-img" style={{ borderRadius: 16, objectFit: 'cover' }} />
         </div>
       </div>
 

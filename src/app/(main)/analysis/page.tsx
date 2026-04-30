@@ -379,10 +379,25 @@ export default function AnalysisPage() {
 
       {/* ---- Detected Conditions (Selection Mode) ---- */}
       <section className="results-section">
-        <h2 className="section-label">
-          <AlertTriangle size={16} />
-          Detected Conditions
-        </h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <h2 className="section-label" style={{ margin: 0 }}>
+            <AlertTriangle size={16} />
+            Detected Conditions
+          </h2>
+          {conditions.length > 0 && (
+            <span style={{ 
+              background: conditionsConfirmed ? 'rgba(76,175,80,0.1)' : 'rgba(232,76,136,0.08)', 
+              color: conditionsConfirmed ? '#4CAF50' : 'var(--primary)', 
+              padding: '3px 10px', borderRadius: 'var(--radius-full)', 
+              fontSize: '0.72rem', fontWeight: 700 
+            }}>
+              {conditionsConfirmed 
+                ? `${selectedConditions.size} Confirmed`
+                : `${conditions.length} Found`}
+            </span>
+          )}
+        </div>
+
         {conditions.length === 0 ? (
           <div className="metrics-card" style={{ textAlign: 'center', padding: '24px 16px' }}>
             <CheckCircle2 size={36} style={{ color: '#4CAF50', marginBottom: 10 }} />
@@ -391,21 +406,48 @@ export default function AnalysisPage() {
           </div>
         ) : (
           <>
-            <p className="selection-hint">
-              {conditionsConfirmed
-                ? '✅ Your selection has been confirmed. Product recommendations are shown below.'
-                : 'Our AI detected the following conditions. Please select the ones you believe apply to you, then confirm to see personalised product recommendations.'}
-            </p>
+            {/* Status Banner */}
+            {conditionsConfirmed ? (
+              <div style={{ 
+                display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', 
+                background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.18)', 
+                borderRadius: 'var(--radius-md)', marginBottom: 14 
+              }}>
+                <div style={{ 
+                  width: 28, height: 28, borderRadius: '50%', background: '#4CAF50', 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+                }}>
+                  <Check size={14} color="#fff" />
+                </div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
+                  Selection confirmed — your personalised product recommendations are below.
+                </p>
+              </div>
+            ) : (
+              <div style={{ 
+                display: 'flex', alignItems: 'flex-start', gap: 10, padding: '14px 16px', 
+                background: 'rgba(232,76,136,0.04)', border: '1px solid rgba(232,76,136,0.12)', 
+                borderRadius: 'var(--radius-md)', marginBottom: 14 
+              }}>
+                <Info size={16} style={{ color: 'var(--primary)', flexShrink: 0, marginTop: 1 }} />
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                  Our AI detected the following conditions. Select the ones you recognise, then confirm to receive personalised product recommendations.
+                </p>
+              </div>
+            )}
+
+            {/* Condition Cards */}
             <div className="conditions-list">
               {conditions.map((c, idx) => {
                 const isSelected = selectedConditions.has(idx);
                 const isDetailOpen = expandedDetails.has(idx);
+                const isDimmed = conditionsConfirmed && !isSelected;
                 return (
                   <div
                     key={idx}
                     className={`condition-select-card ${isSelected ? 'selected' : ''}`}
                     onClick={() => toggleCondition(idx)}
-                    style={conditionsConfirmed && !isSelected ? { opacity: 0.45, pointerEvents: 'none' } : {}}
+                    style={isDimmed ? { opacity: 0.35, pointerEvents: 'none' } : {}}
                   >
                     {/* Checkbox */}
                     <div className="condition-checkbox">
@@ -421,7 +463,10 @@ export default function AnalysisPage() {
 
                       <div className="condition-select-meta">
                         <span className="condition-confidence-pill">
-                          <Sparkles size={10} /> {c.confidence}% AI Confidence
+                          {c.confidence}% confidence
+                        </span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                          {c.severity} severity
                         </span>
                       </div>
 
@@ -501,8 +546,8 @@ export default function AnalysisPage() {
               >
                 <CheckCircle2 size={18} />
                 {selectedConditions.size === 0
-                  ? 'Select at least one condition'
-                  : `Confirm ${selectedConditions.size} Selected Condition${selectedConditions.size > 1 ? 's' : ''}`}
+                  ? 'Select conditions to continue'
+                  : `Confirm ${selectedConditions.size} Condition${selectedConditions.size > 1 ? 's' : ''} & View Products`}
               </button>
             )}
           </>
