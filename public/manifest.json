@@ -1,0 +1,16 @@
+{
+  "name": "WBH Skin — AI-Powered Skin Analysis",
+  "short_name": "WBH Skin",
+  "description": "Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health and get personalised product recommendations.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e84c88",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/images/icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/images/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["health", "beauty", "lifestyle"],
+  "lang": "en-GB"
+}

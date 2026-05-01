@@ -48,16 +48,18 @@ export async function GET(request: NextRequest) {
       (profiles || []).forEach(p => { profileMap[p.id] = p; });
     }
 
-    // Generate signed URLs for first image only (thumbnail)
+    // Generate signed URLs for all images
     const enriched = await Promise.all((scans || []).map(async (scan) => {
-      let thumbnail: string | null = null;
+      const signedUrls: string[] = [];
       if (scan.image_urls && scan.image_urls.length > 0) {
-        const { data: urlData } = await supabase.storage.from('scans').createSignedUrl(scan.image_urls[0], 3600);
-        thumbnail = urlData?.signedUrl || null;
+        for (const path of scan.image_urls) {
+          const { data: urlData } = await supabase.storage.from('scans').createSignedUrl(path, 3600);
+          if (urlData?.signedUrl) signedUrls.push(urlData.signedUrl);
+        }
       }
 
       const conditions = scan.analysis?.detected_conditions || [];
-      // Apply condition filter in JS (Supabase JSONB filter is complex)
+      // Apply condition filter in JS
       if (condition && !conditions.some((c: { condition: string }) =>
         c.condition.toLowerCase().includes(condition.toLowerCase())
       )) {
@@ -67,21 +69,22 @@ export async function GET(request: NextRequest) {
       return {
         id: scan.id,
         user_id: scan.user_id,
-        email: profileMap[scan.user_id]?.email || 'Unknown',
-        name: profileMap[scan.user_id]?.first_name || 'User',
+        user_email: profileMap[scan.user_id]?.email || 'Unknown',
+        user_name: profileMap[scan.user_id]?.first_name || 'User',
         created_at: scan.created_at,
         score: scan.score,
-        thumbnail,
-        conditions: conditions.map((c: { condition: string; severity: string }) => ({
+        image_urls: signedUrls,
+        conditions: conditions.map((c: { condition: string; severity: string; confidence: number }) => ({
           condition: c.condition,
-          severity: c.severity,
+          severity: c.severity || 'mild',
+          confidence: c.confidence || 0,
         })),
       };
     }));
 
     const filtered = enriched.filter(Boolean);
 
-    return NextResponse.json({ scans: filtered, total: count ?? 0, page, limit });
+    return NextResponse.json(filtered);
   } catch (err) {
     console.error('Admin scans GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

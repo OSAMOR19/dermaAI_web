@@ -77,7 +77,7 @@ export async function GET() {
     // Recent activity (last 8 scans with user info)
     const { data: activityScans } = await supabase
       .from('scans')
-      .select('id, user_id, created_at, analysis')
+      .select('id, user_id, created_at, analysis, image_urls')
       .order('created_at', { ascending: false })
       .limit(8);
 
@@ -99,6 +99,7 @@ export async function GET() {
       name: profileMap[s.user_id]?.first_name || 'User',
       created_at: s.created_at,
       condition: s.analysis?.detected_conditions?.[0]?.condition || 'No condition',
+      image_url: s.image_urls?.[0] || null,
     }));
 
     return NextResponse.json({

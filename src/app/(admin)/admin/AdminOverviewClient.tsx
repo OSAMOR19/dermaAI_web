@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Users, ScanLine, TrendingUp, Activity } from 'lucide-react';
+import { Users, ScanLine, TrendingUp, Activity, Image, Eye } from 'lucide-react';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminTopbar from '../components/AdminTopbar';
 import {
@@ -29,12 +29,13 @@ interface StatsData {
   topCondition: string;
   scansPerDay: { date: string; count: number }[];
   topConditions: { name: string; count: number }[];
-  activity: { id: string; email: string; name: string; created_at: string; condition: string }[];
+  activity: { id: string; email: string; name: string; created_at: string; condition: string; image_url?: string }[];
 }
 
-export default function AdminOverviewClient({ adminEmail, adminName }: { adminEmail: string; adminName: string }) {
+export default function AdminOverviewClient() {
   const [stats, setStats] = useState<StatsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/stats')
@@ -45,9 +46,13 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
 
   return (
     <div className="admin-shell">
-      <AdminSidebar adminEmail={adminEmail} adminName={adminName} />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="admin-main">
-        <AdminTopbar title="Dashboard Overview" subtitle="Welcome back — here's what's happening." adminEmail={adminEmail} />
+        <AdminTopbar
+          title="Dashboard"
+          subtitle="Welcome back — here's what's happening."
+          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+        />
         <div className="admin-page">
           {loading ? (
             <div className="admin-loading">
@@ -61,46 +66,54 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
               {/* Stats Cards */}
               <div className="admin-stats-grid">
                 <div className="admin-stat-card">
-                  <div className="admin-stat-icon" style={{ background: 'rgba(252,101,209,0.1)' }}>
-                    <Users size={22} color="#e84c88" />
+                  <div className="admin-stat-top">
+                    <div className="admin-stat-icon" style={{ background: 'rgba(232,76,136,0.1)' }}>
+                      <Users size={20} color="#e84c88" />
+                    </div>
+                    <div className="admin-stat-delta up">+{stats.newUsers}</div>
                   </div>
                   <div className="admin-stat-value">{stats.totalUsers.toLocaleString()}</div>
                   <div className="admin-stat-label">Total Users</div>
-                  <div className="admin-stat-delta up">↑ {stats.newUsers} this week</div>
                 </div>
                 <div className="admin-stat-card">
-                  <div className="admin-stat-icon" style={{ background: 'rgba(0,180,250,0.1)' }}>
-                    <ScanLine size={22} color="#00B4FA" />
+                  <div className="admin-stat-top">
+                    <div className="admin-stat-icon" style={{ background: 'rgba(0,180,250,0.1)' }}>
+                      <ScanLine size={20} color="#00B4FA" />
+                    </div>
+                    <div className="admin-stat-delta neutral">All time</div>
                   </div>
                   <div className="admin-stat-value">{stats.totalScans.toLocaleString()}</div>
                   <div className="admin-stat-label">Total Scans</div>
-                  <div className="admin-stat-delta neutral">All time</div>
                 </div>
                 <div className="admin-stat-card">
-                  <div className="admin-stat-icon" style={{ background: 'rgba(76,175,80,0.1)' }}>
-                    <TrendingUp size={22} color="#4CAF50" />
+                  <div className="admin-stat-top">
+                    <div className="admin-stat-icon" style={{ background: 'rgba(76,175,80,0.1)' }}>
+                      <TrendingUp size={20} color="#4CAF50" />
+                    </div>
+                    <div className="admin-stat-delta up">7 days</div>
                   </div>
                   <div className="admin-stat-value">{stats.newUsers}</div>
                   <div className="admin-stat-label">New Users (7d)</div>
-                  <div className="admin-stat-delta up">Last 7 days</div>
                 </div>
                 <div className="admin-stat-card">
-                  <div className="admin-stat-icon" style={{ background: 'rgba(255,152,0,0.1)' }}>
-                    <Activity size={22} color="#FF9800" />
+                  <div className="admin-stat-top">
+                    <div className="admin-stat-icon" style={{ background: 'rgba(255,152,0,0.1)' }}>
+                      <Activity size={20} color="#FF9800" />
+                    </div>
+                    <div className="admin-stat-delta neutral">Top</div>
                   </div>
-                  <div className="admin-stat-value" style={{ fontSize: '1.1rem', paddingTop: 8 }}>
-                    {stats.topCondition}
-                  </div>
+                  <div className="admin-stat-value admin-stat-value-sm">{stats.topCondition || '—'}</div>
                   <div className="admin-stat-label">Top Condition</div>
-                  <div className="admin-stat-delta neutral">Most common</div>
                 </div>
               </div>
 
               {/* Charts */}
               <div className="admin-charts-grid">
                 <div className="admin-chart-card">
-                  <div className="admin-chart-title">Scans Per Day — Last 7 Days</div>
-                  <ResponsiveContainer width="100%" height={220}>
+                  <div className="admin-chart-title">
+                    <ScanLine size={16} /> Scans — Last 7 Days
+                  </div>
+                  <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={stats.scansPerDay} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                       <XAxis dataKey="date" tick={{ fontSize: 11 }} tickFormatter={d => d.slice(5)} />
                       <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
@@ -114,30 +127,40 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
                 </div>
 
                 <div className="admin-chart-card">
-                  <div className="admin-chart-title">Top Skin Conditions</div>
+                  <div className="admin-chart-title">
+                    <Eye size={16} /> Top Skin Conditions
+                  </div>
                   {stats.topConditions.length === 0 ? (
-                    <div className="admin-empty"><p>No condition data yet.</p></div>
+                    <div className="admin-empty" style={{ padding: '24px 16px' }}><p>No condition data yet.</p></div>
                   ) : (
-                    <ResponsiveContainer width="100%" height={220}>
-                      <PieChart>
-                        <Pie
-                          data={stats.topConditions}
-                          dataKey="count"
-                          nameKey="name"
-                          cx="50%" cy="50%"
-                          outerRadius={80}
-                          label={({ name, percent }) => `${((percent ?? 0) * 100).toFixed(0)}%`}
-                          labelLine={false}
-                        >
-                          {stats.topConditions.map((_, i) => (
-                            <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Legend
-                          formatter={(value) => <span style={{ fontSize: 11 }}>{value}</span>}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
+                    <>
+                      <ResponsiveContainer width="100%" height={160}>
+                        <PieChart>
+                          <Pie
+                            data={stats.topConditions}
+                            dataKey="count"
+                            nameKey="name"
+                            cx="50%" cy="50%"
+                            outerRadius={65}
+                            innerRadius={30}
+                            label={false}
+                          >
+                            {stats.topConditions.map((_, i) => (
+                              <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <div className="admin-legend">
+                        {stats.topConditions.map((c, i) => (
+                          <div key={i} className="admin-legend-item">
+                            <span className="admin-legend-dot" style={{ background: PIE_COLORS[i % PIE_COLORS.length] }} />
+                            <span className="admin-legend-name">{c.name}</span>
+                            <span className="admin-legend-count">{c.count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
@@ -145,16 +168,22 @@ export default function AdminOverviewClient({ adminEmail, adminName }: { adminEm
               {/* Recent Activity */}
               <div className="admin-table-card">
                 <div className="admin-table-header">
-                  <h3>Recent Activity</h3>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Latest 8 scans across all users</span>
+                  <h3>Recent Scans</h3>
+                  <span style={{ fontSize: '0.75rem', color: '#999' }}>Latest across all users</span>
                 </div>
                 {stats.activity.length === 0 ? (
-                  <div className="admin-empty"><p>No activity yet.</p></div>
+                  <div className="admin-empty"><p>No scans yet.</p></div>
                 ) : (
                   <div className="admin-activity-list">
                     {stats.activity.map((item) => (
                       <div key={item.id} className="admin-activity-item">
-                        <div className="activity-dot" />
+                        {item.image_url ? (
+                          <div className="activity-thumb">
+                            <img src={item.image_url} alt="Scan" />
+                          </div>
+                        ) : (
+                          <div className="activity-dot" />
+                        )}
                         <div className="activity-info">
                           <div className="activity-name">{item.name || 'User'}</div>
                           <div className="activity-email">{item.email}</div>

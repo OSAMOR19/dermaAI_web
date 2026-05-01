@@ -4,7 +4,8 @@ import { useState } from 'react';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminTopbar from '../../components/AdminTopbar';
 
-export default function SettingsClient({ adminEmail, adminName }: { adminEmail: string; adminName: string }) {
+export default function SettingsClient() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allowFreeScans, setAllowFreeScans] = useState(true);
   const [productRecs, setProductRecs] = useState(true);
   const [bookingEnabled, setBookingEnabled] = useState(true);
@@ -25,9 +26,9 @@ export default function SettingsClient({ adminEmail, adminName }: { adminEmail: 
 
   return (
     <div className="admin-shell">
-      <AdminSidebar adminEmail={adminEmail} adminName={adminName} />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="admin-main">
-        <AdminTopbar title="Settings" subtitle="Platform configuration and feature management" adminEmail={adminEmail} />
+        <AdminTopbar title="Settings" subtitle="Platform configuration and feature management" onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <div className="admin-page">
 
           {/* Feature Flags */}

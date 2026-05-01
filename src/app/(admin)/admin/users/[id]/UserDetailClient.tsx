@@ -28,7 +28,8 @@ interface Profile {
   created_at: string;
 }
 
-export default function UserDetailClient({ adminEmail, adminName }: { adminEmail: string; adminName: string }) {
+export default function UserDetailClient() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -66,9 +67,9 @@ export default function UserDetailClient({ adminEmail, adminName }: { adminEmail
 
   if (loading) return (
     <div className="admin-shell">
-      <AdminSidebar adminEmail={adminEmail} adminName={adminName} />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="admin-main">
-        <AdminTopbar title="User Detail" adminEmail={adminEmail} />
+        <AdminTopbar title="User Detail" onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <div className="admin-page"><div className="admin-loading"><div className="admin-spinner" /><p>Loading user…</p></div></div>
       </div>
     </div>
@@ -79,9 +80,9 @@ export default function UserDetailClient({ adminEmail, adminName }: { adminEmail
 
   return (
     <div className="admin-shell">
-      <AdminSidebar adminEmail={adminEmail} adminName={adminName} />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="admin-main">
-        <AdminTopbar title="User Detail" subtitle={displayName} adminEmail={adminEmail} />
+        <AdminTopbar title="User Detail" subtitle={displayName} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <div className="admin-page">
 
           <a href="/admin/users" className="admin-back-btn"><ArrowLeft size={15} /> Back to Users</a>

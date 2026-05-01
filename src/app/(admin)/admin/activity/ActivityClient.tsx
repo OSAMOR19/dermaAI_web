@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminTopbar from '../../components/AdminTopbar';
@@ -16,7 +16,8 @@ interface ScanEntry {
   conditions: { condition: string; severity: string }[];
 }
 
-export default function ActivityClient({ adminEmail, adminName }: { adminEmail: string; adminName: string }) {
+export default function ActivityClient() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
   const [scans, setScans] = useState<ScanEntry[]>([]);
   const [total, setTotal] = useState(0);
@@ -60,9 +61,9 @@ export default function ActivityClient({ adminEmail, adminName }: { adminEmail: 
 
   return (
     <div className="admin-shell">
-      <AdminSidebar adminEmail={adminEmail} adminName={adminName} />
+      <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="admin-main">
-        <AdminTopbar title="Activity Monitor" subtitle="All AI scan submissions across the platform" adminEmail={adminEmail} />
+        <AdminTopbar title="Activity Monitor" subtitle="All AI scan submissions across the platform" onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <div className="admin-page">
 
           {/* Filters */}
