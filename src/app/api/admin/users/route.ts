@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('profiles')
-      .select('id, email, first_name, last_name, avatar_url, role, plan, age_range, created_at', { count: 'exact' })
+      .select('id, email, first_name, last_name, avatar_url, role, plan, age_range, country, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ScanLine, Star, Bell, Clock } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import CompleteProfileModal from '@/components/CompleteProfileModal';
 
 function formatRelativeTime(isoStr: string | null): string {
   if (!isoStr) return 'No scans yet';
@@ -79,6 +80,7 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard">
+      <CompleteProfileModal />
       {/* Header */}
       <div className="dash-header" style={{ alignItems: 'center', paddingBottom: 12 }}>
         <div className="dash-header-left" style={{ alignItems: 'center', gap: 12 }}>

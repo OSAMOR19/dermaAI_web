@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff, User, X, Loader2, Calendar } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, X, Loader2, Calendar, MapPin } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 function TermsModal({ onClose, tab }: { onClose: () => void; tab: 'terms' | 'privacy' }) {
@@ -100,6 +100,7 @@ export default function SignupPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [ageRange, setAgeRange] = useState('');
+  const [country, setCountry] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -122,6 +123,10 @@ export default function SignupPage() {
       setError('Please select your age range');
       return;
     }
+    if (!country) {
+      setError('Please select your country');
+      return;
+    }
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -141,6 +146,7 @@ export default function SignupPage() {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
           age_range: ageRange,
+          country: country,
         },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
@@ -232,6 +238,33 @@ export default function SignupPage() {
                 <option value="35-44">35 – 44</option>
                 <option value="45-54">45 – 54</option>
                 <option value="55+">55+</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Country</label>
+            <div className="input-wrapper">
+              <MapPin size={18} className="input-icon" />
+              <select className="form-input has-icon" value={country} onChange={(e) => setCountry(e.target.value)} required style={{ appearance: 'none', cursor: 'pointer' }}>
+                <option value="" disabled>Select your country</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Ghana">Ghana</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Kenya">Kenya</option>
+                <option value="India">India</option>
+                <option value="Australia">Australia</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>

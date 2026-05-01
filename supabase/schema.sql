@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   phone text,
   date_of_birth date,
   age_range text,
+  country text,
   avatar_url text,
   skin_type text,
   updated_at timestamp with time zone,
@@ -39,19 +40,21 @@ CREATE POLICY "Users can update own profile."
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-  INSERT INTO public.profiles (id, first_name, last_name, email, age_range)
+  INSERT INTO public.profiles (id, first_name, last_name, email, age_range, country)
   VALUES (
     new.id,
     new.raw_user_meta_data->>'first_name',
     new.raw_user_meta_data->>'last_name',
     new.email,
-    new.raw_user_meta_data->>'age_range'
+    new.raw_user_meta_data->>'age_range',
+    new.raw_user_meta_data->>'country'
   )
   ON CONFLICT (id) DO UPDATE SET
     email = COALESCE(EXCLUDED.email, public.profiles.email),
     first_name = COALESCE(EXCLUDED.first_name, public.profiles.first_name),
     last_name = COALESCE(EXCLUDED.last_name, public.profiles.last_name),
-    age_range = COALESCE(EXCLUDED.age_range, public.profiles.age_range);
+    age_range = COALESCE(EXCLUDED.age_range, public.profiles.age_range),
+    country = COALESCE(EXCLUDED.country, public.profiles.country);
   RETURN new;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
