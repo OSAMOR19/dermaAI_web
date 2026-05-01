@@ -14,6 +14,7 @@ interface UserRow {
   avatar_url: string | null;
   role: string;
   plan: string;
+  age_range: string | null;
   created_at: string;
   scan_count: number;
 }
@@ -115,6 +116,7 @@ export default function AdminUsersPage() {
                     <span className={`plan-badge ${u.plan === 'pro' ? 'pro' : 'free'}`}>
                       {u.plan === 'pro' ? '★ Pro' : 'Free'}
                     </span>
+                    {u.age_range && <span className="au-age-badge">{u.age_range}</span>}
                     {u.role === 'admin' && <span className="plan-badge admin-role">Admin</span>}
                   </div>
                   <ChevronRight size={16} className="au-user-chevron" />
@@ -168,7 +170,12 @@ export default function AdminUsersPage() {
         .au-meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
         .au-meta-item strong { color: var(--text); font-weight: 800; }
 
-        .au-user-badges { display: flex; gap: 6px; flex-shrink: 0; }
+        .au-user-badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+        .au-age-badge {
+          display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px;
+          font-size: 0.72rem; font-weight: 700; background: rgba(0,180,250,0.1);
+          color: #0288D1; border: 1px solid rgba(0,180,250,0.2);
+        }
         .au-user-chevron { color: #ccc; flex-shrink: 0; }
 
         .au-pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding: 12px 0; }

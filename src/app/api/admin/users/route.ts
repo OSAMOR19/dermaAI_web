@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createClient as createServiceClient } from '@supabase/supabase-js';
 
 async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
   const { data: { user }, error } = await supabase.auth.getUser();
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('profiles')
-      .select('id, email, first_name, last_name, avatar_url, role, plan, created_at', { count: 'exact' })
+      .select('id, email, first_name, last_name, avatar_url, role, plan, age_range, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -47,8 +48,33 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    // For users missing email/name, try to get from auth.users via service role
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    let authEmails: Record<string, { email: string; name: string }> = {};
+
+    if (serviceKey && supabaseUrl) {
+      const serviceClient = createServiceClient(supabaseUrl, serviceKey);
+      const missingIds = (users || []).filter(u => !u.email || !u.first_name).map(u => u.id);
+
+      if (missingIds.length > 0) {
+        // Fetch auth users in batches
+        const { data: authData } = await serviceClient.auth.admin.listUsers({ perPage: 100 });
+        if (authData?.users) {
+          authData.users.forEach(au => {
+            authEmails[au.id] = {
+              email: au.email || '',
+              name: au.user_metadata?.first_name || au.user_metadata?.full_name || '',
+            };
+          });
+        }
+      }
+    }
+
     const enriched = (users || []).map(u => ({
       ...u,
+      email: u.email || authEmails[u.id]?.email || '',
+      first_name: u.first_name || authEmails[u.id]?.name || '',
       scan_count: scanCounts[u.id] || 0,
     }));
 

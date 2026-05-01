@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff, User, X, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, X, Loader2, Calendar } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 function TermsModal({ onClose, tab }: { onClose: () => void; tab: 'terms' | 'privacy' }) {
@@ -99,6 +99,7 @@ export default function SignupPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [ageRange, setAgeRange] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -115,6 +116,10 @@ export default function SignupPage() {
     if (!agreed) {
       setTermsWarning(true);
       setError('Please accept the Terms of Service and Privacy Policy to continue');
+      return;
+    }
+    if (!ageRange) {
+      setError('Please select your age range');
       return;
     }
     if (password !== confirmPassword) {
@@ -135,6 +140,7 @@ export default function SignupPage() {
         data: {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
+          age_range: ageRange,
         },
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
@@ -213,6 +219,20 @@ export default function SignupPage() {
             <div className="input-wrapper">
               <Mail size={18} className="input-icon" />
               <input type="email" className="form-input has-icon" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Age Range</label>
+            <div className="input-wrapper">
+              <Calendar size={18} className="input-icon" />
+              <select className="form-input has-icon" value={ageRange} onChange={(e) => setAgeRange(e.target.value)} required style={{ appearance: 'none', cursor: 'pointer' }}>
+                <option value="" disabled>Select your age range</option>
+                <option value="16-24">16 – 24</option>
+                <option value="25-34">25 – 34</option>
+                <option value="35-44">35 – 44</option>
+                <option value="45-54">45 – 54</option>
+                <option value="55+">55+</option>
+              </select>
             </div>
           </div>
           <div className="form-group">
