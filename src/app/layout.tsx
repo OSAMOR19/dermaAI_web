@@ -2,6 +2,7 @@ import { Instrument_Sans } from 'next/font/google';
 import './globals.css';
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import CookieConsent from '@/components/CookieConsent';
 
 const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={instrumentSans.className}>
         <ThemeProvider>
           {children}
+          <CookieConsent />
         </ThemeProvider>
         <script dangerouslySetInnerHTML={{ __html: `
           if ('serviceWorker' in navigator) {

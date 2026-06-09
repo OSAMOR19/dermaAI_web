@@ -76,6 +76,35 @@ CREATE POLICY "Users can delete own scans"
 
 CREATE INDEX idx_scans_user_created ON public.scans(user_id, created_at DESC);
 
+-- CONSULTATIONS TABLE
+CREATE TABLE IF NOT EXISTS public.consultations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  doctor_id TEXT NOT NULL,
+  doctor_name TEXT NOT NULL,
+  date TEXT NOT NULL,
+  time TEXT NOT NULL,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+ALTER TABLE public.consultations ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view own consultations"
+  ON public.consultations FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own consultations"
+  ON public.consultations FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own consultations"
+  ON public.consultations FOR DELETE
+  USING (auth.uid() = user_id);
+
+CREATE INDEX idx_consultations_user_created ON public.consultations(user_id, created_at DESC);
+
+
 -- BACKFILL: Create profile for users who already signed up
 INSERT INTO public.profiles (id, email, first_name, last_name)
 SELECT

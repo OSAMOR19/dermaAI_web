@@ -149,3 +149,37 @@ CREATE POLICY "Users can update their own scan images"
 CREATE POLICY "Users can delete their own scan images"
   ON storage.objects FOR DELETE
   USING ( bucket_id = 'scans' AND auth.uid() = owner );
+
+
+-- ==========================================
+-- 4. Create Consultations Table
+-- ==========================================
+
+CREATE TABLE IF NOT EXISTS public.consultations (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+  doctor_id text NOT NULL,
+  doctor_name text NOT NULL,
+  date text NOT NULL,
+  time text NOT NULL,
+  notes text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.consultations ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can view their own consultations" ON public.consultations;
+DROP POLICY IF EXISTS "Users can insert their own consultations" ON public.consultations;
+DROP POLICY IF EXISTS "Users can delete their own consultations" ON public.consultations;
+
+CREATE POLICY "Users can view their own consultations"
+  ON public.consultations FOR SELECT USING ( auth.uid() = user_id );
+
+CREATE POLICY "Users can insert their own consultations"
+  ON public.consultations FOR INSERT WITH CHECK ( auth.uid() = user_id );
+
+CREATE POLICY "Users can delete their own consultations"
+  ON public.consultations FOR DELETE USING ( auth.uid() = user_id );
+
+CREATE INDEX IF NOT EXISTS idx_consultations_user_created ON public.consultations(user_id, created_at DESC);
+

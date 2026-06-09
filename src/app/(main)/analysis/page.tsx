@@ -26,6 +26,7 @@ interface GeminiAnalysis {
   recommendations: string[];
   warning_signs: string[];
   disclaimer: string;
+  confidence_score?: number;
 }
 
 interface RecommendedProduct {
@@ -158,7 +159,7 @@ export default function AnalysisPage() {
           );
           const parsed: GeminiAnalysis = JSON.parse(raw);
           setAnalysis(parsed);
-          setScore(computeScore(parsed.detected_conditions || []));
+          setScore(parsed.confidence_score !== undefined ? parsed.confidence_score : computeScore(parsed.detected_conditions || []));
           setLoading(false);
           return;
         }
@@ -191,7 +192,7 @@ export default function AnalysisPage() {
         );
         const parsed: GeminiAnalysis = latest.analysis;
         setAnalysis(parsed);
-        setScore(computeScore(parsed.detected_conditions || []));
+        setScore(parsed.confidence_score !== undefined ? parsed.confidence_score : computeScore(parsed.detected_conditions || []));
       } catch {
         setNoData(true);
       } finally {
@@ -358,7 +359,35 @@ export default function AnalysisPage() {
         </div>
       )}
 
-      {/* ---- Score Ring Removed ---- */}
+      {/* ---- Circular Score Ring ---- */}
+      <section className="score-section">
+        <div className="score-ring-wrapper">
+          <svg className="score-ring-svg" width="130" height="130">
+            <circle className="score-ring-bg" cx="65" cy="65" r="54" />
+            <circle
+              className="score-ring-fill"
+              cx="65"
+              cy="65"
+              r="54"
+              stroke={scoreInfo.color}
+              strokeDasharray={circumference}
+              strokeDashoffset={offset}
+            />
+          </svg>
+          <div className="score-ring-text" style={{ flexDirection: 'column' }}>
+            <span className="score-ring-number">{score}</span>
+            <span className="score-ring-of">/ 100</span>
+          </div>
+        </div>
+        <div className="score-info">
+          <span className="score-label" style={{ color: scoreInfo.color, fontWeight: 700, fontSize: '1.2rem', display: 'block', marginBottom: 6 }}>
+            {scoreInfo.text}
+          </span>
+          <p className="score-summary" style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            {getScoreSummary(score, conditions)}
+          </p>
+        </div>
+      </section>
 
       {/* ---- Warning Signs ---- */}
       {analysis?.warning_signs && analysis.warning_signs.length > 0 && (

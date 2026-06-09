@@ -76,6 +76,7 @@ export default function ScanPage() {
   // Multi-image state
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [uploadImages, setUploadImages] = useState<string[]>([]);
+  const [biometricConsent, setBiometricConsent] = useState(false);
 
   const router = useRouter();
   const { user } = useAuth();
@@ -118,7 +119,7 @@ export default function ScanPage() {
   useEffect(() => {
     if (scanMode !== 'camera') return;
     let isActive = true;
-    let rafId: number;
+    let intervalId: NodeJS.Timeout;
 
     const start = async () => {
       try {
@@ -143,9 +144,9 @@ export default function ScanPage() {
     };
     start();
 
-    // The validation simulation loop
+    // The validation simulation loop (optimized to run at 200ms interval for CPU health & UI smoothness)
     let validSince = 0;
-    const loop = async () => {
+    const runValidation = async () => {
       if (!isActive) return;
       if (videoRef.current && videoRef.current.readyState === 4 && (phase === 'position' || phase === 'capture')) {
         const imgParams = drawImageToCanvas(videoRef.current);
@@ -178,13 +179,12 @@ export default function ScanPage() {
           });
         }
       }
-      rafId = requestAnimationFrame(loop);
     };
-    rafId = requestAnimationFrame(loop);
+    intervalId = setInterval(runValidation, 200);
 
     return () => {
       isActive = false;
-      cancelAnimationFrame(rafId);
+      clearInterval(intervalId);
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
   }, [scanMode, phase]);
@@ -278,6 +278,22 @@ export default function ScanPage() {
       }
 
       const data = await res.json();
+
+      // Check validation errors returned by Gemini
+      if (data.validation_error) {
+        let msg = '';
+        if (data.validation_error === 'multiple_faces_detected') {
+          msg = 'Multiple faces detected. Please ensure only a single face is in the frame for scan accuracy.';
+        } else if (data.validation_error === 'no_face_detected') {
+          msg = 'No face detected. Please position your face clearly in front of the camera.';
+        } else if (data.validation_error === 'low_quality') {
+          msg = 'Image quality is too low (excessive blur or poor lighting). Please try again in a better environment.';
+        } else {
+          msg = 'Validation error. Please upload or capture a clearer photo.';
+        }
+        throw new Error(msg);
+      }
+
       try { sessionStorage.setItem('wbh_analysis', JSON.stringify(data)); } catch { }
 
       // Outer Save
@@ -326,7 +342,7 @@ export default function ScanPage() {
       setApiError(msg);
       setStatusText('Analysis failed');
       setAnalyzing(false);
-      setPhase(scanMode === 'camera' ? 'review' : 'init');
+      setPhase(scanMode === 'camera' ? 'position' : 'init');
     }
   };
 
@@ -339,16 +355,70 @@ export default function ScanPage() {
           <div className="scn-brand"><img src="/images/wbhlogo.svg" alt="WBH" /></div>
           <div className="scn-badge">READY</div>
         </header>
-        <div className="scan-choose">
+        <div className="scan-choose" style={{ gap: '20px' }}>
           <h2 className="scan-choose-title">How would you like to scan?</h2>
           <p className="scan-choose-desc">For maximum accuracy, use the live camera feed.</p>
+
+          {/* GDPR Biometric Consent Notice */}
+          <div style={{
+            background: 'rgba(252,101,209,0.03)',
+            border: '1px solid rgba(252,101,209,0.15)',
+            borderRadius: 16,
+            padding: '16px 20px',
+            textAlign: 'left',
+            maxWidth: 380,
+            width: '100%',
+            display: 'flex',
+            gap: 12,
+            alignItems: 'flex-start',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
+          }}>
+            <input
+              type="checkbox"
+              id="biometric-consent"
+              checked={biometricConsent}
+              onChange={(e) => setBiometricConsent(e.target.checked)}
+              style={{
+                width: 18,
+                height: 18,
+                accentColor: 'var(--primary)',
+                marginTop: 2,
+                cursor: 'pointer',
+                flexShrink: 0
+              }}
+            />
+            <label htmlFor="biometric-consent" style={{ fontSize: '0.8rem', color: '#555', lineHeight: 1.5, cursor: 'pointer', userSelect: 'none' }}>
+              <strong>Biometric Consent:</strong> I consent to Wholesale Beauty Hub (WBH) processing my facial scans using AI to evaluate skin conditions. Images are analyzed securely in real-time and will only save to my account history. See our <a href="https://wholesalebeautyhub.co.uk" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>.
+            </label>
+          </div>
+
           <div className="scan-choose-options">
-            <button className="scan-choose-card" onClick={() => setScanMode('camera')}>
+            <button
+              className="scan-choose-card"
+              onClick={() => {
+                if (!biometricConsent) {
+                  alert('Please check the Biometric Consent notice to proceed with the Live Scan.');
+                  return;
+                }
+                setScanMode('camera');
+              }}
+              style={{ opacity: biometricConsent ? 1 : 0.55, cursor: biometricConsent ? 'pointer' : 'not-allowed' }}
+            >
               <div className="scan-choose-icon camera-icon"><Camera size={32} /></div>
               <h3>Live Scan</h3>
               <p>Real-time validation</p>
             </button>
-            <button className="scan-choose-card" onClick={() => setScanMode('upload')}>
+            <button
+              className="scan-choose-card"
+              onClick={() => {
+                if (!biometricConsent) {
+                  alert('Please check the Biometric Consent notice to proceed with Uploading a Photo.');
+                  return;
+                }
+                setScanMode('upload');
+              }}
+              style={{ opacity: biometricConsent ? 1 : 0.55, cursor: biometricConsent ? 'pointer' : 'not-allowed' }}
+            >
               <div className="scan-choose-icon upload-icon"><Upload size={32} /></div>
               <h3>Upload Photo</h3>
               <p>Submit existing image</p>
@@ -468,12 +538,12 @@ export default function ScanPage() {
             <>
               {/* Cycling metric */}
               <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '10px 20px', borderRadius: 30,
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: '12px 24px', borderRadius: 30,
                 background: 'rgba(236,72,153,0.08)', border: '1px solid rgba(236,72,153,0.2)',
-                color: '#ec4899', fontSize: '0.82rem', fontWeight: 600, marginBottom: 20,
+                color: '#ec4899', fontSize: '0.85rem', fontWeight: 600, marginBottom: 20,
               }}>
-                <div className="scn-loading-spinner" style={{ width: 12, height: 12 }} />
+                <div className="scn-loading-spinner" style={{ width: 20, height: 20, borderWidth: 2 }} />
                 {SCAN_METRICS[metricIdx]}
               </div>
 
