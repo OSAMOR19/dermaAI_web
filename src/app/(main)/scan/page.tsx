@@ -77,6 +77,7 @@ export default function ScanPage() {
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [uploadImages, setUploadImages] = useState<string[]>([]);
   const [biometricConsent, setBiometricConsent] = useState(false);
+  const [showBiometricModal, setShowBiometricModal] = useState(false);
 
   const router = useRouter();
   const { user } = useAuth();
@@ -388,7 +389,7 @@ export default function ScanPage() {
               }}
             />
             <label htmlFor="biometric-consent" style={{ fontSize: '0.8rem', color: '#555', lineHeight: 1.5, cursor: 'pointer', userSelect: 'none' }}>
-              <strong>Biometric Consent:</strong> I consent to Wholesale Beauty Hub (WBH) processing my facial scans using AI to evaluate skin conditions. Images are analyzed securely in real-time and will only save to my account history. See our <a href="https://wholesalebeautyhub.co.uk" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>.
+              <strong>Biometric Consent:</strong> I consent to Wholesale Beauty Hub (WBH) processing my facial scans using AI to evaluate skin conditions. Images are analyzed securely in real-time. Learn more about our <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowBiometricModal(true); }} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary)', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline', font: 'inherit' }}>Biometric Data Policy</button>.
             </label>
           </div>
 
@@ -575,6 +576,14 @@ export default function ScanPage() {
             0%, 100% { transform: scale(1); opacity: 0.6; }
             50% { transform: scale(1.15); opacity: 1; }
           }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+          }
         `}</style>
       </div>
     );
@@ -602,10 +611,22 @@ export default function ScanPage() {
 
           {/* Camera error */}
           {cameraError && (
-            <div className="scn-error">
-              <p style={{ fontSize: '1.5rem', marginBottom: 8 }}>🔒</p>
-              <p style={{ fontWeight: 600 }}>Camera access denied</p>
-              <p style={{ fontSize: '0.8rem', opacity: 0.6, marginTop: 6 }}>Enable camera in browser settings and reload</p>
+            <div className="scn-error" style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <p style={{ fontSize: '1.8rem', marginBottom: 8 }}>🔒</p>
+              <p style={{ fontWeight: 700, marginBottom: 4 }}>Camera Access Denied</p>
+              <p style={{ fontSize: '0.8rem', opacity: 0.6, marginBottom: 20, maxWidth: 280, lineHeight: 1.4, textAlign: 'center' }}>
+                Please enable camera access in your browser settings to perform a Live Scan.
+              </p>
+              <button
+                className="btn btn-outline"
+                style={{ fontSize: '0.82rem', padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 6 }}
+                onClick={() => {
+                  setScanMode('upload');
+                  setCameraError(false);
+                }}
+              >
+                <Upload size={14} /> Upload a Photo instead
+              </button>
             </div>
           )}
 
@@ -660,6 +681,67 @@ export default function ScanPage() {
           </div>
         )}
       </footer>
+
+      {/* Biometric Policy Information Modal */}
+      {showBiometricModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0,0,0,0.5)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 11000,
+          padding: 20,
+          animation: 'fadeIn 0.3s ease'
+        }} onClick={() => setShowBiometricModal(false)}>
+          <div style={{
+            background: '#fff',
+            borderRadius: 24,
+            padding: 28,
+            maxWidth: 440,
+            width: '100%',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+            border: '1px solid rgba(252,101,209,0.15)',
+            position: 'relative',
+            animation: 'scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(252,101,209,0.1)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Activity size={18} />
+              </div>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: '#111' }}>Biometric Data Policy</h3>
+            </div>
+            
+            <div style={{ fontSize: '0.85rem', color: '#444', lineHeight: 1.6, display: 'flex', flexDirection: 'column', gap: 12, maxHeight: 280, overflowY: 'auto', paddingRight: 4, marginBottom: 24 }}>
+              <p>
+                Wholesale Beauty Hub (WBH) is committed to protecting your privacy in full compliance with the <strong>UK General Data Protection Regulation (UK GDPR)</strong>.
+              </p>
+              <p>
+                <strong>1. Data Processing:</strong> When you start a Live Scan or upload a photo, our AI skin diagnostic algorithms process your facial geometric coordinates (biometric data) to detect skin conditions like acne, pores, and dehydration.
+              </p>
+              <p>
+                <strong>2. Real-Time Processing:</strong> The facial biometric calculations are performed strictly in real-time. We do not permanently store your raw biometric coordinates or facial templates on our servers.
+              </p>
+              <p>
+                <strong>3. Image Retention:</strong> Captured or uploaded images are securely transmitted to the database only if you are signed in and wish to save them to your scan history. Unauthenticated scans are processed in-memory and discarded.
+              </p>
+              <p>
+                <strong>4. Your Rights:</strong> You can delete any saved scans from your account dashboard at any time, which permanently purges the associated image files and diagnostic records from our storage.
+              </p>
+            </div>
+
+            <button
+              className="btn btn-primary btn-block"
+              style={{ padding: '12px 0', borderRadius: 12, fontWeight: 700 }}
+              onClick={() => setShowBiometricModal(false)}
+            >
+              I Understand
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
