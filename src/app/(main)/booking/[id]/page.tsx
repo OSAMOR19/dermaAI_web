@@ -2,14 +2,51 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { ArrowLeft, Star, Clock, Award, Video, Calendar, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft, Star, Clock, Award, Video, Calendar, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
 
-const DOCTORS: Record<string, { name: string; title: string; experience: string; rating: number; reviews: number; price: number; avatar: string; bio: string }> = {
-  carter: { name: 'Dr. Emily Carter', title: 'Board-Certified Dermatologist', experience: '8+ Years', rating: 4.8, reviews: 124, price: 40, avatar: '/images/Carter.svg', bio: 'Specialising in acne treatment, anti-aging solutions, and skin cancer screening. Dr. Carter combines cutting-edge technology with a patient-centered approach.' },
-  reynolds: { name: 'Dr. Michael Reynolds', title: 'Board-Certified Dermatologist', experience: '12+ Years', rating: 4.9, reviews: 210, price: 55, avatar: '/images/Michael.svg', bio: 'Expert in cosmetic dermatology and complex skin conditions. Known for his thorough diagnostic approach and personalised treatment plans.' },
-  thompson: { name: 'Dr. Aisha Thompson', title: 'Board-Certified Dermatologist', experience: '8+ Years', rating: 4.9, reviews: 156, price: 45, avatar: '/images/Aisha.svg', bio: 'Passionate about holistic skincare and treating diverse skin types. Specialises in eczema, psoriasis, and culturally-informed dermatology.' },
-  kim: { name: 'Dr. Daniel Kim', title: 'Dermatology & Research Specialist', experience: '15 Years', rating: 4.8, reviews: 302, price: 60, avatar: '/images/Michael.svg', bio: 'Leading researcher in AI-assisted dermatology. Combines academic expertise with practical clinical experience for evidence-based treatments.' },
+const DOCTORS: Record<
+  string,
+  {
+    name: string;
+    title: string;
+    experience: string;
+    rating: number;
+    reviews: number;
+    price: number;
+    avatar: string;
+    bio: string;
+    email: string;
+    location: string;
+    services: string[];
+    credentials: string[];
+  }
+> = {
+  evelyn: {
+    name: 'Evelyn Badaiki',
+    title: 'Resident Aesthetician',
+    experience: '10+ Years',
+    rating: 4.9,
+    reviews: 184,
+    price: 45,
+    avatar: '/evelyn-badaiki.png',
+    bio: 'With over 10 years of experience as a beautypreneur and a solid academic foundation in Biochemistry, Evelyn bridges the gap between complex cosmetic formulation and real, visible skin results. Her deepest passion lies in solving complex skin concerns for melanated skin, an underserved market that requires deep ingredient literacy and precise, safety-focused clinical understanding. She founded WBH Skin AI — a cutting-edge BeautyTech solution driven by advanced AI that analyses skin concerns and seamlessly directs users to targeted product routines or clinical consultations.',
+    email: 'info@wholesalebeautyhub.co.uk',
+    location: '7 Dennington Mews',
+    services: [
+      'Dissolving Patch Test',
+      'Facial Aesthetics Consultation',
+      'Fat Dissolving Consultation',
+      'Full Body Laser Hair Removal',
+      'Eye Brow Lift',
+    ],
+    credentials: [
+      'Authorized Partner with 25 Pskyn',
+      'Level 4 in Aesthetic Practice & Skin Science',
+      'Ofqual-regulated Level 3 VTCT (ITEC)',
+    ],
+  },
 };
 
 const TIME_SLOTS = [
@@ -18,19 +55,18 @@ const TIME_SLOTS = [
 
 export default function DermatologistPage() {
   const params = useParams();
-  const docId = (params?.id as string) || 'carter';
-  const doctor = DOCTORS[docId] || DOCTORS.carter;
+  const router = useRouter();
+  const { user } = useAuth();
+  
+  const docId = (params?.id as string) || 'evelyn';
+  const doctor = DOCTORS[docId] || DOCTORS.evelyn;
 
   // Form State
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [notes, setNotes] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [submittedBooking, setSubmittedBooking] = useState<{ date: string; time: string } | null>(null);
 
   // Get today's date in YYYY-MM-DD format for date limit
   const getTodayDateString = () => {
@@ -62,14 +98,29 @@ export default function DermatologistPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const convert12hTo24h = (time12h: string) => {
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (hours === '12') {
+      hours = '00';
+    }
+    if (modifier === 'PM') {
+      hours = String(parseInt(hours, 10) + 12);
+    }
+    return `${hours}:${minutes}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!handleValidation()) return;
+    if (!handleValidation() || !user) return;
 
     setIsSubmitting(true);
     setErrors({});
 
     try {
+      const time24 = convert12hTo24h(selectedTime);
+      const eventStartTimeIso = `${selectedDate}T${time24}:00`;
+      
       const res = await fetch('/api/booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -79,6 +130,10 @@ export default function DermatologistPage() {
           date: selectedDate,
           time: selectedTime,
           notes,
+          invitee_email: user.email,
+          invitee_name: user.user_metadata?.first_name 
+            ? `${user.user_metadata.first_name} ${user.user_metadata.last_name ?? ''}`.trim()
+            : 'Valued Client',
         }),
       });
 
@@ -87,8 +142,7 @@ export default function DermatologistPage() {
         throw new Error(data?.error || 'Failed to book appointment');
       }
 
-      setSubmittedBooking({ date: selectedDate, time: selectedTime });
-      setIsSuccess(true);
+      router.push(`/booking/success?doctor_id=${docId}&event_start_time=${encodeURIComponent(eventStartTimeIso)}`);
     } catch (err: unknown) {
       setErrors({
         submit: err instanceof Error ? err.message : 'Something went wrong. Please try again.',
@@ -98,57 +152,10 @@ export default function DermatologistPage() {
     }
   };
 
-  if (isSuccess && submittedBooking) {
-    return (
-      <div className="booking" style={{ maxWidth: 600, margin: '40px auto 100px', padding: '0 20px' }}>
-        <div className="card" style={{ padding: '40px 32px', textAlign: 'center', borderRadius: 24, boxShadow: '0 16px 40px rgba(0,0,0,0.08)' }}>
-          <div style={{ width: 72, height: 72, background: 'rgba(76,175,80,0.1)', color: '#4CAF50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <CheckCircle2 size={40} />
-          </div>
-          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: 12, color: '#111' }}>Booking Confirmed!</h2>
-          <p style={{ color: '#555', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: 32 }}>
-            Your consultation appointment with <strong>{doctor.name}</strong> has been successfully booked. A confirmation email has been sent to your account.
-          </p>
-
-          <div style={{ background: 'var(--primary-light)', padding: '20px 24px', borderRadius: 16, textAlign: 'left', marginBottom: 36, border: '1px solid rgba(252,101,209,0.15)' }}>
-            <h4 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--primary)', fontWeight: 700, margin: '0 0 12px' }}>Appointment Details</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.92rem' }}>
-                <span style={{ color: '#666' }}>Specialist:</span>
-                <strong style={{ color: '#111' }}>{doctor.name}</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.92rem' }}>
-                <span style={{ color: '#666' }}>Date:</span>
-                <strong style={{ color: '#111' }}>{new Date(submittedBooking.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.92rem' }}>
-                <span style={{ color: '#666' }}>Time:</span>
-                <strong style={{ color: '#111' }}>{submittedBooking.time}</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.92rem' }}>
-                <span style={{ color: '#666' }}>Consultation Fee:</span>
-                <strong style={{ color: 'var(--primary)' }}>${doctor.price} (Paid)</strong>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Link href="/call" className="btn btn-primary btn-block btn-lg" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 20px', borderRadius: 12, fontWeight: 700 }}>
-              <Video size={18} /> Join Video Consultation Call
-            </Link>
-            <Link href="/dashboard" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 20px', borderRadius: 12, fontWeight: 600 }}>
-              Return to Dashboard
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="booking" style={{ maxWidth: 700, margin: '0 auto 100px', padding: '0 20px' }}>
       <Link href="/booking" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
-        <ArrowLeft size={18} /> Back to Dermatologists
+        <ArrowLeft size={18} /> Back to Aestheticians
       </Link>
 
       {/* Doctor Info Card */}
@@ -172,12 +179,50 @@ export default function DermatologistPage() {
             <Clock size={16} /> {doctor.experience} Experience
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-            <Award size={16} /> Board Certified
+            <Award size={16} /> Certified Aesthetician
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-            <Video size={16} /> Video Consultations
+            <Video size={16} /> Online Consultations
           </div>
         </div>
+
+        {/* Credentials */}
+        {doctor.credentials && doctor.credentials.length > 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <p style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Credentials</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {doctor.credentials.map((cred) => (
+                <div key={cred} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#444' }}>
+                  <Award size={14} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                  <span>{cred}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Services */}
+        {doctor.services && doctor.services.length > 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <p style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Services Offered</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {doctor.services.map((service) => (
+                <span key={service} style={{ 
+                  fontSize: '0.8rem', 
+                  padding: '6px 14px', 
+                  background: 'var(--primary-light)', 
+                  color: 'var(--primary)', 
+                  borderRadius: 20, 
+                  fontWeight: 600,
+                  border: '1px solid rgba(252,101,209,0.15)',
+                }}>
+                  {service}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'var(--primary-light)', borderRadius: 'var(--radius-md)' }}>
           <span style={{ fontWeight: 600, color: '#222' }}>Consultation Fee</span>
           <span style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary)' }}>${doctor.price}<span style={{ fontSize: '0.85rem', fontWeight: 400, color: 'var(--text-muted)' }}>/session</span></span>
