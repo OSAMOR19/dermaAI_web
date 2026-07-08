@@ -18,7 +18,7 @@ function getServiceClient() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { full_name, email, phone, age_range, location, postcode, address, skin_concerns, other_concern } = body;
+    const { full_name, email, phone, age_range, location, skin_concerns, other_concern } = body;
 
     if (!full_name || !email) {
       return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
@@ -41,8 +41,6 @@ export async function POST(request: NextRequest) {
         phone: phone || null,
         age_range: age_range || null,
         location: location || null,
-        postcode: postcode || null,
-        address: address || null,
         skin_concerns: skin_concerns || [],
         other_concern: other_concern || null,
       })
@@ -57,13 +55,13 @@ export async function POST(request: NextRequest) {
     // Send emails via Resend
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'WBH Skin <onboarding@resend.dev>';
+      const fromEmail = process.env.RESEND_FROM_EMAIL || 'WBH Skin <noreply@wbhskin.com>';
       const concernsList = (skin_concerns || []).join(', ');
       const allConcerns = other_concern ? `${concernsList}${concernsList ? ', ' : ''}${other_concern}` : concernsList;
 
       try {
         // 1. Send notification to admin
-        await fetch('https://api.resend.com/emails', {
+        const resAdmin = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${resendApiKey}`,
@@ -72,7 +70,7 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             from: fromEmail,
             to: ADMIN_EMAIL,
-            subject: `New Event Registration: ${full_name}`,
+            subject: `New Registration: ${full_name}`,
             html: `
               <!DOCTYPE html>
               <html>
@@ -84,13 +82,13 @@ export async function POST(request: NextRequest) {
                       <table role="presentation" width="520" style="background-color:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #eaeaea;">
                         <tr>
                           <td align="center" style="background:linear-gradient(135deg, #a63df2 0%, #fc65d1 100%);padding:32px 20px;">
-                            <h1 style="color:#ffffff;font-size:20px;font-weight:800;margin:0;letter-spacing:1px;text-transform:uppercase;">New Event Registration</h1>
-                            <p style="color:rgba(255,255,255,0.85);font-size:13px;margin:8px 0 0;font-weight:600;">WBH Skin Talk Show</p>
+                            <h1 style="color:#ffffff;font-size:20px;font-weight:800;margin:0;letter-spacing:1px;text-transform:uppercase;">New Registration</h1>
+                            <p style="color:rgba(255,255,255,0.85);font-size:13px;margin:8px 0 0;font-weight:600;">WBH Skin</p>
                           </td>
                         </tr>
                         <tr>
                           <td style="padding:32px 24px;">
-                            <p style="color:#333;font-size:15px;line-height:1.6;margin:0 0 20px;">A new attendee has registered for the talk show event:</p>
+                            <p style="color:#333;font-size:15px;line-height:1.6;margin:0 0 20px;">A new registration has been received:</p>
                             
                             <table role="presentation" width="100%" style="background-color:#f8f9fa;border-radius:12px;padding:20px;border:1px solid #eeeeee;margin-bottom:24px;">
                               <tr>
@@ -112,14 +110,6 @@ export async function POST(request: NextRequest) {
                               <tr>
                                 <td style="padding-bottom:10px;font-size:13px;color:#888;">Location:</td>
                                 <td style="padding-bottom:10px;font-size:14px;color:#222;font-weight:700;">${location || 'N/A'}</td>
-                              </tr>
-                              <tr>
-                                <td style="padding-bottom:10px;font-size:13px;color:#888;">Post Code:</td>
-                                <td style="padding-bottom:10px;font-size:14px;color:#222;font-weight:700;">${postcode || 'N/A'}</td>
-                              </tr>
-                              <tr>
-                                <td style="padding-bottom:10px;font-size:13px;color:#888;">Address:</td>
-                                <td style="padding-bottom:10px;font-size:14px;color:#222;font-weight:700;">${address || 'N/A'}</td>
                               </tr>
                               <tr>
                                 <td style="font-size:13px;color:#888;vertical-align:top;">Skin Concerns:</td>
@@ -147,8 +137,15 @@ export async function POST(request: NextRequest) {
           }),
         });
 
+        if (!resAdmin.ok) {
+          const errText = await resAdmin.text();
+          console.error(`Resend Admin Email failed (status ${resAdmin.status}):`, errText);
+        } else {
+          console.log('Admin notification email sent successfully to', ADMIN_EMAIL);
+        }
+
         // 2. Send confirmation to registrant
-        await fetch('https://api.resend.com/emails', {
+        const resUser = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${resendApiKey}`,
@@ -157,7 +154,7 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             from: fromEmail,
             to: email,
-            subject: 'You\'re Registered! — WBH Skin Talk Show',
+            subject: 'You\'re Registered! — WBH Skin',
             html: `
               <!DOCTYPE html>
               <html>
@@ -170,14 +167,14 @@ export async function POST(request: NextRequest) {
                         <tr>
                           <td align="center" style="background:linear-gradient(135deg, #fc65d1 0%, #a63df2 100%);padding:40px 20px;">
                             <h1 style="color:#ffffff;font-size:22px;font-weight:800;margin:0;letter-spacing:1px;text-transform:uppercase;">WBH Skin</h1>
-                            <p style="color:rgba(255,255,255,0.9);font-size:14px;margin:10px 0 0;font-weight:600;">Talk Show Registration Confirmed ✓</p>
+                            <p style="color:rgba(255,255,255,0.9);font-size:14px;margin:10px 0 0;font-weight:600;">Registration Confirmed ✓</p>
                           </td>
                         </tr>
                         <tr>
                           <td style="padding:32px 24px;">
                             <p style="color:#333;font-size:16px;line-height:1.6;margin:0 0 16px;">Hello <strong>${full_name}</strong>,</p>
                             <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 24px;">
-                              Thank you for registering for the <strong>WBH Skin Talk Show</strong>! We've received your details and you're all set.
+                              Thank you for registering with <strong>WBH Skin</strong>! We've received your details and you're all set.
                             </p>
                             
                             <table role="presentation" width="100%" style="background-color:#fcf8fc;border-radius:12px;padding:20px;border:1px solid #f9ebf9;margin-bottom:24px;">
@@ -200,7 +197,7 @@ export async function POST(request: NextRequest) {
                             </table>
 
                             <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 20px;">
-                              Our team will be in touch with further details about the event. If you have any questions, feel free to reach out to us at <a href="mailto:info@wbhskin.com" style="color:#e84c88;font-weight:600;">info@wbhskin.com</a>.
+                              Our team will be in touch with further details. If you have any questions, feel free to reach out to us at <a href="mailto:info@wbhskin.com" style="color:#e84c88;font-weight:600;">info@wbhskin.com</a>.
                             </p>
                             
                             <hr style="border:none;border-top:1px solid #eeeeee;margin:24px 0;" />
@@ -223,6 +220,13 @@ export async function POST(request: NextRequest) {
             `,
           }),
         });
+
+        if (!resUser.ok) {
+          const errText = await resUser.text();
+          console.error(`Resend User Email failed (status ${resUser.status}):`, errText);
+        } else {
+          console.log('Confirmation email sent successfully to', email);
+        }
       } catch (emailErr) {
         console.error('Failed to send event registration emails:', emailErr);
       }

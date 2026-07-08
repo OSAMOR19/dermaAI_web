@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     // Trigger confirmation emails via Resend
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'Wholesale Beauty Hub <onboarding@resend.dev>';
+      const fromEmail = process.env.RESEND_FROM_EMAIL || 'WBH Skin <noreply@wbhskin.com>';
       const bookerEmail = invitee_email || user.email || '';
       const bookerName = invitee_name || user.user_metadata?.first_name 
         ? `${user.user_metadata.first_name} ${user.user_metadata.last_name ?? ''}`.trim()

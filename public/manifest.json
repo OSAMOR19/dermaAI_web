@@ -1,7 +1,7 @@
 {
   "name": "WBH Skin — AI-Powered Skin Analysis",
   "short_name": "WBH Skin",
-  "description": "Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health and get personalised product recommendations.",
+  "description": "Get skin analysis and consultation. Track your skin health and get personalised recommendations and consultations.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

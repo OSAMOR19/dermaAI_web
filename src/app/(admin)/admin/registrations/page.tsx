@@ -12,8 +12,6 @@ interface Registration {
   phone: string | null;
   age_range: string | null;
   location: string | null;
-  postcode: string | null;
-  address: string | null;
   skin_concerns: string[];
   other_concern: string | null;
   created_at: string;
@@ -49,21 +47,18 @@ export default function AdminRegistrationsPage() {
       r.full_name.toLowerCase().includes(q) ||
       r.email.toLowerCase().includes(q) ||
       (r.phone && r.phone.toLowerCase().includes(q)) ||
-      (r.location && r.location.toLowerCase().includes(q)) ||
-      (r.postcode && r.postcode.toLowerCase().includes(q))
+      (r.location && r.location.toLowerCase().includes(q))
     );
   });
 
   const handleExportCSV = () => {
-    const headers = ['Name', 'Email', 'Phone', 'Age Range', 'Location', 'Post Code', 'Address', 'Skin Concerns', 'Other Concern', 'Registered At'];
+    const headers = ['Name', 'Email', 'Phone', 'Age Range', 'Location', 'Skin Concerns', 'Other Concern', 'Registered At'];
     const rows = filtered.map(r => [
       r.full_name,
       r.email,
       r.phone || '',
       r.age_range || '',
       r.location || '',
-      r.postcode || '',
-      r.address || '',
       (r.skin_concerns || []).join('; '),
       r.other_concern || '',
       formatDate(r.created_at),
@@ -78,7 +73,7 @@ export default function AdminRegistrationsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `wbh-event-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `wbh-registrations-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -89,7 +84,7 @@ export default function AdminRegistrationsPage() {
       <div className="admin-main">
         <AdminTopbar
           title="Event Registrations"
-          subtitle="Talk show event sign-ups"
+          subtitle="Client registration sign-ups"
           onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
         />
         <div className="admin-page">
@@ -146,7 +141,6 @@ export default function AdminRegistrationsPage() {
                         <th>Phone</th>
                         <th>Age</th>
                         <th>Location</th>
-                        <th>Post Code</th>
                         <th>Skin Concerns</th>
                         <th>Registered</th>
                       </tr>
@@ -159,7 +153,6 @@ export default function AdminRegistrationsPage() {
                           <td>{reg.phone || '—'}</td>
                           <td>{reg.age_range || '—'}</td>
                           <td>{reg.location || '—'}</td>
-                          <td>{reg.postcode || '—'}</td>
                           <td>
                             <div className="admin-reg-concerns">
                               {(reg.skin_concerns || []).map((c, i) => (

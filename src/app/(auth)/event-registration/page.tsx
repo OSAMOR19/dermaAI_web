@@ -23,8 +23,6 @@ export default function EventRegistrationPage() {
     phone: '',
     age_range: '',
     location: '',
-    postcode: '',
-    address: '',
     skin_concerns: [] as string[],
     other_concern: '',
   });
@@ -95,7 +93,7 @@ export default function EventRegistrationPage() {
             </div>
             <h1>You&apos;re Registered!</h1>
             <p>
-              Thank you, <strong>{formData.full_name}</strong>! Your registration for the WBH Skin Talk Show has been confirmed.
+              Thank you, <strong>{formData.full_name}</strong>! Your registration with WBH Skin has been confirmed.
             </p>
             <p className="event-success-sub">
               A confirmation email has been sent to <strong>{formData.email}</strong>. Our team will be in touch with further event details.
@@ -196,7 +194,7 @@ export default function EventRegistrationPage() {
 
           {/* Location */}
           <div className="form-group">
-            <label className="form-label">Location / City</label>
+            <label className="form-label">Location (Major City)</label>
             <div className="input-wrapper">
               <MapPin size={18} className="input-icon" />
               <input
@@ -206,38 +204,6 @@ export default function EventRegistrationPage() {
                 value={formData.location}
                 onChange={(e) => updateField('location', e.target.value)}
                 id="reg-location"
-              />
-            </div>
-          </div>
-
-          {/* Post Code */}
-          <div className="form-group">
-            <label className="form-label">Post Code</label>
-            <div className="input-wrapper">
-              <Hash size={18} className="input-icon" />
-              <input
-                type="text"
-                className="form-input has-icon"
-                placeholder="e.g. E1 6AN"
-                value={formData.postcode}
-                onChange={(e) => updateField('postcode', e.target.value)}
-                id="reg-postcode"
-              />
-            </div>
-          </div>
-
-          {/* Address */}
-          <div className="form-group">
-            <label className="form-label">Address</label>
-            <div className="input-wrapper">
-              <Home size={18} className="input-icon" />
-              <input
-                type="text"
-                className="form-input has-icon"
-                placeholder="Enter your full address"
-                value={formData.address}
-                onChange={(e) => updateField('address', e.target.value)}
-                id="reg-address"
               />
             </div>
           </div>

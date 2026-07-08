@@ -15,6 +15,26 @@ export const metadata: Metadata = {
   title: 'WBH — AI-Powered Skin Analysis',
   description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
   icons: { icon: '/favicon.png' },
+  openGraph: {
+    title: 'WBH Skin — AI-Powered Skin Analysis',
+    description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'WBH Skin — AI-Powered Skin Analysis',
+      },
+    ],
+    siteName: 'WBH Skin',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'WBH Skin — AI-Powered Skin Analysis',
+    description: 'Get clinical-grade skin analysis powered by artificial intelligence.',
+    images: ['/images/og-image.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
