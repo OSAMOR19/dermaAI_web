@@ -40,7 +40,8 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/signup') ||
     pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/reset-password') ||
-    pathname.startsWith('/auth/');
+    pathname.startsWith('/auth/') ||
+    pathname.startsWith('/event-registration');
 
   const isPublicPage = pathname === '/' || isAuthPage;
 
@@ -53,7 +54,8 @@ export async function updateSession(request: NextRequest) {
 
   // Authenticated users: redirect away from auth pages to dashboard
   const isResetPage = pathname.startsWith('/reset-password');
-  if (user && isAuthPage && !isResetPage) {
+  const isEventPage = pathname.startsWith('/event-registration');
+  if (user && isAuthPage && !isResetPage && !isEventPage) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);

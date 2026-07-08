@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Filter, Search, Calendar, Activity, ChevronLeft, ChevronRight, ScanLine, Loader2 } from 'lucide-react';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminTopbar from '../../components/AdminTopbar';
 
@@ -59,6 +60,19 @@ export default function ActivityClient() {
 
   const totalPages = Math.ceil(total / LIMIT);
 
+  const getSeverityClass = (sev: string) => {
+    const s = sev?.toLowerCase();
+    if (s === 'severe' || s === 'high') return 'severe';
+    if (s === 'moderate' || s === 'medium') return 'moderate';
+    return 'mild';
+  };
+
+  const getScoreColor = (score: number) => {
+    if (score >= 70) return '#4CAF50';
+    if (score >= 50) return '#FF9800';
+    return '#E53935';
+  };
+
   return (
     <div className="admin-shell">
       <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -66,106 +80,159 @@ export default function ActivityClient() {
         <AdminTopbar title="Activity Monitor" subtitle="All AI scan submissions across the platform" onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <div className="admin-page">
 
-          {/* Filters */}
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #E8E8E8', padding: '20px 24px', marginBottom: 20 }}>
-            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.07em' }}>Filters</p>
-            <div className="admin-filters">
-              <input
-                className="admin-filter-input"
-                placeholder="Filter by condition (e.g. Acne)"
-                value={filterCondition}
-                onChange={e => setFilterCondition(e.target.value)}
-              />
-              <input
-                className="admin-filter-input"
-                type="date"
-                value={filterDateFrom}
-                onChange={e => setFilterDateFrom(e.target.value)}
-                title="From date"
-              />
-              <input
-                className="admin-filter-input"
-                type="date"
-                value={filterDateTo}
-                onChange={e => setFilterDateTo(e.target.value)}
-                title="To date"
-              />
-              <button className="admin-filter-btn" onClick={handleApply}>Apply Filters</button>
-              <button className="admin-filter-reset" onClick={handleReset}>Reset</button>
+          {/* Filters Card */}
+          <div className="act-filter-card">
+            <div className="act-filter-header">
+              <div className="act-filter-title">
+                <Filter size={15} />
+                <span>Filters</span>
+              </div>
+              <div className="act-filter-actions">
+                <button className="act-btn-reset" onClick={handleReset}>Reset</button>
+                <button className="act-btn-apply" onClick={handleApply}>
+                  <Search size={14} />
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+            <div className="act-filter-grid">
+              <div className="act-filter-group">
+                <label className="act-filter-label">Condition</label>
+                <div className="act-filter-input-wrap">
+                  <ScanLine size={14} className="act-filter-icon" />
+                  <input
+                    className="act-filter-input"
+                    placeholder="e.g. Acne, Eczema"
+                    value={filterCondition}
+                    onChange={e => setFilterCondition(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="act-filter-group">
+                <label className="act-filter-label">From Date</label>
+                <div className="act-filter-input-wrap">
+                  <Calendar size={14} className="act-filter-icon" />
+                  <input
+                    className="act-filter-input"
+                    type="date"
+                    value={filterDateFrom}
+                    onChange={e => setFilterDateFrom(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="act-filter-group">
+                <label className="act-filter-label">To Date</label>
+                <div className="act-filter-input-wrap">
+                  <Calendar size={14} className="act-filter-icon" />
+                  <input
+                    className="act-filter-input"
+                    type="date"
+                    value={filterDateTo}
+                    onChange={e => setFilterDateTo(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="admin-table-card">
-            <div className="admin-table-header">
-              <h3>Scan Records</h3>
-              {hasLoaded && <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{total.toLocaleString()} results</span>}
+          {/* Results Table */}
+          <div className="act-table-card">
+            <div className="act-table-header">
+              <div className="act-table-title">
+                <Activity size={16} />
+                <h3>Scan Records</h3>
+              </div>
+              {hasLoaded && (
+                <span className="act-result-count">
+                  {total.toLocaleString()} result{total !== 1 ? 's' : ''}
+                </span>
+              )}
             </div>
 
             {!hasLoaded && !loading ? (
-              <div className="admin-empty">
-                <p>Apply filters and click <strong>Apply Filters</strong> to load scan data.</p>
+              <div className="act-empty-state">
+                <div className="act-empty-icon">
+                  <Search size={28} />
+                </div>
+                <h4>Ready to Search</h4>
+                <p>Configure your filters above and click <strong>Apply Filters</strong> to load scan activity data.</p>
               </div>
             ) : loading ? (
-              <div className="admin-loading"><div className="admin-spinner" /><p>Loading scans…</p></div>
+              <div className="act-loading">
+                <Loader2 size={28} className="spin" style={{ color: '#e84c88' }} />
+                <p>Loading scans…</p>
+              </div>
             ) : scans.length === 0 ? (
-              <div className="admin-empty"><p>No scans match the current filters.</p></div>
+              <div className="act-empty-state">
+                <div className="act-empty-icon">
+                  <ScanLine size={28} />
+                </div>
+                <h4>No Results</h4>
+                <p>No scans match the current filters. Try adjusting your search criteria.</p>
+              </div>
             ) : (
               <>
-                <div className="admin-table-wrap">
-                  <table className="admin-table">
+                <div className="act-table-wrap">
+                  <table className="act-table">
                     <thead>
                       <tr>
-                        <th>Preview</th>
+                        <th style={{ width: 60 }}>Preview</th>
                         <th>User</th>
                         <th>Date</th>
                         <th>Conditions</th>
-                        <th>Score</th>
+                        <th style={{ width: 70, textAlign: 'center' }}>Score</th>
                       </tr>
                     </thead>
                     <tbody>
                       {scans.map(scan => (
-                        <tr key={scan.id} onClick={() => router.push(`/admin/users/${scan.user_id}`)}>
+                        <tr key={scan.id} onClick={() => router.push(`/admin/users/${scan.user_id}`)} style={{ cursor: 'pointer' }}>
                           <td>
                             {scan.thumbnail ? (
                               <img
                                 src={scan.thumbnail}
                                 alt="Scan"
-                                style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', display: 'block', border: '1px solid #E8E8E8' }}
+                                className="act-thumb"
                               />
                             ) : (
-                              <div style={{ width: 44, height: 44, borderRadius: 8, background: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>🩺</div>
+                              <div className="act-thumb-placeholder">
+                                <ScanLine size={16} />
+                              </div>
                             )}
                           </td>
                           <td>
-                            <div className="user-name">{scan.name || 'User'}</div>
-                            <div className="user-email">{scan.email}</div>
-                          </td>
-                          <td style={{ fontSize: '0.82rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-                            {new Date(scan.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                            <br />
-                            <span style={{ fontSize: '0.75rem' }}>{new Date(scan.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+                            <div className="act-user-name">{scan.name || 'User'}</div>
+                            <div className="act-user-email">{scan.email}</div>
                           </td>
                           <td>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, maxWidth: 260 }}>
-                              {scan.conditions.slice(0, 3).map((c, i) => (
-                                <span key={i} className="condition-pill">{c.condition}</span>
-                              ))}
-                              {scan.conditions.length > 3 && (
-                                <span className="condition-pill">+{scan.conditions.length - 3}</span>
-                              )}
-                              {scan.conditions.length === 0 && (
-                                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>None detected</span>
-                              )}
+                            <div className="act-date">
+                              {new Date(scan.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </div>
+                            <div className="act-time">
+                              {new Date(scan.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </td>
                           <td>
+                            <div className="act-conditions">
+                              {scan.conditions.slice(0, 3).map((c, i) => (
+                                <span key={i} className={`act-condition-badge ${getSeverityClass(c.severity)}`}>
+                                  {c.condition}
+                                </span>
+                              ))}
+                              {scan.conditions.length > 3 && (
+                                <span className="act-condition-more">+{scan.conditions.length - 3}</span>
+                              )}
+                              {scan.conditions.length === 0 && (
+                                <span className="act-no-conditions">None detected</span>
+                              )}
+                            </div>
+                          </td>
+                          <td style={{ textAlign: 'center' }}>
                             {scan.score !== null ? (
-                              <span style={{
-                                fontWeight: 800, fontSize: '1rem',
-                                color: scan.score >= 70 ? '#388E3C' : scan.score >= 50 ? '#E65100' : '#C62828',
-                              }}>{scan.score}</span>
+                              <div className="act-score" style={{ color: getScoreColor(scan.score) }}>
+                                {scan.score}
+                              </div>
                             ) : (
-                              <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>—</span>
+                              <span className="act-no-score">—</span>
                             )}
                           </td>
                         </tr>
@@ -175,11 +242,20 @@ export default function ActivityClient() {
                 </div>
 
                 {total > LIMIT && (
-                  <div className="admin-pagination">
-                    <p>Showing {(page - 1) * LIMIT + 1}–{Math.min(page * LIMIT, total)} of {total}</p>
-                    <div className="admin-pagination-btns">
-                      <button className="admin-page-btn" onClick={() => fetchScans(page - 1)} disabled={page === 1}>← Prev</button>
-                      <button className="admin-page-btn" onClick={() => fetchScans(page + 1)} disabled={page >= totalPages}>Next →</button>
+                  <div className="act-pagination">
+                    <span className="act-page-info">
+                      Showing {(page - 1) * LIMIT + 1}–{Math.min(page * LIMIT, total)} of {total}
+                    </span>
+                    <div className="act-page-btns">
+                      <button className="act-page-btn" onClick={() => fetchScans(page - 1)} disabled={page === 1}>
+                        <ChevronLeft size={16} />
+                        Prev
+                      </button>
+                      <span className="act-page-current">{page} / {totalPages}</span>
+                      <button className="act-page-btn" onClick={() => fetchScans(page + 1)} disabled={page >= totalPages}>
+                        Next
+                        <ChevronRight size={16} />
+                      </button>
                     </div>
                   </div>
                 )}
