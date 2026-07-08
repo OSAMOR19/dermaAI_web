@@ -196,8 +196,52 @@ export async function POST(request: NextRequest) {
                               </tr>` : ''}
                             </table>
 
+                            <!-- Invite Your Colleagues Banner -->
+                            <div style="background: linear-gradient(135deg, #fef5f9 0%, #f9ebf5 100%); border-radius: 12px; padding: 20px; border: 1px solid #f7d6eb; margin-bottom: 24px; text-align: center;">
+                              <h3 style="color: #e84c88; font-size: 16px; margin: 0 0 8px; font-weight: 700;">Invite Your Colleagues 👥</h3>
+                              <p style="color: #555; font-size: 13px; line-height: 1.5; margin: 0 0 12px;">Invite your network and unlock:</p>
+                              <div style="background: #ffffff; border-radius: 8px; padding: 10px 14px; border: 1px dashed #e84c88; display: inline-block;">
+                                <strong style="color: #e84c88; font-size: 14px;">Up to 20% off your favourite products</strong>
+                                <div style="color: #777; font-size: 11px; margin: 4px 0;">+</div>
+                                <strong style="color: #222; font-size: 14px;">FREE Skin Analysis and Consultation</strong>
+                              </div>
+                              <p style="color: #e84c88; font-size: 12px; font-weight: 600; margin: 12px 0 0;">@wholesalebeautyhub_uk</p>
+                            </div>
+
+                            <!-- Venue Information -->
+                            <div style="margin-bottom: 24px;">
+                              <h3 style="color: #222; font-size: 15px; margin: 0 0 12px; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 6px;">Catch us live at Deshapeables Tradefair 📍</h3>
+                              
+                              <!-- London -->
+                              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 14px; border: 1px solid #eee; margin-bottom: 12px; text-align: left;">
+                                <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td style="font-size: 13px; font-weight: 700; color: #e84c88; text-transform: uppercase; letter-spacing: 0.5px;">London 📍</td>
+                                    <td align="right" style="font-size: 12px; color: #555; font-weight: 600;">🗓 25th July 2026</td>
+                                  </tr>
+                                </table>
+                                <p style="color: #444; font-size: 13px; line-height: 1.4; margin: 8px 0 6px;">Yeomanry House, Handel Street, London WC1N 1NP, UK</p>
+                                <div style="color: #888; font-size: 12px;">🚆 5 mins from Euston Station</div>
+                              </div>
+
+                              <!-- Birmingham -->
+                              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 14px; border: 1px solid #eee; text-align: left;">
+                                <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td style="font-size: 13px; font-weight: 700; color: #e84c88; text-transform: uppercase; letter-spacing: 0.5px;">Birmingham 📍</td>
+                                    <td align="right" style="font-size: 12px; color: #555; font-weight: 600;">🗓 29th August 2026</td>
+                                  </tr>
+                                </table>
+                                <p style="color: #444; font-size: 13px; line-height: 1.4; margin: 8px 0 6px;">Anchor Point, 58 Chester Street, Birmingham, B6 4BE</p>
+                                <div style="color: #888; font-size: 12px;">🚆 8 mins from Birmingham New Street Station</div>
+                              </div>
+                            </div>
+
                             <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 20px;">
-                              Our team will be in touch with further details. If you have any questions, feel free to reach out to us at <a href="mailto:info@wbhskin.com" style="color:#e84c88;font-weight:600;">info@wbhskin.com</a>.
+                              We look forward to welcoming you.
+                            </p>
+                            <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 20px;">
+                              If you have any questions, feel free to reach out to us at <a href="mailto:info@wbhskin.com" style="color:#e84c88;font-weight:600;">info@wbhskin.com</a>.
                             </p>
                             
                             <hr style="border:none;border-top:1px solid #eeeeee;margin:24px 0;" />
