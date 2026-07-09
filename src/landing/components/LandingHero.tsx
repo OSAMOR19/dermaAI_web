@@ -49,7 +49,7 @@ export default function LandingHero() {
           </div>
           <div className="landing-trust-info">
             <span className="landing-trust-stars">★★★★★</span>
-            <strong>10,000+ clients</strong>
+            <strong>6,000+ clients</strong>
             <span className="landing-trust-sub">trust WBH Skin</span>
           </div>
         </div>

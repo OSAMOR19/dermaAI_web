@@ -28,19 +28,30 @@ export default function CompleteProfileModal() {
     const dismissed = sessionStorage.getItem('wbh_profile_dismissed');
     if (dismissed) return;
 
-    fetch('/api/profile')
-      .then(r => r.json())
-      .then((p: ProfileData) => {
+    const loadProfile = async () => {
+      try {
+        const cached = sessionStorage.getItem('wbh_profile_cache');
+        const cacheTs = sessionStorage.getItem('wbh_profile_cache_ts');
+        const now = Date.now();
+        let p: ProfileData;
+        if (cached && cacheTs && (now - parseInt(cacheTs)) < 300000) {
+          p = JSON.parse(cached);
+        } else {
+          const r = await fetch('/api/profile');
+          p = await r.json();
+          sessionStorage.setItem('wbh_profile_cache', JSON.stringify(p));
+          sessionStorage.setItem('wbh_profile_cache_ts', String(now));
+        }
         const noAge = !p.age_range;
         const noCountry = !p.country;
         if (noAge || noCountry) {
           setMissing({ age: noAge, country: noCountry });
           setStep(noAge ? 1 : 2);
-          // Small delay so page loads first
           setTimeout(() => setShow(true), 1200);
         }
-      })
-      .catch(() => {});
+      } catch {}
+    };
+    loadProfile();
   }, []);
 
   const handleSave = async () => {

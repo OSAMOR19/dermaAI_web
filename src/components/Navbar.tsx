@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Calendar, ScanLine, User } from 'lucide-react';
+import { Home, Calendar, ScanLine, ShoppingBag, User } from 'lucide-react';
 
 const links = [
   { href: '/dashboard', icon: Home },
   { href: '/booking', icon: Calendar },
   { href: '/scan', icon: ScanLine },
+  { href: '/shop', icon: ShoppingBag },
   { href: '/profile', icon: User },
 ];
 

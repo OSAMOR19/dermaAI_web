@@ -130,7 +130,6 @@ const FALLBACK_RECOMMENDATIONS = [
 export default function AnalysisPage() {
   const [analysis, setAnalysis] = useState<GeminiAnalysis | null>(null);
   const [score, setScore] = useState(0);
-  const [scanImage, setScanImage] = useState<string | null>(null);
   const [scanTime, setScanTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(false);
@@ -149,9 +148,7 @@ export default function AnalysisPage() {
         // 1. Try sessionStorage first (set after a live scan)
         const raw = sessionStorage.getItem('wbh_analysis');
         if (raw) {
-          const img = sessionStorage.getItem('wbh_scan_image');
           const time = sessionStorage.getItem('wbh_scan_time');
-          if (img) setScanImage(img);
           const d = time ? new Date(time) : new Date();
           setScanTime(
             d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
@@ -165,10 +162,20 @@ export default function AnalysisPage() {
           return;
         }
 
-        // 2. Fallback: fetch the most recent scan from the database
-        const res = await fetch('/api/scans');
-        if (!res.ok) throw new Error('Failed to fetch scans');
-        const scans = await res.json();
+        // 2. Fallback: fetch the most recent scan from the database (with cache)
+        const cached = sessionStorage.getItem('wbh_scans_cache');
+        const cacheTs = sessionStorage.getItem('wbh_scans_cache_ts');
+        const now = Date.now();
+        let scans;
+        if (cached && cacheTs && (now - parseInt(cacheTs)) < 60000) {
+          scans = JSON.parse(cached);
+        } else {
+          const res = await fetch('/api/scans');
+          if (!res.ok) throw new Error('Failed to fetch scans');
+          scans = await res.json();
+          sessionStorage.setItem('wbh_scans_cache', JSON.stringify(scans));
+          sessionStorage.setItem('wbh_scans_cache_ts', String(now));
+        }
 
         if (!scans || scans.length === 0) {
           setNoData(true);
@@ -184,7 +191,6 @@ export default function AnalysisPage() {
         }
 
         // Populate state from the DB record
-        if (latest.image_urls?.[0]) setScanImage(latest.image_urls[0]);
         const d = new Date(latest.created_at);
         setScanTime(
           d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) +
@@ -340,15 +346,13 @@ export default function AnalysisPage() {
         </button>
       </header>
 
-      {/* ---- Captured Scan Image ---- */}
-      {scanImage && (
-        <div className="scan-capture-card">
-          <img src={scanImage} alt="Your scan" className="scan-capture-img" />
-          <div className="scan-capture-label">
-            <ScanLine size={14} /> Your Scan
-          </div>
-        </div>
-      )}
+      {/* ---- Privacy Notice ---- */}
+      <div style={{ margin: '0 16px 12px', padding: '12px 16px', background: 'rgba(252,101,209,0.06)', borderRadius: 12, display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+        <span style={{ fontSize: '0.82rem', flexShrink: 0 }}>🔒</span>
+        <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.55 }}>
+          Your scan images are retained briefly for processing, then securely removed. Only your diagnostic results are stored.
+        </p>
+      </div>
 
       {/* ---- Image Quality Warning ---- */}
       {analysis?.image_quality === 'poor' && (

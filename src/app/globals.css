@@ -166,7 +166,7 @@ p { color: var(--text-secondary); }
   background: rgba(255,255,255,0.72); backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid rgba(255,255,255,0.45);
   border-radius: 50px; box-shadow: 0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
-  min-width: 0; max-width: 320px; width: calc(100% - 32px);
+  min-width: 0; max-width: 380px; width: calc(100% - 32px);
 }
 .bnav-item {
   display: flex; align-items: center; justify-content: center;
@@ -319,7 +319,7 @@ p { color: var(--text-secondary); }
 }
 
 /* ===================== DASHBOARD ===================== */
-.dashboard { padding: 24px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; overflow-x: hidden; }
+.dashboard { padding: 24px; padding-bottom: 100px; max-width: 560px; margin: 0 auto; overflow-x: hidden; }
 .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
 .dash-header-left { display: flex; align-items: center; gap: 16px; }
 .dash-avatar {
@@ -346,7 +346,7 @@ p { color: var(--text-secondary); }
 .score-right { width: 180px; min-height: 160px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
 .score-face-img { position: absolute; right: -10px; bottom: 0; height: 110%; width: auto; object-fit: contain; opacity: 0.95; }
 
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 24px; }
+.cards-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
 .areas-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 .area-item { display: flex; align-items: center; gap: 10px; }
 .area-dot { width: 12px; height: 12px; border-radius: 3px; }
@@ -374,7 +374,7 @@ p { color: var(--text-secondary); }
 .online-text { font-size: 0.8rem; color: var(--green); font-weight: 500; }
 
 /* ===================== BOOKING ===================== */
-.booking { padding: 24px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; }
+.booking { padding: 24px; padding-bottom: 100px; max-width: 560px; margin: 0 auto; }
 .booking-header { margin-bottom: 24px; }
 .booking-header h1 { font-size: 1.6rem; margin-bottom: 4px; }
 .search-bar {
@@ -1471,4 +1471,136 @@ p { color: var(--text-secondary); }
 .admin-reg-table-wrap {
   overflow-x: auto; border-radius: 12px;
   border: 1px solid #2A2F38; background: #161B22;
+}
+
+/* ===================== DESKTOP RESPONSIVE (min-width: 769px) ===================== */
+@media (min-width: 769px) {
+  /* Center the app content on wide screens */
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  .dashboard { padding: 32px 24px 100px; }
+  .booking { padding: 32px 24px 100px; }
+
+  .score-card {
+    border-radius: var(--radius-xl);
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card {
+    border-radius: var(--radius-lg);
+  }
+
+  /* Bottom nav: centered pill on desktop */
+  .bottom-nav {
+    bottom: 20px;
+    max-width: 400px;
+    padding: 10px 24px;
+    border-radius: 50px;
+  }
+
+  .bnav-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  /* Results / Analysis page */
+  .results-page {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* Scan page */
+  .scan-page,
+  .scn-page {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Profile subpages */
+  .subpage-body {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 8px 24px 40px;
+  }
+
+  .subpage-header {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Doc card hero image sizing on desktop */
+  .doc-card img {
+    max-height: 320px;
+  }
+
+  .doc-list {
+    max-width: 100%;
+  }
+
+  /* Score section */
+  .score-section {
+    padding: 28px 24px;
+  }
+
+  /* Booking detail page */
+  .booking-detail {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+}
+
+/* ===================== LARGE DESKTOP (min-width: 1024px) ===================== */
+@media (min-width: 1024px) {
+  /* Slightly wider for very large screens */
+  main {
+    max-width: 600px;
+    position: relative;
+  }
+
+  .dashboard,
+  .booking {
+    max-width: 600px;
+  }
+
+  .results-page {
+    max-width: 600px;
+  }
+
+  .subpage-body,
+  .subpage-header {
+    max-width: 600px;
+  }
+
+  .bottom-nav {
+    max-width: 420px;
+  }
+}
+
+/* ===================== SKELETON SHIMMER ===================== */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skel {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+.skel-circle { border-radius: 50%; }
+.skel-text { height: 12px; border-radius: 6px; }
+.skel-text-lg { height: 16px; border-radius: 6px; }
+.skel-pill { height: 28px; border-radius: 14px; }
+[data-theme="dark"] .skel {
+  background: linear-gradient(90deg, #2a2a2a 25%, #333 37%, #2a2a2a 63%);
+  background-size: 800px 100%;
 }

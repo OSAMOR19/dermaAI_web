@@ -510,9 +510,20 @@ function ScanHistory() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/scans');
-        if (!res.ok) throw new Error('Failed to load scans');
-        const data = await res.json();
+        // Check sessionStorage cache first
+        const cached = sessionStorage.getItem('wbh_scans_cache');
+        const cacheTs = sessionStorage.getItem('wbh_scans_cache_ts');
+        const now = Date.now();
+        let data;
+        if (cached && cacheTs && (now - parseInt(cacheTs)) < 60000) {
+          data = JSON.parse(cached);
+        } else {
+          const res = await fetch('/api/scans');
+          if (!res.ok) throw new Error('Failed to load scans');
+          data = await res.json();
+          sessionStorage.setItem('wbh_scans_cache', JSON.stringify(data));
+          sessionStorage.setItem('wbh_scans_cache_ts', String(now));
+        }
         setScans(data);
       } catch (err) {
         console.error(err);
@@ -528,7 +539,6 @@ function ScanHistory() {
     try {
       if (scan.analysis) {
         sessionStorage.setItem('wbh_analysis', JSON.stringify(scan.analysis));
-        sessionStorage.setItem('wbh_scan_image', scan.image_urls?.[0] || '');
         sessionStorage.setItem('wbh_scan_time', scan.created_at);
         window.location.href = '/analysis';
       } else {
@@ -551,6 +561,9 @@ function ScanHistory() {
         body: JSON.stringify(id ? { scan_id: id } : {}),
       });
       if (!res.ok) throw new Error();
+      // Invalidate scans cache
+      sessionStorage.removeItem('wbh_scans_cache');
+      sessionStorage.removeItem('wbh_scans_cache_ts');
       if (isAll) {
         setScans([]);
       } else {
@@ -588,6 +601,7 @@ function ScanHistory() {
             </Link>
           </div>
         ) : (
+          <>
           <div className="history-timeline">
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
               <button 
@@ -617,11 +631,7 @@ function ScanHistory() {
                     >
                       <Trash2 size={16} />
                     </button>
-                    {scan.image_urls && scan.image_urls.length > 0 && (
-                      <div style={{ marginBottom: 12, borderRadius: 12, overflow: 'hidden', height: 160, background: '#f5f5f5' }}>
-                        <img src={scan.image_urls[0]} alt="Scan photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      </div>
-                    )}
+
                     <div className="he-header">
                       <div>
                         <div className="he-date">{dateStr}</div>
@@ -640,6 +650,13 @@ function ScanHistory() {
               );
             })}
           </div>
+          {/* Privacy notice */}
+          <div style={{ marginTop: 20, padding: '14px 16px', background: 'rgba(252,101,209,0.06)', borderRadius: 14, border: '1px solid rgba(252,101,209,0.1)' }}>
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+              🔒 Your scan images are securely retained for a short period to support your experience, then automatically removed. Only your diagnostic results are stored long-term.
+            </p>
+          </div>
+          </>
         )}
       </div>
 

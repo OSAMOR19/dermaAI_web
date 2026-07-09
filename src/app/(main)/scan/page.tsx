@@ -296,6 +296,9 @@ export default function ScanPage() {
       }
 
       try { sessionStorage.setItem('wbh_analysis', JSON.stringify(data)); } catch { }
+      // Invalidate scans cache so dashboard/history fetch fresh data
+      sessionStorage.removeItem('wbh_scans_cache');
+      sessionStorage.removeItem('wbh_scans_cache_ts');
 
       // Outer Save
       try {
@@ -725,7 +728,7 @@ export default function ScanPage() {
                 <strong>2. Real-Time Processing:</strong> The facial biometric calculations are performed strictly in real-time. We do not permanently store your raw biometric coordinates or facial templates on our servers.
               </p>
               <p>
-                <strong>3. Image Retention:</strong> Captured or uploaded images are securely transmitted to the database only if you are signed in and wish to save them to your scan history. Unauthenticated scans are processed in-memory and discarded.
+                <strong>3. Image Retention:</strong> Captured or uploaded images are securely retained for a short period to support your analysis experience and help improve our AI models. Images are automatically removed after this period. Only your diagnostic results are stored long-term in your account.
               </p>
               <p>
                 <strong>4. Your Rights:</strong> You can delete any saved scans from your account dashboard at any time, which permanently purges the associated image files and diagnostic records from our storage.

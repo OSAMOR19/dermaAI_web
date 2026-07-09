@@ -7,7 +7,7 @@ import { CheckCircle2, Download, Calendar, ShieldAlert, ArrowRight, User } from 
 import { useAuth } from '@/components/AuthProvider';
 
 const DOCTORS: Record<string, { name: string; title: string; price: number; avatar: string }> = {
-  evelyn: { name: 'Evelyn Badaiki', title: 'Resident Aesthetician · WBH Skin', price: 45, avatar: '/evelyn-badaiki.png' },
+  evelyn: { name: 'Evelyn Badaiki', title: 'Resident Aesthetician · WBH Skin', price: 50, avatar: '/evelyn-badaiki.png' },
 };
 
 function BookingSuccessContent() {
@@ -66,8 +66,8 @@ function BookingSuccessContent() {
   };
 
   return (
-    <div className="booking" style={{ maxWidth: 850, margin: '40px auto 100px', padding: '0 20px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 32, alignItems: 'start' }}>
+    <div className="booking" style={{ maxWidth: 560, margin: '24px auto 100px', padding: '0 20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'stretch' }}>
         
         {/* Success Card Left */}
         <div className="card" style={{ padding: '36px 30px', borderRadius: 24, boxShadow: '0 16px 40px rgba(0,0,0,0.06)', border: '1px solid var(--border)' }}>
@@ -119,7 +119,7 @@ function BookingSuccessContent() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem' }}>
                 <span style={{ color: '#666' }}>Consultation Fee:</span>
-                <strong style={{ color: 'var(--primary)' }}>${doctor.price} (Paid)</strong>
+                <strong style={{ color: 'var(--primary)' }}>£{doctor.price} (Paid)</strong>
               </div>
             </div>
           </div>
