@@ -1535,13 +1535,6 @@ p { color: var(--text-secondary); }
 
 /* ===================== DESKTOP RESPONSIVE (min-width: 769px) ===================== */
 @media (min-width: 769px) {
-  /* Center the app content on wide screens */
-  main {
-    max-width: 560px;
-    margin: 0 auto;
-    min-height: 100vh;
-  }
-
   .dashboard { padding: 32px 24px 100px; }
   .booking { padding: 32px 24px 100px; }
 
@@ -1628,12 +1621,6 @@ p { color: var(--text-secondary); }
 
 /* ===================== LARGE DESKTOP (min-width: 1024px) ===================== */
 @media (min-width: 1024px) {
-  /* Slightly wider for very large screens */
-  main {
-    max-width: 600px;
-    position: relative;
-  }
-
   .dashboard,
   .booking {
     max-width: 600px;
