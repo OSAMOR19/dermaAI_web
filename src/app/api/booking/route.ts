@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
                             </p>
                             <hr style="border:none;border-top:1px solid #eeeeee;margin:24px 0;" />
                             <p style="color:#999;font-size:11px;line-height:1.5;margin:0;font-style:italic;">
-                              Disclaimer: AI diagnostics and expert consultations on this platform are intended for informational purposes only. They are not a substitute for clinical medical advice or treatment.
+                              Disclaimer: AI diagnostics and expert consultations on this platform are intended for informational purposes only. They are not a substitute for professional medical advice or treatment.
                             </p>
                           </td>
                         </tr>

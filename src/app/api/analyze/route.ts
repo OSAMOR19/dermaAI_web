@@ -43,7 +43,7 @@ Return the response in the following strict JSON format ONLY:
         "raised bumps"
       ],
       "severity": "Moderate",
-      "clinical_explanation": "A very brief 1-sentence clinical explanation of this condition based on the observations.",
+      "clinical_explanation": "A very brief 1-sentence explanation of this condition based on the observations, strictly avoiding the word 'clinical'.",
       "active_ingredients": ["Salicylic Acid", "Niacinamide"]
     }
   ],

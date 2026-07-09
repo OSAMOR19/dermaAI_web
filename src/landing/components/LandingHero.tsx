@@ -25,7 +25,7 @@ export default function LandingHero() {
         </h1>
 
         <p className="landing-hero-sub stagger-3">
-          Scan your face in 60 seconds. Get a clinical diagnosis of 14+ skin concerns. 
+          Scan your face in 60 seconds. Get a  diagnosis of 14+ skin concerns. 
           Shop professional-grade products matched precisely to your skin — with 
           next-day UK delivery &amp; worldwide shipping.
         </p>
@@ -85,8 +85,8 @@ export default function LandingHero() {
             </div>
           </div>
 
-          <h2 className="landing-scanner-title">Instant Clinical Diagnosis</h2>
-          <p className="landing-scanner-sub">14+ skin concerns analysed in seconds. Privacy-first. Medical accuracy.</p>
+          <h2 className="landing-scanner-title">Instant Skin Analysis</h2>
+          <p className="landing-scanner-sub">14+ skin concerns analysed in seconds. Privacy-first. Professional accuracy.</p>
 
           <div className="landing-scanner-concerns">
             {['Hydration', 'Pores', 'Fine Lines', 'Pigmentation', 'Elasticity', 'Texture', '+8 more'].map(c => (

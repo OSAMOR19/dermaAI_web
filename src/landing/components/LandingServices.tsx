@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const WBH_SITE = 'https://wholesalebeautyhub.co.uk';
 
 const products = [
-  { image: '/prodtctspic/advancedclinicalsvitaminc.jpg', badge: 'Best Seller', title: 'Advanced Clinicals Vitamin C', category: 'Serums & Treatment', price: '£18.50', link: `${WBH_SITE}/product-category/skin-care/serums-treatment/` },
+  { image: '/prodtctspic/advancedclinicalsvitaminc.jpg', badge: 'Best Seller', title: 'Advanced Active Vitamin C', category: 'Serums & Treatment', price: '£18.50', link: `${WBH_SITE}/product-category/skin-care/serums-treatment/` },
   { image: '/prodtctspic/facecerum.webp', badge: 'New In', title: 'Professional Face Serum', category: 'Face Serum', price: '£22.00', link: `${WBH_SITE}/product-category/skin-care/serums-treatment/` },
   { image: '/prodtctspic/darkspotmoistutizer.jpg', badge: 'Popular', title: 'Dark Spot Moisturiser', category: 'Moisturizers & Cream', price: '£24.99', link: `${WBH_SITE}/product-category/skin-care/moisturizers/` },
   { image: '/prodtctspic/acwellcleansingtoner.jpeg', badge: 'Trending', title: 'Acwell Cleansing Toner', category: 'Face Toners', price: '£15.00', link: `${WBH_SITE}/product-category/skin-care/face-toners-mist-essence/` },

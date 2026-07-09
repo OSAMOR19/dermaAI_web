@@ -31,7 +31,7 @@ const DOCTORS: Record<
     reviews: 184,
     price: 45,
     avatar: '/evelyn-badaiki.png',
-    bio: 'With over 10 years of experience as a beautypreneur and a solid academic foundation in Biochemistry, Evelyn bridges the gap between complex cosmetic formulation and real, visible skin results. Her deepest passion lies in solving complex skin concerns for melanated skin, an underserved market that requires deep ingredient literacy and precise, safety-focused clinical understanding. She founded WBH Skin AI — a cutting-edge BeautyTech solution driven by advanced AI that analyses skin concerns and seamlessly directs users to targeted product routines or clinical consultations.',
+    bio: 'With over 10 years of experience as a beautypreneur and a solid academic foundation in Biochemistry, Evelyn bridges the gap between complex cosmetic formulation and real, visible skin results. Her deepest passion lies in solving complex skin concerns for melanated skin, an underserved market that requires deep ingredient literacy and precise, safety-focused professional understanding. She founded WBH Skin AI — a cutting-edge BeautyTech solution driven by advanced AI that analyses skin concerns and seamlessly directs users to targeted product routines or expert consultations.',
     email: 'info@wholesalebeautyhub.co.uk',
     location: '7 Dennington Mews',
 

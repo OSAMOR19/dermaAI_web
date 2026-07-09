@@ -13,11 +13,11 @@ const instrumentSans = Instrument_Sans({
 
 export const metadata: Metadata = {
   title: 'WBH — AI-Powered Skin Analysis',
-  description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
+  description: 'Get professional-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
   icons: { icon: '/favicon.png' },
   openGraph: {
     title: 'WBH Skin — AI-Powered Skin Analysis',
-    description: 'Get clinical-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
+    description: 'Get professional-grade skin analysis powered by artificial intelligence. Track your skin health, detect issues, and receive personalized recommendations.',
     images: [
       {
         url: '/images/og-image.png',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'WBH Skin — AI-Powered Skin Analysis',
-    description: 'Get clinical-grade skin analysis powered by artificial intelligence.',
+    description: 'Get professional-grade skin analysis powered by artificial intelligence.',
     images: ['/images/og-image.png'],
   },
 };

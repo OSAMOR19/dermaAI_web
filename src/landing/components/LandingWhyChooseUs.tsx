@@ -5,7 +5,7 @@ import { Truck, Globe, Sparkles, ArrowRight, FlaskConical, Brain, Users, Headset
 const trustBadges = [
   { icon: <Truck size={18} />, text: 'Next-Day UK Delivery' },
   { icon: <Globe size={18} />, text: 'Worldwide Shipping' },
-  { icon: <FlaskConical size={18} />, text: 'Clinical-Grade Products' },
+  { icon: <FlaskConical size={18} />, text: 'Professional-Grade Products' },
   { icon: <Brain size={18} />, text: 'AI-Personalised Care Plans' },
   { icon: <Users size={18} />, text: 'Wholesale Accounts Available' },
   { icon: <HeadsetIcon size={18} />, text: 'Expert Concierge Support' },
@@ -21,7 +21,7 @@ const steps = [
   {
     num: '02',
     title: 'Get Your Report',
-    desc: 'Receive a detailed clinical diagnosis in under 60 seconds. Each concern is graded with professional accuracy.',
+    desc: 'Receive a detailed skin diagnosis in under 60 seconds. Each concern is graded with professional accuracy.',
   },
   {
     num: '03',
