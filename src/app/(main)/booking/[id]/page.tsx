@@ -165,7 +165,7 @@ export default function DermatologistPage() {
           <img src={doctor.avatar} alt={doctor.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 2px', color: '#111' }}>{doctor.name}</h2>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 2px', color: 'var(--text)' }}>{doctor.name}</h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--primary)', fontWeight: 600, margin: '0 0 4px' }}>{doctor.title}</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
@@ -183,7 +183,7 @@ export default function DermatologistPage() {
         <h3 style={{ fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--text-muted)', marginBottom: 8 }}>
           About
         </h3>
-        <p style={{ fontSize: '0.88rem', lineHeight: 1.7, color: '#444', margin: 0 }}>{doctor.bio}</p>
+        <p style={{ fontSize: '0.88rem', lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0 }}>{doctor.bio}</p>
       </div>
 
       {/* ---- Quick Info Pills ---- */}
@@ -196,8 +196,8 @@ export default function DermatologistPage() {
           <div key={label} style={{ 
             display: 'flex', alignItems: 'center', gap: 6, 
             padding: '7px 12px', borderRadius: 20, 
-            background: 'rgba(252,101,209,0.06)', 
-            fontSize: '0.78rem', color: '#555', fontWeight: 500 
+            background: 'var(--primary-light)', 
+            fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 500 
           }}>
             <Icon size={13} style={{ color: 'var(--primary)' }} /> {label}
           </div>
@@ -212,7 +212,7 @@ export default function DermatologistPage() {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {doctor.credentials.map((cred) => (
-              <div key={cred} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.84rem', color: '#444' }}>
+              <div key={cred} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                 <CheckCircle size={14} style={{ color: '#4CAF50', flexShrink: 0, marginTop: 2 }} />
                 <span>{cred}</span>
               </div>
@@ -228,7 +228,7 @@ export default function DermatologistPage() {
         background: 'linear-gradient(135deg, rgba(252,101,209,0.08), rgba(252,101,209,0.03))', 
         borderRadius: 14, border: '1px solid rgba(252,101,209,0.12)' 
       }}>
-        <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#333' }}>Consultation Fee</span>
+        <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)' }}>Consultation Fee</span>
         <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary)' }}>
           £{doctor.price}
           <span style={{ fontSize: '0.78rem', fontWeight: 400, color: 'var(--text-muted)' }}>/session</span>
@@ -256,7 +256,7 @@ export default function DermatologistPage() {
 
           {/* Date Picker */}
           <div>
-            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 8, color: '#333' }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 8, color: 'var(--text)' }}>
               Preferred Date *
             </label>
             <input
@@ -267,7 +267,8 @@ export default function DermatologistPage() {
               style={{
                 width: '100%', padding: '12px 14px', borderRadius: 12,
                 border: `1.5px solid ${errors.date ? '#E53935' : 'var(--border)'}`,
-                fontSize: '0.95rem', outline: 'none', background: '#fff',
+                fontSize: '0.95rem', outline: 'none', background: 'var(--bg)',
+                color: 'var(--text)',
                 fontFamily: 'inherit', transition: 'border-color 0.2s',
               }}
             />
@@ -278,7 +279,7 @@ export default function DermatologistPage() {
 
           {/* Time Slots */}
           <div>
-            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 10, color: '#333' }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 10, color: 'var(--text)' }}>
               Select Time *
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
@@ -292,8 +293,8 @@ export default function DermatologistPage() {
                     style={{
                       padding: '10px 0', borderRadius: 12,
                       border: `1.5px solid ${isSelected ? 'var(--primary)' : 'var(--border)'}`,
-                      background: isSelected ? 'rgba(252,101,209,0.06)' : '#fff',
-                      color: isSelected ? 'var(--primary)' : '#444',
+                      background: isSelected ? 'rgba(252,101,209,0.06)' : 'var(--bg)',
+                      color: isSelected ? 'var(--primary)' : 'var(--text-secondary)',
                       fontWeight: 600, fontSize: '0.82rem',
                       cursor: 'pointer', transition: 'all 0.2s',
                       textAlign: 'center',
@@ -311,7 +312,7 @@ export default function DermatologistPage() {
 
           {/* Notes */}
           <div>
-            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 8, color: '#333' }}>
+            <label style={{ display: 'block', fontWeight: 600, fontSize: '0.88rem', marginBottom: 8, color: 'var(--text)' }}>
               Skin concerns <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(optional)</span>
             </label>
             <textarea
@@ -322,7 +323,8 @@ export default function DermatologistPage() {
               style={{
                 width: '100%', padding: '12px 14px', borderRadius: 12,
                 border: '1.5px solid var(--border)', fontSize: '0.88rem',
-                lineHeight: 1.5, outline: 'none', background: '#fff',
+                lineHeight: 1.5, outline: 'none', background: 'var(--bg)',
+                color: 'var(--text)',
                 fontFamily: 'inherit', resize: 'none', transition: 'border-color 0.2s',
               }}
             />

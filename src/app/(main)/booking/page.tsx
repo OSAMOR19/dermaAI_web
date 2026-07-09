@@ -112,7 +112,7 @@ export default function BookingPage() {
             {SPECIALIST.highlights.map((h, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <CheckCircle size={14} style={{ color: '#4CAF50', flexShrink: 0 }} />
-                <span style={{ fontSize: '0.82rem', color: '#444' }}>{h}</span>
+                <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>{h}</span>
               </div>
             ))}
           </div>
@@ -121,7 +121,7 @@ export default function BookingPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 'auto' }}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
               <Clock size={13} />
-              <span>Next: <strong style={{ color: '#222' }}>{SPECIALIST.nextAvailable}</strong></span>
+              <span>Next: <strong style={{ color: 'var(--text)' }}>{SPECIALIST.nextAvailable}</strong></span>
             </div>
             <div style={{ 
               display: 'flex', alignItems: 'center', gap: 6,
