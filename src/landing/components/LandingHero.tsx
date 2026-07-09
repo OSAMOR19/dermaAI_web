@@ -21,7 +21,7 @@ export default function LandingHero() {
         <h1 className="landing-hero-headline stagger-2">
           Your skin,<br />
           <em>decoded</em> by<br />
-          <strong>clinical AI.</strong>
+          <strong>Aesthetic AI.</strong>
         </h1>
 
         <p className="landing-hero-sub stagger-3">

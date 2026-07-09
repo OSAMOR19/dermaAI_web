@@ -19,7 +19,7 @@ const DOCTORS: Record<
     bio: string;
     email: string;
     location: string;
-    services: string[];
+
     credentials: string[];
   }
 > = {
@@ -34,13 +34,7 @@ const DOCTORS: Record<
     bio: 'With over 10 years of experience as a beautypreneur and a solid academic foundation in Biochemistry, Evelyn bridges the gap between complex cosmetic formulation and real, visible skin results. Her deepest passion lies in solving complex skin concerns for melanated skin, an underserved market that requires deep ingredient literacy and precise, safety-focused clinical understanding. She founded WBH Skin AI — a cutting-edge BeautyTech solution driven by advanced AI that analyses skin concerns and seamlessly directs users to targeted product routines or clinical consultations.',
     email: 'info@wholesalebeautyhub.co.uk',
     location: '7 Dennington Mews',
-    services: [
-      'Dissolving Patch Test',
-      'Facial Aesthetics Consultation',
-      'Fat Dissolving Consultation',
-      'Full Body Laser Hair Removal',
-      'Eye Brow Lift',
-    ],
+
     credentials: [
       'Authorized Partner with 25 Pskyn',
       'Level 4 in Aesthetic Practice & Skin Science',
@@ -201,27 +195,7 @@ export default function DermatologistPage() {
           </div>
         )}
 
-        {/* Services */}
-        {doctor.services && doctor.services.length > 0 && (
-          <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Services Offered</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              {doctor.services.map((service) => (
-                <span key={service} style={{ 
-                  fontSize: '0.8rem', 
-                  padding: '6px 14px', 
-                  background: 'var(--primary-light)', 
-                  color: 'var(--primary)', 
-                  borderRadius: 20, 
-                  fontWeight: 600,
-                  border: '1px solid rgba(252,101,209,0.15)',
-                }}>
-                  {service}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', background: 'var(--primary-light)', borderRadius: 'var(--radius-md)' }}>
           <span style={{ fontWeight: 600, color: '#222' }}>Consultation Fee</span>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 
 const WHATSAPP_NUMBER = '447000000000'; // Update with actual WBH WhatsApp number
-const WHATSAPP_MESSAGE = encodeURIComponent("Hi! I'd like to learn more about your products and services.");
+const WHATSAPP_MESSAGE = encodeURIComponent("Hi! I'd like to learn more about your products.");
 
 export default function WhatsAppButton() {
   const [showTooltip, setShowTooltip] = useState(false);

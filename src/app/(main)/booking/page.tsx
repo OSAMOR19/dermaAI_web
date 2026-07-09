@@ -15,13 +15,6 @@ const SPECIALIST = {
   price: 45,
   nextAvailable: 'Today, 2:30 PM',
   avatar: '/evelyn-badaiki.png',
-  services: [
-    'Dissolving Patch Test',
-    'Facial Aesthetics Consultation',
-    'Fat Dissolving Consultation',
-    'Full Body Laser Hair Removal',
-    'Eye Brow Lift',
-  ],
 };
 
 export default function BookingPage() {
@@ -86,25 +79,7 @@ export default function BookingPage() {
                 </span>
               </div>
 
-              {/* Services */}
-              <div style={{ marginBottom: 16 }}>
-                <p style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Services Offered</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {SPECIALIST.services.map((service) => (
-                    <span key={service} style={{ 
-                      fontSize: '0.78rem', 
-                      padding: '5px 12px', 
-                      background: 'var(--primary-light)', 
-                      color: 'var(--primary)', 
-                      borderRadius: 20, 
-                      fontWeight: 600,
-                      border: '1px solid rgba(252,101,209,0.15)',
-                    }}>
-                      {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
+
 
               {/* CTA */}
               <div style={{ 

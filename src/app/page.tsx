@@ -1,7 +1,6 @@
 import LandingNavbar from '@/landing/components/LandingNavbar';
 import LandingHero from '@/landing/components/LandingHero';
 import LandingWhyChooseUs from '@/landing/components/LandingWhyChooseUs';
-import LandingSkinAnalysis from '@/landing/components/LandingSkinAnalysis';
 import LandingServices from '@/landing/components/LandingServices';
 import LandingImageGallery from '@/landing/components/LandingImageGallery';
 import LandingFooter from '@/landing/components/LandingFooter';
@@ -34,7 +33,6 @@ export default function LandingPage() {
         <LandingNavbar />
         <LandingHero />
         <LandingWhyChooseUs />
-        <LandingSkinAnalysis />
         <LandingServices />
         <LandingImageGallery />
         <LandingFooter />
