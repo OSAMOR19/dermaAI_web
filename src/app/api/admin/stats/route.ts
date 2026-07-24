@@ -92,14 +92,21 @@ export async function GET() {
       (profiles || []).forEach(p => { profileMap[p.id] = p; });
     }
 
-    const activity = (activityScans || []).map(s => ({
-      id: s.id,
-      user_id: s.user_id,
-      email: profileMap[s.user_id]?.email || 'Unknown',
-      name: profileMap[s.user_id]?.first_name || 'User',
-      created_at: s.created_at,
-      condition: s.analysis?.detected_conditions?.[0]?.condition || 'No condition',
-      image_url: s.image_urls?.[0] || null,
+    const activity = await Promise.all((activityScans || []).map(async s => {
+      let signedUrl = null;
+      if (s.image_urls && s.image_urls[0]) {
+        const { data: urlData } = await supabase.storage.from('scans').createSignedUrl(s.image_urls[0], 3600);
+        if (urlData?.signedUrl) signedUrl = urlData.signedUrl;
+      }
+      return {
+        id: s.id,
+        user_id: s.user_id,
+        email: profileMap[s.user_id]?.email || 'Unknown',
+        name: profileMap[s.user_id]?.first_name || 'User',
+        created_at: s.created_at,
+        condition: s.analysis?.detected_conditions?.[0]?.condition || 'No condition',
+        image_url: signedUrl,
+      };
     }));
 
     return NextResponse.json({

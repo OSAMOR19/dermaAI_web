@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   ClipboardList, Search, Download, Package, Plus, Check, X, ChevronDown,
-  ChevronUp, Sparkles, Trash2, ExternalLink, Filter,
+  ChevronUp, Sparkles, Trash2, ExternalLink, Filter, Send, Loader,
 } from 'lucide-react';
 import AdminSidebar from '../../components/AdminSidebar';
 import AdminTopbar from '../../components/AdminTopbar';
@@ -60,6 +60,8 @@ export default function AdminRegistrationsPage() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [sendingId, setSendingId] = useState<string | null>(null);
+  const [sentId, setSentId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/event-registration')
@@ -205,6 +207,43 @@ export default function AdminRegistrationsPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  // Save recommendation to DB and send email
+  const saveAndSend = async (regId: string) => {
+    const reg = registrations.find(r => r.id === regId);
+    const selected = selectedProducts[regId] || [];
+    if (!reg || selected.length === 0) return;
+    setSendingId(regId);
+    try {
+      const res = await fetch('/api/admin/registration-recommendations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registration_id: reg.id,
+          user_name: reg.full_name,
+          user_email: reg.email,
+          skin_concerns: [...(reg.skin_concerns || []), reg.other_concern].filter(Boolean),
+          products: selected.map(s => ({
+            product_id: s.product.id,
+            product_name: s.product.product_name,
+            brand: s.product.brand,
+            category_name: s.product.category_name,
+            image_url: s.product.image_url,
+            match_reason: s.reason,
+          })),
+          send_email: true,
+        }),
+      });
+      if (res.ok) {
+        setSentId(regId);
+        setTimeout(() => setSentId(null), 4000);
+      }
+    } catch (err) {
+      console.error('Save & send error:', err);
+    } finally {
+      setSendingId(null);
+    }
+  };
+
   const filtered = registrations.filter(r => {
     const q = search.toLowerCase();
     return r.full_name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q) ||
@@ -331,13 +370,25 @@ export default function AdminRegistrationsPage() {
                                   <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', fontWeight: 700, color: '#388E3C' }}>
                                     <Check size={13} /> {selected.length} Product{selected.length !== 1 ? 's' : ''} Selected
                                   </span>
-                                  <button onClick={() => copyRecommendation(reg.id)} style={{
-                                    display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
-                                    border: '1px solid #E8E8E8', borderRadius: 8, background: copiedId === reg.id ? 'rgba(76,175,80,0.08)' : '#fff',
-                                    fontSize: '0.72rem', fontWeight: 600, color: copiedId === reg.id ? '#388E3C' : '#888', cursor: 'pointer',
-                                  }}>
-                                    {copiedId === reg.id ? <><Check size={11} /> Copied!</> : <><ExternalLink size={11} /> Copy Prescription</>}
-                                  </button>
+                                  <div style={{ display: 'flex', gap: 6 }}>
+                                    <button onClick={() => saveAndSend(reg.id)} disabled={sendingId === reg.id} style={{
+                                      display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
+                                      border: '1px solid rgba(232,76,136,0.2)', borderRadius: 8,
+                                      background: sentId === reg.id ? 'rgba(76,175,80,0.08)' : 'rgba(232,76,136,0.06)',
+                                      fontSize: '0.72rem', fontWeight: 600,
+                                      color: sentId === reg.id ? '#388E3C' : '#e84c88', cursor: sendingId === reg.id ? 'wait' : 'pointer',
+                                      opacity: sendingId === reg.id ? 0.7 : 1,
+                                    }}>
+                                      {sendingId === reg.id ? <><Loader size={11} className="spin" /> Sending…</> : sentId === reg.id ? <><Check size={11} /> Sent!</> : <><Send size={11} /> Save & Email</>}
+                                    </button>
+                                    <button onClick={() => copyRecommendation(reg.id)} style={{
+                                      display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
+                                      border: '1px solid #E8E8E8', borderRadius: 8, background: copiedId === reg.id ? 'rgba(76,175,80,0.08)' : '#fff',
+                                      fontSize: '0.72rem', fontWeight: 600, color: copiedId === reg.id ? '#388E3C' : '#888', cursor: 'pointer',
+                                    }}>
+                                      {copiedId === reg.id ? <><Check size={11} /> Copied!</> : <><ExternalLink size={11} /> Copy</>}
+                                    </button>
+                                  </div>
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                                   {selected.map(s => (
@@ -346,6 +397,9 @@ export default function AdminRegistrationsPage() {
                                       background: 'rgba(76,175,80,0.03)', border: '1px solid rgba(76,175,80,0.12)',
                                       borderRadius: 10,
                                     }}>
+                                      {s.product.image_url && (
+                                        <img src={s.product.image_url} alt={s.product.product_name} style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
+                                      )}
                                       <div style={{ flex: 1, minWidth: 0 }}>
                                         <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.product.product_name}</div>
                                         <div style={{ fontSize: '0.68rem', color: '#888' }}>{s.product.brand} · {s.reason}</div>
@@ -421,6 +475,13 @@ export default function AdminRegistrationsPage() {
                                     onMouseEnter={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,76,136,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(232,76,136,0.02)'; } }}
                                     onMouseLeave={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = '#E8E8E8'; (e.currentTarget as HTMLElement).style.background = '#fff'; } }}
                                     >
+                                      {p.image_url ? (
+                                        <img src={p.image_url} alt={p.product_name} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
+                                      ) : (
+                                        <div style={{ width: 44, height: 44, borderRadius: 8, background: 'rgba(232,76,136,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#e84c88' }}>
+                                          <Package size={18} />
+                                        </div>
+                                      )}
                                       <div style={{ flex: 1, minWidth: 0 }}>
                                         <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.product_name}</div>
                                         <div style={{ fontSize: '0.68rem', color: '#888', marginTop: 1 }}>{p.brand}</div>
@@ -464,6 +525,8 @@ export default function AdminRegistrationsPage() {
           .reg-concerns-hide { display: none !important; }
           .reg-date-hide { display: none !important; }
         }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
       `}</style>
     </div>
   );

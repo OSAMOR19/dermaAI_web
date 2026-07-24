@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Users, ScanLine, TrendingUp, Activity, Image, Eye } from 'lucide-react';
+import Link from 'next/link';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminTopbar from '../components/AdminTopbar';
 import {
@@ -29,7 +30,7 @@ interface StatsData {
   topCondition: string;
   scansPerDay: { date: string; count: number }[];
   topConditions: { name: string; count: number }[];
-  activity: { id: string; email: string; name: string; created_at: string; condition: string; image_url?: string }[];
+  activity: { id: string; user_id: string; email: string; name: string; created_at: string; condition: string; image_url?: string }[];
 }
 
 export default function AdminOverviewClient() {
@@ -65,7 +66,7 @@ export default function AdminOverviewClient() {
             <>
               {/* Stats Cards */}
               <div className="admin-stats-grid">
-                <div className="admin-stat-card">
+                <Link href="/admin/users" className="admin-stat-card" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="admin-stat-top">
                     <div className="admin-stat-icon" style={{ background: 'rgba(232,76,136,0.1)' }}>
                       <Users size={20} color="#e84c88" />
@@ -74,8 +75,8 @@ export default function AdminOverviewClient() {
                   </div>
                   <div className="admin-stat-value">{stats.totalUsers.toLocaleString()}</div>
                   <div className="admin-stat-label">Total Users</div>
-                </div>
-                <div className="admin-stat-card">
+                </Link>
+                <Link href="/admin/scans" className="admin-stat-card" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="admin-stat-top">
                     <div className="admin-stat-icon" style={{ background: 'rgba(0,180,250,0.1)' }}>
                       <ScanLine size={20} color="#00B4FA" />
@@ -84,8 +85,8 @@ export default function AdminOverviewClient() {
                   </div>
                   <div className="admin-stat-value">{stats.totalScans.toLocaleString()}</div>
                   <div className="admin-stat-label">Total Scans</div>
-                </div>
-                <div className="admin-stat-card">
+                </Link>
+                <Link href="/admin/users" className="admin-stat-card" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="admin-stat-top">
                     <div className="admin-stat-icon" style={{ background: 'rgba(76,175,80,0.1)' }}>
                       <TrendingUp size={20} color="#4CAF50" />
@@ -94,8 +95,8 @@ export default function AdminOverviewClient() {
                   </div>
                   <div className="admin-stat-value">{stats.newUsers}</div>
                   <div className="admin-stat-label">New Users (7d)</div>
-                </div>
-                <div className="admin-stat-card">
+                </Link>
+                <Link href="/admin/scans" className="admin-stat-card" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="admin-stat-top">
                     <div className="admin-stat-icon" style={{ background: 'rgba(255,152,0,0.1)' }}>
                       <Activity size={20} color="#FF9800" />
@@ -104,7 +105,7 @@ export default function AdminOverviewClient() {
                   </div>
                   <div className="admin-stat-value admin-stat-value-sm">{stats.topCondition || '—'}</div>
                   <div className="admin-stat-label">Top Condition</div>
-                </div>
+                </Link>
               </div>
 
               {/* Charts */}
@@ -176,7 +177,7 @@ export default function AdminOverviewClient() {
                 ) : (
                   <div className="admin-activity-list">
                     {stats.activity.map((item) => (
-                      <div key={item.id} className="admin-activity-item">
+                      <Link key={item.id} href={`/admin/users/${item.user_id}`} className="admin-activity-item" style={{ textDecoration: 'none' }}>
                         {item.image_url ? (
                           <div className="activity-thumb">
                             <img src={item.image_url} alt="Scan" />
@@ -190,7 +191,7 @@ export default function AdminOverviewClient() {
                         </div>
                         <span className="activity-condition">{item.condition}</span>
                         <span className="activity-time">{formatRelative(item.created_at)}</span>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 )}
