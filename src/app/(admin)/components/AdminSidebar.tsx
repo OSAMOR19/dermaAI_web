@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Activity, Settings, ScanLine, ClipboardList, X } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, Settings, ScanLine, ClipboardList, Package, X } from 'lucide-react';
 
 const navLinks = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard, exact: true },
   { href: '/admin/users', label: 'Users', icon: Users },
   { href: '/admin/scans', label: 'Scan Viewer', icon: ScanLine },
+  { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/activity', label: 'Activity', icon: Activity },
   { href: '/admin/registrations', label: 'Registrations', icon: ClipboardList },
   { href: '/admin/settings', label: 'Settings', icon: Settings },

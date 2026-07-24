@@ -46,6 +46,11 @@ export default function LandingNavbar() {
             </li>
           ))}
           <li>
+            <Link href="/login" className="landing-nav-login">
+              Login
+            </Link>
+          </li>
+          <li>
             <Link href="/scan" className="landing-nav-cta">
               Start AI Scan
             </Link>
@@ -128,6 +133,19 @@ export default function LandingNavbar() {
         }
         .landing-nav-links a:hover { color: #e84c88; }
         .landing-nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+        .landing-nav-login {
+          background: transparent !important;
+          color: #e84c88 !important; padding: 10px 22px !important; border-radius: 50px !important;
+          font-size: 12px !important; letter-spacing: 0.15em !important;
+          border: 1.5px solid rgba(232,76,136,0.25) !important;
+          transition: all 0.3s !important;
+        }
+        .landing-nav-login::after { display: none !important; }
+        .landing-nav-login:hover {
+          background: rgba(232,76,136,0.06) !important;
+          border-color: rgba(232,76,136,0.5) !important;
+          transform: translateY(-2px) !important;
+        }
         .landing-nav-cta {
           background: linear-gradient(135deg, #e84c88 0%, #d63a74 100%) !important;
           color: #fff !important; padding: 12px 28px !important; border-radius: 50px !important;

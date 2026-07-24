@@ -37,6 +37,9 @@ export default function LandingHero() {
           <a href={WBH_SITE} target="_blank" rel="noopener noreferrer" className="landing-btn-secondary">
             Shop Products
           </a>
+          <Link href="/login" className="landing-btn-login">
+            Login
+          </Link>
         </div>
 
         <div className="landing-hero-trust stagger-5">
@@ -182,6 +185,17 @@ export default function LandingHero() {
           font-family: 'DM Sans', sans-serif; cursor: pointer;
         }
         .landing-btn-secondary:hover { border-color: #e84c88; color: #e84c88; }
+        .landing-btn-login {
+          background: rgba(232,76,136,0.06); color: #e84c88; padding: 15px 28px;
+          font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+          text-decoration: none; font-weight: 600; border: 1.5px solid rgba(232,76,136,0.2);
+          border-radius: 50px; transition: all 0.3s ease;
+          font-family: 'DM Sans', sans-serif; cursor: pointer;
+        }
+        .landing-btn-login:hover {
+          background: rgba(232,76,136,0.12); border-color: rgba(232,76,136,0.5);
+          transform: translateY(-2px);
+        }
 
         .landing-hero-trust {
           display: flex; align-items: center; gap: 20px;
@@ -326,7 +340,7 @@ export default function LandingHero() {
           .landing-hero-actions {
             flex-direction: column; gap: 10px !important; width: 100%;
           }
-          .landing-btn-primary, .landing-btn-secondary {
+          .landing-btn-primary, .landing-btn-secondary, .landing-btn-login {
             width: 100% !important; text-align: center !important;
             justify-content: center !important;
             padding: 15px 24px !important; font-size: 12px !important;

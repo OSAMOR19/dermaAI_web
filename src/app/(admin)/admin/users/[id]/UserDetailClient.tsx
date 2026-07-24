@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, ChevronDown, ChevronUp, Calendar, ScanLine, Mail, Shield } from 'lucide-react';
+import {
+  ArrowLeft, ChevronDown, ChevronUp, Calendar, ScanLine, Mail, Shield,
+  Sparkles, Package, Search, X, Plus, Check, Star, Tag, Trash2, RefreshCw, ClipboardCheck,
+} from 'lucide-react';
 import AdminSidebar from '../../../components/AdminSidebar';
 import AdminTopbar from '../../../components/AdminTopbar';
 
@@ -28,6 +31,43 @@ interface Profile {
   created_at: string;
 }
 
+interface RecItem {
+  id: string;
+  product_id: string;
+  match_reason: string;
+  concern_match: string[];
+  confidence_score: number;
+  added_by: string;
+  sort_order: number;
+  products: {
+    id: string;
+    product_name: string;
+    brand: string;
+    category_name: string;
+    image_url: string | null;
+    confidence_level: string;
+    skin_concern_tags: string[];
+    best_for: string | null;
+  };
+}
+
+interface Recommendation {
+  id: string;
+  skin_concerns: string[];
+  status: string;
+  notes: string | null;
+  created_at: string;
+  recommendation_items: RecItem[];
+}
+
+interface SearchProduct {
+  id: string;
+  product_name: string;
+  brand: string;
+  category_name: string;
+  skin_concern_tags: string[];
+}
+
 export default function UserDetailClient() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams();
@@ -40,6 +80,28 @@ export default function UserDetailClient() {
   const [expandedScan, setExpandedScan] = useState<string | null>(null);
   const [currentPlan, setCurrentPlan] = useState('free');
   const [currentRole, setCurrentRole] = useState('user');
+
+  // Recommendation state
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
+  const [recLoading, setRecLoading] = useState(false);
+  const [recGenerating, setRecGenerating] = useState(false);
+  const [recError, setRecError] = useState('');
+  const [recFinalizing, setRecFinalizing] = useState(false);
+  const [recFinalized, setRecFinalized] = useState(false);
+  const [productSearch, setProductSearch] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
+  const [showSearch, setShowSearch] = useState(false);
+  const [addingProduct, setAddingProduct] = useState<string | null>(null);
+
+  // Quick product picker state
+  const [allProducts, setAllProducts] = useState<SearchProduct[]>([]);
+  const [productsLoaded, setProductsLoaded] = useState(false);
+  const [quickSearch, setQuickSearch] = useState('');
+  const [quickResults, setQuickResults] = useState<SearchProduct[]>([]);
+  const [quickCategoryFilter, setQuickCategoryFilter] = useState('');
+  const [quickCategories, setQuickCategories] = useState<{id:string;name:string}[]>([]);
+  const [quickOpen, setQuickOpen] = useState(false);
+  const [quickAdding, setQuickAdding] = useState<string | null>(null);
 
   const fetchUser = useCallback(async () => {
     setLoading(true);
@@ -55,6 +117,201 @@ export default function UserDetailClient() {
   }, [id]);
 
   useEffect(() => { fetchUser(); }, [fetchUser]);
+
+  // Fetch existing recommendations
+  const fetchRecommendation = useCallback(async () => {
+    setRecLoading(true);
+    const res = await fetch(`/api/admin/recommendations?user_id=${id}`);
+    if (res.ok) {
+      const data = await res.json();
+      const recs = data.recommendations || [];
+      if (recs.length > 0) {
+        setRecommendation(recs[0]); // Most recent
+        setRecFinalized(recs[0].status === 'finalized');
+      }
+    }
+    setRecLoading(false);
+  }, [id]);
+
+  useEffect(() => { fetchRecommendation(); }, [fetchRecommendation]);
+
+  // Generate recommendations
+  const handleGenerateRec = async () => {
+    setRecGenerating(true);
+    setRecError('');
+    try {
+      const res = await fetch('/api/admin/recommendations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRecError(data.error || 'Failed to generate recommendations');
+      } else {
+        setRecommendation(data.recommendation);
+        setRecFinalized(false);
+      }
+    } catch {
+      setRecError('Network error generating recommendations');
+    }
+    setRecGenerating(false);
+  };
+
+  // Remove item from recommendation
+  const handleRemoveItem = async (itemId: string) => {
+    if (!recommendation) return;
+    await fetch(`/api/admin/recommendations/${recommendation.id}/items?item_id=${itemId}`, { method: 'DELETE' });
+    setRecommendation(prev => prev ? {
+      ...prev,
+      recommendation_items: prev.recommendation_items.filter(i => i.id !== itemId),
+    } : null);
+  };
+
+  // Search products to add (legacy method for existing recommendation)
+  const handleProductSearch = async () => {
+    if (!productSearch.trim()) return;
+    const res = await fetch(`/api/admin/products?search=${encodeURIComponent(productSearch)}&limit=10`);
+    if (res.ok) {
+      const data = await res.json();
+      setSearchResults(data.products || []);
+    }
+  };
+
+  // Load all products for the quick picker
+  const loadAllProducts = useCallback(async () => {
+    if (productsLoaded) return;
+    const res = await fetch('/api/admin/products?limit=500');
+    if (res.ok) {
+      const data = await res.json();
+      setAllProducts(data.products || []);
+      setQuickCategories(data.categories || []);
+      setProductsLoaded(true);
+      setQuickResults((data.products || []).slice(0, 20));
+    }
+  }, [productsLoaded]);
+
+  // Quick picker search
+  const handleQuickSearch = (query: string) => {
+    setQuickSearch(query);
+    filterQuickProducts(query, quickCategoryFilter);
+  };
+
+  // Quick picker category filter
+  const handleQuickCategoryChange = (catId: string) => {
+    setQuickCategoryFilter(catId);
+    filterQuickProducts(quickSearch, catId);
+  };
+
+  const filterQuickProducts = (query: string, catId: string) => {
+    let list = allProducts;
+    if (catId) {
+      const catName = quickCategories.find(c => c.id === catId)?.name;
+      list = list.filter(p => p.category_name === catName);
+    }
+    if (query.trim()) {
+      const q = query.toLowerCase();
+      list = list.filter(p =>
+        p.product_name.toLowerCase().includes(q) ||
+        p.brand.toLowerCase().includes(q) ||
+        p.category_name?.toLowerCase().includes(q) ||
+        (p.skin_concern_tags || []).some(t => t.toLowerCase().includes(q))
+      );
+    }
+    setQuickResults(list.length > 0 ? list.slice(0, 30) : []);
+  };
+
+  // Quick add product (creates recommendation record if needed)
+  const handleQuickAdd = async (product: SearchProduct) => {
+    setQuickAdding(product.id);
+    let recId = recommendation?.id;
+
+    // If no recommendation exists, create one
+    if (!recId) {
+      const res = await fetch('/api/admin/recommendations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: id, concerns: userConcerns.length > 0 ? userConcerns : ['General Skincare'], skip_generate: true }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setRecommendation(data.recommendation);
+        recId = data.recommendation.id;
+      } else {
+        setQuickAdding(null);
+        return;
+      }
+    }
+
+    // Add the product
+    const res = await fetch(`/api/admin/recommendations/${recId}/items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        product_id: product.id,
+        match_reason: `${product.category_name} — manually selected by admin`,
+        concern_match: product.skin_concern_tags?.slice(0, 3) || [],
+        confidence_score: 50,
+      }),
+    });
+    if (res.ok) {
+      const newItem = await res.json();
+      setRecommendation(prev => prev ? {
+        ...prev,
+        recommendation_items: [...prev.recommendation_items, newItem],
+      } : null);
+    }
+    setQuickAdding(null);
+  };
+
+  // Add product to recommendation
+  const handleAddProduct = async (product: SearchProduct) => {
+    if (!recommendation) return;
+    setAddingProduct(product.id);
+    const res = await fetch(`/api/admin/recommendations/${recommendation.id}/items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        product_id: product.id,
+        match_reason: `Manually added by admin — ${product.category_name}`,
+        concern_match: product.skin_concern_tags?.slice(0, 3) || [],
+        confidence_score: 50,
+      }),
+    });
+    if (res.ok) {
+      const newItem = await res.json();
+      setRecommendation(prev => prev ? {
+        ...prev,
+        recommendation_items: [...prev.recommendation_items, newItem],
+      } : null);
+      setSearchResults(prev => prev.filter(p => p.id !== product.id));
+    }
+    setAddingProduct(null);
+  };
+
+  // Finalize recommendation
+  const handleFinalize = async () => {
+    if (!recommendation) return;
+    setRecFinalizing(true);
+    await fetch('/api/admin/recommendations', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: recommendation.id, status: 'finalized' }),
+    });
+    setRecFinalizing(false);
+    setRecFinalized(true);
+    setRecommendation(prev => prev ? { ...prev, status: 'finalized' } : null);
+  };
+
+  // Get user concerns from scans
+  const userConcerns: string[] = [];
+  scans.forEach(scan => {
+    (scan.analysis?.detected_conditions || []).forEach(c => {
+      if (c.confidence >= 30 && !userConcerns.includes(c.condition)) {
+        userConcerns.push(c.condition);
+      }
+    });
+  });
 
   const handleUpdate = async () => {
     setSaving(true);
@@ -215,7 +472,226 @@ export default function UserDetailClient() {
                 ))}
               </div>
             )}
+            {/* ---- Recommendations Section ---- */}
+          <div className="ud-section-card">
+            <div className="ud-section-header">
+              <span><Sparkles size={16} /> Product Recommendations</span>
+              {recommendation && (
+                <span className={`rec-status-badge ${recommendation.status}`}>
+                  {recommendation.status === 'finalized' ? '✓ Finalized' : '◐ Draft'}
+                </span>
+              )}
+            </div>
+
+            {/* User Concerns Summary */}
+            {userConcerns.length > 0 && (
+              <div className="rec-concerns-bar">
+                <span className="rec-concerns-label">Detected Concerns:</span>
+                <div className="rec-concerns-pills">
+                  {userConcerns.map((c, i) => (
+                    <span key={i} className="rec-concern-pill">{c}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Error */}
+            {recError && (
+              <div className="rec-error">
+                <X size={14} /> {recError}
+              </div>
+            )}
+
+            {/* Generate AI Recommendations (if scans exist) */}
+            {!recLoading && !recommendation && userConcerns.length > 0 && (
+              <div className="rec-generate">
+                <div className="rec-generate-info">
+                  <Sparkles size={20} />
+                  <div>
+                    <strong>Ready to Generate Recommendations</strong>
+                    <p>Based on {userConcerns.length} detected concern{userConcerns.length !== 1 ? 's' : ''} from {scans.length} scan{scans.length !== 1 ? 's' : ''}</p>
+                  </div>
+                </div>
+                <button className="rec-generate-btn" onClick={handleGenerateRec} disabled={recGenerating}>
+                  {recGenerating ? (
+                    <><div className="admin-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Generating…</>
+                  ) : (
+                    <><Sparkles size={15} /> Generate Recommendations</>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* Loading */}
+            {recLoading && (
+              <div className="admin-loading" style={{ minHeight: 120 }}>
+                <div className="admin-spinner" /><p>Loading recommendations…</p>
+              </div>
+            )}
+
+            {/* Recommendation Items */}
+            {recommendation && recommendation.recommendation_items.length > 0 && (
+              <div className="rec-items">
+                {recommendation.recommendation_items.map(item => (
+                  <div key={item.id} className="rec-item">
+                    <div className="rec-item-img">
+                      {item.products?.image_url ? (
+                        <img src={item.products.image_url} alt={item.products.product_name} />
+                      ) : (
+                        <Package size={18} color="#ccc" />
+                      )}
+                    </div>
+                    <div className="rec-item-info">
+                      <div className="rec-item-name">{item.products?.product_name}</div>
+                      <div className="rec-item-brand">{item.products?.brand} · {item.products?.category_name}</div>
+                      <div className="rec-item-reason">{item.match_reason}</div>
+                    </div>
+                    <div className="rec-item-meta">
+                      <div className="rec-item-score">
+                        <div className="rec-score-bar">
+                          <div style={{ width: `${item.confidence_score}%` }} />
+                        </div>
+                        <span>{item.confidence_score}%</span>
+                      </div>
+                      <div className="rec-item-tags">
+                        {(item.concern_match || []).slice(0, 2).map((t, i) => (
+                          <span key={i} className="rec-match-tag">{t}</span>
+                        ))}
+                      </div>
+                      <span className={`rec-added-by ${item.added_by}`}>
+                        {item.added_by === 'system' ? 'AI' : 'Manual'}
+                      </span>
+                    </div>
+                    {!recFinalized && (
+                      <button className="rec-remove-btn" onClick={() => handleRemoveItem(item.id)} title="Remove">
+                        <Trash2 size={14} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {recommendation && recommendation.recommendation_items.length === 0 && !quickOpen && (
+              <div className="rec-empty">
+                <Package size={24} />
+                <p>No products recommended yet. Use the dropdown below to select products.</p>
+              </div>
+            )}
+
+            {!recommendation && !recLoading && !quickOpen && (
+              <div className="rec-empty">
+                <Package size={24} />
+                <p>{userConcerns.length > 0 ? 'Generate AI recommendations or select products manually below.' : 'Select products from the dropdown below to recommend for this user.'}</p>
+              </div>
+            )}
+
+            {/* ====== QUICK PRODUCT PICKER DROPDOWN ====== */}
+            {!recFinalized && (
+              <div className="rp-quick-section">
+                <button
+                  className={`rp-recommend-btn lg ${quickOpen ? 'active' : ''}`}
+                  onClick={() => { setQuickOpen(!quickOpen); if (!quickOpen) loadAllProducts(); }}
+                >
+                  <Package size={14} />
+                  {quickOpen ? 'Close Product Picker' : 'Select Products to Recommend'}
+                  {quickOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </button>
+
+                {quickOpen && (
+                  <div className="rp-panel" style={{ marginTop: 12 }}>
+                    {/* Search + Filter Row */}
+                    <div className="rp-search-row">
+                      <div className="rp-search-input">
+                        <Search size={14} />
+                        <input
+                          placeholder="Search products by name, brand, concern…"
+                          value={quickSearch}
+                          onChange={e => handleQuickSearch(e.target.value)}
+                        />
+                        {quickSearch && (
+                          <button className="rp-search-clear" onClick={() => handleQuickSearch('')}>
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
+                      <select
+                        className="rp-category-select"
+                        value={quickCategoryFilter}
+                        onChange={e => handleQuickCategoryChange(e.target.value)}
+                      >
+                        <option value="">All Categories</option>
+                        {quickCategories.map(c => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Product Grid */}
+                    <div className="rp-products-grid">
+                      {quickResults.length === 0 ? (
+                        <div className="rp-no-products">
+                          <Package size={20} />
+                          <span>{productsLoaded ? 'No matching products found.' : 'Loading products…'}</span>
+                        </div>
+                      ) : (
+                        quickResults.map(p => {
+                          const isAdded = recommendation?.recommendation_items.some(i => i.product_id === p.id);
+                          return (
+                            <div
+                              key={p.id}
+                              className={`rp-product-card ${isAdded ? 'selected' : ''}`}
+                              onClick={() => !isAdded && handleQuickAdd(p)}
+                            >
+                              <div className="rp-prod-info">
+                                <div className="rp-prod-name">{p.product_name}</div>
+                                <div className="rp-prod-brand">{p.brand}</div>
+                                <span className="rp-prod-cat">{p.category_name}</span>
+                              </div>
+                              {isAdded ? (
+                                <div className="rp-prod-added"><Check size={14} /></div>
+                              ) : quickAdding === p.id ? (
+                                <div className="rp-prod-add" style={{ opacity: 0.5 }}>…</div>
+                              ) : (
+                                <div className="rp-prod-add"><Plus size={14} /></div>
+                              )}
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                    {quickResults.length >= 30 && (
+                      <div className="rp-more-hint">
+                        Showing first 30 results — refine your search to see more
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Action Bar */}
+            {recommendation && recommendation.recommendation_items.length > 0 && (
+              <div className="rec-action-bar">
+                {!recFinalized ? (
+                  <>
+                    <button className="rec-regenerate-btn" onClick={handleGenerateRec} disabled={recGenerating}>
+                      <RefreshCw size={14} /> Regenerate
+                    </button>
+                    <button className="rec-finalize-btn" onClick={handleFinalize} disabled={recFinalizing}>
+                      {recFinalizing ? 'Finalizing…' : <><ClipboardCheck size={14} /> Finalize Prescription</>}
+                    </button>
+                  </>
+                ) : (
+                  <div className="rec-finalized-msg">
+                    <Check size={16} /> Prescription finalized with {recommendation.recommendation_items.length} product{recommendation.recommendation_items.length !== 1 ? 's' : ''}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+        </div>
         </div>
       </div>
 
