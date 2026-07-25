@@ -184,27 +184,8 @@ export async function POST(request: NextRequest) {
         `;
 
         try {
-          // Send to user
-          const resUser = await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${resendApiKey}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              from: fromEmail,
-              to: user_email,
-              subject: `${user_name}, your personalised skincare picks are ready! ✨`,
-              html: emailHTML,
-            }),
-          });
-
-          if (resUser.ok) {
-            emailSent = true;
-          } else {
-            const err = await resUser.text();
-            console.error('Resend user email error:', err);
-          }
+          // Customer email dispatch removed (only store and admin are notified)
+          emailSent = true;
 
           // Also notify admin
           await fetch('https://api.resend.com/emails', {

@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { LayoutDashboard, Users, Activity, Settings, ScanLine, ClipboardList, Package, X } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 const navLinks = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard, exact: true },
@@ -21,6 +23,54 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function getProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserEmail(user.email || null);
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+        if (profile) {
+          setUserRole(profile.role);
+        }
+      }
+      setLoading(false);
+    }
+    getProfile();
+  }, []);
+
+  const isSuperAdmin = userEmail === 'info@wbhskin.com' || userRole === 'superadmin';
+
+  // Redirect if they are on a restricted path and they are not a superadmin
+  useEffect(() => {
+    if (loading) return;
+
+    const isRestrictedPath = pathname === '/admin' || 
+                             pathname.startsWith('/admin/scans') || 
+                             pathname.startsWith('/admin/products') || 
+                             pathname.startsWith('/admin/activity') || 
+                             pathname.startsWith('/admin/settings');
+
+    if (isRestrictedPath && !isSuperAdmin) {
+      router.replace('/admin/users');
+    }
+  }, [pathname, isSuperAdmin, loading, router]);
+
+  const allowedLinks = navLinks.filter(({ href }) => {
+    if (loading) return true; // show all links while loading to prevent layout shift
+    if (isSuperAdmin) return true;
+    return href === '/admin/users' || href === '/admin/registrations';
+  });
 
   return (
     <>
@@ -49,7 +99,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
         <nav className="admin-nav">
           <div className="admin-nav-section-label">Navigation</div>
-          {navLinks.map(({ href, label, icon: Icon, exact }) => {
+          {allowedLinks.map(({ href, label, icon: Icon, exact }) => {
             const isActive = exact ? pathname === href : pathname.startsWith(href);
             return (
               <Link key={href} href={href} className={`admin-nav-link ${isActive ? 'active' : ''}`} onClick={onClose}>
@@ -62,10 +112,16 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
         <div className="admin-sidebar-footer">
           <div className="admin-user-info">
-            <div className="admin-user-avatar">A</div>
+            <div className="admin-user-avatar">
+              {userEmail ? userEmail.charAt(0).toUpperCase() : 'A'}
+            </div>
             <div style={{ minWidth: 0 }}>
-              <div className="admin-user-name">Administrator</div>
-              <div className="admin-user-role">Super Admin</div>
+              <div className="admin-user-name" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                {userEmail || 'Administrator'}
+              </div>
+              <div className="admin-user-role">
+                {loading ? 'Loading…' : isSuperAdmin ? 'Super Admin' : 'Admin'}
+              </div>
             </div>
           </div>
         </div>

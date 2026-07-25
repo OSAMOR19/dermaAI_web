@@ -308,20 +308,7 @@ export async function PATCH(request: NextRequest) {
           `;
 
           try {
-            // 1. Send to Customer
-            await fetch('https://api.resend.com/emails', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${resendApiKey}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                from: fromEmail,
-                to: user_email,
-                subject: `${user_name}, your personalised skincare picks are ready! ✨`,
-                html: emailHTML,
-              }),
-            });
+            // Customer email dispatch removed (only store and admin are notified)
 
             // 2. Notify admin (info@wbhskin.com)
             await fetch('https://api.resend.com/emails', {

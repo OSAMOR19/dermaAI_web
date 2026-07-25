@@ -94,6 +94,7 @@ export default function UserDetailClient() {
   const [addingProduct, setAddingProduct] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
   const [notesSaving, setNotesSaving] = useState(false);
+  const [allRecommendations, setAllRecommendations] = useState<Recommendation[]>([]);
 
   // Quick product picker state
   const [allProducts, setAllProducts] = useState<SearchProduct[]>([]);
@@ -127,6 +128,7 @@ export default function UserDetailClient() {
     if (res.ok) {
       const data = await res.json();
       const recs = data.recommendations || [];
+      setAllRecommendations(recs);
       if (recs.length > 0) {
         setRecommendation(recs[0]); // Most recent
         setRecFinalized(recs[0].status === 'finalized');
@@ -155,6 +157,7 @@ export default function UserDetailClient() {
         setRecommendation(data.recommendation);
         setRecFinalized(false);
         setNotes(data.recommendation.notes || '');
+        setAllRecommendations(prev => [data.recommendation, ...prev]);
       }
     } catch {
       setRecError('Network error generating recommendations');
@@ -498,6 +501,31 @@ export default function UserDetailClient() {
                 </span>
               )}
             </div>
+
+            {/* Recommendations History Selector */}
+            {allRecommendations.length > 1 && (
+              <div className="rec-history-selector">
+                <span className="rec-history-label">Recommendation History</span>
+                <select
+                  value={recommendation?.id}
+                  onChange={e => {
+                    const selected = allRecommendations.find(r => r.id === e.target.value);
+                    if (selected) {
+                      setRecommendation(selected);
+                      setRecFinalized(selected.status === 'finalized');
+                      setNotes(selected.notes || '');
+                    }
+                  }}
+                  className="rec-history-select"
+                >
+                  {allRecommendations.map((r, idx) => (
+                    <option key={r.id} value={r.id}>
+                      {idx === 0 ? 'Current / Most Recent' : `Previous Recommendation — ${new Date(r.created_at).toLocaleDateString('en-GB')}`} ({r.status})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {/* User Concerns Summary */}
             {userConcerns.length > 0 && (
@@ -871,6 +899,38 @@ export default function UserDetailClient() {
           color: var(--text-muted);
           margin-top: 4px;
           display: block;
+        }
+
+        /* Rec History Styling */
+        .rec-history-selector {
+          padding: 12px 20px;
+          border-bottom: 1px solid #F0F0F0;
+          background: #FAFAFA;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+        }
+        .rec-history-label {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .rec-history-select {
+          border: 1px solid #E8E8E8;
+          border-radius: 8px;
+          padding: 6px 12px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--text);
+          background: #fff;
+          outline: none;
+          cursor: pointer;
+        }
+        .rec-history-select:focus {
+          border-color: var(--primary);
         }
       `}</style>
     </div>
