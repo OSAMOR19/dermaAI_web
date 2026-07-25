@@ -402,7 +402,7 @@ export default function AdminRegistrationsPage() {
                             color: isExpanded ? '#e84c88' : reg.status === 'done' ? '#33691E' : '#888', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
                           }}>
                             {reg.status === 'done' && !isExpanded ? <Check size={12} /> : <Package size={12} />}
-                            {isExpanded ? 'Close' : reg.status === 'done' ? 'View Sent' : selCount(reg.id) > 0 ? `${selCount(reg.id)} Selected` : 'Recommend'}
+                            {isExpanded ? 'Close' : reg.status === 'done' ? 'Recommended' : selCount(reg.id) > 0 ? `${selCount(reg.id)} Selected` : 'Recommend'}
                             {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                           </button>
                         </div>
@@ -534,30 +534,6 @@ export default function AdminRegistrationsPage() {
                                   </div>
                                 )}
 
-                                {/* Consultant Notes / Other Recommendations */}
-                                <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
-                                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
-                                    Consultant Notes / Other Recommendations
-                                  </label>
-                                  <textarea
-                                    placeholder="Enter any custom advice, routine steps, or other product suggestions..."
-                                    value={regNotes[reg.id] || ''}
-                                    onChange={e => handleNotesChange(reg.id, e.target.value)}
-                                    style={{
-                                      width: '100%',
-                                      minHeight: '70px',
-                                      padding: '10px 12px',
-                                      border: '1px solid #E8E8E8',
-                                      borderRadius: 10,
-                                      fontSize: '0.82rem',
-                                      color: '#1a1a1a',
-                                      outline: 'none',
-                                      fontFamily: 'inherit',
-                                      resize: 'vertical',
-                                    }}
-                                  />
-                                </div>
-
                                 {/* Search & Filter */}
                                 <div style={{ display: 'flex', gap: 8, padding: '12px 20px', alignItems: 'center', flexWrap: 'wrap' }}>
                                   <div style={{
@@ -649,6 +625,30 @@ export default function AdminRegistrationsPage() {
                                     Showing 30 of {allProducts.length} products — refine your search to see more
                                   </div>
                                 )}
+
+                                {/* Consultant Notes / Other Recommendations */}
+                                <div style={{ padding: '16px 20px', background: '#fff', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
+                                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+                                    Consultant Notes / Other Recommendations
+                                  </label>
+                                  <textarea
+                                    placeholder="Enter any custom advice, routine steps, or other product suggestions..."
+                                    value={regNotes[reg.id] || ''}
+                                    onChange={e => handleNotesChange(reg.id, e.target.value)}
+                                    style={{
+                                      width: '100%',
+                                      minHeight: '70px',
+                                      padding: '10px 12px',
+                                      border: '1px solid #E8E8E8',
+                                      borderRadius: 10,
+                                      fontSize: '0.82rem',
+                                      color: '#1a1a1a',
+                                      outline: 'none',
+                                      fontFamily: 'inherit',
+                                      resize: 'vertical',
+                                    }}
+                                  />
+                                </div>
                               </>
                             )}
                           </div>
