@@ -742,12 +742,12 @@ export default function UserDetailClient() {
                       <RefreshCw size={14} /> Regenerate
                     </button>
                     <button className="rec-finalize-btn" onClick={handleFinalize} disabled={recFinalizing}>
-                      {recFinalizing ? 'Finalizing…' : <><ClipboardCheck size={14} /> Finalize Prescription</>}
+                      {recFinalizing ? 'Finalizing…' : <><ClipboardCheck size={14} /> Finalize Recommendation</>}
                     </button>
                   </>
                 ) : (
                   <div className="rec-finalized-msg">
-                    <Check size={16} /> Prescription finalized with {recommendation.recommendation_items.length} product{recommendation.recommendation_items.length !== 1 ? 's' : ''}
+                    <Check size={16} /> Recommendation finalized with {recommendation.recommendation_items.length} product{recommendation.recommendation_items.length !== 1 ? 's' : ''}
                   </div>
                 )}
               </div>

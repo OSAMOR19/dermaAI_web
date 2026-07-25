@@ -432,14 +432,14 @@ export default function AdminRegistrationsPage() {
                               <div style={{ padding: '20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 700, color: '#2E7D32' }}>
-                                    <Check size={16} /> Skincare Prescription Sent & Finalized
-                                  </div>
+                                    <Check size={16} /> Skincare Recommendation Sent & Finalized
+                                  </div>  
                                   <button onClick={() => setEditingRegs(prev => ({ ...prev, [reg.id]: true }))} style={{
                                     display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 14px',
                                     border: '1px solid #E8E8E8', borderRadius: 8, background: '#fff',
                                     fontSize: '0.72rem', fontWeight: 600, color: '#e84c88', cursor: 'pointer',
                                   }}>
-                                    Modify Prescription
+                                    Modify Recommendation
                                   </button>
                                 </div>
 
