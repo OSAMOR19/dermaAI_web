@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import LandingNavbar from '@/landing/components/LandingNavbar';
 import LandingHero from '@/landing/components/LandingHero';
 import LandingWhyChooseUs from '@/landing/components/LandingWhyChooseUs';
@@ -14,7 +15,20 @@ export const metadata = {
   description: 'Shop premium Makeup, Skincare & beauty products online. AI-powered skin analysis with next-day UK delivery & worldwide shipping.',
 };
 
-export default function LandingPage() {
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function LandingPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const error = searchParams.error;
+  const errorCode = searchParams.error_code;
+
+  if (error || errorCode) {
+    const errCode = (errorCode || error) as string;
+    redirect(`/login?error=${encodeURIComponent(errCode)}`);
+  }
+
   return (
     <>
       {/* Google Fonts for the WBH brand */}
@@ -41,3 +55,4 @@ export default function LandingPage() {
     </>
   );
 }
+

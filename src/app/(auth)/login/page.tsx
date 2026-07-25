@@ -59,7 +59,9 @@ function LoginForm() {
         <form className="auth-form" onSubmit={handleLogin}>
           {(error || authError) && (
             <div className="auth-error">
-              {error || 'Authentication failed. Please try again.'}
+              {error || (authError === 'otp_expired' || authError === 'access_denied'
+                ? 'Your email confirmation link has expired or has already been used. Please try logging in or sign up again.'
+                : 'Authentication failed. Please try again.')}
             </div>
           )}
           <div className="form-group">
