@@ -343,9 +343,14 @@ export default function AdminRegistrationsPage() {
                     const selected = selectedProducts[reg.id] || [];
                     return (
                       <div key={reg.id} style={{
-                        background: '#fff', border: isExpanded ? '1.5px solid rgba(232,76,136,0.3)' : '1px solid #E8E8E8',
+                        background: reg.status === 'done' ? '#F4FBF7' : '#fff',
+                        border: isExpanded 
+                          ? (reg.status === 'done' ? '1.5px solid rgba(46,125,50,0.3)' : '1.5px solid rgba(232,76,136,0.3)')
+                          : (reg.status === 'done' ? '1px solid rgba(46,125,50,0.15)' : '1px solid #E8E8E8'),
                         borderRadius: 16, overflow: 'hidden', transition: 'all 0.2s',
-                        boxShadow: isExpanded ? '0 4px 24px rgba(232,76,136,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
+                        boxShadow: isExpanded 
+                          ? (reg.status === 'done' ? '0 4px 24px rgba(46,125,50,0.08)' : '0 4px 24px rgba(232,76,136,0.08)')
+                          : '0 1px 3px rgba(0,0,0,0.04)',
                       }}>
                         {/* Registration Row */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px', cursor: 'pointer' }}
