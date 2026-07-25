@@ -63,6 +63,7 @@ export default function AdminRegistrationsPage() {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [productsLoaded, setProductsLoaded] = useState(false);
+  const [editingRegs, setEditingRegs] = useState<Record<string, boolean>>({});
   const [productsLoading, setProductsLoading] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<Record<string, SelectedProduct[]>>({});
   const [productSearch, setProductSearch] = useState('');
@@ -270,9 +271,15 @@ export default function AdminRegistrationsPage() {
         }),
       });
       if (res.ok) {
+        const result = await res.json();
         setSentId(regId);
         // Mark as done immediately in state so UI updates
-        setRegistrations(prev => prev.map(r => r.id === regId ? { ...r, status: 'done' } : r));
+        setRegistrations(prev => prev.map(r => r.id === regId ? {
+          ...r,
+          status: 'done',
+          recommendation: result.recommendation
+        } : r));
+        setEditingRegs(prev => ({ ...prev, [regId]: false }));
         setTimeout(() => setSentId(null), 4000);
       }
     } catch (err) {
@@ -420,171 +427,229 @@ export default function AdminRegistrationsPage() {
                               </div>
                             </div>
 
-                            {/* Selected Products */}
-                            {selected.length > 0 && (
-                              <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', fontWeight: 700, color: '#388E3C' }}>
-                                    <Check size={13} /> {selected.length} Product{selected.length !== 1 ? 's' : ''} Selected
-                                  </span>
-                                  <div style={{ display: 'flex', gap: 6 }}>
-                                    <button onClick={() => saveAndSend(reg.id)} disabled={sendingId === reg.id} style={{
-                                      display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
-                                      border: sentId === reg.id ? '1px solid rgba(76,175,80,0.2)' : reg.status === 'done' ? '1px solid rgba(76,175,80,0.3)' : '1px solid rgba(232,76,136,0.2)',
-                                      borderRadius: 8,
-                                      background: sentId === reg.id ? 'rgba(76,175,80,0.08)' : reg.status === 'done' ? '#F1F8E9' : 'rgba(232,76,136,0.06)',
-                                      fontSize: '0.72rem', fontWeight: 600,
-                                      color: sentId === reg.id ? '#388E3C' : reg.status === 'done' ? '#33691E' : '#e84c88', cursor: sendingId === reg.id ? 'wait' : 'pointer',
-                                      opacity: sendingId === reg.id ? 0.7 : 1,
-                                    }}>
-                                      {sendingId === reg.id ? <><Loader size={11} className="spin" /> Sending…</> : sentId === reg.id ? <><Check size={11} /> Sent!</> : reg.status === 'done' ? <><Check size={11} /> Update & Resend</> : <><Send size={11} /> Save & Email</>}
-                                    </button>
-                                    <button onClick={() => copyRecommendation(reg.id)} style={{
-                                      display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
-                                      border: '1px solid #E8E8E8', borderRadius: 8, background: copiedId === reg.id ? 'rgba(76,175,80,0.08)' : '#fff',
-                                      fontSize: '0.72rem', fontWeight: 600, color: copiedId === reg.id ? '#388E3C' : '#888', cursor: 'pointer',
-                                    }}>
-                                      {copiedId === reg.id ? <><Check size={11} /> Copied!</> : <><ExternalLink size={11} /> Copy</>}
-                                    </button>
+                            {/* Read-Only History View or Editable Picker */}
+                            {reg.status === 'done' && !editingRegs[reg.id] ? (
+                              <div style={{ padding: '20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 700, color: '#2E7D32' }}>
+                                    <Check size={16} /> Skincare Prescription Sent & Finalized
                                   </div>
+                                  <button onClick={() => setEditingRegs(prev => ({ ...prev, [reg.id]: true }))} style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: 5, padding: '6px 14px',
+                                    border: '1px solid #E8E8E8', borderRadius: 8, background: '#fff',
+                                    fontSize: '0.72rem', fontWeight: 600, color: '#e84c88', cursor: 'pointer',
+                                  }}>
+                                    Modify Prescription
+                                  </button>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+                                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Recommended Skincare Routine</div>
                                   {selected.map(s => (
                                     <div key={s.product.id} style={{
-                                      display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px',
-                                      background: 'rgba(76,175,80,0.03)', border: '1px solid rgba(76,175,80,0.12)',
-                                      borderRadius: 10,
+                                      display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px',
+                                      background: '#fafafa', border: '1px solid #eee', borderRadius: 12,
                                     }}>
-                                      {s.product.image_url && (
-                                        <img src={s.product.image_url} alt={s.product.product_name} style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
-                                      )}
-                                      <div style={{ flex: 1, minWidth: 0 }}>
-                                        <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.product.product_name}</div>
-                                        <div style={{ fontSize: '0.68rem', color: '#888' }}>{s.product.brand} · {s.reason}</div>
-                                      </div>
-                                      <button onClick={() => removeProduct(reg.id, s.product.id)} style={{ background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', padding: 4, borderRadius: 6 }}>
-                                        <Trash2 size={13} />
-                                      </button>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Consultant Notes / Other Recommendations */}
-                            <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
-                              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
-                                Consultant Notes / Other Recommendations
-                              </label>
-                              <textarea
-                                placeholder="Enter any custom advice, routine steps, or other product suggestions..."
-                                value={regNotes[reg.id] || ''}
-                                onChange={e => handleNotesChange(reg.id, e.target.value)}
-                                style={{
-                                  width: '100%',
-                                  minHeight: '70px',
-                                  padding: '10px 12px',
-                                  border: '1px solid #E8E8E8',
-                                  borderRadius: 10,
-                                  fontSize: '0.82rem',
-                                  color: '#1a1a1a',
-                                  outline: 'none',
-                                  fontFamily: 'inherit',
-                                  resize: 'vertical',
-                                }}
-                              />
-                            </div>
-
-                            {/* Search & Filter */}
-                            <div style={{ display: 'flex', gap: 8, padding: '12px 20px', alignItems: 'center', flexWrap: 'wrap' }}>
-                              <div style={{
-                                display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 200,
-                                padding: '8px 12px', background: '#fff', border: '1px solid #E8E8E8', borderRadius: 10,
-                              }}>
-                                <Search size={13} color="#999" />
-                                <input
-                                  style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: '0.82rem', color: '#1a1a1a' }}
-                                  placeholder="Search products by name, brand, concern…"
-                                  value={productSearch}
-                                  onChange={e => handleProductSearchInput(e.target.value)}
-                                />
-                                {productSearch && (
-                                  <button onClick={() => handleProductSearchInput('')} style={{ background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', padding: 0, display: 'flex' }}>
-                                    <X size={12} />
-                                  </button>
-                                )}
-                              </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                                <Filter size={12} color="#999" />
-                                <select
-                                  value={categoryFilter}
-                                  onChange={e => handleCategoryFilter(e.target.value)}
-                                  style={{
-                                    padding: '8px 12px', border: '1px solid #E8E8E8', borderRadius: 10,
-                                    background: '#fff', fontSize: '0.82rem', color: '#1a1a1a', cursor: 'pointer', outline: 'none',
-                                  }}
-                                >
-                                  <option value="">All Categories</option>
-                                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                </select>
-                              </div>
-                            </div>
-
-                            {/* Product Grid */}
-                            <div style={{
-                              display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-                              gap: 8, padding: '4px 20px 16px', maxHeight: 320, overflowY: 'auto',
-                            }}>
-                              {productsLoading && !productsLoaded ? (
-                                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 40, color: '#999', fontSize: '0.82rem' }}>
-                                  <div className="admin-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Loading products…
-                                </div>
-                              ) : productResults.length === 0 ? (
-                                <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 40, color: '#999', fontSize: '0.82rem' }}>
-                                  <Package size={18} /> No matching products found. Try a different search.
-                                </div>
-                              ) : (
-                                productResults.map(p => {
-                                  const isSelected = selected.some(s => s.product.id === p.id);
-                                  return (
-                                    <div key={p.id} onClick={() => !isSelected && addProduct(reg.id, p)} style={{
-                                      display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
-                                      background: isSelected ? 'rgba(76,175,80,0.03)' : '#fff',
-                                      border: isSelected ? '1px solid rgba(76,175,80,0.2)' : '1px solid #E8E8E8',
-                                      borderRadius: 10, cursor: isSelected ? 'default' : 'pointer',
-                                      transition: 'all 0.15s', opacity: isSelected ? 0.65 : 1,
-                                    }}
-                                    onMouseEnter={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,76,136,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(232,76,136,0.02)'; } }}
-                                    onMouseLeave={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = '#E8E8E8'; (e.currentTarget as HTMLElement).style.background = '#fff'; } }}
-                                    >
-                                      {p.image_url ? (
-                                        <img src={p.image_url} alt={p.product_name} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
+                                      {s.product.image_url ? (
+                                        <img src={s.product.image_url} alt={s.product.product_name} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
                                       ) : (
-                                        <div style={{ width: 44, height: 44, borderRadius: 8, background: 'rgba(232,76,136,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#e84c88' }}>
-                                          <Package size={18} />
+                                        <div style={{ width: 44, height: 44, borderRadius: 8, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#aaa' }}>
+                                          <Package size={16} />
                                         </div>
                                       )}
                                       <div style={{ flex: 1, minWidth: 0 }}>
-                                        <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.product_name}</div>
-                                        <div style={{ fontSize: '0.68rem', color: '#888', marginTop: 1 }}>{p.brand}</div>
-                                        <span style={{ display: 'inline-block', padding: '1px 7px', borderRadius: 4, fontSize: '0.62rem', fontWeight: 600, background: 'rgba(0,180,250,0.06)', color: '#0288D1', marginTop: 3 }}>{p.category_name}</span>
-                                      </div>
-                                      <div style={{
-                                        width: 26, height: 26, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                                        background: isSelected ? 'rgba(76,175,80,0.1)' : 'rgba(232,76,136,0.06)',
-                                        color: isSelected ? '#388E3C' : '#e84c88',
-                                      }}>
-                                        {isSelected ? <Check size={13} /> : <Plus size={13} />}
+                                        <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1a1a' }}>{s.product.product_name}</div>
+                                        <div style={{ fontSize: '0.7rem', color: '#666', marginTop: 2 }}>{s.product.brand} · {s.product.category_name}</div>
                                       </div>
                                     </div>
-                                  );
-                                })
-                              )}
-                            </div>
-                            {productResults.length >= 30 && (
-                              <div style={{ textAlign: 'center', padding: '6px 20px 14px', fontSize: '0.72rem', color: '#999' }}>
-                                Showing 30 of {allProducts.length} products — refine your search to see more
+                                  ))}
+                                </div>
+
+                                {regNotes[reg.id] && (
+                                  <div style={{ background: '#fcf8fc', borderLeft: '4px solid #e84c88', padding: '12px 16px', borderRadius: '0 8px 8px 0' }}>
+                                    <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#e84c88', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>Consultant Advice Notes</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#555', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{regNotes[reg.id]}</div>
+                                  </div>
+                                )}
                               </div>
+                            ) : (
+                              <>
+                                {/* Selected Products */}
+                                {selected.length > 0 && (
+                                  <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', fontWeight: 700, color: '#388E3C' }}>
+                                        <Check size={13} /> {selected.length} Product{selected.length !== 1 ? 's' : ''} Selected
+                                      </span>
+                                      <div style={{ display: 'flex', gap: 6 }}>
+                                        <button onClick={() => saveAndSend(reg.id)} disabled={sendingId === reg.id} style={{
+                                          display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
+                                          border: sentId === reg.id ? '1px solid rgba(76,175,80,0.2)' : reg.status === 'done' ? '1px solid rgba(76,175,80,0.3)' : '1px solid rgba(232,76,136,0.2)',
+                                          borderRadius: 8,
+                                          background: sentId === reg.id ? 'rgba(76,175,80,0.08)' : reg.status === 'done' ? '#F1F8E9' : 'rgba(232,76,136,0.06)',
+                                          fontSize: '0.72rem', fontWeight: 600,
+                                          color: sentId === reg.id ? '#388E3C' : reg.status === 'done' ? '#33691E' : '#e84c88', cursor: sendingId === reg.id ? 'wait' : 'pointer',
+                                          opacity: sendingId === reg.id ? 0.7 : 1,
+                                        }}>
+                                          {sendingId === reg.id ? <><Loader size={11} className="spin" /> Sending…</> : sentId === reg.id ? <><Check size={11} /> Sent!</> : reg.status === 'done' ? <><Check size={11} /> Update & Resend</> : <><Send size={11} /> Save & Email</>}
+                                        </button>
+                                        <button onClick={() => copyRecommendation(reg.id)} style={{
+                                          display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
+                                          border: '1px solid #E8E8E8', borderRadius: 8, background: copiedId === reg.id ? 'rgba(76,175,80,0.08)' : '#fff',
+                                          fontSize: '0.72rem', fontWeight: 600, color: copiedId === reg.id ? '#388E3C' : '#888', cursor: 'pointer',
+                                        }}>
+                                          {copiedId === reg.id ? <><Check size={11} /> Copied!</> : <><ExternalLink size={11} /> Copy</>}
+                                        </button>
+                                        {reg.status === 'done' && (
+                                          <button onClick={() => setEditingRegs(prev => ({ ...prev, [reg.id]: false }))} style={{
+                                            display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
+                                            border: '1px solid #E8E8E8', borderRadius: 8, background: '#fff',
+                                            fontSize: '0.72rem', fontWeight: 600, color: '#888', cursor: 'pointer',
+                                          }}>
+                                            Cancel
+                                          </button>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                      {selected.map(s => (
+                                        <div key={s.product.id} style={{
+                                          display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px',
+                                          background: 'rgba(76,175,80,0.03)', border: '1px solid rgba(76,175,80,0.12)',
+                                          borderRadius: 10,
+                                        }}>
+                                          {s.product.image_url && (
+                                            <img src={s.product.image_url} alt={s.product.product_name} style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
+                                          )}
+                                          <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.product.product_name}</div>
+                                            <div style={{ fontSize: '0.68rem', color: '#888' }}>{s.product.brand} · {s.reason}</div>
+                                          </div>
+                                          <button onClick={() => removeProduct(reg.id, s.product.id)} style={{ background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', padding: 4, borderRadius: 6 }}>
+                                            <Trash2 size={13} />
+                                          </button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Consultant Notes / Other Recommendations */}
+                                <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
+                                  <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+                                    Consultant Notes / Other Recommendations
+                                  </label>
+                                  <textarea
+                                    placeholder="Enter any custom advice, routine steps, or other product suggestions..."
+                                    value={regNotes[reg.id] || ''}
+                                    onChange={e => handleNotesChange(reg.id, e.target.value)}
+                                    style={{
+                                      width: '100%',
+                                      minHeight: '70px',
+                                      padding: '10px 12px',
+                                      border: '1px solid #E8E8E8',
+                                      borderRadius: 10,
+                                      fontSize: '0.82rem',
+                                      color: '#1a1a1a',
+                                      outline: 'none',
+                                      fontFamily: 'inherit',
+                                      resize: 'vertical',
+                                    }}
+                                  />
+                                </div>
+
+                                {/* Search & Filter */}
+                                <div style={{ display: 'flex', gap: 8, padding: '12px 20px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                  <div style={{
+                                    display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 200,
+                                    padding: '8px 12px', background: '#fff', border: '1px solid #E8E8E8', borderRadius: 10,
+                                  }}>
+                                    <Search size={13} color="#999" />
+                                    <input
+                                      style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: '0.82rem', color: '#1a1a1a' }}
+                                      placeholder="Search products by name, brand, concern…"
+                                      value={productSearch}
+                                      onChange={e => handleProductSearchInput(e.target.value)}
+                                    />
+                                    {productSearch && (
+                                      <button onClick={() => handleProductSearchInput('')} style={{ background: 'none', border: 'none', color: '#ccc', cursor: 'pointer', padding: 0, display: 'flex' }}>
+                                        <X size={12} />
+                                      </button>
+                                    )}
+                                  </div>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                                    <Filter size={12} color="#999" />
+                                    <select
+                                      value={categoryFilter}
+                                      onChange={e => handleCategoryFilter(e.target.value)}
+                                      style={{
+                                        padding: '8px 12px', border: '1px solid #E8E8E8', borderRadius: 10,
+                                        background: '#fff', fontSize: '0.82rem', color: '#1a1a1a', cursor: 'pointer', outline: 'none',
+                                      }}
+                                    >
+                                      <option value="">All Categories</option>
+                                      {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                    </select>
+                                  </div>
+                                </div>
+
+                                {/* Product Grid */}
+                                <div style={{
+                                  display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                                  gap: 8, padding: '4px 20px 16px', maxHeight: 320, overflowY: 'auto',
+                                }}>
+                                  {productsLoading && !productsLoaded ? (
+                                    <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 40, color: '#999', fontSize: '0.82rem' }}>
+                                      <div className="admin-spinner" style={{ width: 16, height: 16, borderWidth: 2 }} /> Loading products…
+                                    </div>
+                                  ) : productResults.length === 0 ? (
+                                    <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 40, color: '#999', fontSize: '0.82rem' }}>
+                                      <Package size={18} /> No matching products found. Try a different search.
+                                    </div>
+                                  ) : (
+                                    productResults.map(p => {
+                                      const isSelected = selected.some(s => s.product.id === p.id);
+                                      return (
+                                        <div key={p.id} onClick={() => !isSelected && addProduct(reg.id, p)} style={{
+                                          display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px',
+                                          background: isSelected ? 'rgba(76,175,80,0.03)' : '#fff',
+                                          border: isSelected ? '1px solid rgba(76,175,80,0.2)' : '1px solid #E8E8E8',
+                                          borderRadius: 10, cursor: isSelected ? 'default' : 'pointer',
+                                          transition: 'all 0.15s', opacity: isSelected ? 0.65 : 1,
+                                        }}
+                                        onMouseEnter={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(232,76,136,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(232,76,136,0.02)'; } }}
+                                        onMouseLeave={e => { if (!isSelected) { (e.currentTarget as HTMLElement).style.borderColor = '#E8E8E8'; (e.currentTarget as HTMLElement).style.background = '#fff'; } }}
+                                        >
+                                          {p.image_url ? (
+                                            <img src={p.image_url} alt={p.product_name} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', flexShrink: 0, border: '1px solid #eee' }} />
+                                          ) : (
+                                            <div style={{ width: 44, height: 44, borderRadius: 8, background: 'rgba(232,76,136,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#e84c88' }}>
+                                              <Package size={18} />
+                                            </div>
+                                          )}
+                                          <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.product_name}</div>
+                                            <div style={{ fontSize: '0.68rem', color: '#888', marginTop: 1 }}>{p.brand}</div>
+                                            <span style={{ display: 'inline-block', padding: '1px 7px', borderRadius: 4, fontSize: '0.62rem', fontWeight: 600, background: 'rgba(0,180,250,0.06)', color: '#0288D1', marginTop: 3 }}>{p.category_name}</span>
+                                          </div>
+                                          <div style={{
+                                            width: 26, height: 26, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                                            background: isSelected ? 'rgba(76,175,80,0.1)' : 'rgba(232,76,136,0.06)',
+                                            color: isSelected ? '#388E3C' : '#e84c88',
+                                          }}>
+                                            {isSelected ? <Check size={13} /> : <Plus size={13} />}
+                                          </div>
+                                        </div>
+                                      );
+                                    })
+                                  )}
+                                </div>
+                                {productResults.length >= 30 && (
+                                  <div style={{ textAlign: 'center', padding: '6px 20px 14px', fontSize: '0.72rem', color: '#999' }}>
+                                    Showing 30 of {allProducts.length} products — refine your search to see more
+                                  </div>
+                                )}
+                              </>
                             )}
                           </div>
                         )}

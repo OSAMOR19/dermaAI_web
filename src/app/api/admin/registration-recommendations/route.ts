@@ -330,10 +330,30 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Fetch the complete recommendation with items and products so the UI can lock the view
+    let fullRec = null;
+    if (rec) {
+      const { data } = await supabase
+        .from('recommendations')
+        .select('*, recommendation_items(*, products(*))')
+        .eq('id', rec.id)
+        .single();
+      
+      if (data) {
+        // Strip the [registration_id:UUID] prefix to display clean notes in response
+        const cleanNotes = data.notes ? data.notes.replace(/^\[registration_id:[^\]]+\]/, '') : '';
+        fullRec = {
+          ...data,
+          notes: cleanNotes
+        };
+      }
+    }
+
     return NextResponse.json({
       success: true,
       recommendation_id: rec?.id || null,
       email_sent: emailSent,
+      recommendation: fullRec,
     });
   } catch (err) {
     console.error('Registration recommendation error:', err);

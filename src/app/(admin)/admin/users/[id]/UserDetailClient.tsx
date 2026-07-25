@@ -320,6 +320,7 @@ export default function UserDetailClient() {
     setRecFinalizing(false);
     setRecFinalized(true);
     setRecommendation(prev => prev ? { ...prev, status: 'finalized', notes } : null);
+    setAllRecommendations(prev => prev.map(r => r.id === recommendation.id ? { ...r, status: 'finalized', notes } : r));
   };
 
   // Get user concerns from scans

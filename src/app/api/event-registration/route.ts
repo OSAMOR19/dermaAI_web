@@ -311,13 +311,21 @@ export async function GET(request: NextRequest) {
 
     // 3. Map recommendations to registrations
     const enriched = (registrations || []).map((reg: any) => {
-      const matchingRec = (recs || []).find((r: any) => 
-        r.notes && r.notes.startsWith(`[registration_id:${reg.id}]`)
-      );
+      const matchingRec = (recs || []).find((r: any) => {
+        if (!r.notes) return false;
+        const hasNewPrefix = r.notes.startsWith(`[registration_id:${reg.id}]`);
+        const hasOldPrefix = r.notes.includes(`Registration ID: ${reg.id}`) || r.notes.includes(`Registration ID:${reg.id}`);
+        const hasNameMatch = r.notes.includes(`recommendation for ${reg.full_name}`) || r.notes.includes(`Recommendation for ${reg.full_name}`);
+        return hasNewPrefix || hasOldPrefix || hasNameMatch;
+      });
 
       if (matchingRec) {
         // Strip the [registration_id:UUID] prefix to display clean notes
-        const cleanNotes = matchingRec.notes.replace(/^\[registration_id:[^\]]+\]/, '');
+        let cleanNotes = matchingRec.notes.replace(/^\[registration_id:[^\]]+\]/, '');
+        // If it was the old format, clear the default suffix to keep notes clean
+        if (cleanNotes.includes('Registration ID:')) {
+          cleanNotes = cleanNotes.split('Registration ID:')[0].trim();
+        }
         return {
           ...reg,
           status: 'done',
