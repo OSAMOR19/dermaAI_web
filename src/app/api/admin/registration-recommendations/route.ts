@@ -204,7 +204,29 @@ export async function POST(request: NextRequest) {
                   <p><strong>Skin Concerns:</strong> ${concernsText || 'N/A'}</p>
                   ${notes ? `<p><strong>Other Recommendations / Consultant Notes:</strong><br />${notes.replace(/\n/g, '<br />')}</p>` : ''}
                   <p><strong>Products (${products.length}):</strong></p>
-                  <ul>${products.map(p => `<li>${p.product_name} (${p.brand}) — ${p.category_name}</li>`).join('')}</ul>
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                    ${products.map(p => `
+                      <tr>
+                        <td style="padding:10px 0;border-bottom:1px solid #eee;vertical-align:middle;">
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                              <td style="width:60px;vertical-align:middle;padding-right:12px;">
+                                ${p.image_url ? `
+                                  <img src="${p.image_url}" alt="${p.product_name}" width="50" height="50" style="border-radius:6px;object-fit:cover;display:block;border:1px solid #eee;" />
+                                ` : `
+                                  <div style="width:50px;height:50px;line-height:50px;border-radius:6px;background:#f5f5f5;text-align:center;color:#ccc;font-size:20px;">📦</div>
+                                `}
+                              </td>
+                              <td style="vertical-align:middle;">
+                                <div style="font-weight:bold;font-size:14px;color:#1a1a1a;">${p.product_name}</div>
+                                <div style="font-size:12px;color:#666;margin-top:2px;">Brand: ${p.brand} | Category: ${p.category_name}</div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </table>
                 </div>
               `,
             }),
@@ -230,10 +252,23 @@ export async function POST(request: NextRequest) {
                   <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                     ${products.map(p => `
                       <tr>
-                        <td style="padding:10px 0;border-bottom:1px solid #eee;">
-                          <div style="font-weight:bold;font-size:14px;color:#1a1a1a;">${p.product_name}</div>
-                          <div style="font-size:12px;color:#666;margin-top:2px;">Brand: ${p.brand} | Category: ${p.category_name}</div>
-                          ${p.product_id ? `<div style="font-size:11px;color:#999;margin-top:2px;">Product ID: ${p.product_id}</div>` : ''}
+                        <td style="padding:10px 0;border-bottom:1px solid #eee;vertical-align:middle;">
+                          <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                              <td style="width:60px;vertical-align:middle;padding-right:12px;">
+                                ${p.image_url ? `
+                                  <img src="${p.image_url}" alt="${p.product_name}" width="50" height="50" style="border-radius:6px;object-fit:cover;display:block;border:1px solid #eee;" />
+                                ` : `
+                                  <div style="width:50px;height:50px;line-height:50px;border-radius:6px;background:#f5f5f5;text-align:center;color:#ccc;font-size:20px;">📦</div>
+                                `}
+                              </td>
+                              <td style="vertical-align:middle;">
+                                <div style="font-weight:bold;font-size:14px;color:#1a1a1a;">${p.product_name}</div>
+                                <div style="font-size:12px;color:#666;margin-top:2px;">Brand: ${p.brand} | Category: ${p.category_name}</div>
+                                ${p.product_id ? `<div style="font-size:11px;color:#999;margin-top:2px;">Product ID: ${p.product_id}</div>` : ''}
+                              </td>
+                            </tr>
+                          </table>
                         </td>
                       </tr>
                     `).join('')}
