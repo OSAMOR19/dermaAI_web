@@ -92,6 +92,8 @@ export default function UserDetailClient() {
   const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
   const [showSearch, setShowSearch] = useState(false);
   const [addingProduct, setAddingProduct] = useState<string | null>(null);
+  const [notes, setNotes] = useState('');
+  const [notesSaving, setNotesSaving] = useState(false);
 
   // Quick product picker state
   const [allProducts, setAllProducts] = useState<SearchProduct[]>([]);
@@ -128,6 +130,7 @@ export default function UserDetailClient() {
       if (recs.length > 0) {
         setRecommendation(recs[0]); // Most recent
         setRecFinalized(recs[0].status === 'finalized');
+        setNotes(recs[0].notes || '');
       }
     }
     setRecLoading(false);
@@ -151,6 +154,7 @@ export default function UserDetailClient() {
       } else {
         setRecommendation(data.recommendation);
         setRecFinalized(false);
+        setNotes(data.recommendation.notes || '');
       }
     } catch {
       setRecError('Network error generating recommendations');
@@ -289,6 +293,18 @@ export default function UserDetailClient() {
     setAddingProduct(null);
   };
 
+  // Save notes to DB
+  const handleSaveNotes = async () => {
+    if (!recommendation) return;
+    setNotesSaving(true);
+    await fetch('/api/admin/recommendations', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: recommendation.id, notes }),
+    });
+    setNotesSaving(false);
+  };
+
   // Finalize recommendation
   const handleFinalize = async () => {
     if (!recommendation) return;
@@ -296,11 +312,11 @@ export default function UserDetailClient() {
     await fetch('/api/admin/recommendations', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: recommendation.id, status: 'finalized' }),
+      body: JSON.stringify({ id: recommendation.id, status: 'finalized', notes }),
     });
     setRecFinalizing(false);
     setRecFinalized(true);
-    setRecommendation(prev => prev ? { ...prev, status: 'finalized' } : null);
+    setRecommendation(prev => prev ? { ...prev, status: 'finalized', notes } : null);
   };
 
   // Get user concerns from scans
@@ -670,6 +686,24 @@ export default function UserDetailClient() {
               </div>
             )}
 
+            {/* Custom Notes Section */}
+            {recommendation && (
+              <div className="rec-notes-section">
+                <label className="rec-notes-label">Other Recommendations / Consultant Notes</label>
+                <textarea
+                  className="rec-notes-textarea"
+                  placeholder="Enter any custom advice, routine steps, or other product suggestions..."
+                  value={notes}
+                  disabled={recFinalized}
+                  onChange={e => setNotes(e.target.value)}
+                  onBlur={handleSaveNotes}
+                />
+                {!recFinalized && notesSaving && (
+                  <span className="rec-notes-saving-status">Saving notes...</span>
+                )}
+              </div>
+            )}
+
             {/* Action Bar */}
             {recommendation && recommendation.recommendation_items.length > 0 && (
               <div className="rec-action-bar">
@@ -794,6 +828,49 @@ export default function UserDetailClient() {
           .ud-access-row { gap: 12px; }
           .ud-scan-row { flex-wrap: wrap; gap: 10px; padding: 12px 16px; }
           .ud-scan-detail { padding: 0 16px 12px; }
+        }
+
+        /* Rec Notes styling */
+        .rec-notes-section {
+          padding: 16px 20px;
+          border-top: 1px solid #F0F0F0;
+          background: #FAFAFA;
+        }
+        .rec-notes-label {
+          display: block;
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 8px;
+        }
+        .rec-notes-textarea {
+          width: 100%;
+          min-height: 80px;
+          padding: 12px 14px;
+          border: 1px solid #E8E8E8;
+          border-radius: 10px;
+          font-size: 0.85rem;
+          color: var(--text);
+          background: #fff;
+          resize: vertical;
+          outline: none;
+          font-family: inherit;
+        }
+        .rec-notes-textarea:focus {
+          border-color: var(--primary);
+        }
+        .rec-notes-textarea:disabled {
+          background: #f5f5f5;
+          color: #888;
+          cursor: not-allowed;
+        }
+        .rec-notes-saving-status {
+          font-size: 0.68rem;
+          color: var(--text-muted);
+          margin-top: 4px;
+          display: block;
         }
       `}</style>
     </div>

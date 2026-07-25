@@ -62,6 +62,11 @@ export default function AdminRegistrationsPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [sendingId, setSendingId] = useState<string | null>(null);
   const [sentId, setSentId] = useState<string | null>(null);
+  const [regNotes, setRegNotes] = useState<Record<string, string>>({});
+
+  const handleNotesChange = (regId: string, value: string) => {
+    setRegNotes(prev => ({ ...prev, [regId]: value }));
+  };
 
   useEffect(() => {
     fetch('/api/event-registration')
@@ -211,6 +216,7 @@ export default function AdminRegistrationsPage() {
   const saveAndSend = async (regId: string) => {
     const reg = registrations.find(r => r.id === regId);
     const selected = selectedProducts[regId] || [];
+    const notes = regNotes[regId] || '';
     if (!reg || selected.length === 0) return;
     setSendingId(regId);
     try {
@@ -230,6 +236,7 @@ export default function AdminRegistrationsPage() {
             image_url: s.product.image_url,
             match_reason: s.reason,
           })),
+          notes,
           send_email: true,
         }),
       });
@@ -412,6 +419,30 @@ export default function AdminRegistrationsPage() {
                                 </div>
                               </div>
                             )}
+
+                            {/* Consultant Notes / Other Recommendations */}
+                            <div style={{ padding: '12px 20px', background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
+                              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+                                Consultant Notes / Other Recommendations
+                              </label>
+                              <textarea
+                                placeholder="Enter any custom advice, routine steps, or other product suggestions..."
+                                value={regNotes[reg.id] || ''}
+                                onChange={e => handleNotesChange(reg.id, e.target.value)}
+                                style={{
+                                  width: '100%',
+                                  minHeight: '70px',
+                                  padding: '10px 12px',
+                                  border: '1px solid #E8E8E8',
+                                  borderRadius: 10,
+                                  fontSize: '0.82rem',
+                                  color: '#1a1a1a',
+                                  outline: 'none',
+                                  fontFamily: 'inherit',
+                                  resize: 'vertical',
+                                }}
+                              />
+                            </div>
 
                             {/* Search & Filter */}
                             <div style={{ display: 'flex', gap: 8, padding: '12px 20px', alignItems: 'center', flexWrap: 'wrap' }}>

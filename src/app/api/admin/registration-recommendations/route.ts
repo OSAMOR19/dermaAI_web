@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
       skin_concerns,
       products,
       send_email,
+      notes,
     }: {
       registration_id: string;
       user_name: string;
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
       skin_concerns: string[];
       products: RecommendationProduct[];
       send_email?: boolean;
+      notes?: string;
     } = body;
 
     if (!user_email || !products || products.length === 0) {
@@ -45,7 +47,7 @@ export async function POST(request: NextRequest) {
         consultation_id: null,
         skin_concerns: skin_concerns || [],
         status: 'sent',
-        notes: `Registration recommendation for ${user_name} (${user_email}). Registration ID: ${registration_id}`,
+        notes: notes || `Registration recommendation for ${user_name} (${user_email}). Registration ID: ${registration_id}`,
       })
       .select()
       .single();
@@ -83,6 +85,7 @@ export async function POST(request: NextRequest) {
       const resendApiKey = process.env.RESEND_API_KEY;
       if (resendApiKey) {
         const fromEmail = process.env.RESEND_FROM_EMAIL || 'WBH Skin <noreply@wbhskin.com>';
+        const SALES_EMAIL = 'sales@wbhskin.com';
         const concernsText = (skin_concerns || []).join(', ');
 
         // Build product cards HTML
@@ -142,6 +145,17 @@ export async function POST(request: NextRequest) {
                         </table>
                       </td>
                     </tr>
+                    <!-- Consultant Notes -->
+                    ${notes ? `
+                    <tr>
+                      <td style="padding:0 28px 20px;">
+                        <div style="background:#fff3f6;border-left:4px solid #e84c88;padding:16px;border-radius:0 12px 12px 0;">
+                          <div style="font-size:12px;font-weight:800;color:#e84c88;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">💡 Consultant Advice / Other Recommendations</div>
+                          <div style="font-size:13px;color:#555;line-height:1.5;white-space:pre-wrap;">${notes}</div>
+                        </div>
+                      </td>
+                    </tr>
+                    ` : ''}
                     <!-- CTA -->
                     <tr>
                       <td style="padding:8px 28px 28px;" align="center">
@@ -204,13 +218,59 @@ export async function POST(request: NextRequest) {
               to: ADMIN_EMAIL,
               subject: `Recommendation sent to ${user_name}`,
               html: `
-                <p>A product recommendation has been sent to <strong>${user_name}</strong> (${user_email}).</p>
-                <p><strong>Skin Concerns:</strong> ${concernsText || 'N/A'}</p>
-                <p><strong>Products (${products.length}):</strong></p>
-                <ul>${products.map(p => `<li>${p.product_name} (${p.brand}) — ${p.category_name}</li>`).join('')}</ul>
+                <div style="font-family:sans-serif;color:#333;padding:20px;">
+                  <p>A product recommendation has been sent to <strong>${user_name}</strong> (${user_email}).</p>
+                  <p><strong>Skin Concerns:</strong> ${concernsText || 'N/A'}</p>
+                  ${notes ? `<p><strong>Other Recommendations / Consultant Notes:</strong><br />${notes.replace(/\n/g, '<br />')}</p>` : ''}
+                  <p><strong>Products (${products.length}):</strong></p>
+                  <ul>${products.map(p => `<li>${p.product_name} (${p.brand}) — ${p.category_name}</li>`).join('')}</ul>
+                </div>
               `,
             }),
           });
+
+          // Also notify store (sales@wbhskin.com) for sorting/packing
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${resendApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: fromEmail,
+              to: SALES_EMAIL,
+              subject: `[Store Fulfillment] Sort & Pack Skincare Routine - ${user_name}`,
+              html: `
+                <div style="font-family:sans-serif;color:#333;padding:20px;border:1px solid #ddd;border-radius:12px;">
+                  <h2 style="color:#d63a74;margin-top:0;">Fulfillment Order Request</h2>
+                  <p>Please sort, pack, and prepare for delivery the following recommended products for customer <strong>${user_name}</strong> (${user_email}):</p>
+                  
+                  <h3 style="border-bottom:1px solid #eee;padding-bottom:6px;margin-top:24px;">Recommended Products list</h3>
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                    ${products.map(p => `
+                      <tr>
+                        <td style="padding:10px 0;border-bottom:1px solid #eee;">
+                          <div style="font-weight:bold;font-size:14px;color:#1a1a1a;">${p.product_name}</div>
+                          <div style="font-size:12px;color:#666;margin-top:2px;">Brand: ${p.brand} | Category: ${p.category_name}</div>
+                          ${p.product_id ? `<div style="font-size:11px;color:#999;margin-top:2px;">Product ID: ${p.product_id}</div>` : ''}
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </table>
+
+                  ${notes ? `
+                  <div style="background:#fcf8fc;border-left:4px solid #e84c88;padding:12px;border-radius:0 8px 8px 0;margin-top:20px;">
+                    <div style="font-size:11px;font-weight:bold;color:#e84c88;text-transform:uppercase;">Consultant Side Note</div>
+                    <div style="font-size:13px;color:#555;margin-top:4px;white-space:pre-wrap;">${notes}</div>
+                  </div>
+                  ` : ''}
+
+                  <p style="margin-top:30px;font-size:11px;color:#aaa;text-align:center;">Sent automatically from WBH Skin Admin portal.</p>
+                </div>
+              `,
+            }),
+          });
+
         } catch (emailErr) {
           console.error('Email send error:', emailErr);
         }
