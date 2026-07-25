@@ -286,26 +286,56 @@ export async function POST(request: NextRequest) {
 // GET — fetch all event registrations (for admin portal)
 export async function GET(request: NextRequest) {
   try {
-    // Verify admin access via session or PIN header
-    const adminAuth = request.headers.get('x-admin-auth');
-    if (adminAuth !== 'true') {
-      // Check if the admin PIN was verified in session (cookie-based)
-      // For simplicity, we rely on the admin portal already being PIN-protected
-    }
-
     const supabase = getServiceClient();
 
-    const { data, error } = await supabase
+    // 1. Fetch event registrations
+    const { data: registrations, error: regError } = await supabase
       .from('event_registrations')
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Fetch event registrations error:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (regError) {
+      console.error('Fetch event registrations error:', regError);
+      return NextResponse.json({ error: regError.message }, { status: 500 });
     }
 
-    return NextResponse.json(data);
+    // 2. Fetch recommendations with their items and products
+    const { data: recs, error: recsError } = await supabase
+      .from('recommendations')
+      .select('*, recommendation_items(*, products(*))')
+      .ilike('notes', '[registration_id:%');
+
+    if (recsError) {
+      console.error('Fetch recommendation history error:', recsError);
+    }
+
+    // 3. Map recommendations to registrations
+    const enriched = (registrations || []).map((reg: any) => {
+      const matchingRec = (recs || []).find((r: any) => 
+        r.notes && r.notes.startsWith(`[registration_id:${reg.id}]`)
+      );
+
+      if (matchingRec) {
+        // Strip the [registration_id:UUID] prefix to display clean notes
+        const cleanNotes = matchingRec.notes.replace(/^\[registration_id:[^\]]+\]/, '');
+        return {
+          ...reg,
+          status: 'done',
+          recommendation: {
+            ...matchingRec,
+            notes: cleanNotes
+          }
+        };
+      }
+
+      return {
+        ...reg,
+        status: 'pending',
+        recommendation: null
+      };
+    });
+
+    return NextResponse.json(enriched);
   } catch (err) {
     console.error('Event registrations GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

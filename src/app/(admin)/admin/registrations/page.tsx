@@ -18,6 +18,16 @@ interface Registration {
   skin_concerns: string[];
   other_concern: string | null;
   created_at: string;
+  status?: 'done' | 'pending';
+  recommendation?: {
+    id: string;
+    notes: string;
+    recommendation_items: {
+      id: string;
+      products: Product;
+      match_reason: string;
+    }[];
+  } | null;
 }
 
 interface Product {
@@ -72,7 +82,26 @@ export default function AdminRegistrationsPage() {
     fetch('/api/event-registration')
       .then(r => r.json())
       .then(data => {
-        if (Array.isArray(data)) setRegistrations(data);
+        if (Array.isArray(data)) {
+          setRegistrations(data);
+          
+          const preSelected: Record<string, SelectedProduct[]> = {};
+          const preNotes: Record<string, string> = {};
+          
+          data.forEach(reg => {
+            if (reg.status === 'done' && reg.recommendation) {
+              const items = reg.recommendation.recommendation_items || [];
+              preSelected[reg.id] = items.map((item: any) => ({
+                product: item.products,
+                reason: item.match_reason || ''
+              }));
+              preNotes[reg.id] = reg.recommendation.notes || '';
+            }
+          });
+          
+          setSelectedProducts(preSelected);
+          setRegNotes(preNotes);
+        }
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -242,6 +271,8 @@ export default function AdminRegistrationsPage() {
       });
       if (res.ok) {
         setSentId(regId);
+        // Mark as done immediately in state so UI updates
+        setRegistrations(prev => prev.map(r => r.id === regId ? { ...r, status: 'done' } : r));
         setTimeout(() => setSentId(null), 4000);
       }
     } catch (err) {
@@ -313,12 +344,31 @@ export default function AdminRegistrationsPage() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px', cursor: 'pointer' }}
                           onClick={() => handleExpandRow(reg.id)}>
                           {/* Avatar */}
-                          <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(232,76,136,0.08)', color: '#e84c88', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.95rem', flexShrink: 0 }}>
-                            {reg.full_name.charAt(0).toUpperCase()}
+                          <div style={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 10,
+                            background: reg.status === 'done' ? '#E8F5E9' : 'rgba(232,76,136,0.08)',
+                            color: reg.status === 'done' ? '#2E7D32' : '#e84c88',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: 800,
+                            fontSize: '0.95rem',
+                            flexShrink: 0
+                          }}>
+                            {reg.status === 'done' ? <Check size={18} /> : reg.full_name.charAt(0).toUpperCase()}
                           </div>
                           {/* Name & Email */}
                           <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1a1a1a' }}>{reg.full_name}</div>
+                            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1a1a1a', display: 'flex', alignItems: 'center', gap: 6 }}>
+                              {reg.full_name}
+                              {reg.status === 'done' && (
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, padding: '2px 6px', borderRadius: 4, background: '#E8F5E9', color: '#2E7D32', fontSize: '0.62rem', fontWeight: 700 }}>
+                                  Sent
+                                </span>
+                              )}
+                            </div>
                             <div style={{ fontSize: '0.72rem', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{reg.email}</div>
                           </div>
                           {/* Details */}
@@ -339,13 +389,13 @@ export default function AdminRegistrationsPage() {
                           {/* Recommend Button */}
                           <button onClick={e => { e.stopPropagation(); handleExpandRow(reg.id); }} style={{
                             display: 'inline-flex', alignItems: 'center', gap: 5, padding: '7px 14px',
-                            border: isExpanded ? '1.5px solid rgba(232,76,136,0.3)' : '1px solid #E8E8E8',
-                            borderRadius: 8, background: isExpanded ? 'rgba(232,76,136,0.05)' : '#fff',
+                            border: isExpanded ? '1.5px solid rgba(232,76,136,0.3)' : reg.status === 'done' ? '1px solid rgba(76,175,80,0.3)' : '1px solid #E8E8E8',
+                            borderRadius: 8, background: isExpanded ? 'rgba(232,76,136,0.05)' : reg.status === 'done' ? '#F1F8E9' : '#fff',
                             fontSize: '0.75rem', fontWeight: 600,
-                            color: isExpanded ? '#e84c88' : '#888', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+                            color: isExpanded ? '#e84c88' : reg.status === 'done' ? '#33691E' : '#888', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
                           }}>
-                            <Package size={12} />
-                            {isExpanded ? 'Close' : selCount(reg.id) > 0 ? `${selCount(reg.id)} Selected` : 'Recommend'}
+                            {reg.status === 'done' && !isExpanded ? <Check size={12} /> : <Package size={12} />}
+                            {isExpanded ? 'Close' : reg.status === 'done' ? 'View Sent' : selCount(reg.id) > 0 ? `${selCount(reg.id)} Selected` : 'Recommend'}
                             {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                           </button>
                         </div>
@@ -380,13 +430,14 @@ export default function AdminRegistrationsPage() {
                                   <div style={{ display: 'flex', gap: 6 }}>
                                     <button onClick={() => saveAndSend(reg.id)} disabled={sendingId === reg.id} style={{
                                       display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',
-                                      border: '1px solid rgba(232,76,136,0.2)', borderRadius: 8,
-                                      background: sentId === reg.id ? 'rgba(76,175,80,0.08)' : 'rgba(232,76,136,0.06)',
+                                      border: sentId === reg.id ? '1px solid rgba(76,175,80,0.2)' : reg.status === 'done' ? '1px solid rgba(76,175,80,0.3)' : '1px solid rgba(232,76,136,0.2)',
+                                      borderRadius: 8,
+                                      background: sentId === reg.id ? 'rgba(76,175,80,0.08)' : reg.status === 'done' ? '#F1F8E9' : 'rgba(232,76,136,0.06)',
                                       fontSize: '0.72rem', fontWeight: 600,
-                                      color: sentId === reg.id ? '#388E3C' : '#e84c88', cursor: sendingId === reg.id ? 'wait' : 'pointer',
+                                      color: sentId === reg.id ? '#388E3C' : reg.status === 'done' ? '#33691E' : '#e84c88', cursor: sendingId === reg.id ? 'wait' : 'pointer',
                                       opacity: sendingId === reg.id ? 0.7 : 1,
                                     }}>
-                                      {sendingId === reg.id ? <><Loader size={11} className="spin" /> Sending…</> : sentId === reg.id ? <><Check size={11} /> Sent!</> : <><Send size={11} /> Save & Email</>}
+                                      {sendingId === reg.id ? <><Loader size={11} className="spin" /> Sending…</> : sentId === reg.id ? <><Check size={11} /> Sent!</> : reg.status === 'done' ? <><Check size={11} /> Update & Resend</> : <><Send size={11} /> Save & Email</>}
                                     </button>
                                     <button onClick={() => copyRecommendation(reg.id)} style={{
                                       display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 14px',

@@ -39,26 +39,63 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and at least one product required' }, { status: 400 });
     }
 
-    // 1. Save to recommendations table (use registration_id as a reference)
-    const { data: rec, error: recError } = await supabase
+    // 1. Save or update recommendation record
+    const { data: existingRec } = await supabase
       .from('recommendations')
-      .insert({
-        user_id: null, // No auth user — this is from event registration
-        consultation_id: null,
-        skin_concerns: skin_concerns || [],
-        status: 'sent',
-        notes: notes || `Registration recommendation for ${user_name} (${user_email}). Registration ID: ${registration_id}`,
-      })
-      .select()
-      .single();
+      .select('id')
+      .ilike('notes', `[registration_id:${registration_id}]%`)
+      .limit(1);
 
-    // If user_id is required (NOT NULL), try alternative approach
-    if (recError) {
-      console.error('Recommendation insert error (may need user_id):', recError);
-      // Still proceed with email even if DB save fails
+    let rec;
+    let recError;
+
+    if (existingRec && existingRec.length > 0) {
+      // Update existing recommendation
+      const { data: updatedRec, error: updateError } = await supabase
+        .from('recommendations')
+        .update({
+          skin_concerns: skin_concerns || [],
+          status: 'sent',
+          notes: `[registration_id:${registration_id}]${notes || ''}`,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', existingRec[0].id)
+        .select()
+        .single();
+      
+      rec = updatedRec;
+      recError = updateError;
+
+      if (!recError && rec) {
+        // Clear previous products associated with this recommendation
+        await supabase
+          .from('recommendation_items')
+          .delete()
+          .eq('recommendation_id', rec.id);
+      }
+    } else {
+      // Create new recommendation
+      const { data: newRec, error: insertError } = await supabase
+        .from('recommendations')
+        .insert({
+          user_id: null,
+          consultation_id: null,
+          skin_concerns: skin_concerns || [],
+          status: 'sent',
+          notes: `[registration_id:${registration_id}]${notes || ''}`,
+        })
+        .select()
+        .single();
+      
+      rec = newRec;
+      recError = insertError;
     }
 
-    // 2. Insert recommendation items if rec was created
+    if (recError) {
+      console.error('Recommendation save error:', recError);
+    }
+
+    // 2. Insert recommendation items if rec was created/updated successfully
     if (rec) {
       const items = products.map((p, i) => ({
         recommendation_id: rec.id,
