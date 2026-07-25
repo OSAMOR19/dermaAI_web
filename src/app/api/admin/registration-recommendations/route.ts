@@ -39,6 +39,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and at least one product required' }, { status: 400 });
     }
 
+    // Check if user already exists in profiles
+    let userId = null;
+    const { data: existingUser } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', user_email)
+      .single();
+
+    if (existingUser) {
+      userId = existingUser.id;
+    } else {
+      // Create user using Supabase Admin Auth
+      const { data: newAuthUser, error: createError } = await supabase.auth.admin.createUser({
+        email: user_email,
+        email_confirm: true,
+        user_metadata: { 
+          first_name: user_name.split(' ')[0] || user_name, 
+          last_name: user_name.split(' ').slice(1).join(' ') || '' 
+        }
+      });
+      
+      if (newAuthUser && newAuthUser.user) {
+        userId = newAuthUser.user.id;
+        // Wait a brief moment for database trigger to create profiles record
+        await new Promise(resolve => setTimeout(resolve, 800));
+      } else {
+        console.error('Failed to create auth user:', createError);
+      }
+    }
+
+    if (!userId) {
+      return NextResponse.json({ error: 'Failed to retrieve or create shopper user profile' }, { status: 500 });
+    }
+
     // 1. Save or update recommendation record
     const { data: existingRec } = await supabase
       .from('recommendations')
@@ -54,6 +88,7 @@ export async function POST(request: NextRequest) {
       const { data: updatedRec, error: updateError } = await supabase
         .from('recommendations')
         .update({
+          user_id: userId,
           skin_concerns: skin_concerns || [],
           status: 'sent',
           notes: `[registration_id:${registration_id}]${notes || ''}`,
@@ -78,7 +113,7 @@ export async function POST(request: NextRequest) {
       const { data: newRec, error: insertError } = await supabase
         .from('recommendations')
         .insert({
-          user_id: null,
+          user_id: userId,
           consultation_id: null,
           skin_concerns: skin_concerns || [],
           status: 'sent',
@@ -93,6 +128,7 @@ export async function POST(request: NextRequest) {
 
     if (recError) {
       console.error('Recommendation save error:', recError);
+      return NextResponse.json({ error: recError.message || 'Failed to save recommendation' }, { status: 500 });
     }
 
     // 2. Insert recommendation items if rec was created/updated successfully
