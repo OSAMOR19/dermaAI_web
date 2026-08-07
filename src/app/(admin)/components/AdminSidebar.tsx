@@ -50,8 +50,9 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   }, []);
 
   const isSuperAdmin = userEmail === 'info@wbhskin.com' || userRole === 'superadmin';
+  const isAdmin = isSuperAdmin || userRole === 'admin';
 
-  // Redirect if they are on a restricted path and they are not a superadmin
+  // Redirect if they are on a restricted path and they are not an admin/superadmin
   useEffect(() => {
     if (loading) return;
 
@@ -61,14 +62,14 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                              pathname.startsWith('/admin/activity') || 
                              pathname.startsWith('/admin/settings');
 
-    if (isRestrictedPath && !isSuperAdmin) {
+    if (isRestrictedPath && !isAdmin) {
       router.replace('/admin/users');
     }
-  }, [pathname, isSuperAdmin, loading, router]);
+  }, [pathname, isAdmin, loading, router]);
 
   const allowedLinks = navLinks.filter(({ href }) => {
     if (loading) return true; // show all links while loading to prevent layout shift
-    if (isSuperAdmin) return true;
+    if (isAdmin) return true;
     return href === '/admin/users' || href === '/admin/registrations';
   });
 

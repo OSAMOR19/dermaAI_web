@@ -6,8 +6,8 @@ async function requireSuperAdmin(supabase: Awaited<ReturnType<typeof createClien
   if (error || !user) return null;
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
   
-  const isSuper = user.email === 'info@wbhskin.com' || (profile && profile.role === 'superadmin');
-  if (!isSuper) return null;
+  const hasAccess = user.email === 'info@wbhskin.com' || (profile && (profile.role === 'superadmin' || profile.role === 'admin'));
+  if (!hasAccess) return null;
   
   return user;
 }
