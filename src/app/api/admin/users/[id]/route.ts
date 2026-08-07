@@ -54,7 +54,15 @@ export async function GET(
       return { ...scan, signed_image_urls: signedUrls };
     }));
 
-    return NextResponse.json({ profile, scans: scansWithUrls });
+    const { data: consultations, error: consultationsError } = await supabase
+      .from('consultations')
+      .select('*')
+      .eq('user_id', id)
+      .order('created_at', { ascending: false });
+
+    if (consultationsError) throw consultationsError;
+
+    return NextResponse.json({ profile, scans: scansWithUrls, consultations: consultations || [] });
   } catch (err) {
     console.error('Admin user detail GET error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
