@@ -1,19 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { ArrowLeft, ExternalLink, RefreshCw, ShoppingBag } from 'lucide-react';
+import { useEffect } from 'react';
+import { ArrowLeft, ExternalLink, ShoppingBag, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 const WBH_STORE_URL = 'https://wholesalebeautyhub.co.uk/';
 
 export default function ShopPage() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  useEffect(() => {
+    // Automatically attempt to open the store in a new tab on mount if allowed
+    const timer = setTimeout(() => {
+      window.open(WBH_STORE_URL, '_blank', 'noopener,noreferrer');
+    }, 400);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div style={{ 
       display: 'flex', flexDirection: 'column', 
-      height: '100dvh', width: '100%',
+      minHeight: '100dvh', width: '100%',
       maxWidth: 560, margin: '0 auto',
       background: '#fff',
     }}>
@@ -32,121 +37,79 @@ export default function ShopPage() {
             <ArrowLeft size={18} />
           </Link>
           <div>
-            <h1 style={{ fontSize: '1rem', fontWeight: 800, margin: 0, color: '#111' }}>WBH Shop</h1>
+            <h1 style={{ fontSize: '1rem', fontWeight: 800, margin: 0, color: '#111' }}>WBH Marketplace</h1>
             <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', margin: 0 }}>wholesalebeautyhub.co.uk</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            onClick={() => {
-              setLoading(true);
-              setError(false);
-              const iframe = document.getElementById('wbh-shop-iframe') as HTMLIFrameElement;
-              if (iframe) iframe.src = WBH_STORE_URL;
-            }}
-            className="icon-btn"
-            style={{ background: 'rgba(0,0,0,0.04)', width: 38, height: 38 }}
-          >
-            <RefreshCw size={16} />
-          </button>
-          <a
-            href={WBH_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon-btn"
-            style={{ background: 'rgba(0,0,0,0.04)', width: 38, height: 38 }}
-          >
-            <ExternalLink size={16} />
-          </a>
-        </div>
       </header>
 
-      {/* Iframe Container */}
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        {/* Skeleton Loading Overlay */}
-        {loading && !error && (
-          <div style={{
-            position: 'absolute', inset: 0, zIndex: 5,
-            background: '#fff', padding: 16, overflowY: 'hidden',
-          }}>
-            {/* Hero banner skeleton */}
-            <div className="skel" style={{ width: '100%', height: 160, borderRadius: 14, marginBottom: 20 }} />
-            
-            {/* Search bar skeleton */}
-            <div className="skel" style={{ width: '100%', height: 44, borderRadius: 22, marginBottom: 20 }} />
+      {/* Main Content */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px 24px',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          width: 80, height: 80, borderRadius: '50%',
+          background: 'linear-gradient(135deg, rgba(252,101,209,0.15) 0%, rgba(232,76,136,0.15) 100%)',
+          color: 'var(--primary)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          marginBottom: 24,
+          boxShadow: '0 8px 24px rgba(252,101,209,0.2)',
+        }}>
+          <ShoppingBag size={38} />
+        </div>
 
-            {/* Category pills row */}
-            <div style={{ display: 'flex', gap: 10, marginBottom: 20, overflow: 'hidden' }}>
-              {[80, 100, 70, 90, 60].map((w, i) => (
-                <div key={i} className="skel skel-pill" style={{ width: w, flexShrink: 0 }} />
-              ))}
-            </div>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#111', marginBottom: 10 }}>
+          Opening WBH Marketplace
+        </h2>
 
-            {/* Product grid skeleton */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} style={{ borderRadius: 14, overflow: 'hidden', background: '#fafafa', padding: 10 }}>
-                  <div className="skel" style={{ width: '100%', height: 130, borderRadius: 10, marginBottom: 10 }} />
-                  <div className="skel skel-text" style={{ width: '75%', marginBottom: 8 }} />
-                  <div className="skel skel-text" style={{ width: '50%', marginBottom: 10 }} />
-                  <div className="skel skel-pill" style={{ width: '60%' }} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6, maxWidth: 340, marginBottom: 28 }}>
+          You are being redirected to Wholesale Beauty Hub to shop dermatological products and skincare routines.
+        </p>
 
-        {/* Error Fallback */}
-        {error && (
-          <div style={{
-            position: 'absolute', inset: 0, zIndex: 5,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: '#fff', padding: 32, textAlign: 'center',
-          }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: '50%',
-              background: 'rgba(252,101,209,0.1)', color: 'var(--primary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginBottom: 20,
-            }}>
-              <ShoppingBag size={32} />
-            </div>
-            <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 8 }}>Shop Unavailable</h2>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: 24, lineHeight: 1.6, maxWidth: 280 }}>
-              The shop couldn&apos;t be loaded in-app. Tap below to visit the store directly.
-            </p>
-            <a
-              href={WBH_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
-            >
-              <ExternalLink size={16} />
-              Open WBH Shop
-            </a>
-          </div>
-        )}
-
-        <iframe
-          id="wbh-shop-iframe"
-          src={WBH_STORE_URL}
-          title="Wholesale Beauty Hub Shop"
-          onLoad={() => setLoading(false)}
-          onError={() => { setLoading(false); setError(true); }}
+        <a
+          href={WBH_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary btn-lg btn-block"
           style={{
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            display: error ? 'none' : 'block',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            maxWidth: 320,
+            textDecoration: 'none',
+            fontSize: '1rem',
+            padding: '16px 24px',
+            borderRadius: 16,
+            fontWeight: 700,
           }}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-          allow="payment"
-        />
-      </div>
+        >
+          <span>Launch Marketplace Store</span>
+          <ExternalLink size={18} />
+        </a>
 
-      {/* Bottom spacer so content isn't hidden behind the nav */}
-      <div style={{ height: 80, flexShrink: 0 }} />
+        <div style={{
+          marginTop: 32,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          padding: '8px 16px',
+          background: 'rgba(0,0,0,0.03)',
+          borderRadius: 20,
+          fontSize: '0.78rem',
+          color: 'var(--text-muted)',
+        }}>
+          <Sparkles size={14} style={{ color: 'var(--primary)' }} />
+          <span>Opens safely in a new browser tab</span>
+        </div>
+      </div>
     </div>
   );
 }
+

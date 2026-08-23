@@ -252,56 +252,119 @@ function EditProfile() {
 
 /* ============================== PAYMENT METHODS ============================== */
 function PaymentMethods() {
-  const cards = [
-    { id: 1, brand: 'Visa', last4: '4242', exp: '12/27', isDefault: true },
-    { id: 2, brand: 'Mastercard', last4: '8910', exp: '06/26', isDefault: false },
-  ];
+  const { user } = useAuth();
+  const supabase = createClient();
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    const loadBilling = async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('location')
+        .eq('id', user.id)
+        .single();
+      if (data?.location) {
+        setStreet(data.location);
+      }
+      setLoading(false);
+    };
+    loadBilling();
+  }, [user, supabase]);
+
+  const handleSaveBilling = async () => {
+    if (!user) return;
+    setSaving(true);
+    const fullLoc = [street, city, postcode].filter(Boolean).join(', ');
+    await supabase.from('profiles').update({ location: fullLoc }).eq('id', user.id);
+    setSaving(false);
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 3000);
+  };
 
   return (
     <>
       <SubpageHeader title="Payment Methods" />
       <div className="subpage-body">
-        <div className="payment-cards">
-          {cards.map((card) => (
-            <div key={card.id} className={`payment-card ${card.isDefault ? 'default' : ''}`}>
-              <div className="payment-card-top">
-                <div className="payment-brand">
-                  <CreditCard size={20} />
-                  <span>{card.brand}</span>
-                </div>
-                {card.isDefault && <span className="default-badge">Default</span>}
-              </div>
-              <div className="payment-number">•••• •••• •••• {card.last4}</div>
-              <div className="payment-exp">Expires {card.exp}</div>
-              <div className="payment-actions">
-                <button className="payment-action-btn">Set as Default</button>
-                <button className="payment-action-btn danger"><Trash2 size={14} /> Remove</button>
-              </div>
-            </div>
-          ))}
+        {/* Secure Payment Gateway Notice */}
+        <div style={{
+          padding: '20px',
+          borderRadius: 16,
+          background: 'rgba(252,101,209,0.04)',
+          border: '1px solid rgba(252,101,209,0.12)',
+          marginBottom: 24,
+          textAlign: 'center',
+        }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: '50%',
+            background: 'rgba(252,101,209,0.1)', color: 'var(--primary)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 12px',
+          }}>
+            <CreditCard size={24} />
+          </div>
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: '0 0 6px', color: '#111' }}>
+            No Saved Cards
+          </h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: 0 }}>
+            Payment details are securely processed directly during booking checkout via encrypted payment gateways. No card numbers are stored locally.
+          </p>
         </div>
 
-        <button className="btn btn-outline btn-block btn-lg" style={{ marginTop: 8 }}>
-          <Plus size={18} /> Add New Card
-        </button>
-
+        {/* Billing Address Form */}
         <div className="sub-section">
           <h2 className="sub-section-title">Billing Address</h2>
+          {success && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: 'rgba(76,175,80,0.08)', borderRadius: 10, marginBottom: 14, color: '#2E7D32', fontSize: '0.85rem', fontWeight: 600 }}>
+              <CheckCircle2 size={16} /> Billing address updated
+            </div>
+          )}
           <div className="sub-form">
             <div className="form-group">
               <label className="form-label">Street Address</label>
-              <input type="text" className="form-input" placeholder="123 Main Street" />
+              <input 
+                type="text" 
+                className="form-input" 
+                placeholder="Street Address" 
+                value={street} 
+                onChange={(e) => setStreet(e.target.value)} 
+              />
             </div>
             <div style={{ display: 'flex', gap: 12 }}>
               <div className="form-group" style={{ flex: 1 }}>
                 <label className="form-label">City</label>
-                <input type="text" className="form-input" placeholder="City" />
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="City" 
+                  value={city} 
+                  onChange={(e) => setCity(e.target.value)} 
+                />
               </div>
               <div className="form-group" style={{ flex: 1 }}>
                 <label className="form-label">Postcode</label>
-                <input type="text" className="form-input" placeholder="Postcode" />
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  placeholder="Postcode" 
+                  value={postcode} 
+                  onChange={(e) => setPostcode(e.target.value)} 
+                />
               </div>
             </div>
+            <button 
+              className="btn btn-primary btn-block" 
+              style={{ marginTop: 8 }} 
+              onClick={handleSaveBilling} 
+              disabled={saving}
+            >
+              {saving ? <Loader2 size={16} className="spin" /> : <Save size={16} />} Save Billing Address
+            </button>
           </div>
         </div>
       </div>

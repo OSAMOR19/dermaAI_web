@@ -86,44 +86,7 @@ function getScoreSummary(score: number, conditions: DetectedCondition[]): string
   return `${conditions.length} significant skin condition${conditions.length > 1 ? 's' : ''} detected. Please consult a dermatologist as soon as possible.`;
 }
 
-/* ---- Static fallback recommendations ---- */
-const FALLBACK_RECOMMENDATIONS = [
-  {
-    icon: FlaskConical,
-    title: 'Gentle Cleanser',
-    desc: 'Use a gentle, pH-balanced cleanser twice daily to maintain skin health.',
-    timing: 'Morning & Evening',
-    priority: 'high',
-  },
-  {
-    icon: Droplets,
-    title: 'Hyaluronic Acid Serum',
-    desc: 'Apply a hyaluronic acid serum on damp skin to boost hydration.',
-    timing: 'Morning & Evening',
-    priority: 'high',
-  },
-  {
-    icon: Sun,
-    title: 'SPF 50+ Sunscreen',
-    desc: 'Broad-spectrum sunscreen is critical to protect skin and prevent further damage.',
-    timing: 'Every Morning',
-    priority: 'high',
-  },
-  {
-    icon: Sparkles,
-    title: 'Niacinamide 10%',
-    desc: 'Niacinamide helps strengthen the skin barrier, fade marks, and regulate sebum.',
-    timing: 'Evening',
-    priority: 'medium',
-  },
-  {
-    icon: Heart,
-    title: 'Ceramide Moisturizer',
-    desc: 'A ceramide-rich moisturizer restores the lipid barrier and prevents water loss.',
-    timing: 'Morning & Evening',
-    priority: 'medium',
-  },
-];
+
 
 // SCAN_HISTORY removed
 
