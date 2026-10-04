@@ -43,7 +43,8 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith('/auth/') ||
     pathname.startsWith('/event-registration');
 
-  const isPublicPage = pathname === '/' || isAuthPage;
+  const isLegalPage = pathname === '/privacy' || pathname === '/terms';
+  const isPublicPage = pathname === '/' || isAuthPage || isLegalPage;
 
   // Unauthenticated users: redirect to login for protected routes
   if (!user && !isPublicPage) {

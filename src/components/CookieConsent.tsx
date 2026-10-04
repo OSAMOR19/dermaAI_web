@@ -41,7 +41,7 @@ export default function CookieConsent() {
           </button>
         </div>
         <p className="cookie-banner-text">
-          Wholesale Beauty Hub (WBH) uses cookies to optimize your platform experience, analyze website traffic, and enable personalized AI skin diagnostic features. By clicking <strong>&ldquo;Accept All&rdquo;</strong>, you consent to our use of cookies, tracking technologies, and the processing of skin scan images for AI-driven recommendations. Read our <a href="https://wholesalebeautyhub.co.uk" target="_blank" rel="noopener noreferrer">Privacy Policy</a> to learn more.
+          Wholesale Beauty Hub (WBH) uses cookies to optimize your platform experience, analyze website traffic, and enable personalized AI skin diagnostic features. By clicking <strong>&ldquo;Accept All&rdquo;</strong>, you consent to our use of cookies, tracking technologies, and the processing of skin scan images for AI-driven recommendations. Read our <a href="/privacy">Privacy Policy</a> to learn more.
         </p>
         <div className="cookie-banner-actions">
           <button className="cookie-btn-secondary" onClick={handleDecline}>

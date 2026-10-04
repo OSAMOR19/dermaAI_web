@@ -74,7 +74,7 @@ export default function WhatsAppButton() {
         }
         .wa-tooltip-close:hover { background: rgba(0,0,0,0.1); }
         .wa-tooltip-text {
-          font-family: 'DM Sans', sans-serif; font-size: 14px; color: #333;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 14px; color: #333;
           line-height: 1.5; margin-bottom: 14px;
         }
         .wa-tooltip-text strong { color: #1a1109; }
@@ -82,7 +82,7 @@ export default function WhatsAppButton() {
           display: block; text-align: center; padding: 10px 20px;
           background: #25D366; color: #fff; border-radius: 50px;
           text-decoration: none; font-size: 13px; font-weight: 600;
-          font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; transition: all 0.2s;
         }
         .wa-tooltip-btn:hover { background: #1fb855; transform: translateY(-1px); }
 

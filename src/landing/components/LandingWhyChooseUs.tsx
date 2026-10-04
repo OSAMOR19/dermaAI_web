@@ -97,7 +97,7 @@ export default function LandingWhyChooseUs() {
 
         .landing-trust-badge {
           display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.85);
-          font-size: 13px; letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif;
+          font-size: 13px; letter-spacing: 0.06em; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           white-space: nowrap; padding: 0 8px; flex-shrink: 0;
         }
         .landing-trust-icon { color: #e84c88; display: flex; }
@@ -109,11 +109,11 @@ export default function LandingWhyChooseUs() {
         .landing-wcus-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
         .landing-wcus-header { text-align: center; margin-bottom: 64px; }
         .landing-section-mono {
-          font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px; letter-spacing: 0.25em;
           color: #e84c88; text-transform: uppercase; margin-bottom: 14px; display: block;
         }
         .landing-section-title {
-          font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(32px, 4vw, 52px);
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: clamp(32px, 4vw, 52px);
           font-weight: 300; line-height: 1.15; color: #1a1109;
         }
         .landing-section-title em { font-style: italic; color: #e84c88; }
@@ -133,17 +133,17 @@ export default function LandingWhyChooseUs() {
           border-color: rgba(232,76,136,0.15);
         }
         .landing-step-num {
-          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           font-size: 52px; font-weight: 300; color: rgba(232,76,136,0.35);
           line-height: 1; margin-bottom: 20px; display: block;
         }
         .landing-step-title {
-          font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 700;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 18px; font-weight: 700;
           color: #1a1109; margin-bottom: 12px;
         }
         .landing-step-desc {
           font-size: 14px; line-height: 1.7; color: #5a4a3a;
-          font-family: 'DM Sans', sans-serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-step-arrow {
           position: absolute; right: -20px; top: 50%; transform: translateY(-50%);

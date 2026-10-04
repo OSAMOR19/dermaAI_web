@@ -164,7 +164,7 @@ export default function LandingImageGallery() {
         }
         .lp-test-stars { display: flex; gap: 3px; margin-bottom: 16px; }
         .lp-test-quote {
-          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 17px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 17px;
           font-style: italic; line-height: 1.6; color: #3a2a1a; margin-bottom: 24px;
           min-height: 80px;
         }
@@ -174,11 +174,11 @@ export default function LandingImageGallery() {
           position: relative; background: #f0ddd4; flex-shrink: 0;
         }
         .lp-test-name {
-          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 14px; font-weight: 700;
           color: #1a1109; display: block;
         }
         .lp-test-role {
-          font-family: 'DM Mono', monospace; font-size: 11px; color: #b0a090;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px; color: #b0a090;
           letter-spacing: 0.06em;
         }
 
@@ -206,17 +206,17 @@ export default function LandingImageGallery() {
         }
         .lp-wholesale-content { position: relative; z-index: 2; max-width: 540px; }
         .lp-wholesale-mono {
-          font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px; letter-spacing: 0.25em;
           color: #e84c88; text-transform: uppercase; margin-bottom: 14px; display: block;
         }
         .lp-wholesale-title {
-          font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(28px, 3.5vw, 44px);
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: clamp(28px, 3.5vw, 44px);
           font-weight: 300; line-height: 1.15; color: #fff; margin-bottom: 20px;
         }
         .lp-wholesale-title em { font-style: italic; color: #e84c88; }
         .lp-wholesale-desc {
           font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.5);
-          font-family: 'DM Sans', sans-serif; margin-bottom: 36px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; margin-bottom: 36px;
         }
         .lp-wholesale-actions { display: flex; gap: 14px; flex-wrap: wrap; }
         .lp-btn-glass {
@@ -224,7 +224,7 @@ export default function LandingImageGallery() {
           background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
           border-radius: 50px; color: rgba(255,255,255,0.8); text-decoration: none;
           font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-          font-weight: 500; font-family: 'DM Sans', sans-serif;
+          font-weight: 500; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           transition: all 0.3s ease; backdrop-filter: blur(6px);
         }
         .lp-btn-glass:hover {

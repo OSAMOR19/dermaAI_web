@@ -78,7 +78,7 @@ function TermsModal({ onClose, tab }: { onClose: () => void; tab: 'terms' | 'pri
               <p>We use essential cookies for authentication and preferences. Analytics cookies are used with your consent to improve the user experience.</p>
 
               <h3>8. Contact</h3>
-              <p>For privacy concerns, contact us at <strong>privacy@wbh.com</strong>.</p>
+              <p>For privacy concerns, contact us at <strong>info@wholesalebeautyhub.co.uk</strong>.</p>
             </>
           )}
         </div>

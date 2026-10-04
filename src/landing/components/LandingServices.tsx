@@ -114,7 +114,7 @@ export default function LandingServices() {
         .lp-products-header-left { max-width: 500px; }
         .lp-products-subtitle {
           font-size: 15px; color: #7a6a5a; margin-top: 14px;
-          font-family: 'DM Sans', sans-serif; line-height: 1.6;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; line-height: 1.6;
         }
         .lp-scroll-arrows { display: flex; gap: 8px; }
         .lp-arrow-btn {
@@ -160,7 +160,7 @@ export default function LandingServices() {
           position: absolute; top: 12px; left: 12px; z-index: 2;
           background: rgba(232,76,136,0.92); color: #fff; font-size: 10px;
           letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 13px;
-          border-radius: 20px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+          border-radius: 20px; font-weight: 600; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           backdrop-filter: blur(6px);
         }
         .lp-product-overlay {
@@ -169,7 +169,7 @@ export default function LandingServices() {
           opacity: 0; transition: opacity 0.35s; z-index: 1;
         }
         .lp-product-overlay span {
-          color: #fff; font-family: 'DM Mono', monospace; font-size: 11px;
+          color: #fff; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px;
           letter-spacing: 0.15em; text-transform: uppercase; padding: 10px 24px;
           border: 1px solid rgba(255,255,255,0.5); border-radius: 50px;
           backdrop-filter: blur(4px);
@@ -177,15 +177,15 @@ export default function LandingServices() {
         .lp-product-card:hover .lp-product-overlay { opacity: 1; }
         .lp-product-info { padding: 18px 18px 20px; }
         .lp-product-cat {
-          font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 10px; letter-spacing: 0.1em;
           text-transform: uppercase; color: #b0a090; display: block; margin-bottom: 6px;
         }
         .lp-product-title {
-          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 14px; font-weight: 600;
           color: #1a1109; margin-bottom: 10px; line-height: 1.3;
         }
         .lp-product-price {
-          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 22px;
           font-weight: 600; color: #e84c88;
         }
 
@@ -200,16 +200,16 @@ export default function LandingServices() {
         .lp-product-end-card:hover { transform: translateY(-6px); }
         .lp-end-inner { text-align: center; padding: 40px 24px; }
         .lp-end-count {
-          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           font-size: 56px; font-weight: 300; color: #e84c88; display: block;
           line-height: 1; margin-bottom: 8px;
         }
         .lp-end-text {
-          font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 16px; font-weight: 600;
           color: rgba(255,255,255,0.7); display: block; margin-bottom: 28px;
         }
         .lp-end-cta {
-          font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px; letter-spacing: 0.12em;
           color: #e84c88; text-transform: uppercase; padding: 12px 24px;
           border: 1px solid rgba(232,76,136,0.3); border-radius: 50px;
           transition: all 0.3s;

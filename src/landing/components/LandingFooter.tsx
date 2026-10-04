@@ -24,8 +24,8 @@ const footerLinks = {
   support: [
     { name: 'Shipping Info', href: `${WBH_SITE}` },
     { name: 'Returns Policy', href: `${WBH_SITE}` },
-    { name: 'Privacy Policy', href: `${WBH_SITE}` },
-    { name: 'Terms of Service', href: `${WBH_SITE}` },
+    { name: 'Privacy Policy', href: '/privacy', internal: true },
+    { name: 'Terms of Service', href: '/terms', internal: true },
   ],
 };
 
@@ -87,7 +87,11 @@ export default function LandingFooter() {
             <ul className="landing-footer-list">
               {footerLinks.support.map(link => (
                 <li key={link.name}>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer">{link.name}</a>
+                  {'internal' in link && link.internal ? (
+                    <Link href={link.href}>{link.name}</Link>
+                  ) : (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">{link.name}</a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -122,7 +126,7 @@ export default function LandingFooter() {
         .landing-footer-logo { display: inline-flex; margin-bottom: 20px; }
         .landing-footer-blurb {
           font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,0.4);
-          max-width: 280px; margin-bottom: 24px; font-family: 'DM Sans', sans-serif;
+          max-width: 280px; margin-bottom: 24px; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-footer-socials { display: flex; gap: 12px; }
         .landing-social-link {
@@ -137,7 +141,7 @@ export default function LandingFooter() {
         }
 
         .landing-footer-heading {
-          font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.15em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 12px; letter-spacing: 0.15em;
           text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 20px;
           font-weight: 600;
         }
@@ -145,17 +149,17 @@ export default function LandingFooter() {
         .landing-footer-list li { margin-bottom: 12px; }
         .landing-footer-list a {
           text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.55);
-          transition: color 0.25s; font-family: 'DM Sans', sans-serif;
+          transition: color 0.25s; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-footer-list a:hover { color: #e84c88; }
 
         .landing-footer-contact { margin-top: 24px; }
         .landing-footer-email {
           font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: 4px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-footer-hours {
-          font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.25);
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px; color: rgba(255,255,255,0.25);
           letter-spacing: 0.05em;
         }
 
@@ -166,10 +170,10 @@ export default function LandingFooter() {
         }
         .landing-footer-copyright {
           font-size: 12px; color: rgba(255,255,255,0.25);
-          font-family: 'DM Sans', sans-serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-footer-tagline {
-          font-family: 'DM Mono', monospace; font-size: 11px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px;
           color: rgba(255,255,255,0.2); letter-spacing: 0.06em;
         }
 

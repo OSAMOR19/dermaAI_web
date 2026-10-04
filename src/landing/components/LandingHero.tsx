@@ -4,8 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Shield } from 'lucide-react';
 
-const WBH_SITE = 'https://wholesalebeautyhub.co.uk';
-
 export default function LandingHero() {
   return (
     <section className="landing-hero">
@@ -33,12 +31,6 @@ export default function LandingHero() {
         <div className="landing-hero-actions stagger-4">
           <Link href="/scan" className="landing-btn-primary">
             Start Free Skin Scan
-          </Link>
-          <a href={WBH_SITE} target="_blank" rel="noopener noreferrer" className="landing-btn-secondary">
-            Shop Products
-          </a>
-          <Link href="/login" className="landing-btn-login">
-            Login
           </Link>
         </div>
 
@@ -142,11 +134,11 @@ export default function LandingHero() {
           animation: landingPulse 2s ease infinite;
         }
         .landing-badge-text {
-          font-family: 'DM Mono', monospace; font-size: 11px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 11px;
           letter-spacing: 0.18em; color: #e84c88; text-transform: uppercase; font-weight: 400;
         }
         .landing-hero-headline {
-          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           font-size: clamp(42px, 5.5vw, 78px); font-weight: 300;
           line-height: 1.08; letter-spacing: -0.01em; color: #1a1109;
           margin-bottom: 28px;
@@ -158,7 +150,7 @@ export default function LandingHero() {
           font-size: 16px; line-height: 1.75; color: #6a5a4a; max-width: 420px;
           margin-bottom: 40px;
           animation: landingFadeUp 0.7s 0.2s ease both;
-          font-family: 'DM Sans', sans-serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
         }
         .landing-hero-actions {
           display: flex; gap: 14px; align-items: center; margin-bottom: 56px;
@@ -170,31 +162,12 @@ export default function LandingHero() {
           font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
           text-decoration: none; font-weight: 600; border-radius: 50px;
           transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
-          font-family: 'DM Sans', sans-serif; border: none; cursor: pointer;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; border: none; cursor: pointer;
           box-shadow: 0 6px 24px rgba(232,76,136,0.25);
         }
         .landing-btn-primary:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 32px rgba(232,76,136,0.35);
-        }
-        .landing-btn-secondary {
-          background: transparent; color: #1a1109; padding: 15px 32px;
-          font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-          text-decoration: none; font-weight: 500; border: 1.5px solid rgba(26,17,9,0.18);
-          border-radius: 50px; transition: all 0.3s ease;
-          font-family: 'DM Sans', sans-serif; cursor: pointer;
-        }
-        .landing-btn-secondary:hover { border-color: #e84c88; color: #e84c88; }
-        .landing-btn-login {
-          background: rgba(232,76,136,0.06); color: #e84c88; padding: 15px 28px;
-          font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-          text-decoration: none; font-weight: 600; border: 1.5px solid rgba(232,76,136,0.2);
-          border-radius: 50px; transition: all 0.3s ease;
-          font-family: 'DM Sans', sans-serif; cursor: pointer;
-        }
-        .landing-btn-login:hover {
-          background: rgba(232,76,136,0.12); border-color: rgba(232,76,136,0.5);
-          transform: translateY(-2px);
         }
 
         .landing-hero-trust {
@@ -224,7 +197,7 @@ export default function LandingHero() {
           animation: landingFadeUp 0.9s 0.2s ease both;
         }
         .landing-scanner-label {
-          font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 10px; letter-spacing: 0.25em;
           color: #e84c88; text-transform: uppercase; margin-bottom: 20px;
           display: flex; align-items: center; gap: 8px;
         }
@@ -261,7 +234,7 @@ export default function LandingHero() {
 
         .landing-metric-tag {
           position: absolute; background: rgba(30,20,14,0.88); color: #fff;
-          padding: 6px 12px; border-radius: 8px; font-family: 'DM Mono', monospace;
+          padding: 6px 12px; border-radius: 8px; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           font-size: 10px; white-space: nowrap; display: flex; align-items: center; gap: 6px;
           box-shadow: 0 4px 16px rgba(0,0,0,0.2); backdrop-filter: blur(8px);
           animation: landingFloatTag 3s ease-in-out infinite;
@@ -272,10 +245,10 @@ export default function LandingHero() {
         .landing-metric-dot { width: 6px; height: 6px; border-radius: 50%; background: #e84c88; }
 
         .landing-scanner-title {
-          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 21px;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; font-size: 21px;
           font-weight: 400; color: #1a1109; margin-bottom: 6px; text-align: center;
         }
-        .landing-scanner-sub { font-size: 13px; color: #9a8a7a; text-align: center; margin-bottom: 24px; font-family: 'DM Sans', sans-serif; }
+        .landing-scanner-sub { font-size: 13px; color: #9a8a7a; text-align: center; margin-bottom: 24px; font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; }
         .landing-scanner-concerns {
           display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 24px; justify-content: center;
         }
@@ -340,7 +313,7 @@ export default function LandingHero() {
           .landing-hero-actions {
             flex-direction: column; gap: 10px !important; width: 100%;
           }
-          .landing-btn-primary, .landing-btn-secondary, .landing-btn-login {
+          .landing-btn-primary {
             width: 100% !important; text-align: center !important;
             justify-content: center !important;
             padding: 15px 24px !important; font-size: 12px !important;

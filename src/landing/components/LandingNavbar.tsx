@@ -123,7 +123,7 @@ export default function LandingNavbar() {
         .landing-nav-links a {
           font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
           color: #333; text-decoration: none; font-weight: 500; transition: color 0.25s;
-          font-family: 'DM Sans', sans-serif; position: relative;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; position: relative;
         }
         .landing-nav-links a::after {
           content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
@@ -193,7 +193,7 @@ export default function LandingNavbar() {
         .landing-mobile-links { flex: 1; padding: 0 8px; display: flex; flex-direction: column; gap: 0; }
         .landing-mobile-link {
           text-decoration: none; font-size: 20px; font-weight: 600; color: #1a1109;
-          font-family: 'DM Sans', sans-serif;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif;
           border-bottom: 1px solid rgba(0,0,0,0.06); padding: 20px 4px;
           display: flex; justify-content: space-between; align-items: center;
           opacity: 0; transform: translateX(-16px);
@@ -235,7 +235,7 @@ export default function LandingNavbar() {
           text-decoration: none; text-align: center; background: rgba(232,76,136,0.06);
           color: #e84c88; border: 1.5px solid rgba(232,76,136,0.2); border-radius: 50px;
           padding: 14px 0; font-size: 15px; font-weight: 600;
-          font-family: 'DM Sans', sans-serif; transition: all 0.25s;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; transition: all 0.25s;
         }
         .landing-mobile-btn-outline:active { background: rgba(232,76,136,0.12); }
         .landing-mobile-btn-fill {
@@ -243,7 +243,7 @@ export default function LandingNavbar() {
           background: linear-gradient(135deg, #e84c88, #d63a74); color: #fff;
           border-radius: 50px; padding: 14px 0; font-size: 15px; font-weight: 600;
           box-shadow: 0 6px 20px rgba(232,76,136,0.3);
-          font-family: 'DM Sans', sans-serif; transition: all 0.25s;
+          font-family: Futura, 'Futura PT', 'Jost', 'Century Gothic', sans-serif; transition: all 0.25s;
         }
         .landing-mobile-btn-fill:active { transform: scale(0.97); }
 
