@@ -9,7 +9,7 @@ export default function CallPage() {
         <Link href="/dashboard" className="icon-btn" style={{ background: 'rgba(255,255,255,0.75)' }}>
           <ArrowLeft size={20} />
         </Link>
-        <button className="icon-btn" style={{ background: 'rgba(255,255,255,0.75)' }}>
+        <button className="icon-btn coming-soon" disabled style={{ background: 'rgba(255,255,255,0.75)' }}>
           <Camera size={20} />
         </button>
       </div>
@@ -21,8 +21,12 @@ export default function CallPage() {
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="call-controls">
+      <p className="coming-soon-note" style={{ margin: '0 20px 16px' }}>
+        Video consultations are coming soon. Book a consultation and we&apos;ll email you the details.
+      </p>
+
+      {/* Controls — no video call backend yet */}
+      <div className="call-controls coming-soon" aria-disabled="true">
         <button className="call-btn muted"><Camera size={22} /></button>
         <button className="call-btn end"><Phone size={24} style={{ transform: 'rotate(135deg)' }} /></button>
         <button className="call-btn muted"><Volume2 size={22} /></button>

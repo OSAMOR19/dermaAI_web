@@ -1659,3 +1659,20 @@ p { color: var(--text-secondary); }
   background: linear-gradient(90deg, #2a2a2a 25%, #333 37%, #2a2a2a 63%);
   background-size: 800px 100%;
 }
+
+/* Coming Soon (features without a backend yet) */
+.coming-soon {
+  opacity: 0.45; filter: grayscale(1);
+  pointer-events: none; cursor: not-allowed !important; user-select: none;
+}
+.coming-soon-badge {
+  display: inline-block; margin-left: 8px; padding: 2px 8px;
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); background: rgba(0,0,0,0.06); border-radius: 999px;
+  vertical-align: middle;
+}
+.coming-soon-note {
+  font-size: 0.82rem; color: var(--text-muted); text-align: center;
+  margin-bottom: 16px; padding: 12px 16px; border-radius: var(--radius-md);
+  background: rgba(0,0,0,0.03);
+}

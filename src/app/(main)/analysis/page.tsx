@@ -714,7 +714,8 @@ export default function AnalysisPage() {
 
       {/* ---- Action Bar ---- */}
       <div className="results-actions">
-        <button className="action-btn secondary">
+        {/* PDF report download is not built yet */}
+        <button className="action-btn secondary coming-soon" disabled aria-disabled="true" title="Coming soon">
           <Download size={18} />
           <span>Report</span>
         </button>

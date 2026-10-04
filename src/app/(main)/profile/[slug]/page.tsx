@@ -28,7 +28,7 @@ function SubpageHeader({ title }: { title: string }) {
   );
 }
 
-function ToggleSwitch({ on, onToggle, id }: { on: boolean; onToggle: () => void; id: string }) {
+function ToggleSwitch({ on, onToggle, id, disabled }: { on: boolean; onToggle: () => void; id: string; disabled?: boolean }) {
   return (
     <button
       id={id}
@@ -36,10 +36,15 @@ function ToggleSwitch({ on, onToggle, id }: { on: boolean; onToggle: () => void;
       onClick={onToggle}
       role="switch"
       aria-checked={on}
+      disabled={disabled}
     >
       <span className="toggle-knob" />
     </button>
   );
+}
+
+function ComingSoonBadge() {
+  return <span className="coming-soon-badge">Coming soon</span>;
 }
 
 /* ============================== EDIT PROFILE ============================== */
@@ -374,12 +379,11 @@ function PaymentMethods() {
 
 /* ============================== NOTIFICATIONS ============================== */
 function Notifications() {
-  const [settings, setSettings] = useState({
-    push: true, email: true, scanReminders: true,
-    appointmentReminders: true, promotions: false, weeklyReport: true,
-  });
-  const toggle = (key: keyof typeof settings) =>
-    setSettings((p) => ({ ...p, [key]: !p[key] }));
+  // Notification preferences are not stored or sent yet — shown as coming soon
+  const settings = {
+    push: false, email: false, scanReminders: false,
+    appointmentReminders: false, promotions: false, weeklyReport: false,
+  };
 
   const items = [
     { key: 'push' as const, icon: Smartphone, label: 'Push Notifications', desc: 'Get instant alerts on your device' },
@@ -394,7 +398,8 @@ function Notifications() {
     <>
       <SubpageHeader title="Notifications" />
       <div className="subpage-body">
-        <div className="toggle-list">
+        <p className="coming-soon-note">Notification preferences are coming soon. You&apos;ll still get email confirmations for your bookings.</p>
+        <div className="toggle-list coming-soon" aria-disabled="true">
           {items.map((item) => {
             const Icon = item.icon;
             return (
@@ -406,7 +411,7 @@ function Notifications() {
                     <div className="toggle-desc">{item.desc}</div>
                   </div>
                 </div>
-                <ToggleSwitch on={settings[item.key]} onToggle={() => toggle(item.key)} id={`toggle-${item.key}`} />
+                <ToggleSwitch on={settings[item.key]} onToggle={() => {}} id={`toggle-${item.key}`} disabled />
               </div>
             );
           })}
@@ -420,7 +425,6 @@ function Notifications() {
 function AppSettings() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
-  const [reducedMotion, setReducedMotion] = useState(false);
 
   return (
     <>
@@ -439,15 +443,15 @@ function AppSettings() {
               </div>
               <ToggleSwitch on={isDark} onToggle={toggleTheme} id="toggle-dark" />
             </div>
-            <div className="toggle-row">
+            <div className="toggle-row coming-soon" aria-disabled="true">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><RefreshCw size={18} /></div>
                 <div>
-                  <div className="toggle-label">Reduced Motion</div>
+                  <div className="toggle-label">Reduced Motion<ComingSoonBadge /></div>
                   <div className="toggle-desc">Minimize animations</div>
                 </div>
               </div>
-              <ToggleSwitch on={reducedMotion} onToggle={() => setReducedMotion(!reducedMotion)} id="toggle-motion" />
+              <ToggleSwitch on={false} onToggle={() => {}} id="toggle-motion" disabled />
             </div>
           </div>
         </div>
@@ -455,25 +459,24 @@ function AppSettings() {
         <div className="sub-section">
           <h2 className="sub-section-title">General</h2>
           <div className="toggle-list">
-            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+            <div className="toggle-row coming-soon" aria-disabled="true">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><Globe size={18} /></div>
                 <div>
-                  <div className="toggle-label">Language</div>
+                  <div className="toggle-label">Language<ComingSoonBadge /></div>
                   <div className="toggle-desc">English (US)</div>
                 </div>
               </div>
               <ChevronDown size={18} style={{ color: 'var(--text-muted)' }} />
             </div>
-            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+            <div className="toggle-row coming-soon" aria-disabled="true">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><Database size={18} /></div>
                 <div>
-                  <div className="toggle-label">Clear Cache</div>
+                  <div className="toggle-label">Clear Cache<ComingSoonBadge /></div>
                   <div className="toggle-desc">Free up storage space</div>
                 </div>
               </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>24 MB</span>
             </div>
           </div>
         </div>
@@ -486,17 +489,15 @@ function AppSettings() {
 
 /* ============================== PRIVACY & SECURITY ============================== */
 function PrivacySecurity() {
-  const [twoFactor, setTwoFactor] = useState(false);
-  const [biometric, setBiometric] = useState(true);
-  const [dataSharing, setDataSharing] = useState(true);
 
   return (
     <>
       <SubpageHeader title="Privacy & Security" />
       <div className="subpage-body">
+        <p className="coming-soon-note">These security settings are coming soon.</p>
         <div className="sub-section">
           <h2 className="sub-section-title">Security</h2>
-          <div className="toggle-list">
+          <div className="toggle-list coming-soon" aria-disabled="true">
             <div className="toggle-row">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><ShieldCheck size={18} /></div>
@@ -505,7 +506,7 @@ function PrivacySecurity() {
                   <div className="toggle-desc">Extra layer of security on login</div>
                 </div>
               </div>
-              <ToggleSwitch on={twoFactor} onToggle={() => setTwoFactor(!twoFactor)} id="toggle-2fa" />
+              <ToggleSwitch on={false} onToggle={() => {}} id="toggle-2fa" disabled />
             </div>
             <div className="toggle-row">
               <div className="toggle-row-left">
@@ -515,7 +516,7 @@ function PrivacySecurity() {
                   <div className="toggle-desc">Use Face ID or fingerprint</div>
                 </div>
               </div>
-              <ToggleSwitch on={biometric} onToggle={() => setBiometric(!biometric)} id="toggle-bio" />
+              <ToggleSwitch on={false} onToggle={() => {}} id="toggle-bio" disabled />
             </div>
             <div className="toggle-row" style={{ cursor: 'pointer' }}>
               <div className="toggle-row-left">
@@ -532,7 +533,7 @@ function PrivacySecurity() {
 
         <div className="sub-section">
           <h2 className="sub-section-title">Data</h2>
-          <div className="toggle-list">
+          <div className="toggle-list coming-soon" aria-disabled="true">
             <div className="toggle-row">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><Database size={18} /></div>
@@ -541,16 +542,17 @@ function PrivacySecurity() {
                   <div className="toggle-desc">Help improve AI accuracy</div>
                 </div>
               </div>
-              <ToggleSwitch on={dataSharing} onToggle={() => setDataSharing(!dataSharing)} id="toggle-data" />
+              <ToggleSwitch on={false} onToggle={() => {}} id="toggle-data" disabled />
             </div>
           </div>
         </div>
 
-        <button className="btn btn-block" style={{ background: '#FFF0F0', color: 'var(--phone-red)', fontWeight: 600, padding: '14px 24px', borderRadius: 'var(--radius-md)', marginTop: 16 }}>
+        <button className="btn btn-block coming-soon" disabled style={{ background: '#FFF0F0', color: 'var(--phone-red)', fontWeight: 600, padding: '14px 24px', borderRadius: 'var(--radius-md)', marginTop: 16 }}>
           <AlertTriangle size={16} /> Delete Account
         </button>
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>
-          This action is irreversible. All your data will be permanently removed.
+          In-app account deletion is coming soon. To delete your account now, email{' '}
+          <a href="mailto:info@wholesalebeautyhub.co.uk">info@wholesalebeautyhub.co.uk</a>.
         </p>
       </div>
     </>
@@ -765,11 +767,11 @@ function HelpCenter() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const faqs = [
-    { q: 'How accurate is the AI skin analysis?', a: 'Our AI model is trained on thousands of dermatological images and achieves over 90% accuracy for common skin conditions. However, it is not a substitute for professional medical advice.' },
-    { q: 'How often should I scan my skin?', a: 'We recommend scanning once a week to track changes over time. Consistent scanning helps the AI provide more accurate trend analysis and personalized recommendations.' },
+    { q: 'How accurate is the AI skin analysis?', a: 'Our AI gives a helpful indication of common skin concerns, but results can be wrong. It is not a medical diagnosis and is not a substitute for professional medical advice.' },
+    { q: 'How often should I scan my skin?', a: 'We recommend scanning once a week, in similar lighting, so you can compare your results over time in your scan history.' },
     { q: 'Is my scan data private?', a: 'Absolutely. All scan images are encrypted and stored securely. We never share your personal health data with third parties without your explicit consent.' },
-    { q: 'Can I delete my scan history?', a: 'Yes. Go to Privacy & Security in your profile settings to manage your data. You can delete individual scans or your entire history at any time.' },
-    { q: 'How do video consultations work?', a: 'After booking an appointment, you\'ll receive a link to join a secure video call with your dermatologist at the scheduled time. Calls typically last 15-30 minutes.' },
+    { q: 'Can I delete my scan history?', a: 'Yes. Go to Scan History in your profile. You can delete individual scans or your entire history at any time.' },
+    { q: 'How do consultations work?', a: 'Choose a time on the Booking page. You\'ll receive a confirmation email with your appointment details.' },
   ];
 
   return (
@@ -796,27 +798,27 @@ function HelpCenter() {
         <div className="sub-section">
           <h2 className="sub-section-title">Contact Us</h2>
           <div className="toggle-list">
-            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+            <div className="toggle-row coming-soon" aria-disabled="true">
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><MessageCircle size={18} /></div>
                 <div>
-                  <div className="toggle-label">Live Chat Support</div>
+                  <div className="toggle-label">Live Chat Support<ComingSoonBadge /></div>
                   <div className="toggle-desc">Available 9 AM – 6 PM</div>
                 </div>
               </div>
               <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
             </div>
-            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+            <a href="mailto:info@wholesalebeautyhub.co.uk" className="toggle-row" style={{ cursor: 'pointer', color: 'inherit', textDecoration: 'none' }}>
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><Mail size={18} /></div>
                 <div>
                   <div className="toggle-label">Email Support</div>
-                  <div className="toggle-desc">support@wbh.com</div>
+                  <div className="toggle-desc">info@wholesalebeautyhub.co.uk</div>
                 </div>
               </div>
               <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
-            </div>
-            <div className="toggle-row" style={{ cursor: 'pointer' }}>
+            </a>
+            <a href="mailto:info@wholesalebeautyhub.co.uk?subject=Bug%20report" className="toggle-row" style={{ cursor: 'pointer', color: 'inherit', textDecoration: 'none' }}>
               <div className="toggle-row-left">
                 <div className="toggle-icon-wrap"><Bug size={18} /></div>
                 <div>
@@ -825,7 +827,7 @@ function HelpCenter() {
                 </div>
               </div>
               <ExternalLink size={16} style={{ color: 'var(--text-muted)' }} />
-            </div>
+            </a>
           </div>
         </div>
       </div>
